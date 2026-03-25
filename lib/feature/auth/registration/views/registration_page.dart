@@ -1,12 +1,9 @@
-import 'package:bolaji277/feature/auth/registration/views/pages/popup_agreement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/app_text_styles.dart';
-import '../../../../core/constant/widgets/input_text_field.dart';
-import '../../../../core/constant/widgets/label_text.dart';
-import '../../../../core/constant/widgets/primary_button.dart';
+import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import '../controllers/registration_page_controller.dart';
 import 'pages/registration_otp_page.dart';
 
@@ -17,100 +14,87 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10.h),
+              const CustomBackButton(),
+              SizedBox(height: 30.h),
 
-              /// Title+SubTitle Text
+              /// Header Title
               Center(
-                child: Text(
-                  "Create Account",
-                  style: AppTextStyles.title24(context),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Text(
-                    "Enter your company details for use in reports and documents.",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.regular_16(context),
-                  ),
-                ),
-              ),
-              SizedBox(height: 32.h),
-
-              /// ALL Input Field
-              // Your Name
-              LabelText(context: context, text: "Your Name"),
-              InputTextField(
-                controller: controller.nameController,
-                hintText: "Enter your name",
-              ),
-              SizedBox(height: 16.h),
-
-              // Email
-              LabelText(context: context, text: "Email Address"),
-              InputTextField(
-                controller: controller.emailController,
-                hintText: "Enter your email",
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 16.h),
-
-              // Password
-              LabelText(context: context, text: "Password"),
-              Obx(
-                () => InputTextField(
-                  controller: controller.passwordController,
-                  hintText: "Password",
-                  obscureText: controller.isPasswordHidden.value,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isPasswordHidden.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: AppColors.boxTextColor,
+                child: Column(
+                  children: [
+                    Text(
+                      'Create New Account',
+                      style: GoogleFonts.manrope(
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
-                    onPressed: () {
-                      controller.isPasswordHidden.value =
-                          !controller.isPasswordHidden.value;
-                    },
-                  ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      'Join PLTFUL and start your food journey.',
+                      style: GoogleFonts.manrope(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 40.h),
 
-              // Re-Password
-              LabelText(context: context, text: "Re-Password"),
-              Obx(
-                () => InputTextField(
-                  controller: controller.confirmPasswordController,
-                  hintText: "Re-Password",
-                  obscureText: controller.isConfirmPasswordHidden.value,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isConfirmPasswordHidden.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: AppColors.boxTextColor,
-                    ),
-                    onPressed: () {
-                      controller.isConfirmPasswordHidden.value =
-                          !controller.isConfirmPasswordHidden.value;
-                    },
-                  ),
-                ),
+              /// Form Fields
+              CustomAuthField(
+                label: 'First name',
+                hint: 'Enter First Name',
+                prefixIcon: Icons.person_outline_rounded,
+                controller: controller.firstNameController,
+              ),
+              SizedBox(height: 20.h),
+              
+              CustomAuthField(
+                label: 'Last name',
+                hint: 'Enter Last Name',
+                prefixIcon: Icons.person_outline_rounded,
+                controller: controller.lastNameController,
               ),
               SizedBox(height: 20.h),
 
-              // Terms and Conditions checkbox
+              CustomAuthField(
+                label: 'Email Address',
+                hint: 'Enter Email Address',
+                prefixIcon: Icons.email_outlined,
+                controller: controller.emailController,
+              ),
+              SizedBox(height: 20.h),
+
+              Obx(
+                () => CustomAuthField(
+                  label: 'Password',
+                  hint: 'Enter your password',
+                  prefixIcon: Icons.lock_outline_rounded,
+                  isPassword: true,
+                  obscureText: controller.isPasswordHidden.value,
+                  onSuffixIconPressed: () {
+                    controller.isPasswordHidden.value =
+                        !controller.isPasswordHidden.value;
+                  },
+                  controller: controller.passwordController,
+                ),
+              ),
+              
+              SizedBox(height: 24.h),
+
+              /// Terms and Conditions
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Obx(
                     () => GestureDetector(
@@ -119,55 +103,109 @@ class RegistrationPage extends StatelessWidget {
                             !controller.agreedToTerms.value;
                       },
                       child: Container(
-                        width: 24.w,
-                        height: 24.w,
+                        width: 22.w,
+                        height: 22.w,
+                        margin: EdgeInsets.only(top: 2.h),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.textColor,
-                            width: 1,
+                            color: controller.agreedToTerms.value 
+                                ? AppColors.primaryColor 
+                                : Colors.grey.shade300,
+                            width: 1.5,
                           ),
                           color: controller.agreedToTerms.value
-                              ? AppColors.buttonColor
+                              ? AppColors.primaryColor
                               : Colors.transparent,
                         ),
                         child: controller.agreedToTerms.value
-                            ? Icon(
-                                Icons.check,
-                                size: 16.sp,
-                                color: AppColors.whiteColor,
-                              )
+                            ? Icon(Icons.check, size: 14.sp, color: Colors.white)
                             : null,
                       ),
                     ),
                   ),
                   SizedBox(width: 12.w),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const PopupAgreement(),
-                        );
-                      },
-                      child: Text(
-                        "I'm agree with all Terms and Conditions",
-                        style: AppTextStyles.regular_16(context),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "By continuing, you agree to the ",
+                        style: GoogleFonts.manrope(
+                          fontSize: 13.sp,
+                          color: Colors.grey.shade600,
+                          height: 1.5,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Terms of Service",
+                            style: GoogleFonts.manrope(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          const TextSpan(text: " and our "),
+                          TextSpan(
+                            text: "Privacy Policy",
+                            style: GoogleFonts.manrope(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 32.h),
-
-              // Sign Up Button
-              PrimaryButton(
-                text: "Create An Account",
-                onPressed: () {
-                  Get.to(() => const RegistrationOtpPage());
-                },
+              
+              SizedBox(height: 16.h),
+              
+              /// Marketing checkbox
+              Row(
+                children: [
+                  Container(
+                    width: 20.w,
+                    height: 20.w,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.check, size: 12.sp, color: Colors.white),
+                  ),
+                  SizedBox(width: 12.w),
+                  Text(
+                    "Yes, I Sign me up to receive emails from PLTFUL",
+                    style: GoogleFonts.manrope(
+                      fontSize: 12.sp,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 30.h),
+
+              SizedBox(height: 48.h),
+
+              /// Create Account Button
+              ElevatedButton(
+                onPressed: () {
+                   Get.to(() => const RegistrationOtpPage());
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                ),
+                child: Text(
+                  'Create Account',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              
+              SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -175,3 +213,4 @@ class RegistrationPage extends StatelessWidget {
     );
   }
 }
+

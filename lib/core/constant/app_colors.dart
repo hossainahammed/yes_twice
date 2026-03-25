@@ -18,3 +18,4 @@ class AppColors {
   static const Color ratingColor = Color(0xFFFC8838);
   static const Color redColor = Color(0xFFD9070B);
 }
+//////////////////////////////////////////////

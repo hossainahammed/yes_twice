@@ -6,7 +6,7 @@ class OnboardingController extends GetxController {
   final PageController pageController = PageController();
   var currentPage = 0.obs;
 
-  final int totalPages = 2;
+  final int totalPages = 3;
 
   void changePage(int index) {
     currentPage.value = index;
@@ -19,8 +19,12 @@ class OnboardingController extends GetxController {
         curve: Curves.easeInOut,
       );
     } else {
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => LoginPage()); 
     }
+  }
+
+  void skip() {
+    Get.offAll(() => LoginPage());
   }
 
   @override

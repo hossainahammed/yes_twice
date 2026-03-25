@@ -5,6 +5,7 @@ import '../../../core/constant/app_colors.dart';
 import '../controller/onboarding_controller.dart';
 import 'onboarding_page1.dart';
 import 'onboarding_page2.dart';
+import 'onboarding_page3.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
@@ -20,7 +21,7 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             /// ─── Progress bar ───────────────────────────────────────
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
               child: Obx(() => _ProgressBar(
                     total: controller.totalPages,
                     current: controller.currentPage.value,
@@ -32,10 +33,20 @@ class OnboardingScreen extends StatelessWidget {
               child: PageView(
                 controller: controller.pageController,
                 onPageChanged: controller.changePage,
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
-                  OnboardingPage1(onNext: controller.nextPage),
-                  OnboardingPage2(onNext: controller.nextPage),
+                  OnboardingPage1(
+                    onNext: controller.nextPage,
+                    onSkip: controller.skip,
+                  ),
+                  OnboardingPage2(
+                    onNext: controller.nextPage,
+                    onSkip: controller.skip,
+                  ),
+                  OnboardingPage3(
+                    onNext: controller.nextPage,
+                    onSkip: controller.skip,
+                  ),
                 ],
               ),
             ),
@@ -46,10 +57,9 @@ class OnboardingScreen extends StatelessWidget {
   }
 }
 
-/// Segmented progress indicator: two thin bars, filled ones are blue.
 class _ProgressBar extends StatelessWidget {
   final int total;
-  final int current; // 0-indexed current active page
+  final int current;
 
   const _ProgressBar({required this.total, required this.current});
 
@@ -60,13 +70,13 @@ class _ProgressBar extends StatelessWidget {
         return Expanded(
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            height: 3.5.h,
-            margin: EdgeInsets.only(right: i < total - 1 ? 6.w : 0),
+            height: 4.h,
+            margin: EdgeInsets.only(right: i < total - 1 ? 8.w : 0),
             decoration: BoxDecoration(
               color: i <= current
                   ? AppColors.primaryColor
-                  : const Color(0xFFDDE3EE),
-              borderRadius: BorderRadius.circular(20.r),
+                  : const Color(0xFFE5E5E5),
+              borderRadius: BorderRadius.circular(2),
             ),
           ),
         );

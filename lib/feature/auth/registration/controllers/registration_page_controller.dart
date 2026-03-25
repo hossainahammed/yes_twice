@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class RegistrationPageController extends GetxController {
   static RegistrationPageController get instance => Get.find();
 
   /// Text Controllers
-  final nameController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final companyNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -18,8 +18,13 @@ class RegistrationPageController extends GetxController {
   var agreedToTerms = false.obs;
 
   /// Validation
-  String? validateName() {
-    if (nameController.text.trim().isEmpty) return "Name is required";
+  String? validateFirstName() {
+    if (firstNameController.text.trim().isEmpty) return "First name is required";
+    return null;
+  }
+
+  String? validateLastName() {
+    if (lastNameController.text.trim().isEmpty) return "Last name is required";
     return null;
   }
 
@@ -72,7 +77,8 @@ class RegistrationPageController extends GetxController {
 
   @override
   void onClose() {
-    nameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();

@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constant/app_colors.dart';
 
-class OnboardingPage1 extends StatelessWidget {
+class OnboardingPage3 extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onSkip;
 
-  const OnboardingPage1({super.key, required this.onNext, required this.onSkip});
+  const OnboardingPage3({super.key, required this.onNext, required this.onSkip});
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +20,42 @@ class OnboardingPage1 extends StatelessWidget {
           /// ─── Icon ────────────────────────────────────────────────
           Center(
             child: Stack(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomLeft,
               children: [
                 Container(
                   width: 140.w,
-                  height: 140.w,
+                  height: 100.w, // Rectangular as per image
+                  margin: EdgeInsets.only(bottom: 15.h, left: 15.w),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor.withOpacity(0.3),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(25.r),
                   ),
                   child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(width: 40.w, height: 4.h, color: AppColors.primaryColor),
-                        SizedBox(height: 8.h),
-                        Container(width: 40.w, height: 4.h, color: AppColors.primaryColor),
-                        SizedBox(height: 8.h),
-                        Container(width: 25.w, height: 4.h, color: AppColors.primaryColor, alignment: Alignment.centerLeft),
-                      ],
+                    child: Container(
+                      width: 30.w,
+                      height: 30.w,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 10.w,
+                          height: 10.w,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  width: 20.w,
-                  height: 20.w,
-                  margin: EdgeInsets.only(bottom: 25.h, right: 10.w),
+                  width: 45.w,
+                  height: 45.w,
                   decoration: const BoxDecoration(
                     color: AppColors.primaryColor,
                     shape: BoxShape.circle,
                   ),
+                  child: Icon(Icons.check, color: Colors.white, size: 28.sp),
                 ),
               ],
             ),
@@ -59,7 +65,7 @@ class OnboardingPage1 extends StatelessWidget {
 
           /// ─── Title ──────────────────────────────────────────────
           Text(
-            'Discover\nlocal flavor',
+            'Earn rewards for\nyour reviews',
             textAlign: TextAlign.center,
             style: GoogleFonts.manrope(
               fontSize: 32.sp,
@@ -73,7 +79,7 @@ class OnboardingPage1 extends StatelessWidget {
 
           /// ─── Description ─────────────────────────────────────────
           Text(
-            'Uncover the tastes, sights, and stories that make your neighborhood special. From hidden gems to local legends — it’s all just around the corner.',
+            'Sharing your thoughts pays off! Leave reviews and unlock exclusive perks and rewards.',
             textAlign: TextAlign.center,
             style: GoogleFonts.manrope(
               fontSize: 16.sp,
@@ -95,7 +101,7 @@ class OnboardingPage1 extends StatelessWidget {
               elevation: 0,
             ),
             child: Text(
-              'Next',
+              'Get Started', // Final onboarding usually has a call to action
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,

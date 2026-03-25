@@ -2,11 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/app_text_styles.dart';
-import '../../../../core/constant/widgets/input_text_field.dart';
-import '../../../../core/constant/widgets/label_text.dart';
-import '../../../../core/constant/widgets/primary_button.dart';
+import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import '../../../customer_dashboard/dashboard/dashboard.dart';
 import '../../forgot_password/views/forgot_password_page.dart';
 import '../../registration/views/registration_page.dart';
@@ -20,137 +18,140 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
+              const CustomBackButton(),
+              SizedBox(height: 30.h),
 
-              /// Title+SubTitle Text
+              /// Header Title
               Center(
-                child: Text(
-                  "Let’s Sign you in",
-                  style: AppTextStyles.title24(context),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Text(
-                    "Enter your company details for use in reports and documents.",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.regular_16(context),
-                  ),
-                ),
-              ),
-              SizedBox(height: 32.h),
-
-              /// ALL Input Field
-              // Email Address
-              LabelText(context: context, text: "Email Address"),
-              InputTextField(
-                controller: controller.emailController,
-                hintText: "Enter your email address",
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 16.h),
-
-              // Password
-              LabelText(context: context, text: "Password"),
-              Obx(
-                () => InputTextField(
-                  controller: controller.passwordController,
-                  hintText: "Enter your password",
-                  obscureText: controller.isPasswordHidden.value,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isPasswordHidden.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: AppColors.boxTextColor,
+                child: Column(
+                  children: [
+                    Text(
+                      'Log In',
+                      style: GoogleFonts.manrope(
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textColor,
+                      ),
                     ),
-                    onPressed: () {
-                      controller.isPasswordHidden.value =
-                          !controller.isPasswordHidden.value;
-                    },
-                  ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      'Sign in to continue using the app.',
+                      style: GoogleFonts.manrope(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              SizedBox(height: 48.h),
+
+              /// Form Fields
+              CustomAuthField(
+                label: 'Email Address',
+                hint: 'Enter your email',
+                prefixIcon: Icons.email_outlined,
+                controller: controller.emailController,
               ),
               SizedBox(height: 20.h),
 
-              // Remember Me & Forgot Password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Obx(
-                        () => GestureDetector(
-                          onTap: () {
-                            controller.rememberMe.value =
-                                !controller.rememberMe.value;
-                          },
-                          child: Container(
-                            width: 24.w,
-                            height: 24.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColors.textColor,
-                                width: 1,
-                              ),
-                              color: controller.rememberMe.value
-                                  ? AppColors.buttonColor
-                                  : Colors.transparent,
-                            ),
-                            child: controller.rememberMe.value
-                                ? Icon(
-                                    Icons.check,
-                                    size: 16.sp,
-                                    color: AppColors.whiteColor,
-                                  )
-                                : null,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Text(
-                        "Remember Me",
-                        style: AppTextStyles.regular_16(context),
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () => Get.to(() => ForgotPasswordPage()),
-                    child: Text(
-                      "Forgot Password?",
-                      style: AppTextStyles.regular_14(context).copyWith(
-                        color: AppColors.redColor,
-                      ),
+              Obx(
+                () => CustomAuthField(
+                  label: 'Password',
+                  hint: 'Enter your password',
+                  prefixIcon: Icons.lock_outline_rounded,
+                  isPassword: true,
+                  obscureText: controller.isPasswordHidden.value,
+                  onSuffixIconPressed: () {
+                    controller.isPasswordHidden.value =
+                        !controller.isPasswordHidden.value;
+                  },
+                  controller: controller.passwordController,
+                ),
+              ),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () => Get.to(() => ForgotPasswordPage()),
+                  child: Text(
+                    'Forgot Password?',
+                    style: GoogleFonts.manrope(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryColor.withOpacity(0.8),
                     ),
                   ),
-                ],
+                ),
               ),
-              SizedBox(height: 32.h),
+              SizedBox(height: 10.h),
 
-              // Login Button
-              PrimaryButton(text: "Login", onPressed: () => Get.to(() => CustomerDashboard())),
-              SizedBox(height: 30.h),
+              /// Login Button
+              ElevatedButton(
+                onPressed: () => Get.to(() => CustomerDashboard()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                ),
+                child: Text(
+                  'LOGIN',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
 
-              // Don't have an account
+              SizedBox(height: 24.h),
+              Center(
+                child: Text(
+                  'OR',
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade400,
+                  ),
+                ),
+              ),
+              SizedBox(height: 24.h),
+
+              /// Social Login
+              SocialLoginButton(text: 'Continue with Google', onTap: () {}),
+
+              SizedBox(height: 40.h),
+
+              /// Footer
               Center(
                 child: RichText(
                   text: TextSpan(
                     text: "Don’t have an account? ",
-                    style: AppTextStyles.regular_16(context),
+                    style: GoogleFonts.manrope(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey.shade600,
+                    ),
                     children: [
                       TextSpan(
                         text: "Sign Up",
-                        style: AppTextStyles.bold_16(context).copyWith(
-                          color: AppColors.buttonColor,
+                        style: GoogleFonts.manrope(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primaryColor,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => Get.to(() => RegistrationPage()),
@@ -159,6 +160,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20.h),
             ],
           ),
         ),

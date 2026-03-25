@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constant/app_colors.dart';
-import '../../../../../core/constant/app_text_styles.dart';
-import '../../../../../core/constant/widgets/auth_app_bar.dart';
-import '../../../../../core/constant/widgets/input_text_field.dart';
-import '../../../../../core/constant/widgets/label_text.dart';
-import '../../../../../core/constant/widgets/primary_button.dart';
+import '../../../../../core/constant/widgets/custom_auth_widgets.dart';
 import '../../../../../core/constant/widgets/success_dialog.dart';
-import '../../../Login/views/login_page.dart';
+import '../../../login/views/login_page.dart';
 import '../../controllers/reset_password_controller.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -17,95 +14,96 @@ class ResetPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final sh = MediaQuery.of(context).size.height;
-    // final sw = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      appBar: const AuthAppBar(),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10.h),
-
-              /// Title+SubTitle Text
-              Center(
-                child: Text(
-                  "Create a New Password",
-                  style: AppTextStyles.title24(context),
-                ),
-              ),
-              SizedBox(height: 6.h),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Text(
-                    "Enter your new password",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.regular_16(context),
-                  ),
-                ),
-              ),
-              SizedBox(height: 32.h),
-
-              // Password
-              LabelText(context: context, text: "New Password"),
-              Obx(
-                    () => InputTextField(
-                  controller: controller.passwordController,
-                  hintText: "Enter your password",
-                  obscureText: controller.isPasswordHidden.value,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isPasswordHidden.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: AppColors.boxTextColor,
-                    ),
-                    onPressed: () {
-                      controller.isPasswordHidden.value =
-                      !controller.isPasswordHidden.value;
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-
-              // Re-Password
-              LabelText(context: context, text: "Confirm Password"),
-              Obx(
-                    () => InputTextField(
-                  controller: controller.confirmPasswordController,
-                  hintText: "Confirm your password",
-                  obscureText: controller.isConfirmPasswordHidden.value,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isConfirmPasswordHidden.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: AppColors.boxTextColor,
-                    ),
-                    onPressed: () {
-                      controller.isConfirmPasswordHidden.value =
-                      !controller.isConfirmPasswordHidden.value;
-                    },
-                  ),
-                ),
-              ),
+              const CustomBackButton(),
               SizedBox(height: 30.h),
 
-              // Sign Up Button
-              PrimaryButton(
-                text: "Next",
+              /// Header Title
+              Text(
+                'Enter New Password',
+                style: GoogleFonts.manrope(
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                'Your new password must be different from previously used password.',
+                style: GoogleFonts.manrope(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey.shade500,
+                  height: 1.5,
+                ),
+              ),
+              SizedBox(height: 48.h),
+
+              /// Form Fields
+              Obx(
+                () => CustomAuthField(
+                  label: 'Enter new password',
+                  hint: 'Enter your password',
+                  prefixIcon: Icons.lock_outline_rounded,
+                  isPassword: true,
+                  obscureText: controller.isPasswordHidden.value,
+                  onSuffixIconPressed: () {
+                    controller.isPasswordHidden.value =
+                        !controller.isPasswordHidden.value;
+                  },
+                  controller: controller.passwordController,
+                ),
+              ),
+              SizedBox(height: 20.h),
+
+              Obx(
+                () => CustomAuthField(
+                  label: 'Confirm password',
+                  hint: 'Enter Confirm Password',
+                  prefixIcon: Icons.lock_outline_rounded,
+                  isPassword: true,
+                  obscureText: controller.isConfirmPasswordHidden.value,
+                  onSuffixIconPressed: () {
+                    controller.isConfirmPasswordHidden.value =
+                        !controller.isConfirmPasswordHidden.value;
+                  },
+                  controller: controller.confirmPasswordController,
+                ),
+              ),
+              
+              SizedBox(height: 120.h), // Spacing to match screenshot button position
+
+              /// Reset Password Button
+              ElevatedButton(
                 onPressed: () => SuccessDialog.show(
                   subtitle: "Your password is successfully reset",
                   context: context,
                   onPressed: () => Get.to(() => LoginPage()),
                 ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                ),
+                child: Text(
+                  'Reset password',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              SizedBox(height: 30.h),
+              
+              SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -113,3 +111,4 @@ class ResetPasswordPage extends StatelessWidget {
     );
   }
 }
+

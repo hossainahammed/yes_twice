@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/constant/app_colors.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -15,6 +13,8 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -24,33 +24,14 @@ class BottomNavBar extends StatelessWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(
-                0,
-                "assets/icons/home.png",
-                "assets/icons/home_selected.png",
-                'Home',
-              ),
-              _buildNavItem(
-                1,
-                "assets/icons/explore.png",
-                "assets/icons/explore_selected.png",
-                'Explore',
-              ),_buildNavItem(
-                2,
-                "assets/icons/save.png",
-                "assets/icons/save_selected.png",
-                'Save',
-              ),
-              _buildNavItem(
-                3,
-                "assets/icons/more.png",
-                "assets/icons/more_selected.png",
-                'Profile',
-              ),
+              _buildNavItem(context, 0, "assets/icons/home_selected.png", "assets/icons/home_selected.png", 'Home'),
+              _buildNavItem(context, 1, "assets/icons/explore.png", "assets/icons/explore_selected.png", 'Explore'),
+              _buildNavItem(context, 2, "assets/icons/save.png", "assets/icons/save_selected.png", 'Save'),
+              _buildNavItem(context, 3, "assets/icons/more.png", "assets/icons/more_selected.png", 'More'),
             ],
           ),
         ),
@@ -58,41 +39,28 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(
-      int index,
-      String outlinedIcon,
-      String filledIcon,
-      String label,
-      ) {
+  Widget _buildNavItem(BuildContext context, int index, String outlinedIcon, String filledIcon, String label) {
     bool isSelected = selectedIndex == index;
     return GestureDetector(
       onTap: () => onItemTapped(index),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-        decoration: isSelected
-            ? BoxDecoration(borderRadius: BorderRadius.circular(12.r))
-            : null,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 2.h),
+            const SizedBox(height: 2),
             Image.asset(
-              isSelected
-                  ? filledIcon
-                  : outlinedIcon, // ✅ Use filled icon when selected
-              color: isSelected ? AppColors.primaryColor : AppColors.textColor,
-              width: 26.w,
-              height: 26.h,
+              isSelected ? filledIcon : outlinedIcon,
+              color: isSelected ? AppColors.primaryColor : Colors.grey,
+              width: 26,
+              height: 26,
             ),
-            SizedBox(height: 4.h),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
-                color: isSelected
-                    ? AppColors.primaryColor
-                    : AppColors.textColor,
-                fontSize: 14.sp,
-                fontFamily: "Roboto",
+                color: isSelected ? AppColors.primaryColor : Colors.grey,
+                fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
