@@ -2,100 +2,141 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
-import '../../dashboard/widgets/bottom_nav.dart';
+import '../../../../core/constant/widgets/custom_auth_widgets.dart'; // For CustomBackButton
+import 'restaurant_details_page.dart';
 
 class RestaurantListPage extends StatelessWidget {
   const RestaurantListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () => Get.back(),
+        centerTitle: true,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: CustomBackButton(),
+        ),
+        title: Text(
+          'Restaurant list',
+          style: GoogleFonts.manrope(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          const SizedBox(height: 16),
+          // Search & Filter Bar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
-              decoration: const BoxDecoration(
+              height: 48,
+              decoration: BoxDecoration(
                 color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 16),
+                  Icon(Icons.search, color: Colors.grey[400], size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search for hot & new restaurants',
+                        hintStyle: GoogleFonts.manrope(color: Colors.grey[400], fontSize: 13),
+                        border: InputBorder.none,
+                        isDense: true,
+                      ),
+                    ),
+                  ),
+                  Container(width: 1, height: 24, color: Colors.grey[300]),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Icon(Icons.tune, color: AppColors.primaryColor, size: 20),
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.arrow_back_ios_new,
-                size: 18,
-                color: Colors.black,
-              ),
             ),
           ),
-        ),
-        title: Text(
-          'South African Restaurant',
-          style: GoogleFonts.manrope(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Restaurants',
+                  style: GoogleFonts.manrope(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black87,
+                  ),
+                ),
+                Text(
+                  'Near Me',
+                  style: GoogleFonts.manrope(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          final isEven = index % 2 == 0;
-          return _buildRestaurantCard(
-            name: isEven ? 'The Southern Spoon' : 'The North Spoon',
-            location: 'Johannesburg',
-            price: isEven ? r'$$' : r'$$$',
-            rating: 4.9,
-            imagePath: isEven
-                ? 'assets/images/nearbyresturants.png'
-                : 'assets/images/nearbyresturants.png',
-            screenWidth: screenWidth,
-          );
-        },
-      ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: 0,
-        onItemTapped: (index) {
-          if (index != 0) {
-            Get.back(); // Or handle direct navigation
-          }
-        },
+          const SizedBox(height: 16),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                   onTap: () => Get.to(() => const RestaurantDetailsPage()),
+                   child: _buildGridCard(
+                    title: index % 2 == 0 ? 'The Southern Spoon' : 'Spice Theory',
+                    location: 'Johannesburg',
+                    price: r'$$$',
+                    rating: 4.9,
+                    imagePath: index % 2 == 0 ? 'assets/images/restaurent.png' : 'assets/images/nearbyresturants.png',
+                   ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildRestaurantCard({
-    required String name,
+  Widget _buildGridCard({
+    required String title,
     required String location,
     required String price,
     required double rating,
     required String imagePath,
-    required double screenWidth,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 25),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 10),
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -105,101 +146,85 @@ class RestaurantListPage extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(25),
-                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.asset(
                   imagePath,
-                  height: 220,
+                  height: 110,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Container(height: 110, color: Colors.grey[200]),
                 ),
               ),
               Positioned(
-                top: 15,
-                right: 15,
+                top: 8,
+                right: 8,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.star, color: Colors.orange, size: 16),
+                      const Icon(Icons.star, color: Colors.orange, size: 12),
                       const SizedBox(width: 4),
                       Text(
                         rating.toString(),
                         style: GoogleFonts.manrope(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
                           color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    const Padding(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Icon(Icons.location_on, color: AppColors.primaryColor, size: 10),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        location,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 10,
+                          color: Colors.grey[600],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          color: AppColors.primaryColor,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          '$location · $price',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
+                    Text(
+                      '  $price',
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.grey[200]!),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.favorite_border,
-                    color: AppColors.primaryColor,
-                    size: 24,
-                  ),
                 ),
               ],
             ),

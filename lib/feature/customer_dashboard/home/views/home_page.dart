@@ -6,6 +6,8 @@ import '../controllers/home_controller.dart';
 import '../models/home_models.dart';
 import 'search_page.dart';
 import 'restaurant_list_page.dart';
+import 'popular_food_spots_page.dart';
+import 'restaurant_details_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -274,9 +276,11 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildPopularFoodBanner(double screenWidth, double screenHeight) {
-    return Container(
-      width: double.infinity,
-      height: 180, // Increased height to prevent overflow
+    return GestureDetector(
+      onTap: () => Get.to(() => PopularFoodSpotsPage()),
+      child: Container(
+        width: double.infinity,
+        height: 180, // Increased height to prevent overflow
       decoration: BoxDecoration(
         color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(20),
@@ -365,6 +369,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      ),
     );
   }
 
@@ -373,10 +378,12 @@ class HomePage extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: controller.restaurants.map((rest) {
-          return Container(
-            width: 210,
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
+          return GestureDetector(
+            onTap: () => Get.to(() => const RestaurantDetailsPage()),
+            child: Container(
+              width: 210,
+              margin: const EdgeInsets.only(right: 16),
+              decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
@@ -478,6 +485,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
             ),
           );
         }).toList(),
