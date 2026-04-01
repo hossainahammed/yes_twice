@@ -132,6 +132,29 @@ class LoginPage extends StatelessWidget {
 
               /// Social Login
               SocialLoginButton(text: 'Continue with Google', onTap: () {}),
+              SizedBox(height: 24.h),
+
+              /// Claim Button
+              ElevatedButton(
+                onPressed: () {}, // => Get.to(() => ClaimPage()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                ),
+                child: Text(
+                  'Claim your restaurant',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
 
               SizedBox(height: 40.h),
 

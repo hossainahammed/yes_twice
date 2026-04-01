@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../core/constant/app_colors.dart';
 import '../controller/onboarding_controller.dart';
@@ -14,6 +13,10 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final width = size.width;
+    final height = size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -21,7 +24,7 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             /// ─── Progress bar ───────────────────────────────────────
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.03),
               child: Obx(() => _ProgressBar(
                     total: controller.totalPages,
                     current: controller.currentPage.value,
@@ -65,13 +68,17 @@ class _ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final width = size.width;
+    final height = size.height;
+
     return Row(
       children: List.generate(total, (i) {
         return Expanded(
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            height: 4.h,
-            margin: EdgeInsets.only(right: i < total - 1 ? 8.w : 0),
+            height: height * 0.005,
+            margin: EdgeInsets.only(right: i < total - 1 ? width * 0.02 : 0),
             decoration: BoxDecoration(
               color: i <= current
                   ? AppColors.primaryColor
