@@ -1,6 +1,9 @@
 import 'package:bolaji277/feature/customer_dashboard/dashboard/widgets/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import '../home/views/home_page.dart';
+import '../profile/views/profile_page.dart';
+import '../save/views/save_page.dart';
+import '../explore/views/explore_page.dart';
 
 class CustomerDashboard extends StatefulWidget {
   final int initialIndex;
@@ -15,9 +18,9 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
 
   final List<Widget> _screens = [
     HomePage(),
-    const SizedBox(),
-    const SizedBox(),
-    const SizedBox(),
+    ExplorePage(),
+    SavePage(),
+    const ProfilePage(),
   ];
 
   @override

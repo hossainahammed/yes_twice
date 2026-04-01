@@ -154,28 +154,24 @@ class HomePage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () => _showFilterBottomSheet(context),
-                    child: Container(
-                      height: 40,
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.tune, color: Colors.white, size: 16),
-                          const SizedBox(width: 8),
-                          Text(
-                            'FILTERS',
-                            style: GoogleFonts.manrope(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.tune,
+                          color: AppColors.primaryColor,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        // Text(
+                        //   'FILTERS',
+                        //   style: GoogleFonts.manrope(
+                        //     color: Colors.white,
+                        //     fontSize: 12,
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
+                      ],
                     ),
                   ),
                   const SizedBox(width: 4),
@@ -776,10 +772,10 @@ class _FilterBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text('SORT BY', style: _sectionTitleStyle()),
-            _buildSortOption('Recommended', true),
             _buildSortOption('Nearest to Me', false),
+            _buildSortOption('Recommended', true),
             _buildSortOption('Rating (High to Low)', false),
-            _buildSortOption('Price (Low to High)', false),
+            // _buildSortOption('Price (Low to High)', false),
             const SizedBox(height: 24),
             Text('CUISINE TYPE', style: _sectionTitleStyle()),
             const SizedBox(height: 12),
@@ -793,25 +789,25 @@ class _FilterBottomSheet extends StatelessWidget {
                 _buildTag('Thai', false),
                 _buildTag('Mediterranean', false),
                 _buildTag('Mexican', false),
-                _buildTag('Steakhouse', false),
+                //_buildTag('Steakhouse', false),
               ],
             ),
-            const SizedBox(height: 24),
-            Text('PRICE RANGE', style: _sectionTitleStyle()),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(child: _buildPriceField('min')),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'TO',
-                    style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(child: _buildPriceField('max')),
-              ],
-            ),
+            //  const SizedBox(height: 24),
+            // Text('PRICE RANGE', style: _sectionTitleStyle()),
+            // const SizedBox(height: 12),
+            // Row(
+            //   children: [
+            //     Expanded(child: _buildPriceField('min')),
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 16),
+            //       child: Text(
+            //         'TO',
+            //         style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //     Expanded(child: _buildPriceField('max')),
+            //   ],
+            // ),
             const SizedBox(height: 24),
             Text('MINIMUM RATING', style: _sectionTitleStyle()),
             const SizedBox(height: 12),

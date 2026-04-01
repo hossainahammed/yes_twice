@@ -9,6 +9,7 @@ import '../../../customer_dashboard/dashboard/dashboard.dart';
 import '../../forgot_password/views/forgot_password_page.dart';
 import '../../registration/views/registration_page.dart';
 import '../controllers/login_page_controller.dart';
+import '../../claim/views/claim_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -136,7 +137,7 @@ class LoginPage extends StatelessWidget {
 
               /// Claim Button
               ElevatedButton(
-                onPressed: () {}, // => Get.to(() => ClaimPage()),
+                onPressed: () => Get.to(() => const ClaimPage()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
                   minimumSize: Size(double.infinity, 56.h),
