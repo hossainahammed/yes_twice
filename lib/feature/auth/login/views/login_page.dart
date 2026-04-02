@@ -1,3 +1,4 @@
+import 'package:bolaji277/feature/restaurant_dashboard/views/restaurant_dashboard_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,7 +99,8 @@ class LoginPage extends StatelessWidget {
 
               /// Login Button
               ElevatedButton(
-                onPressed: () => Get.to(() => CustomerDashboard()),
+                // onPressed: () => Get.to(() => CustomerDashboard()),
+                onPressed: () => Get.to(() => RestaurantDashboardPage()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
                   minimumSize: Size(double.infinity, 56.h),

@@ -6,6 +6,7 @@ class ImagePath {
   // static const String colorAppLogo = "assets/images/color_logo.png";
   static const String splash01 = "assets/icons/splash01.png";
   static const String splash02 = "assets/icons/splash02.png";
+  static const String rating = "assets/icons/rating.png";
 
   ///=================Onboarding Images======================
   static const String onboardingImg01 = "assets/images/onboarding01.png";
