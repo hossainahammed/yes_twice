@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import 'gallery_page.dart';
+import 'review_page.dart';
+import 'all_reviews_page.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   const RestaurantDetailsPage({super.key});
@@ -42,7 +44,12 @@ class RestaurantDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildImageGallery(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: _buildSeeMoreButton(),
+                ),
+                const SizedBox(height: 16),
                 _buildHeaderRow(context),
                 const SizedBox(height: 8),
                 _buildInfoRows(),
@@ -61,7 +68,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(height: 1, color: Colors.grey.shade100),
                 const SizedBox(height: 16),
-                _buildSectionHeader('Recent Reviews', () {}),
+                _buildSectionHeader('Recent Reviews', () => Get.to(() => const AllReviewsPage())),
                 const SizedBox(height: 12),
                 _buildRecentReviews(),
                 const SizedBox(height: 30),
@@ -74,7 +81,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             right: 24,
             bottom: 24,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Get.to(() => const ReviewPage()),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 shape: RoundedRectangleBorder(
@@ -188,8 +195,41 @@ class RestaurantDetailsPage extends StatelessWidget {
       ],
     );
   }
- Add see more button here  
 
+  Widget _buildSeeMoreButton() {
+    return GestureDetector(
+      onTap: () => Get.to(() => const GalleryPage()),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryColor.withOpacity(0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.grid_view_rounded, color: Colors.white, size: 16),
+            const SizedBox(width: 8),
+            Text(
+              'See More',
+              style: GoogleFonts.manrope(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _buildHeaderRow(BuildContext context) {
     return Row(
@@ -475,22 +515,25 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.primaryColor),
-                ),
-                child: Text(
-                  'Leave a Review',
-                  style: GoogleFonts.manrope(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primaryColor,
+              GestureDetector(
+                onTap: () => Get.to(() => const ReviewPage()),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.primaryColor),
+                  ),
+                  child: Text(
+                    'Leave a Review',
+                    style: GoogleFonts.manrope(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                 ),
               ),
