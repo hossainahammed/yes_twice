@@ -8,7 +8,16 @@ import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({super.key});
+  final String name;
+  final String rating;
+  final String imagePath;
+
+  const ReviewPage({
+    super.key,
+    this.name = 'Smokehouse',
+    this.rating = '4.9',
+    this.imagePath = 'assets/images/restaurent.png',
+  });
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
@@ -68,7 +77,7 @@ class _ReviewPageState extends State<ReviewPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildRestaurantInfo(),
+            _buildTargetInfo(),
             SizedBox(height: 24.h),
             Text(
               'How would you rate your experience?',
@@ -111,65 +120,82 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
-  Widget _buildRestaurantInfo() {
+  Widget _buildTargetInfo() {
     return Column(
       children: [
-        Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10.r),
-              child: Image.asset(
-                'assets/images/restaurent.png',
-                width: 48.w,
-                height: 48.h,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 48.w,
-                  height: 48.h,
-                  color: Colors.grey[200],
-                ),
+        Container(
+          padding: EdgeInsets.all(8.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 15,
+                offset: const Offset(0, 5),
               ),
-            ),
-            SizedBox(width: 12.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Smokehouse',
-                  style: GoogleFonts.manrope(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
+            ],
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15.r),
+                child: Image.asset(
+                  widget.imagePath,
+                  width: 50.w,
+                  height: 50.h,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 50.w,
+                    height: 50.h,
+                    color: Colors.grey[200],
                   ),
                 ),
-                Row(
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.star, color: Colors.orange, size: 12.sp),
-                    SizedBox(width: 4.w),
                     Text(
-                      '4.9',
+                      widget.name,
                       style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      '(1223)',
-                      style: GoogleFonts.manrope(
-                        fontSize: 10.sp,
-                        color: Colors.grey[400],
-                      ),
+                    SizedBox(height: 4.h),
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.orange, size: 14.sp),
+                        SizedBox(width: 4.w),
+                        Text(
+                          widget.rating,
+                          style: GoogleFonts.manrope(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          '(1223)',
+                          style: GoogleFonts.manrope(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 16.h),
-        Divider(color: Colors.grey[200], thickness: 1),
       ],
     );
   }
@@ -303,7 +329,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       width: 80.w,
                       height: 80.h,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
+                        borderRadius: BorderRadius.circular(15.r),
                         image: DecorationImage(
                           image: FileImage(File(_selectedFiles[index].path)),
                           fit: BoxFit.cover,

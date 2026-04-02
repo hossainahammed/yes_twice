@@ -101,116 +101,139 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
 
   Widget _buildReviewCard(int index, bool hasMedia) {
     final showResponse = _expandedReplies.contains(index);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12.r),
-              child: Image.asset(
-                'assets/images/Composer.png',
-                width: 40.w,
-                height: 40.h,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 40.w,
-                  height: 40.h,
-                  color: Colors.grey[200],
+    return Container(
+      padding: EdgeInsets.all(8.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.w),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    'assets/images/Composer.png',
+                    width: 50.w,
+                    height: 50.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      width: 50.w,
+                      height: 50.w,
+                      color: Colors.grey[200],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Kurt Bates',
-                        style: GoogleFonts.manrope(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black87,
-                        ),
-                      ),
                       Row(
-                        children: List.generate(5, (index) {
-                          return Icon(
-                            Icons.star_rounded,
-                            color: index < 4 ? Colors.orange : Colors.grey[200],
-                            size: 14.sp,
-                          );
-                        }),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Kurt Bates',
+                            style: GoogleFonts.manrope(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Row(
+                            children: List.generate(5, (index) {
+                              return Icon(
+                                Icons.star,
+                                color: index < 4
+                                    ? Colors.orange
+                                    : Colors.grey[200],
+                                size: 14.sp,
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        'Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper. Quisque ultrices lobortis elit sed euismod.',
+                        style: GoogleFonts.manrope(
+                          fontSize: 11.sp,
+                          color: Colors.black87,
+                          height: 1.5,
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper. Quisque ultrices lobortis elit sed euismod.',
-                    style: GoogleFonts.manrope(
-                      fontSize: 10.sp,
-                      color: Colors.grey[500],
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        if (hasMedia) ...[
-          SizedBox(height: 12.h),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16.r),
-            child: Image.asset(
-              'assets/images/nearbyresturants.png',
-              width: double.infinity,
-              height: 140.h,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) =>
-                  Container(height: 140.h, color: Colors.grey[200]),
+                ),
+              ],
             ),
           ),
-        ],
-        SizedBox(height: 12.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GestureDetector(
-              onTap: () => _toggleReplies(index),
-              child: Row(
-                children: [
-                  Stack(),
-                  SizedBox(width: 8.w),
-                  Text(
-                    showResponse ? 'Hide replies' : 'View 1 replies',
-                    style: GoogleFonts.manrope(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Icon(
-                    showResponse
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    size: 14.sp,
-                    color: Colors.black54,
-                  ),
-                ],
+          if (hasMedia) ...[
+            Padding(
+              padding: EdgeInsets.all(8.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.r),
+                child: Image.asset(
+                  'assets/images/nearbyresturants.png',
+                  width: double.infinity,
+                  height: 140.h,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Container(height: 140.h, color: Colors.grey[200]),
+                ),
               ),
             ),
           ],
-        ),
-        if (showResponse) ...[
-          SizedBox(height: 12.h),
-          _buildRestaurantResponse(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () => _toggleReplies(index),
+                  child: Row(
+                    children: [
+                      Text(
+                        showResponse ? 'Hide replies' : 'View 1 replies',
+                        style: GoogleFonts.manrope(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Icon(
+                        showResponse
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 16.sp,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (showResponse) ...[
+            Padding(
+              padding: EdgeInsets.all(8.w),
+              child: _buildRestaurantResponse(),
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 

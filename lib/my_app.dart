@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/constant/app_colors.dart';
-import 'feature/customer_dashboard/dashboard/dashboard.dart';
 import 'feature/splash/view/splash_screen.dart';
 
 class MyApp extends StatelessWidget {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/widgets/custom_auth_widgets.dart'; // For CustomBackButton if we want to include it. Wait, the design shows a back button.
+import '../../../../core/constant/widgets/custom_auth_widgets.dart'; // For CustomBackButton
 import '../controllers/save_controller.dart';
 
 class SavePage extends StatelessWidget {
@@ -25,7 +26,7 @@ class SavePage extends StatelessWidget {
         title: Text(
           'Saved',
           style: GoogleFonts.manrope(
-            fontSize: 18,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w800,
             color: Colors.black87,
           ),
@@ -40,9 +41,12 @@ class SavePage extends StatelessWidget {
             child: Obx(() {
               int index = controller.selectedTabIndex.value;
               List<SavedItem> items = [];
-              if (index == 0) items = controller.savedRestaurants;
-              else if (index == 1) items = controller.savedFoods;
-              else items = controller.savedEvents;
+              if (index == 0)
+                items = controller.savedRestaurants;
+              else if (index == 1)
+                items = controller.savedFoods;
+              else
+                items = controller.savedEvents;
 
               if (items.isEmpty) {
                 return _buildEmptyState();
@@ -77,13 +81,13 @@ class SavePage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.primaryColor : Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
                   controller.tabs[index],
                   style: GoogleFonts.manrope(
                     color: isSelected ? Colors.white : AppColors.primaryColor,
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                   ),
                 ),
@@ -102,21 +106,23 @@ class SavePage extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-             Opacity(
-               opacity: 0.1,
-               child: Icon(Icons.bookmark, size: 100, color: AppColors.primaryColor),
-             ),
-             Container(
-               width: 60,
-               height: 60,
-               decoration: BoxDecoration(
-                 color: AppColors.primaryColor.withOpacity(0.1),
-                 shape: BoxShape.circle,
-               ),
-               child: Center(
-                 child: Icon(Icons.close, color: AppColors.primaryColor, size: 30),
-               ),
-             ),
+            Opacity(
+              opacity: 0.1,
+              child:
+                  Icon(Icons.bookmark, size: 100, color: AppColors.primaryColor),
+            ),
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child:
+                    Icon(Icons.close, color: AppColors.primaryColor, size: 30),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 24),
@@ -124,7 +130,7 @@ class SavePage extends StatelessWidget {
           "You haven't saved\nanything yet!",
           textAlign: TextAlign.center,
           style: GoogleFonts.manrope(
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.w800,
             color: Colors.black87,
           ),
@@ -136,11 +142,11 @@ class SavePage extends StatelessWidget {
   Widget _buildRestaurantGrid(List<SavedItem> items) {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        childAspectRatio: 0.8,
+        childAspectRatio: 0.7,
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {
@@ -153,11 +159,11 @@ class SavePage extends StatelessWidget {
   Widget _buildEventGrid(List<SavedItem> items) {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        childAspectRatio: 0.8,
+        childAspectRatio: 0.7,
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {
@@ -169,13 +175,14 @@ class SavePage extends StatelessWidget {
 
   Widget _buildGridCard(SavedItem item, {required bool isRestaurant}) {
     return Container(
+      padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
             offset: const Offset(0, 5),
           ),
         ],
@@ -183,48 +190,60 @@ class SavePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                child: Image.asset(
-                  item.imagePath,
-                  height: 110,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Container(height: 110, color: Colors.grey[200]),
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(6),
+          Expanded(
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    item.imagePath,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Container(color: Colors.grey[200]),
                   ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.star, color: Colors.orange, size: 12),
-                      const SizedBox(width: 4),
-                      Text(
-                        item.rating.toString(),
-                        style: GoogleFonts.manrope(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.star, color: Colors.orange, size: 10),
+                        const SizedBox(width: 4),
+                        Text(
+                          item.rating.toString(),
+                          style: GoogleFonts.manrope(
+                            color: Colors.black,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
+          SizedBox(height: 12.h),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -232,18 +251,20 @@ class SavePage extends StatelessWidget {
                   item.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 2),
-                      child: Icon(Icons.location_on, color: AppColors.primaryColor, size: 10),
+                    const Icon(
+                      Icons.location_on,
+                      color: AppColors.primaryColor,
+                      size: 12,
                     ),
                     const SizedBox(width: 4),
                     Expanded(
@@ -251,18 +272,20 @@ class SavePage extends StatelessWidget {
                         item.location,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          color: Colors.grey[600],
+                        style: GoogleFonts.manrope(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
                         ),
                       ),
                     ),
                     if (isRestaurant && item.priceOrCategory.isNotEmpty)
                       Text(
                         '  ${item.priceOrCategory}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          color: Colors.grey[600],
+                        style: GoogleFonts.manrope(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey,
                         ),
                       ),
                   ],
@@ -270,6 +293,7 @@ class SavePage extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(height: 4.h),
         ],
       ),
     );
@@ -282,31 +306,30 @@ class SavePage extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = items[index];
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(8),
+          margin: const EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFF1F5F9)),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.01),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 15,
+                offset: const Offset(0, 5),
               ),
             ],
           ),
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(15.r),
                 child: Image.asset(
                   item.imagePath,
-                  height: 60,
-                  width: 60,
+                  height: 80.h,
+                  width: 80.w,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) =>
-                      Container(height: 60, width: 60, color: Colors.grey[200]),
+                      Container(height: 80.h, width: 80.w, color: Colors.grey[200]),
                 ),
               ),
               const SizedBox(width: 12),
@@ -318,31 +341,31 @@ class SavePage extends StatelessWidget {
                     Text(
                       item.title,
                       style: GoogleFonts.manrope(
-                        fontSize: 13,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black87,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Colors.orange, size: 12),
+                        const Icon(Icons.star, color: Colors.orange, size: 14),
                         const SizedBox(width: 4),
                         Text(
                           item.rating.toString(),
                           style: GoogleFonts.manrope(
-                            color: Colors.black87,
-                            fontSize: 10,
+                            color: Colors.black,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        const SizedBox(width: 2),
+                        const SizedBox(width: 4),
                         Text(
                           '(${item.reviews})',
                           style: GoogleFonts.manrope(
-                            color: Colors.grey[400],
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -350,14 +373,15 @@ class SavePage extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.location_on, color: AppColors.primaryColor, size: 11),
+                        const Icon(Icons.location_on,
+                            color: AppColors.primaryColor, size: 14),
                         const SizedBox(width: 4),
                         Text(
                           item.priceOrCategory,
                           style: GoogleFonts.manrope(
-                            fontSize: 10,
-                            color: Colors.black87,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -366,7 +390,7 @@ class SavePage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 6),
+                padding: const EdgeInsets.only(right: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -374,15 +398,15 @@ class SavePage extends StatelessWidget {
                       'Quick View',
                       style: GoogleFonts.manrope(
                         color: AppColors.primaryColor,
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(width: 4),
                     const Icon(
-                      Icons.arrow_forward,
+                      Icons.arrow_forward_ios,
                       color: AppColors.primaryColor,
-                      size: 12,
+                      size: 10,
                     ),
                   ],
                 ),
@@ -394,3 +418,4 @@ class SavePage extends StatelessWidget {
     );
   }
 }
+

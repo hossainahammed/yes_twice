@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
@@ -6,6 +7,7 @@ import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import 'gallery_page.dart';
 import 'review_page.dart';
 import 'all_reviews_page.dart';
+import 'dish_list_page.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   const RestaurantDetailsPage({super.key});
@@ -25,7 +27,7 @@ class RestaurantDetailsPage extends StatelessWidget {
         title: Text(
           'Details',
           style: GoogleFonts.manrope(
-            fontSize: 18,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w800,
             color: Colors.black87,
           ),
@@ -34,66 +36,66 @@ class RestaurantDetailsPage extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              24,
-              16,
-              24,
-              100,
-            ), // padding bottom for fixed button
+            padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 100.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildImageGallery(),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Align(
                   alignment: Alignment.topCenter,
                   child: _buildSeeMoreButton(),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 _buildHeaderRow(context),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 _buildInfoRows(),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Container(height: 1, color: Colors.grey.shade100),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 _buildDescriptionSection(),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 _buildContactInfo(),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Container(height: 1, color: Colors.grey.shade100),
-                const SizedBox(height: 16),
-                _buildSectionHeader('Dishes', () {}),
-                const SizedBox(height: 12),
+                SizedBox(height: 16.h),
+                _buildSectionHeader(
+                  'Dishes',
+                  () => Get.to(() => const DishListPage()),
+                ),
+                SizedBox(height: 12.h),
                 _buildDishesList(),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Container(height: 1, color: Colors.grey.shade100),
-                const SizedBox(height: 16),
-                _buildSectionHeader('Recent Reviews', () => Get.to(() => const AllReviewsPage())),
-                const SizedBox(height: 12),
+                SizedBox(height: 16.h),
+                _buildSectionHeader(
+                  'Recent Reviews',
+                  () => Get.to(() => const AllReviewsPage()),
+                ),
+                SizedBox(height: 12.h),
                 _buildRecentReviews(),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
               ],
             ),
           ),
-          // Fixed bottom button
           Positioned(
-            left: 24,
-            right: 24,
-            bottom: 24,
+            left: 24.w,
+            right: 24.w,
+            bottom: 24.h,
             child: ElevatedButton(
               onPressed: () => Get.to(() => const ReviewPage()),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                 ),
-                minimumSize: const Size(double.infinity, 52),
+                minimumSize: Size(double.infinity, 52.h),
               ),
               child: Text(
                 'Add review',
                 style: GoogleFonts.manrope(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -105,94 +107,71 @@ class RestaurantDetailsPage extends StatelessWidget {
   }
 
   Widget _buildImageGallery() {
-    return Stack(
-      children: [
-        SizedBox(
-          height: 250,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    'assets/images/restaurent.png', // Main image
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Container(color: Colors.grey[200]),
+    return SizedBox(
+      height: 250.h,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.r),
+              child: Image.asset(
+                'assets/images/restaurent.png',
+                fit: BoxFit.cover,
+                height: double.infinity,
+                errorBuilder: (context, error, stackTrace) =>
+                    Container(color: Colors.grey[200]),
+              ),
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Expanded(
+            flex: 1,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.asset(
+                      'assets/images/nearbyresturants.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(color: Colors.grey[200]),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/nearbyresturants.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(color: Colors.grey[200]),
-                        ),
-                      ),
+                SizedBox(height: 8.h),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.asset(
+                      'assets/images/popularFoodSpots.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(color: Colors.grey[200]),
                     ),
-                    const SizedBox(height: 8),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/popularFoodSpots.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(color: Colors.grey[200]),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/food01.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(color: Colors.grey[200]),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 8.h),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.asset(
+                      'assets/images/food01.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(color: Colors.grey[200]),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        // Positioned(
-        //   bottom: 12,
-        //   right: 30, // Offset a bit inside the right column
-        //   child: Container(
-        //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        //     decoration: BoxDecoration(
-        //       color: AppColors.primaryColor,
-        //       borderRadius: BorderRadius.circular(20),
-        //     ),
-        //     child: Text(
-        //       'See all Image',
-        //       style: GoogleFonts.manrope(
-        //         color: Colors.white,
-        //         fontSize: 10,
-        //         fontWeight: FontWeight.w700,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -200,10 +179,10 @@ class RestaurantDetailsPage extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.to(() => const GalleryPage()),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: AppColors.primaryColor.withOpacity(0.3),
@@ -215,13 +194,13 @@ class RestaurantDetailsPage extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.grid_view_rounded, color: Colors.white, size: 16),
-            const SizedBox(width: 8),
+            Icon(Icons.grid_view_rounded, color: Colors.white, size: 16.sp),
+            SizedBox(width: 8.w),
             Text(
               'See More',
               style: GoogleFonts.manrope(
                 color: Colors.white,
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -235,35 +214,25 @@ class RestaurantDetailsPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Text(
-              'Smokehouse',
-              style: GoogleFonts.manrope(
-                fontSize: 22,
-                fontWeight: FontWeight.w800,
-                color: Colors.black87,
-              ),
-            ),
-          ],
+        Text(
+          'Smokehouse',
+          style: GoogleFonts.manrope(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.w800,
+            color: Colors.black87,
+          ),
         ),
         Row(
           children: [
-            const Icon(
-              Icons.favorite_rounded,
-              color: AppColors.primaryColor,
-              size: 24,
-            ),
-            const SizedBox(width: 12),
+            Icon(Icons.favorite_rounded,
+                color: AppColors.primaryColor, size: 24.sp),
+            SizedBox(width: 12.w),
             GestureDetector(
               onTap: () => _showShareBottomSheet(context),
               child: Transform.flip(
                 flipX: true,
-                child: const Icon(
-                  Icons.reply_rounded,
-                  color: Colors.black54,
-                  size: 24,
-                ),
+                child: Icon(Icons.reply_rounded,
+                    color: Colors.black54, size: 24.sp),
               ),
             ),
           ],
@@ -278,35 +247,28 @@ class RestaurantDetailsPage extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(
-              Icons.location_on,
-              color: AppColors.primaryColor,
-              size: 12,
-            ),
-            const SizedBox(width: 4),
+            Icon(Icons.location_on, color: AppColors.primaryColor, size: 12.sp),
+            SizedBox(width: 4.w),
             Text(
               'Asian · 2.5 mile',
               style: GoogleFonts.manrope(
-                fontSize: 11,
+                fontSize: 11.sp,
                 color: Colors.grey[700],
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Row(
           children: [
-            const Icon(
-              Icons.access_time_filled,
-              color: AppColors.primaryColor,
-              size: 12,
-            ),
-            const SizedBox(width: 4),
+            Icon(Icons.access_time_filled,
+                color: AppColors.primaryColor, size: 12.sp),
+            SizedBox(width: 4.w),
             Text(
               '08:00 - 22:00  ',
               style: GoogleFonts.manrope(
-                fontSize: 11,
+                fontSize: 11.sp,
                 color: Colors.grey[700],
                 fontWeight: FontWeight.w600,
               ),
@@ -314,7 +276,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             Text(
               'OPEN',
               style: GoogleFonts.manrope(
-                fontSize: 10,
+                fontSize: 10.sp,
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.w800,
               ),
@@ -335,19 +297,19 @@ class RestaurantDetailsPage extends StatelessWidget {
             Text(
               'Description',
               style: GoogleFonts.manrope(
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w800,
                 color: Colors.black87,
               ),
             ),
             Row(
               children: [
-                const Icon(Icons.star, color: Colors.orange, size: 12),
-                const SizedBox(width: 4),
+                Icon(Icons.star, color: Colors.orange, size: 12.sp),
+                SizedBox(width: 4.w),
                 Text(
                   '4.9',
                   style: GoogleFonts.manrope(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w800,
                     color: Colors.black87,
                   ),
@@ -356,11 +318,11 @@ class RestaurantDetailsPage extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Smokehouse brings the bold flavors of Southern-style barbecue to your plate with slow-cooked, fall-off-the-bone meats, house-made sauces, and hearty sides. Known for its signature smoked ribs and pulled pork sandwiches, this casual spot combines rustic charm with mouthwatering comfort food.',
           style: GoogleFonts.manrope(
-            fontSize: 10,
+            fontSize: 10.sp,
             color: Colors.grey[500],
             height: 1.6,
           ),
@@ -374,32 +336,28 @@ class RestaurantDetailsPage extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(Icons.phone, color: AppColors.primaryColor, size: 14),
-            const SizedBox(width: 8),
+            Icon(Icons.phone, color: AppColors.primaryColor, size: 14.sp),
+            SizedBox(width: 8.w),
             Text(
               '123-456-7890',
               style: GoogleFonts.manrope(
-                fontSize: 11,
+                fontSize: 11.sp,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         Row(
           children: [
-            const Icon(
-              Icons.location_on,
-              color: AppColors.primaryColor,
-              size: 14,
-            ),
-            const SizedBox(width: 8),
+            Icon(Icons.location_on, color: AppColors.primaryColor, size: 14.sp),
+            SizedBox(width: 8.w),
             Expanded(
               child: Text(
                 '123 Foodie Lane, Johannesburg, SA',
                 style: GoogleFonts.manrope(
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),
@@ -418,7 +376,7 @@ class RestaurantDetailsPage extends StatelessWidget {
         Text(
           title,
           style: GoogleFonts.manrope(
-            fontSize: 16,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w800,
             color: Colors.black87,
           ),
@@ -430,16 +388,13 @@ class RestaurantDetailsPage extends StatelessWidget {
               Text(
                 'See all',
                 style: GoogleFonts.manrope(
-                  fontSize: 10,
+                  fontSize: 10.sp,
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const Icon(
-                Icons.chevron_right,
-                color: AppColors.primaryColor,
-                size: 14,
-              ),
+              Icon(Icons.chevron_right,
+                  color: AppColors.primaryColor, size: 14.sp),
             ],
           ),
         ),
@@ -460,84 +415,111 @@ class RestaurantDetailsPage extends StatelessWidget {
 
     return Column(
       children: dishes.map((dish) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  dish['image']!,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Container(width: 50, height: 50, color: Colors.grey[200]),
+        return GestureDetector(
+          onTap: () => Get.to(() => const DishListPage()),
+          child: Container(
+            margin: EdgeInsets.only(bottom: 16.h),
+            padding: EdgeInsets.all(8.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24.r),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      dish['name']!,
+              ],
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    dish['image']!,
+                    width: 60.w,
+                    height: 60.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                        width: 60.w, height: 60.w, color: Colors.grey[200]),
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        dish['name']!,
+                        style: GoogleFonts.manrope(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Row(
+                        children: [
+                          Icon(Icons.star, color: Colors.orange, size: 12.sp),
+                          SizedBox(width: 4.w),
+                          Text(
+                            dish['rating']!,
+                            style: GoogleFonts.manrope(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            '(450)',
+                            style: GoogleFonts.manrope(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        r'$$$',
+                        style: GoogleFonts.manrope(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => Get.to(() => ReviewPage(
+                        name: dish['name']!,
+                        rating: dish['rating']!,
+                        imagePath: dish['image']!,
+                      )),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.r),
+                      border: Border.all(color: AppColors.primaryColor),
+                    ),
+                    child: Text(
+                      'Review',
                       style: GoogleFonts.manrope(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black87,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primaryColor,
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.orange, size: 10),
-                        const SizedBox(width: 4),
-                        Text(
-                          dish['rating']!,
-                          style: GoogleFonts.manrope(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          '(1223)',
-                          style: GoogleFonts.manrope(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey[400],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () => Get.to(() => const ReviewPage()),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.primaryColor),
-                  ),
-                  child: Text(
-                    'Leave a Review',
-                    style: GoogleFonts.manrope(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryColor,
-                    ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(width: 4.w),
+              ],
+            ),
           ),
         );
       }).toList(),
@@ -546,100 +528,99 @@ class RestaurantDetailsPage extends StatelessWidget {
 
   Widget _buildRecentReviews() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
             offset: const Offset(0, 5),
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/images/Composer.png',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Container(width: 40, height: 40, color: Colors.grey[200]),
+      child: Padding(
+        padding: EdgeInsets.all(8.w),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    'assets/images/Composer.png',
+                    width: 40.w,
+                    height: 40.h,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                        width: 40.w, height: 40.h, color: Colors.grey[200]),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Kurt Bates',
-                          style: GoogleFonts.manrope(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black87,
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Kurt Bates',
+                            style: GoogleFonts.manrope(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: List.generate(5, (index) {
-                            return const Icon(
-                              Icons.star,
-                              color: Colors.orange,
-                              size: 10,
-                            );
-                          }),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper. Quisque ultrices lobortis elit sed euismod.',
-                      style: GoogleFonts.manrope(
-                        fontSize: 9,
-                        color: Colors.grey[500],
-                        height: 1.5,
+                          Row(
+                            children: List.generate(5, (index) {
+                              return Icon(Icons.star,
+                                  color: Colors.orange, size: 10.sp);
+                            }),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 6.h),
+                      Text(
+                        'Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper. Quisque ultrices lobortis elit sed euismod.',
+                        style: GoogleFonts.manrope(
+                          fontSize: 10.sp,
+                          color: Colors.black87,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  shape: BoxShape.circle,
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primaryColor,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 4),
-              Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  shape: BoxShape.circle,
+                SizedBox(width: 4.w),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -650,37 +631,37 @@ class RestaurantDetailsPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
-          decoration: const BoxDecoration(
+          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
+              topLeft: Radius.circular(24.r),
+              topRight: Radius.circular(24.r),
             ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 40,
-                height: 4,
+                width: 40.w,
+                height: 4.h,
                 decoration: BoxDecoration(
                   color: Colors.black87,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(4.r),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Text(
                 'Share',
                 style: GoogleFonts.manrope(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w800,
                   color: Colors.black87,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Divider(color: Colors.grey.shade300, thickness: 1),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -706,7 +687,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
             ],
           ),
         );
@@ -723,8 +704,8 @@ class RestaurantDetailsPage extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 50,
-          height: 50,
+          width: 50.w,
+          height: 50.w,
           decoration: BoxDecoration(
             color: isGradient ? null : backgroundColor,
             gradient: isGradient
@@ -739,15 +720,15 @@ class RestaurantDetailsPage extends StatelessWidget {
                     end: Alignment.bottomLeft,
                   )
                 : null,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
-          child: Icon(icon, color: Colors.white, size: 24),
+          child: Icon(icon, color: Colors.white, size: 24.sp),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           title,
           style: GoogleFonts.manrope(
-            fontSize: 10,
+            fontSize: 10.sp,
             fontWeight: FontWeight.w700,
             color: Colors.black87,
           ),
@@ -756,3 +737,4 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 }
+

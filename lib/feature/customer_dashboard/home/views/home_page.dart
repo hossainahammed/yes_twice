@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
@@ -8,6 +9,7 @@ import 'search_page.dart';
 import 'restaurant_list_page.dart';
 import 'popular_food_spots_page.dart';
 import 'restaurant_details_page.dart';
+import 'event_list_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -48,7 +50,9 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: screenHeight * 0.02),
                   _buildReviews(screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader('Events Near You', () {}),
+                  _buildSectionHeader('Events Near You', () {
+                    Get.to(() => const EventListPage());
+                  }),
                   SizedBox(height: screenHeight * 0.02),
                   _buildEvents(screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.05),
@@ -381,111 +385,131 @@ class HomePage extends StatelessWidget {
           return GestureDetector(
             onTap: () => Get.to(() => const RestaurantDetailsPage()),
             child: Container(
-              width: 210,
+              width: 200,
+              height: 230.h,
               margin: const EdgeInsets.only(right: 16),
+              padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                      child: Image.asset(
-                        rest.imagePath,
-                        height: 140,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.r),
+                          child: Image.asset(
+                            rest.imagePath,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                  size: 10,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  rest.rating.toString(),
+                                  style: GoogleFonts.manrope(
+                                    color: Colors.black,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                  ),
+                  SizedBox(height: 8.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          rest.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.manrope(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
+                        SizedBox(height: 4.h),
+                        Row(
                           children: [
                             const Icon(
-                              Icons.star,
-                              color: Colors.orange,
+                              Icons.location_on,
+                              color: AppColors.primaryColor,
                               size: 12,
                             ),
-                            const SizedBox(width: 2),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                rest.location,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.manrope(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                             Text(
-                              rest.rating.toString(),
+                              ' · ${rest.priceRange}',
                               style: GoogleFonts.manrope(
-                                color: Colors.black,
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey,
                               ),
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        rest.name,
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            color: AppColors.primaryColor,
-                            size: 14,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            rest.location,
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          Text(
-                            ' · ${rest.priceRange}',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(height: 4.h),
+                ],
+              ),
             ),
           );
         }).toList(),
@@ -596,15 +620,14 @@ class HomePage extends StatelessWidget {
           return Container(
             width: 320,
             margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey[100]!),
+              borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
-                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 15,
                   offset: const Offset(0, 5),
                 ),
               ],
@@ -613,7 +636,7 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15.r),
                   child: Image.asset(
                     review.reviewerImage,
                     height: 80,
@@ -631,9 +654,10 @@ class HomePage extends StatelessWidget {
                         children: [
                           Text(
                             review.reviewerName,
-                            style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                            style: GoogleFonts.manrope(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
                             ),
                           ),
                           Row(
@@ -643,7 +667,7 @@ class HomePage extends StatelessWidget {
                                 color: index < review.rating
                                     ? Colors.orange
                                     : Colors.grey[300],
-                                size: 14,
+                                size: 12,
                               );
                             }),
                           ),
@@ -654,8 +678,8 @@ class HomePage extends StatelessWidget {
                         review.reviewText,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
+                        style: GoogleFonts.manrope(
+                          fontSize: 10,
                           color: Colors.grey[500],
                           height: 1.4,
                         ),
@@ -678,14 +702,16 @@ class HomePage extends StatelessWidget {
         children: controller.eventsNearby.map((event) {
           return Container(
             width: 200,
+            height: 230.h,
             margin: const EdgeInsets.only(right: 16),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 15,
                   offset: const Offset(0, 5),
                 ),
               ],
@@ -693,43 +719,52 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  child: Image.asset(
-                    event.imagePath,
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.asset(
+                      event.imagePath,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                SizedBox(height: 8.h),
                 Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         event.name,
-                        style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 4.h),
                       Row(
                         children: [
                           const Icon(
-                            Icons.location_on_outlined,
+                            Icons.location_on,
                             color: AppColors.primaryColor,
-                            size: 14,
+                            size: 12,
                           ),
                           const SizedBox(width: 4),
-                          Text(
-                            event.location,
-                            style: GoogleFonts.poppins(
-                              fontSize: 11,
-                              color: Colors.grey[600],
+                          Expanded(
+                            child: Text(
+                              event.location,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.manrope(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ],
@@ -737,6 +772,7 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(height: 4.h),
               ],
             ),
           );

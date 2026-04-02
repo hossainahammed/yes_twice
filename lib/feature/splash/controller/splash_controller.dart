@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/offline_storage/shared_pref.dart';
 import '../../onboarding/view/onboarding_screen.dart';
 
 class SplashController extends GetxController {

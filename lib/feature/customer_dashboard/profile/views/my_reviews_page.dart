@@ -41,76 +41,81 @@ class MyReviewsPage extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
           margin: EdgeInsets.only(bottom: 20.h),
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: Colors.grey.shade200),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 15,
+                offset: const Offset(0, 5),
               ),
             ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
-                    child: Image.asset(
-                      'assets/images/burger.png',
-                      width: 40.w,
-                      height: 40.w,
-                      fit: BoxFit.cover,
+              Padding(
+                padding: EdgeInsets.all(8.w),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15.r),
+                      child: Image.asset(
+                        'assets/images/burger.png',
+                        width: 50.w,
+                        height: 50.w,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'KFC Foods',
-                          style: GoogleFonts.manrope(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black87,
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'KFC Foods',
+                            style: GoogleFonts.manrope(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          '12 March, 2026',
-                          style: GoogleFonts.manrope(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey.shade500,
+                          SizedBox(height: 2.h),
+                          Text(
+                            '12 March, 2026',
+                            style: GoogleFonts.manrope(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: List.generate(
-                      5,
-                      (i) => Icon(Icons.star, color: Colors.amber, size: 16.sp),
+                    Row(
+                      children: List.generate(
+                        5,
+                        (i) => Icon(Icons.star, color: Colors.orange, size: 14.sp),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                'The food was very hot, fresh and so delicious. Service was good. Friendly staff and awesome ambience. Everything was fine and perfect...',
-                style: GoogleFonts.manrope(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade600,
-                  height: 1.5,
+                  ],
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                child: Text(
+                  'The food was very hot, fresh and so delicious. Service was good. Friendly staff and awesome ambience. Everything was fine and perfect...',
+                  style: GoogleFonts.manrope(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+              SizedBox(height: 4.h),
             ],
           ),
         );
