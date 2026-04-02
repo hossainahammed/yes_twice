@@ -7,7 +7,8 @@ class RegistrationPageController extends GetxController {
   /// Text Controllers
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
-  final companyNameController = TextEditingController();
+  final restaurantNameController = TextEditingController();
+  final addressController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -16,6 +17,7 @@ class RegistrationPageController extends GetxController {
   var isPasswordHidden = true.obs;
   var isConfirmPasswordHidden = true.obs;
   var agreedToTerms = false.obs;
+  var isRestaurant = false.obs; // false = User, true = Restaurant
 
   /// Validation
   String? validateFirstName() {
@@ -25,6 +27,16 @@ class RegistrationPageController extends GetxController {
 
   String? validateLastName() {
     if (lastNameController.text.trim().isEmpty) return "Last name is required";
+    return null;
+  }
+
+  String? validateRestaurantName() {
+    if (restaurantNameController.text.trim().isEmpty) return "Restaurant name is required";
+    return null;
+  }
+
+  String? validateAddress() {
+    if (addressController.text.trim().isEmpty) return "Address is required";
     return null;
   }
 
@@ -79,6 +91,8 @@ class RegistrationPageController extends GetxController {
   void onClose() {
     firstNameController.dispose();
     lastNameController.dispose();
+    restaurantNameController.dispose();
+    addressController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();

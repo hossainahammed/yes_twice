@@ -10,6 +10,7 @@ import 'restaurant_list_page.dart';
 import 'popular_food_spots_page.dart';
 import 'restaurant_details_page.dart';
 import 'event_list_page.dart';
+import 'browse_by_food_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -32,7 +33,9 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader('Browse By Food', () {}),
+                  _buildSectionHeader('Browse By Food', () {
+                    Get.to(() => BrowseByFoodPage());
+                  }),
                   SizedBox(height: screenHeight * 0.02),
                   _buildCategories(screenWidth),
                   SizedBox(height: screenHeight * 0.03),

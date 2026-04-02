@@ -17,7 +17,11 @@ class CustomBackButton extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(color: Colors.grey.shade300),
         ),
-        child: Icon(Icons.arrow_back_ios_new, size: 18.sp, color: Colors.black87),
+        child: Icon(
+          Icons.arrow_back_ios_new,
+          size: 18.sp,
+          color: Colors.black87,
+        ),
       ),
     );
   }
@@ -52,43 +56,63 @@ class CustomAuthField extends StatelessWidget {
           label,
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
           ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 10.h),
         TextField(
           controller: controller,
           obscureText: obscureText ?? false,
-          style: GoogleFonts.manrope(fontSize: 14.sp),
+          style: GoogleFonts.manrope(fontSize: 14.sp, color: Colors.black87),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: GoogleFonts.manrope(color: Colors.grey.shade400, fontSize: 14.sp),
-            prefixIcon: Icon(prefixIcon, color: AppColors.primaryColor.withOpacity(0.4), size: 20.sp),
+            hintStyle: GoogleFonts.manrope(
+              color: Colors.grey.shade400,
+              fontSize: 14.sp,
+            ),
+            prefixIcon: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Icon(
+                prefixIcon,
+                color: Colors.black87,
+                size: 22.sp,
+              ),
+            ),
             suffixIcon: isPassword
                 ? GestureDetector(
                     onTap: onSuffixIconPressed,
-                    child: Icon(
-                      (obscureText ?? true) ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                      color: Colors.grey.shade400,
-                      size: 20.sp,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 16.w),
+                      child: Icon(
+                        (obscureText ?? true)
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: Colors.black87,
+                        size: 22.sp,
+                      ),
                     ),
                   )
                 : null,
             filled: true,
-            fillColor: Colors.grey.shade50,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            fillColor: Colors.white,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 18.h,
+            ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.r),
-              borderSide: BorderSide(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(30.r),
+              borderSide: BorderSide(color: Colors.grey.shade100),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.r),
-              borderSide: BorderSide(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(30.r),
+              borderSide: BorderSide(color: Colors.grey.shade200),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.r),
-              borderSide: BorderSide(color: AppColors.primaryColor.withOpacity(0.3)),
+              borderRadius: BorderRadius.circular(30.r),
+              borderSide: BorderSide(
+                color: AppColors.primaryColor.withOpacity(0.5),
+              ),
             ),
           ),
         ),
@@ -102,27 +126,42 @@ class SocialLoginButton extends StatelessWidget {
   final String? iconPath;
   final VoidCallback onTap;
 
-  const SocialLoginButton({super.key, required this.text, this.iconPath, required this.onTap});
+  const SocialLoginButton({
+    super.key,
+    required this.text,
+    this.iconPath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(15.r),
       child: Container(
         width: double.infinity,
         height: 56.h,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: Colors.grey.shade200),
           borderRadius: BorderRadius.circular(15.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (iconPath != null) ...[
-              Image.asset(iconPath!, height: 24.h),
-              SizedBox(width: 12.w),
-            ] else 
-              const Icon(Icons.g_mobiledata, size: 32, color: Colors.blue), // Fallback Google Icon
+            if (iconPath != null)
+              Image.asset(iconPath!, height: 24.h)
+            else
+              Image.network(
+                "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+                width: 22.w,
+                height: 22.w,
+                errorBuilder: (_, __, ___) => Icon(
+                  Icons.g_mobiledata,
+                  color: Colors.blue,
+                  size: 28.sp,
+                ),
+              ),
+            SizedBox(width: 12.w),
             Text(
               text,
               style: GoogleFonts.manrope(

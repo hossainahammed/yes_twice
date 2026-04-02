@@ -35,6 +35,12 @@ class SecurityPage extends StatelessWidget {
         child: Column(
           children: [
             _buildSecurityItem(
+              Icons.email_outlined,
+              'Change Email',
+              () => Get.to(() {}),
+            ),
+
+            _buildSecurityItem(
               Icons.lock_outline,
               'Change Password',
               () => Get.to(() => const ChangePasswordPage()),

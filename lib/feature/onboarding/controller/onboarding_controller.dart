@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../auth/Login/views/login_page.dart';
+import '../../auth/login/views/login_page.dart';
 
 class OnboardingController extends GetxController {
   final PageController pageController = PageController();
