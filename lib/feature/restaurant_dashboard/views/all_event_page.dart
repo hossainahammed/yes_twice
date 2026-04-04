@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
+import 'add_event_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 
 class AllEventPage extends StatelessWidget {
@@ -46,17 +47,20 @@ class AllEventPage extends StatelessWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 20.w),
-          child: Container(
-            width: 32.w,
-            height: 32.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFF4C080C),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20.sp,
+          child: GestureDetector(
+            onTap: () => Get.to(() => const AddEventPage()),
+            child: Container(
+              width: 32.w,
+              height: 32.w,
+              decoration: BoxDecoration(
+                color: const Color(0xFF4C080C),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 20.sp,
+              ),
             ),
           ),
         ),

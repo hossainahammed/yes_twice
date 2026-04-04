@@ -71,6 +71,9 @@ class ImagePath {
   static const String popularDishes2 = "assets/images/popularDishes2.png";
   static const String popularDishes3 = "assets/images/popularDishes3.png";
 
-  static const String addEvent = "assets/images/addEvent.png";
-  static const String uploadGallery = "assets/images/uploadGallery.png";
+  static const String addEvent = "assets/icons/addEvent.png";
+  static const String uploadGallery = "assets/icons/uploadGallery.png";
+
+  static const String reviewAvatar = "assets/icons/reviewAvater.png";
+  static const String map = "assets/images/map.png";
 }

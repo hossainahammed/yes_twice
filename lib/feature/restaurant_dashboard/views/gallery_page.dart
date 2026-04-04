@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
-import 'add_dish_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 
-class AllPopularDishesPage extends StatelessWidget {
-  AllPopularDishesPage({super.key});
+class GalleryPage extends StatelessWidget {
+  GalleryPage({super.key});
 
   final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
 
@@ -17,24 +16,18 @@ class AllPopularDishesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backGroundColor,
       appBar: _buildAppBar(context),
-      body: ListView.separated(
+      body: GridView.builder(
         padding: EdgeInsets.all(20.w),
-        itemCount: 8,
-        separatorBuilder: (context, index) => SizedBox(height: 16.h),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.w,
+          mainAxisSpacing: 12.h,
+          childAspectRatio: 1,
+        ),
+        itemCount: 10,
         itemBuilder: (context, index) {
-          String image;
-          String name;
-          if (index % 3 == 0) {
-            image = ImagePath.popularDishes1;
-            name = "Truffle Tagliatelle";
-          } else if (index % 3 == 1) {
-            image = ImagePath.popularDishes2;
-            name = "Chinese Special";
-          } else {
-            image = ImagePath.popularDishes3;
-            name = "Classic Burger";
-          }
-          return _buildDishCard(context, name, "4.8", "(1220)", image);
+          String image = index % 2 == 0 ? ImagePath.gallery1 : ImagePath.gallery2;
+          return _buildGalleryItem(context, image);
         },
       ),
     );
@@ -49,7 +42,7 @@ class AllPopularDishesPage extends StatelessWidget {
         onPressed: () => Get.back(),
       ),
       title: Text(
-        "All Popular Dishes",
+        "Gallery",
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
@@ -59,20 +52,17 @@ class AllPopularDishesPage extends StatelessWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 20.w),
-          child: GestureDetector(
-            onTap: () => Get.to(() => const AddDishPage()),
-            child: Container(
-              width: 32.w,
-              height: 32.w,
-              decoration: BoxDecoration(
-                color: const Color(0xFF4C080C),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 20.sp,
-              ),
+          child: Container(
+            width: 32.w,
+            height: 32.w,
+            decoration: BoxDecoration(
+              color: const Color(0xFF4C080C),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20.sp,
             ),
           ),
         ),
@@ -80,81 +70,38 @@ class AllPopularDishesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDishCard(
-    BuildContext context,
-    String name,
-    String rating,
-    String totalReviews,
-    String imagePath,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade100),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: Image.asset(
-              imagePath,
-              width: 60.w,
-              height: 60.w,
-              fit: BoxFit.cover,
+  Widget _buildGalleryItem(BuildContext context, String imagePath) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15.r),
+          child: Image.asset(
+            imagePath,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned(
+          top: 10.w,
+          right: 10.w,
+          child: GestureDetector(
+            onTap: () => _showActionMenu(context),
+            child: Container(
+              padding: EdgeInsets.all(4.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.more_vert,
+                color: Colors.black87,
+                size: 16.sp,
+              ),
             ),
           ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                Row(
-                  children: [
-                    Image.asset(ImagePath.rating, width: 12.w, height: 12.w),
-                    SizedBox(width: 4.w),
-                    Text(
-                      rating,
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      totalReviews,
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () => _showActionMenu(context),
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.grey.shade400,
-              size: 20.sp,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

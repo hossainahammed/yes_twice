@@ -9,6 +9,11 @@ import '../controllers/restaurant_dashboard_controller.dart';
 import 'notification_page.dart';
 import 'all_popular_dishes_page.dart';
 import 'all_event_page.dart';
+import 'gallery_page.dart';
+import 'upload_gallery_page.dart';
+import 'review_page.dart';
+import 'restaurant_profile_page.dart';
+import 'settings_page.dart';
 
 class RestaurantDashboardPage extends StatelessWidget {
   RestaurantDashboardPage({super.key});
@@ -25,53 +30,55 @@ class RestaurantDashboardPage extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppColors.backGroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(context),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20.h),
-                    _buildStatsGrid(),
-                    SizedBox(height: 20.h),
-                    _buildTotalViewsCard(),
-                    SizedBox(height: 24.h),
-                    _buildSectionTitle("Quick Actions"),
-                    SizedBox(height: 16.h),
-                    _buildQuickActions(),
-                    SizedBox(height: 24.h),
-                    _buildTabs(),
-                    SizedBox(height: 20.h),
-                    Obx(() {
-                      bool showDishes = controller.selectedTab.value == 0;
-                      bool showEvents = controller.selectedTab.value <= 1;
+      body: Obx(() => controller.currentNavIndex.value == 4
+          ? const SettingsPage()
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(context),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20.h),
+                        _buildStatsGrid(),
+                        SizedBox(height: 20.h),
+                        _buildTotalViewsCard(),
+                        SizedBox(height: 24.h),
+                        _buildSectionTitle("Quick Actions"),
+                        SizedBox(height: 16.h),
+                        _buildQuickActions(),
+                        SizedBox(height: 24.h),
+                        _buildTabs(),
+                        SizedBox(height: 20.h),
+                        Obx(() {
+                          bool showDishes = controller.selectedTab.value == 0;
+                          bool showEvents = controller.selectedTab.value <= 1;
 
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (showDishes) ...[
-                            _buildDishesContent(context),
-                            SizedBox(height: 24.h),
-                          ],
-                          if (showEvents) ...[
-                            _buildEventContent(context),
-                            SizedBox(height: 24.h),
-                          ],
-                          _buildGalleryContent(),
-                        ],
-                      );
-                    }),
-                    SizedBox(height: 20.h),
-                  ],
-                ),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (showDishes) ...[
+                                _buildDishesContent(context),
+                                SizedBox(height: 24.h),
+                              ],
+                              if (showEvents) ...[
+                                _buildEventContent(context),
+                                SizedBox(height: 24.h),
+                              ],
+                              _buildGalleryContent(),
+                            ],
+                          );
+                        }),
+                        SizedBox(height: 20.h),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            )),
         bottomNavigationBar: _buildBottomNav(),
       ),
     );
@@ -90,18 +97,21 @@ class RestaurantDashboardPage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: EdgeInsets.all(2.w),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white.withOpacity(0.2),
-                width: 1,
+          GestureDetector(
+            onTap: () => Get.to(() => const RestaurantProfilePage()),
+            child: Container(
+              padding: EdgeInsets.all(2.w),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1,
+                ),
               ),
-            ),
-            child: CircleAvatar(
-              radius: 24.r,
-              backgroundImage: AssetImage(ImagePath.dashboardProfile),
+              child: CircleAvatar(
+                radius: 24.r,
+                backgroundImage: AssetImage(ImagePath.dashboardProfile),
+              ),
             ),
           ),
           SizedBox(width: 16.w),
@@ -352,6 +362,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           ImagePath.uploadGallery,
           Colors.blue.shade50,
           Colors.blue,
+          () => Get.to(() => UploadGalleryPage()),
         ),
       ],
     );
@@ -361,13 +372,16 @@ class RestaurantDashboardPage extends StatelessWidget {
     String title,
     dynamic iconOrImage,
     Color bgColor,
-    Color iconColor,
-  ) {
-    return Column(
-      children: [
-        Container(
-          width: 90.w,
-          height: 90.w,
+    Color iconColor, [
+    VoidCallback? onTap,
+  ]) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 90.w,
+            height: 90.w,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15.r),
@@ -384,9 +398,9 @@ class RestaurantDashboardPage extends StatelessWidget {
                   ? Icon(iconOrImage, color: iconColor, size: 24.sp)
                   : Image.asset(
                       iconOrImage,
-                      color: iconColor,
-                      width: 24.w,
-                      height: 24.w,
+                      width: 90.w,
+                      height: 90.w,
+                      fit: BoxFit.contain,
                     ),
             ),
           ),
@@ -401,7 +415,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ),);
   }
 
   Widget _buildTabs() {
@@ -695,7 +709,9 @@ class RestaurantDashboardPage extends StatelessWidget {
   Widget _buildGalleryContent() {
     return Column(
       children: [
-        _buildSectionHeader("Gallery", () {}),
+        _buildSectionHeader("Gallery", () {
+          Get.to(() => GalleryPage());
+        }),
         // SizedBox(height: 16.h),
         GridView.builder(
           shrinkWrap: true,
@@ -744,7 +760,9 @@ class RestaurantDashboardPage extends StatelessWidget {
           },
         ),
         SizedBox(height: 24.h),
-        _buildSectionHeader("Recent Reviews", () {}),
+        _buildSectionHeader("Recent Reviews", () {
+          Get.to(() => const ReviewPage());
+        }),
         SizedBox(height: 16.h),
         _buildReviewItem(),
         _buildReviewItem(),
