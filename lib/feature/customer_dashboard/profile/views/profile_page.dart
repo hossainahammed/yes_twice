@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/constant/image_path.dart';
 import 'package:bolaji277/feature/auth/login/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -219,7 +220,7 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.logout, color: Colors.red, size: 40.sp),
+            Image.asset(ImagePath.logoutIcon, height: 70.h, fit: BoxFit.cover),
             SizedBox(height: 16.h),
             Text(
               'LOGOUT',

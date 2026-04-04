@@ -31,61 +31,74 @@ class RestaurantDashboardPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.backGroundColor,
       body: Obx(() {
-        if (controller.currentNavIndex.value == 4) {
-          return const SettingsPage();
-        } else if (controller.currentNavIndex.value == 5) {
-          return const RestaurantProfilePage();
-        } else {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(context),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20.h),
-                      _buildStatsGrid(),
-                      SizedBox(height: 20.h),
-                      _buildTotalViewsCard(),
-                      SizedBox(height: 24.h),
-                      _buildSectionTitle("Quick Actions"),
-                      SizedBox(height: 16.h),
-                      _buildQuickActions(),
-                      SizedBox(height: 24.h),
-                      _buildTabs(),
-                      SizedBox(height: 20.h),
-                      Obx(() {
-                        bool showDishes = controller.selectedTab.value == 0;
-                        bool showEvents = controller.selectedTab.value <= 1;
-
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (showDishes) ...[
-                              _buildDishesContent(context),
-                              SizedBox(height: 24.h),
-                            ],
-                            if (showEvents) ...[
-                              _buildEventContent(context),
-                              SizedBox(height: 24.h),
-                            ],
-                            _buildGalleryContent(),
-                          ],
-                        );
-                      }),
-                      SizedBox(height: 20.h),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
+        switch (controller.currentNavIndex.value) {
+          case 0:
+            return _buildDashboardBody(context);
+          case 1:
+            return AllPopularDishesPage();
+          case 2:
+            return AllEventPage();
+          case 3:
+            return GalleryPage();
+          case 4:
+            return const SettingsPage();
+          case 5:
+            return const RestaurantProfilePage();
+          default:
+            return _buildDashboardBody(context);
         }
       }),
         bottomNavigationBar: _buildBottomNav(),
+      ),
+    );
+  }
+
+  Widget _buildDashboardBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(context),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20.h),
+                _buildStatsGrid(),
+                SizedBox(height: 20.h),
+                _buildTotalViewsCard(),
+                SizedBox(height: 24.h),
+                _buildSectionTitle("Quick Actions"),
+                SizedBox(height: 16.h),
+                _buildQuickActions(),
+                SizedBox(height: 24.h),
+                _buildTabs(),
+                SizedBox(height: 20.h),
+                Obx(() {
+                  bool showDishes = controller.selectedTab.value == 0;
+                  bool showEvents = controller.selectedTab.value <= 1;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (showDishes) ...[
+                        _buildDishesContent(context),
+                        SizedBox(height: 24.h),
+                      ],
+                      if (showEvents) ...[
+                        _buildEventContent(context),
+                        SizedBox(height: 24.h),
+                      ],
+                      _buildGalleryContent(),
+                    ],
+                  );
+                }),
+                SizedBox(height: 20.h),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

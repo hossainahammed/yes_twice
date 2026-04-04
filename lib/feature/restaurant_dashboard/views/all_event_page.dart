@@ -32,10 +32,13 @@ class AllEventPage extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
-        onPressed: () => Get.back(),
-      ),
+      automaticallyImplyLeading: false,
+      leading: controller.currentNavIndex.value == 2 
+          ? null 
+          : IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
+              onPressed: () => Get.back(),
+            ),
       title: Text(
         "All Event",
         style: GoogleFonts.manrope(
