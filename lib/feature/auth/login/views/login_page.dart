@@ -99,6 +99,28 @@ class LoginPage extends StatelessWidget {
 
               /// Login Button
               ElevatedButton(
+                onPressed: () => Get.to(() => CustomerDashboard()),
+                //onPressed: () => Get.to(() => RestaurantDashboardPage()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                ),
+                child: Text(
+                  'LOGIN',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              ElevatedButton(
                 // onPressed: () => Get.to(() => CustomerDashboard()),
                 onPressed: () => Get.to(() => RestaurantDashboardPage()),
                 style: ElevatedButton.styleFrom(
@@ -110,7 +132,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'LOGIN',
+                  'LOGIN AS RESTAURANT OWNER',
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,

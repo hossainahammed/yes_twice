@@ -10,7 +10,7 @@ class ImagePath {
 
   ///=================Onboarding Images======================
   static const String onboardingImg01 = "assets/images/onboarding01.png";
-  static const String onboardingImg02= "assets/images/onboarding02.png";
+  static const String onboardingImg02 = "assets/images/onboarding02.png";
   static const String successLogo = "assets/icons/success_logo.png";
 
   // static const String user = "assets/images/user.png";
@@ -61,4 +61,16 @@ class ImagePath {
   // static const String homeImg03 = "assets/images/home_img03.png";
   // static const String homeImg04 = "assets/images/home_img04.png";
 
+  //Dashboard
+  static const String dashboardProfile = "assets/images/dashboardProfile.png";
+  static const String event = "assets/images/Event.png";
+  static const String gallery1 = "assets/images/Gallery1.png";
+  static const String gallery2 = "assets/images/Gallery2.png";
+
+  static const String popularDishes1 = "assets/images/popularDishes1.png";
+  static const String popularDishes2 = "assets/images/popularDishes2.png";
+  static const String popularDishes3 = "assets/images/popularDishes3.png";
+
+  static const String addEvent = "assets/images/addEvent.png";
+  static const String uploadGallery = "assets/images/uploadGallery.png";
 }
