@@ -30,55 +30,61 @@ class RestaurantDashboardPage extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppColors.backGroundColor,
-      body: Obx(() => controller.currentNavIndex.value == 4
-          ? const SettingsPage()
-          : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(context),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20.h),
-                        _buildStatsGrid(),
-                        SizedBox(height: 20.h),
-                        _buildTotalViewsCard(),
-                        SizedBox(height: 24.h),
-                        _buildSectionTitle("Quick Actions"),
-                        SizedBox(height: 16.h),
-                        _buildQuickActions(),
-                        SizedBox(height: 24.h),
-                        _buildTabs(),
-                        SizedBox(height: 20.h),
-                        Obx(() {
-                          bool showDishes = controller.selectedTab.value == 0;
-                          bool showEvents = controller.selectedTab.value <= 1;
+      body: Obx(() {
+        if (controller.currentNavIndex.value == 4) {
+          return const SettingsPage();
+        } else if (controller.currentNavIndex.value == 5) {
+          return const RestaurantProfilePage();
+        } else {
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(context),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20.h),
+                      _buildStatsGrid(),
+                      SizedBox(height: 20.h),
+                      _buildTotalViewsCard(),
+                      SizedBox(height: 24.h),
+                      _buildSectionTitle("Quick Actions"),
+                      SizedBox(height: 16.h),
+                      _buildQuickActions(),
+                      SizedBox(height: 24.h),
+                      _buildTabs(),
+                      SizedBox(height: 20.h),
+                      Obx(() {
+                        bool showDishes = controller.selectedTab.value == 0;
+                        bool showEvents = controller.selectedTab.value <= 1;
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (showDishes) ...[
-                                _buildDishesContent(context),
-                                SizedBox(height: 24.h),
-                              ],
-                              if (showEvents) ...[
-                                _buildEventContent(context),
-                                SizedBox(height: 24.h),
-                              ],
-                              _buildGalleryContent(),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (showDishes) ...[
+                              _buildDishesContent(context),
+                              SizedBox(height: 24.h),
                             ],
-                          );
-                        }),
-                        SizedBox(height: 20.h),
-                      ],
-                    ),
+                            if (showEvents) ...[
+                              _buildEventContent(context),
+                              SizedBox(height: 24.h),
+                            ],
+                            _buildGalleryContent(),
+                          ],
+                        );
+                      }),
+                      SizedBox(height: 20.h),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                ),
+              ],
+            ),
+          );
+        }
+      }),
         bottomNavigationBar: _buildBottomNav(),
       ),
     );
@@ -98,7 +104,7 @@ class RestaurantDashboardPage extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Get.to(() => const RestaurantProfilePage()),
+            onTap: () => controller.changeNavIndex(5),
             child: Container(
               padding: EdgeInsets.all(2.w),
               decoration: BoxDecoration(
@@ -949,7 +955,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           ],
         ),
         child: BottomNavigationBar(
-          currentIndex: controller.currentNavIndex.value,
+          currentIndex: controller.currentNavIndex.value > 4 ? 0 : controller.currentNavIndex.value,
           onTap: controller.changeNavIndex,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,

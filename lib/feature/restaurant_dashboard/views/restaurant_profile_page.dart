@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'add_account_page.dart';
+import 'restaurant_list_page.dart';
 import '../../../../core/constant/image_path.dart';
 
 class RestaurantProfilePage extends StatelessWidget {
@@ -10,32 +11,29 @@ class RestaurantProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(context),
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildProfileSection(),
-                  SizedBox(height: 24.h),
-                  _buildGeneralInfoSection(),
-                  SizedBox(height: 24.h),
-                  _buildDetailsSection(),
-                  SizedBox(height: 24.h),
-                  _buildLocationContactSection(),
-                  SizedBox(height: 40.h),
-                  _buildSaveButton(),
-                  SizedBox(height: 20.h),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildHeader(context),
+          Padding(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildProfileSection(),
+                SizedBox(height: 24.h),
+                _buildGeneralInfoSection(),
+                SizedBox(height: 24.h),
+                _buildDetailsSection(),
+                SizedBox(height: 24.h),
+                _buildLocationContactSection(),
+                SizedBox(height: 40.h),
+                _buildSaveButton(),
+                SizedBox(height: 20.h),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -521,7 +519,7 @@ class RestaurantProfilePage extends StatelessWidget {
               ImagePath.popularDishes1,
               "The Rustic Bistro",
               false,
-              () {},
+              () => Get.to(() => const RestaurantListPage()),
             ),
             SizedBox(height: 20.h),
           ],
