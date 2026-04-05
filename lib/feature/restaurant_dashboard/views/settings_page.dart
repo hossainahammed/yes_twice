@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/constant/app_colors.dart';
 import 'package:bolaji277/feature/auth/login/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'security_page.dart';
 import 'contact_us_page.dart';
 import 'support_center_page.dart';
 import 'privacy_policy_page.dart';
+import 'change_email_page.dart';
 import '../../../../core/constant/image_path.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -38,24 +40,17 @@ class SettingsPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.02),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
                     ),
                     child: Column(
                       children: [
                         _buildSettingsItem(
-                          Icons.security_outlined,
+                          Icons.shield_outlined,
                           "Security",
                           onTap: () => Get.to(() => const SecurityPage()),
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
-                          Icons.email_outlined,
+                          Icons.contact_phone_outlined,
                           "Contact Us",
                           onTap: () => Get.to(() => const ContactUsPage()),
                         ),
@@ -66,23 +61,85 @@ class SettingsPage extends StatelessWidget {
                           onTap: () => Get.to(() => const SupportCenterPage()),
                         ),
                         _buildDivider(),
-                        _buildSettingsItem(Icons.chat_bubble_outline, "FAQs"),
-                        _buildDivider(),
                         _buildSettingsItem(
                           Icons.lock_outline,
                           "Privacy & Policy",
                           onTap: () => Get.to(() => const PrivacyPolicyPage()),
                         ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+                  Text(
+                    "Settings & Options",
+                    style: GoogleFonts.manrope(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildSettingsItem(
+                          Icons.person_outline,
+                          "Update Personal Information",
+                          subtitle: "Manage your profile details",
+                        ),
                         _buildDivider(),
                         _buildSettingsItem(
-                          Icons.logout_rounded,
-                          "Logout",
-                          isLogout: true,
-                          onTap: () => _showLogoutDialog(context),
+                          Icons.favorite_border,
+                          "Saved",
+                          subtitle: "Access your saved collections",
+                        ),
+                        _buildDivider(),
+                        _buildSettingsItem(
+                          Icons.email_outlined,
+                          "Update Email",
+                          subtitle:
+                              "Change the email associated with your account",
+                          onTap: () => Get.to(() => const ChangeEmailPage()),
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 32.h),
+                  GestureDetector(
+                    onTap: () => _showLogoutDialog(context),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF2EF),
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: const Color(0xFFFF5252),
+                            size: 20.sp,
+                          ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "Logout",
+                            style: GoogleFonts.manrope(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFFFF5252),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),
@@ -144,42 +201,42 @@ class SettingsPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => Get.offAll(() => const LoginPage()),
+                    onPressed: () => Get.back(),
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 14.h),
-                      side: const BorderSide(color: Colors.red),
+                      side: BorderSide(color: AppColors.primaryColor),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.r),
+                        borderRadius: BorderRadius.circular(15.r),
                       ),
+                      minimumSize: Size(0, 50.h),
                     ),
                     child: Text(
-                      "Logout",
+                      'Cancel',
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Get.back(),
+                    onPressed: () =>
+                        Get.offAll(() => const LoginPage()), // Do logout
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 14.h),
-                      backgroundColor: const Color(0xFFFDE8E4),
-                      elevation: 0,
+                      backgroundColor: AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.r),
+                        borderRadius: BorderRadius.circular(15.r),
                       ),
+                      minimumSize: Size(0, 50.h),
                     ),
                     child: Text(
-                      "Cancel",
+                      'Logout',
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF4C080C),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -252,33 +309,34 @@ class SettingsPage extends StatelessWidget {
   Widget _buildSettingsItem(
     IconData icon,
     String title, {
-    bool isLogout = false,
+    String? subtitle,
     VoidCallback? onTap,
   }) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color: isLogout ? Colors.red : Colors.black87,
-        size: 22.sp,
-      ),
+      leading: Icon(icon, color: Colors.black87, size: 22.sp),
       title: Text(
         title,
         style: GoogleFonts.manrope(
           fontSize: 14.sp,
           fontWeight: FontWeight.w600,
-          color: isLogout ? Colors.red : Colors.black87,
+          color: Colors.black87,
         ),
       ),
-      trailing: isLogout
-          ? null
-          : Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 20.sp),
-      onTap:
-          onTap ??
-          () {
-            if (isLogout) {
-              // Add logout logic
-            }
-          },
+      subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: GoogleFonts.manrope(
+                fontSize: 10.sp,
+                color: Colors.grey.shade400,
+              ),
+            )
+          : null,
+      trailing: Icon(
+        Icons.chevron_right,
+        color: Colors.grey.shade400,
+        size: 20.sp,
+      ),
+      onTap: onTap,
     );
   }
 

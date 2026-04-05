@@ -132,12 +132,12 @@ class ProfilePage extends StatelessWidget {
               Text('General', style: _sectionHeadingStyle()),
               SizedBox(height: 12.h),
               _buildMenuItem(
-                Icons.security_outlined,
+                Icons.shield_outlined,
                 'Security',
                 () => Get.to(() => const SecurityPage()),
               ),
               _buildMenuItem(
-                Icons.call_outlined,
+                Icons.email_outlined,
                 'Contact Us',
                 () => Get.to(() => const ContactUsPage()),
               ),

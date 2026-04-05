@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
+import '../../../restaurant_dashboard/views/change_email_page.dart';
 import 'change_password_page.dart';
 import 'delete_account_page.dart';
 
@@ -37,7 +38,7 @@ class SecurityPage extends StatelessWidget {
             _buildSecurityItem(
               Icons.email_outlined,
               'Change Email',
-              () => Get.to(() {}),
+              () => Get.to(() => const ChangeEmailPage()),
             ),
 
             _buildSecurityItem(

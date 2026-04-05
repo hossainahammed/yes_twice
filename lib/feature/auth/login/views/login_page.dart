@@ -98,8 +98,7 @@ class LoginPage extends StatelessWidget {
 
               /// Login Button
               ElevatedButton(
-                onPressed: () => Get.to(() => CustomerDashboard()),
-                //onPressed: () => Get.to(() => RestaurantDashboardPage()),
+                onPressed: () => Get.offAll(() => const CustomerDashboard()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
                   minimumSize: Size(double.infinity, 56.h),
@@ -120,8 +119,7 @@ class LoginPage extends StatelessWidget {
               ),
               SizedBox(height: 10.h),
               ElevatedButton(
-                // onPressed: () => Get.to(() => CustomerDashboard()),
-                onPressed: () => Get.to(() => RestaurantDashboardPage()),
+                onPressed: () => Get.offAll(() => RestaurantDashboardPage()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
                   minimumSize: Size(double.infinity, 56.h),
