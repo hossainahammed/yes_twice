@@ -27,7 +27,11 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              const CustomBackButton(),
+              // Only show back button if there is a route to pop back to.
+              // When navigating from Onboarding via Get.offAll(), the stack
+              // is empty and popping would crash.
+              if (Navigator.of(context).canPop())
+                const CustomBackButton(),
               SizedBox(height: 30.h),
 
               /// Header Title
