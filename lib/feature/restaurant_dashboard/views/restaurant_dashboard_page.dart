@@ -29,7 +29,7 @@ class RestaurantDashboardPage extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.backGroundColor,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
       body: Obx(() {
         switch (controller.currentNavIndex.value) {
           case 0:
@@ -48,7 +48,7 @@ class RestaurantDashboardPage extends StatelessWidget {
             return _buildDashboardBody(context);
         }
       }),
-        bottomNavigationBar: _buildBottomNav(),
+        bottomNavigationBar: _buildBottomNav(context),
       ),
     );
   }
@@ -950,11 +950,11 @@ class RestaurantDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNav() {
+  Widget _buildBottomNav(BuildContext context) {
     return Obx(
       () => Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.theme.cardColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.r),
             topRight: Radius.circular(30.r),
@@ -973,7 +973,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: AppColors.primaryColor,
+          selectedItemColor: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : AppColors.primaryColor,
           unselectedItemColor: Colors.grey.shade400,
           selectedLabelStyle: GoogleFonts.manrope(
             fontSize: 10.sp,

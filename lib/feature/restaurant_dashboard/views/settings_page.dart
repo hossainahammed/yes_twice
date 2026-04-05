@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
                       children: [
                         Obx(() => SwitchListTile(
                               title: Text(
-                                "Dark Mode",
+                                themeController.isDarkMode.value ? "Dark Mode" : "Light Mode",
                                 style: GoogleFonts.manrope(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600,
@@ -64,7 +64,7 @@ class SettingsPage extends StatelessWidget {
                               ),
                               value: themeController.isDarkMode.value,
                               onChanged: (value) => themeController.toggleTheme(),
-                              activeColor: AppColors.primaryColor,
+                              activeColor: themeController.isDarkMode.value ? Colors.white : AppColors.primaryColor,
                             )),
                         _buildDivider(),
                         _buildSettingsItem(
@@ -146,7 +146,7 @@ class SettingsPage extends StatelessWidget {
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 16.h),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF2EF),
+                        color: isDark ? const Color(0xFF381B1B) : const Color(0xFFFFF2EF),
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: Row(
