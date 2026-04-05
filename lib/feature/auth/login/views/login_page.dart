@@ -13,12 +13,11 @@ import '../controllers/login_page_controller.dart';
 import '../../claim/views/claim_page.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final LoginPageController controller = Get.put(LoginPageController());
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LoginPageController controller = Get.put(LoginPageController());
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -99,8 +98,7 @@ class LoginPage extends StatelessWidget {
 
               /// Login Button
               ElevatedButton(
-                // onPressed: () => Get.to(() => CustomerDashboard()),
-                onPressed: () => Get.to(() => RestaurantDashboardPage()),
+                onPressed: () => Get.offAll(() => const CustomerDashboard()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
                   minimumSize: Size(double.infinity, 56.h),
@@ -111,6 +109,27 @@ class LoginPage extends StatelessWidget {
                 ),
                 child: Text(
                   'LOGIN',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              ElevatedButton(
+                onPressed: () => Get.offAll(() => RestaurantDashboardPage()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                ),
+                child: Text(
+                  'LOGIN AS RESTAURANT OWNER',
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,

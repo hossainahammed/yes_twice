@@ -1,3 +1,5 @@
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_dish_page.dart';
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_event_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,11 +8,21 @@ import 'package:flutter/services.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
+import 'notification_page.dart';
+import 'all_popular_dishes_page.dart';
+import 'all_event_page.dart';
+import 'gallery_page.dart';
+import 'upload_gallery_page.dart';
+import 'review_page.dart';
+import 'restaurant_profile_page.dart';
+import 'settings_page.dart';
 
 class RestaurantDashboardPage extends StatelessWidget {
   RestaurantDashboardPage({super.key});
 
-  final RestaurantDashboardController controller = Get.put(RestaurantDashboardController());
+  final RestaurantDashboardController controller = Get.put(
+    RestaurantDashboardController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -19,55 +31,76 @@ class RestaurantDashboardPage extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.backGroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(context),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20.h),
-                    _buildStatsGrid(),
-                    SizedBox(height: 20.h),
-                    _buildTotalViewsCard(),
-                    SizedBox(height: 24.h),
-                    _buildSectionTitle("Quick Actions"),
-                    SizedBox(height: 16.h),
-                    _buildQuickActions(),
-                    SizedBox(height: 24.h),
-                    _buildTabs(),
-                    SizedBox(height: 20.h),
-                    Obx(() {
-                      bool showDishes = controller.selectedTab.value == 0;
-                      bool showEvents = controller.selectedTab.value <= 1;
-                      
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (showDishes) ...[
-                            _buildDishesContent(context),
-                            SizedBox(height: 24.h),
-                          ],
-                          if (showEvents) ...[
-                            _buildEventContent(context),
-                            SizedBox(height: 24.h),
-                          ],
-                          _buildGalleryContent(),
-                        ],
-                      );
-                    }),
-                    SizedBox(height: 20.h),
-                  ],
-                ),
-              ),
-            ],
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        body: Obx(() {
+          switch (controller.currentNavIndex.value) {
+            case 0:
+              return _buildDashboardBody(context);
+            case 1:
+              return AllPopularDishesPage();
+            case 2:
+              return AllEventPage();
+            case 3:
+              return GalleryPage();
+            case 4:
+              return const SettingsPage();
+            case 5:
+              return const RestaurantProfilePage();
+            default:
+              return _buildDashboardBody(context);
+          }
+        }),
+        bottomNavigationBar: _buildBottomNav(context),
+      ),
+    );
+  }
+
+  Widget _buildDashboardBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(context),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20.h),
+                _buildStatsGrid(),
+                SizedBox(height: 20.h),
+                _buildTotalViewsCard(),
+                SizedBox(height: 24.h),
+                _buildSectionTitle("Quick Actions"),
+                SizedBox(height: 16.h),
+                _buildQuickActions(),
+                SizedBox(height: 24.h),
+                _buildTabs(),
+                SizedBox(height: 20.h),
+                Obx(() {
+                  bool showDishes = controller.selectedTab.value == 0;
+                  bool showEvents = controller.selectedTab.value <= 1;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (showDishes) ...[
+                        _buildDishesContent(context),
+                        SizedBox(height: 24.h),
+                      ],
+                      if (showEvents) ...[
+                        _buildEventContent(context),
+                        SizedBox(height: 24.h),
+                      ],
+                      _buildGalleryContent(),
+                    ],
+                  );
+                }),
+                SizedBox(height: 20.h),
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: _buildBottomNav(),
+        ],
       ),
     );
   }
@@ -77,7 +110,9 @@ class RestaurantDashboardPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(24.w, 40.h, 24.w, 35.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: context.theme.brightness == Brightness.dark
+            ? const Color(0xFFCA7373)
+            : AppColors.primaryColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40.r),
           bottomRight: Radius.circular(40.r),
@@ -85,15 +120,21 @@ class RestaurantDashboardPage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: EdgeInsets.all(2.w),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
-            ),
-            child: CircleAvatar(
-              radius: 24.r,
-              backgroundImage: const NetworkImage("https://media.istockphoto.com/id/1300845620/photo/food-delicious-and-tasty-looking-dish.jpg?s=612x612&w=0&k=20&c=i-v6S7O1-0V0S6Q9D-0V0S6Q9D-0V0S6Q9D-0V0S6Q9="), // Using a food related image as per screenshot
+          GestureDetector(
+            onTap: () => controller.changeNavIndex(5),
+            child: Container(
+              padding: EdgeInsets.all(2.w),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1,
+                ),
+              ),
+              child: CircleAvatar(
+                radius: 24.r,
+                backgroundImage: AssetImage(ImagePath.dashboardProfile),
+              ),
             ),
           ),
           SizedBox(width: 16.w),
@@ -120,13 +161,20 @@ class RestaurantDashboardPage extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(15.r),
+          GestureDetector(
+            onTap: () => Get.to(() => const NotificationPage()),
+            child: Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              child: Icon(
+                Icons.notifications_none_rounded,
+                color: Colors.white,
+                size: 24.sp,
+              ),
             ),
-            child: Icon(Icons.notifications_none_rounded, color: Colors.white, size: 24.sp),
           ),
         ],
       ),
@@ -138,41 +186,61 @@ class RestaurantDashboardPage extends StatelessWidget {
       children: [
         Expanded(
           child: _buildStatCard(
-            "Reviews", 
-            "152", 
+            "Reviews",
+            "152",
             null,
             Row(
-              children: List.generate(5, (index) => Image.asset(ImagePath.rating, width: 10.w, height: 10.w)),
-            )
+              children: List.generate(
+                5,
+                (index) =>
+                    Image.asset(ImagePath.rating, width: 10.w, height: 10.w),
+              ),
+            ),
           ),
         ),
         SizedBox(width: 16.w),
         Expanded(
           child: _buildStatCard(
-            "Avg Rating", 
-            "4.8", 
+            "Avg Rating",
+            "4.8",
             null,
-            Text(
-              "Ⓒ Top 5% in city",
-              style: GoogleFonts.manrope(
-                fontSize: 11.sp,
-                color: const Color(0xFF8A5A42), // Matches image better
-                fontWeight: FontWeight.w500,
-              ),
-            )
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.check_circle, // Success sign
+                  color: AppColors.secondaryColor,
+                  size: 14.sp,
+                ),
+                SizedBox(width: 4.w), // Space between icon and text
+                Text(
+                  "Top 5% in city",
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.sp,
+                    color: AppColors.secondaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStatCard(String title, String mainValue, Widget? icon, Widget extra) {
+  Widget _buildStatCard(
+    String title,
+    String mainValue,
+    Widget? icon,
+    Widget extra,
+  ) {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +249,7 @@ class RestaurantDashboardPage extends StatelessWidget {
             title,
             style: GoogleFonts.manrope(
               fontSize: 12.sp,
-              color: Colors.grey.shade500,
+              color: AppColors.secondaryColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -190,7 +258,7 @@ class RestaurantDashboardPage extends StatelessWidget {
             mainValue,
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyMedium?.color,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -204,19 +272,26 @@ class RestaurantDashboardPage extends StatelessWidget {
   Widget _buildTotalViewsCard() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(24.w),
+      //height: 120.h,
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFFCA7373)
+            : AppColors.primaryColor,
         borderRadius: BorderRadius.circular(25.r),
       ),
       child: Stack(
         children: [
           Positioned(
-            right: -10.w,
-            bottom: -10.h,
+            right: -12.w,
+            bottom: -32.h,
             child: Opacity(
               opacity: 0.1,
-              child: Icon(Icons.visibility_outlined, size: 100.sp, color: Colors.white),
+              child: Icon(
+                Icons.visibility_outlined,
+                size: 130.sp,
+                color: Colors.white,
+              ),
             ),
           ),
           Column(
@@ -243,7 +318,10 @@ class RestaurantDashboardPage extends StatelessWidget {
                   ),
                   SizedBox(width: 16.w),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20.r),
@@ -251,7 +329,11 @@ class RestaurantDashboardPage extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.trending_up, color: Colors.white, size: 14.sp),
+                        Icon(
+                          Icons.trending_up,
+                          color: Colors.white,
+                          size: 14.sp,
+                        ),
                         SizedBox(width: 4.w),
                         Text(
                           "12%",
@@ -279,7 +361,7 @@ class RestaurantDashboardPage extends StatelessWidget {
       style: GoogleFonts.manrope(
         fontSize: 15.sp,
         fontWeight: FontWeight.w700,
-        color: Colors.black,
+        color: Get.theme.textTheme.bodyMedium?.color,
       ),
     );
   }
@@ -288,58 +370,96 @@ class RestaurantDashboardPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildActionItem("Add Food", Icons.add_box_outlined, Colors.orange.shade50, Colors.orange),
-        _buildActionItem("Add Event", Icons.event_note_outlined, Colors.purple.shade50, Colors.purple),
-        _buildActionItem("Upload Gallery", Icons.camera_alt_outlined, Colors.blue.shade50, Colors.blue),
+        _buildActionItem(
+          "Add Food",
+          Icons.add_box_outlined,
+          Colors.orange.shade50,
+          Colors.orange,
+          () => Get.to(() => AddDishPage()),
+        ),
+        _buildActionItem(
+          "Add Event",
+          Icons.event_outlined,
+          //ImagePath.addEvent,
+          Colors.purple.shade50,
+          Colors.purple,
+          () => Get.to(() => AddEventPage()),
+        ),
+        _buildActionItem(
+          "Upload Gallery",
+          Icons.add_a_photo_rounded,
+          //ImagePath.uploadGallery,
+          Colors.blue.shade50,
+          Colors.blue,
+          () => Get.to(() => UploadGalleryPage()),
+        ),
       ],
     );
   }
 
-  Widget _buildActionItem(String title, IconData icon, Color bgColor, Color iconColor) {
-    return Column(
-      children: [
-        Container(
-          width: 90.w,
-          height: 90.w,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15.r),
-            border: Border.all(color: Colors.grey.shade100),
-          ),
-          child: Center(
-            child: Container(
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(12.r),
+  Widget _buildActionItem(
+    String title,
+    dynamic iconOrImage,
+    Color bgColor,
+    Color iconColor, [
+    VoidCallback? onTap,
+  ]) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 90.w,
+            height: 90.w,
+            decoration: BoxDecoration(
+              color: Get.theme.cardColor,
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: Get.theme.dividerColor),
+            ),
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.all(12.w),
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: iconOrImage is IconData
+                    ? Icon(iconOrImage, color: iconColor, size: 24.sp)
+                    : Image.asset(
+                        iconOrImage,
+                        width: 90.w,
+                        height: 90.w,
+                        fit: BoxFit.contain,
+                      ),
               ),
-              child: Icon(icon, color: iconColor, size: 24.sp),
             ),
           ),
-        ),
-        SizedBox(height: 10.h),
-        Text(
-          title,
-          style: GoogleFonts.manrope(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
+          SizedBox(height: 10.h),
+          Text(
+            title,
+            style: GoogleFonts.manrope(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: Get.theme.textTheme.bodyMedium?.color,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildTabs() {
-    return Obx(() => Row(
-      children: [
-        _buildTabButton("Dishes", 0),
-        SizedBox(width: 12.w),
-        _buildTabButton("Event", 1),
-        SizedBox(width: 12.w),
-        _buildTabButton("Gallery", 2),
-      ],
-    ));
+    return Obx(
+      () => Row(
+        children: [
+          _buildTabButton("Dishes", 0),
+          SizedBox(width: 12.w),
+          _buildTabButton("Event", 1),
+          SizedBox(width: 12.w),
+          _buildTabButton("Gallery", 2),
+        ],
+      ),
+    );
   }
 
   Widget _buildTabButton(String text, int index) {
@@ -349,15 +469,26 @@ class RestaurantDashboardPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryColor : Colors.grey.shade100,
+          color: isSelected
+              ? (Get.theme.brightness == Brightness.dark
+                    ? const Color(0xFFCA7373)
+                    : AppColors.primaryColor)
+              : Get.theme.cardColor,
           borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : Get.theme.dividerColor,
+          ),
         ),
         child: Text(
           text,
           style: GoogleFonts.manrope(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: isSelected ? Colors.white : Colors.grey.shade500,
+            color: isSelected
+                ? Colors.white
+                : (Get.theme.brightness == Brightness.dark
+                      ? Colors.grey.shade400
+                      : Colors.grey.shade500),
           ),
         ),
       ),
@@ -367,13 +498,34 @@ class RestaurantDashboardPage extends StatelessWidget {
   Widget _buildDishesContent(BuildContext context) {
     return Column(
       children: [
-        _buildSectionHeader("Popular Dishes", () {}),
+        _buildSectionHeader("Popular Dishes", () {
+          Get.to(() => AllPopularDishesPage());
+        }),
         SizedBox(height: 16.h),
-        _buildDishCard(context, "Truffle Tagliatelle", "\$ 4.9", "4.9", "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"),
+        _buildDishCard(
+          context,
+          "Truffle Tagliatelle",
+          //"\$ 4.9",
+          "4.9",
+          " (1220)",
+          ImagePath.popularDishes1,
+        ),
         SizedBox(height: 16.h),
-        _buildDishCard(context, "Chinese", "4.8", " (1220)", "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"),
+        _buildDishCard(
+          context,
+          "Chinese",
+          "4.8",
+          " (1220)",
+          ImagePath.popularDishes2,
+        ),
         SizedBox(height: 16.h),
-        _buildDishCard(context, "Burgers", "4.8", " (1320)", "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"),
+        _buildDishCard(
+          context,
+          "Burgers",
+          "4.8",
+          " (1320)",
+          ImagePath.popularDishes3,
+        ),
       ],
     );
   }
@@ -398,11 +550,15 @@ class RestaurantDashboardPage extends StatelessWidget {
                 "View All",
                 style: GoogleFonts.manrope(
                   fontSize: 12.sp,
-                  color: Colors.grey.shade400,
+                  color: AppColors.secondaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 16.sp),
+              Icon(
+                Icons.chevron_right,
+                color: AppColors.secondaryColor,
+                size: 16.sp,
+              ),
             ],
           ),
         ),
@@ -410,7 +566,13 @@ class RestaurantDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDishCard(BuildContext context, String name, String price, String rating, String imageUrl) {
+  Widget _buildDishCard(
+    BuildContext context,
+    String name,
+    String rating,
+    String price,
+    String imagePath,
+  ) {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
@@ -422,7 +584,12 @@ class RestaurantDashboardPage extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
-            child: Image.network(imageUrl, width: 60.w, height: 60.w, fit: BoxFit.cover),
+            child: Image.asset(
+              imagePath,
+              width: 60.w,
+              height: 60.w,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -440,15 +607,6 @@ class RestaurantDashboardPage extends StatelessWidget {
                 SizedBox(height: 6.h),
                 Row(
                   children: [
-                    Text(
-                      price,
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
                     Image.asset(ImagePath.rating, width: 12.w, height: 12.w),
                     SizedBox(width: 4.w),
                     Text(
@@ -459,6 +617,16 @@ class RestaurantDashboardPage extends StatelessWidget {
                         color: Colors.black87,
                       ),
                     ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      price,
+                      style: GoogleFonts.manrope(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
                   ],
                 ),
               ],
@@ -466,7 +634,11 @@ class RestaurantDashboardPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => _showActionMenu(context),
-            child: Icon(Icons.more_vert, color: Colors.grey.shade400, size: 20.sp),
+            child: Icon(
+              Icons.more_vert,
+              color: Colors.grey.shade400,
+              size: 20.sp,
+            ),
           ),
         ],
       ),
@@ -476,7 +648,9 @@ class RestaurantDashboardPage extends StatelessWidget {
   Widget _buildEventContent(BuildContext context) {
     return Column(
       children: [
-        _buildSectionHeader("Event", () {}),
+        _buildSectionHeader("Event", () {
+          Get.to(() => AllEventPage());
+        }),
         SizedBox(height: 16.h),
         _buildEventCard(context),
         SizedBox(height: 16.h),
@@ -499,7 +673,12 @@ class RestaurantDashboardPage extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
-            child: Image.network("https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60", width: 60.w, height: 60.w, fit: BoxFit.cover),
+            child: Image.asset(
+              ImagePath.event,
+              width: 60.w,
+              height: 60.w,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -517,7 +696,11 @@ class RestaurantDashboardPage extends StatelessWidget {
                 SizedBox(height: 6.h),
                 Row(
                   children: [
-                    Icon(Icons.calendar_today_outlined, color: Colors.grey.shade400, size: 12.sp),
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      color: Colors.grey.shade400,
+                      size: 12.sp,
+                    ),
                     SizedBox(width: 4.w),
                     Text(
                       "21 July, 2025 | 11:30 pm",
@@ -532,7 +715,11 @@ class RestaurantDashboardPage extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Row(
                   children: [
-                    Icon(Icons.location_on_outlined, color: Colors.grey.shade400, size: 12.sp),
+                    Icon(
+                      Icons.location_on_outlined,
+                      color: Colors.grey.shade400,
+                      size: 12.sp,
+                    ),
                     SizedBox(width: 4.w),
                     Text(
                       "123 Foodie Lane, JoPex...",
@@ -549,7 +736,11 @@ class RestaurantDashboardPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => _showActionMenu(context),
-            child: Icon(Icons.more_vert, color: Colors.grey.shade400, size: 20.sp),
+            child: Icon(
+              Icons.more_vert,
+              color: Colors.grey.shade400,
+              size: 20.sp,
+            ),
           ),
         ],
       ),
@@ -559,8 +750,10 @@ class RestaurantDashboardPage extends StatelessWidget {
   Widget _buildGalleryContent() {
     return Column(
       children: [
-        _buildSectionHeader("Gallery", () {}),
-        SizedBox(height: 16.h),
+        _buildSectionHeader("Gallery", () {
+          Get.to(() => GalleryPage());
+        }),
+        // SizedBox(height: 16.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -576,8 +769,9 @@ class RestaurantDashboardPage extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.r),
-                  child: Image.network(
-                    "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+                  child: Image.asset(
+                    index == 0 ? ImagePath.gallery1 : ImagePath.gallery2,
+                    // index == 1 ? ImagePath.gallery1 : ImagePath.gallery2,
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
@@ -594,7 +788,11 @@ class RestaurantDashboardPage extends StatelessWidget {
                         color: Colors.white.withOpacity(0.8),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.more_vert, color: Colors.black87, size: 16.sp),
+                      child: Icon(
+                        Icons.more_vert,
+                        color: Colors.black87,
+                        size: 16.sp,
+                      ),
                     ),
                   ),
                 ),
@@ -603,7 +801,9 @@ class RestaurantDashboardPage extends StatelessWidget {
           },
         ),
         SizedBox(height: 24.h),
-        _buildSectionHeader("Recent Reviews", () {}),
+        _buildSectionHeader("Recent Reviews", () {
+          Get.to(() => const ReviewPage());
+        }),
         SizedBox(height: 16.h),
         _buildReviewItem(),
         _buildReviewItem(),
@@ -621,10 +821,14 @@ class RestaurantDashboardPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
-              color: Colors.red.shade50,
+              color: AppColors.reviewBgColor,
               borderRadius: BorderRadius.circular(10.r),
             ),
-            child: Icon(Icons.stars_outlined, color: Colors.red.shade400, size: 20.sp),
+            child: Icon(
+              Icons.rate_review_outlined,
+              color: Colors.red.shade800,
+              size: 20.sp,
+            ),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -672,7 +876,9 @@ class RestaurantDashboardPage extends StatelessWidget {
   void _showActionMenu(BuildContext context) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 20.w),
           width: 250.w,
@@ -687,19 +893,23 @@ class RestaurantDashboardPage extends StatelessWidget {
                 Get.back();
               }),
               SizedBox(height: 35.h),
-              Obx(() => _buildToggleItem(
-                "ACTIVE", 
-                controller.isActive.value, 
-                const Color(0xFFA12C05), 
-                (val) => controller.isActive.value = val,
-              )),
+              Obx(
+                () => _buildToggleItem(
+                  "ACTIVE",
+                  controller.isActive.value,
+                  const Color(0xFFA12C05),
+                  (val) => controller.isActive.value = val,
+                ),
+              ),
               SizedBox(height: 16.h),
-              Obx(() => _buildToggleItem(
-                "HIDE", 
-                controller.isHide.value, 
-                const Color(0xFF90A1B9), 
-                (val) => controller.isHide.value = val,
-              )),
+              Obx(
+                () => _buildToggleItem(
+                  "HIDE",
+                  controller.isHide.value,
+                  const Color(0xFF90A1B9),
+                  (val) => controller.isHide.value = val,
+                ),
+              ),
             ],
           ),
         ),
@@ -726,7 +936,12 @@ class RestaurantDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildToggleItem(String label, bool value, Color activeColor, Function(bool) onChanged) {
+  Widget _buildToggleItem(
+    String label,
+    bool value,
+    Color activeColor,
+    Function(bool) onChanged,
+  ) {
     return Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -757,40 +972,67 @@ class RestaurantDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNav() {
-    return Obx(() => Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, -5),
-            blurRadius: 20,
+  Widget _buildBottomNav(BuildContext context) {
+    return Obx(
+      () => Container(
+        decoration: BoxDecoration(
+          color: context.theme.cardColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.r),
+            topRight: Radius.circular(30.r),
           ),
-        ],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, -5),
+              blurRadius: 20,
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: controller.currentNavIndex.value > 4
+              ? 0
+              : controller.currentNavIndex.value,
+          onTap: controller.changeNavIndex,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          selectedItemColor: context.theme.brightness == Brightness.dark
+              ? const Color(0xFFCA7373)
+              : AppColors.primaryColor,
+          unselectedItemColor: Colors.grey.shade400,
+          selectedLabelStyle: GoogleFonts.manrope(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w700,
+          ),
+          unselectedLabelStyle: GoogleFonts.manrope(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w500,
+          ),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard_outlined),
+              label: "Dashboard",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.restaurant_menu),
+              label: "Dishes",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.event_note_outlined),
+              label: "Event",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.grid_view_outlined),
+              label: "Gallery",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              label: "Settings",
+            ),
+          ],
+        ),
       ),
-      child: BottomNavigationBar(
-        currentIndex: controller.currentNavIndex.value,
-        onTap: controller.changeNavIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: Colors.grey.shade400,
-        selectedLabelStyle: GoogleFonts.manrope(fontSize: 10.sp, fontWeight: FontWeight.w700),
-        unselectedLabelStyle: GoogleFonts.manrope(fontSize: 10.sp, fontWeight: FontWeight.w500),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), label: "Dashboard"),
-          BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: "Dishes"),
-          BottomNavigationBarItem(icon: Icon(Icons.event_note_outlined), label: "Event"),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view_outlined), label: "Gallery"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Settings"),
-        ],
-      ),
-    ));
+    );
   }
 }

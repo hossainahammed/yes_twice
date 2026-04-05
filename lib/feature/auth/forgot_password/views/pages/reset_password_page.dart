@@ -83,6 +83,7 @@ class ResetPasswordPage extends StatelessWidget {
               /// Reset Password Button
               ElevatedButton(
                 onPressed: () => SuccessDialog.show(
+                  title: "Password reset success!",
                   subtitle: "Your password is successfully reset",
                   context: context,
                   onPressed: () => Get.to(() => LoginPage()),

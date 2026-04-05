@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constant/app_colors.dart';
 import '../../../../../core/constant/widgets/custom_auth_widgets.dart';
 import '../../../../../core/constant/widgets/success_dialog.dart';
+import '../../../../../core/constant/image_path.dart';
 import '../../../login/views/login_page.dart';
 
 class RegistrationOtpPage extends StatelessWidget {
@@ -86,9 +87,11 @@ class RegistrationOtpPage extends StatelessWidget {
               /// Verify Button
               ElevatedButton(
                 onPressed: () => SuccessDialog.show(
+                  title: "Account created successfully!",
                   subtitle: "Your account is successfully created",
                   context: context,
                   onPressed: () => Get.to(() => LoginPage()),
+                  iconPath: ImagePath.accountCreatedSuccess,
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

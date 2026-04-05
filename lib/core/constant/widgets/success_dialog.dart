@@ -1,6 +1,7 @@
 import 'package:bolaji277/core/constant/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constant/app_colors.dart';
@@ -9,45 +10,73 @@ import '../../../../../core/constant/image_path.dart';
 
 class SuccessDialog {
   static void show({
-    required String subtitle,
+    required String title,
+    String? subtitle,
     required BuildContext context,
     required VoidCallback onPressed,
+    String? iconPath,
+    bool isSvg = true,
   }) {
     Get.dialog(
       Dialog(
         backgroundColor: AppColors.whiteColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(30.r),
         ),
-        insetPadding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 100.h),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 40.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ///Image
-              Image.asset(ImagePath.successLogo, height: 140.h),
-              SizedBox(height: 12.h),
-
-              /// Title
+              if (iconPath != null)
+                isSvg
+                    ? SvgPicture.asset(iconPath, width: 120.w, height: 120.w)
+                    : Image.asset(iconPath, width: 120.w, height: 120.w)
+              else
+                Image.asset(ImagePath.successLogo, width: 120.w, height: 120.w),
+              SizedBox(height: 30.h),
               Text(
-                'Success',
-                style: AppTextStyles.title24(context),
-              ),
-              SizedBox(height: 4.h),
-
-              /// Subtitle
-              Text(
-                subtitle,
+                title,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.regular_16(context),
+                style: GoogleFonts.manrope(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
+                  height: 1.2,
+                ),
               ),
-              SizedBox(height: 20.h),
-
-              /// Continue Button
-              PrimaryButton(
-                text: 'Continue',
-                onPressed: onPressed,
+              if (subtitle != null) ...[
+                SizedBox(height: 10.h),
+                Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    color: Colors.grey.shade500,
+                  ),
+                ),
+              ],
+              SizedBox(height: 30.h),
+              GestureDetector(
+                onTap: onPressed,
+                child: Container(
+                  width: double.infinity,
+                  height: 48.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4C080C),
+                    borderRadius: BorderRadius.circular(24.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "OK",
+                      style: GoogleFonts.manrope(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

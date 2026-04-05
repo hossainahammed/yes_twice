@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -33,31 +33,31 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader('Browse By Food', () {
+                  _buildSectionHeader(context, 'Browse By Food', () {
                     Get.to(() => BrowseByFoodPage());
                   }),
                   SizedBox(height: screenHeight * 0.02),
-                  _buildCategories(screenWidth),
+                  _buildCategories(context, screenWidth),
                   SizedBox(height: screenHeight * 0.03),
                   _buildPopularFoodBanner(screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader('Restaurants Near You', () {
+                  _buildSectionHeader(context, 'Restaurants Near You', () {
                     Get.to(() => const RestaurantListPage());
                   }),
                   SizedBox(height: screenHeight * 0.02),
-                  _buildRestaurants(screenWidth, screenHeight),
+                  _buildRestaurants(context, screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
                   _buildEventsHappeningBanner(screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader('Recent Reviews', () {}),
+                  _buildSectionHeader(context, 'Recent Reviews', () {}),
                   SizedBox(height: screenHeight * 0.02),
-                  _buildReviews(screenWidth, screenHeight),
+                  _buildReviews(context, screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader('Events Near You', () {
+                  _buildSectionHeader(context, 'Events Near You', () {
                     Get.to(() => const EventListPage());
                   }),
                   SizedBox(height: screenHeight * 0.02),
-                  _buildEvents(screenWidth, screenHeight),
+                  _buildEvents(context, screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.05),
                 ],
               ),
@@ -202,7 +202,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title, VoidCallback onSeeAll) {
+  Widget _buildSectionHeader(BuildContext context, String title, VoidCallback onSeeAll) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -211,7 +211,7 @@ class HomePage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: context.theme.textTheme.bodyMedium?.color,
           ),
         ),
         GestureDetector(
@@ -222,13 +222,17 @@ class HomePage extends StatelessWidget {
                 'See all',
                 style: GoogleFonts.manrope(
                   fontSize: 12,
-                  color: AppColors.primaryColor,
+                  color: context.theme.brightness == Brightness.dark
+                      ? const Color(0xFFCA7373)
+                      : AppColors.primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right,
-                color: AppColors.primaryColor,
+                color: context.theme.brightness == Brightness.dark
+                    ? const Color(0xFFCA7373)
+                    : AppColors.primaryColor,
                 size: 16,
               ),
             ],
@@ -238,7 +242,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildCategories(double screenWidth) {
+  Widget _buildCategories(BuildContext context, double screenWidth) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -248,7 +252,7 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.only(right: 12),
             padding: const EdgeInsets.fromLTRB(4, 4, 16, 4),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryColor : Colors.white,
+              color: isSelected ? AppColors.primaryColor : context.theme.cardColor,
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
@@ -271,7 +275,7 @@ class HomePage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : Colors.black,
+                    color: isSelected ? Colors.white : context.theme.textTheme.bodyMedium?.color,
                   ),
                 ),
               ],
@@ -288,99 +292,99 @@ class HomePage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 180, // Increased height to prevent overflow
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            bottom: 0,
-            top: 0,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.horizontal(
-                right: Radius.circular(20),
-              ),
-              child: Image.asset(
-                'assets/images/popularFoodCardBurger.png',
-                width: screenWidth * 0.4,
-                fit: BoxFit.cover,
-                alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.horizontal(
+                  right: Radius.circular(20),
+                ),
+                child: Image.asset(
+                  'assets/images/popularFoodCardBurger.png',
+                  width: screenWidth * 0.4,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerLeft,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Popular Food Spots',
-                  style: GoogleFonts.manrope(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: screenWidth * 0.45,
-                  child: Text(
-                    'See popular food spots this week and discover your next meal.',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Popular Food Spots',
                     style: GoogleFonts.manrope(
                       color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      height: 1.3,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Explore now',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: screenWidth * 0.45,
+                    child: Text(
+                      'See popular food spots this week and discover your next meal.',
+                      style: GoogleFonts.manrope(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        height: 1.3,
                       ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF1A1A1A),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.north_east_rounded,
-                          color: Colors.white,
-                          size: 14,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 15),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Explore now',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF1A1A1A),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.north_east_rounded,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildRestaurants(double screenWidth, double screenHeight) {
+  Widget _buildRestaurants(BuildContext context, double screenWidth, double screenHeight) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -393,7 +397,7 @@ class HomePage extends StatelessWidget {
               margin: const EdgeInsets.only(right: 16),
               padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(24.r),
                 boxShadow: [
                   BoxShadow(
@@ -427,7 +431,7 @@ class HomePage extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: context.theme.cardColor,
                               borderRadius: BorderRadius.circular(12.r),
                               boxShadow: [
                                 BoxShadow(
@@ -448,7 +452,7 @@ class HomePage extends StatelessWidget {
                                 Text(
                                   rest.rating.toString(),
                                   style: GoogleFonts.manrope(
-                                    color: Colors.black,
+                                    color: context.theme.textTheme.bodyMedium?.color,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w800,
                                   ),
@@ -473,15 +477,17 @@ class HomePage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyMedium?.color,
                           ),
                         ),
                         SizedBox(height: 4.h),
                         Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.location_on,
-                              color: AppColors.primaryColor,
+                              color: context.theme.brightness == Brightness.dark
+                                  ? const Color(0xFFCA7373)
+                                  : AppColors.primaryColor,
                               size: 12,
                             ),
                             const SizedBox(width: 4),
@@ -493,7 +499,7 @@ class HomePage extends StatelessWidget {
                                 style: GoogleFonts.manrope(
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                                  color: context.theme.textTheme.bodyMedium?.color,
                                 ),
                               ),
                             ),
@@ -615,7 +621,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildReviews(double screenWidth, double screenHeight) {
+  Widget _buildReviews(BuildContext context, double screenWidth, double screenHeight) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -625,7 +631,7 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16),
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
@@ -660,7 +666,7 @@ class HomePage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 14,
                               fontWeight: FontWeight.w800,
-                              color: Colors.black,
+                              color: context.theme.textTheme.bodyMedium?.color,
                             ),
                           ),
                           Row(
@@ -698,7 +704,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildEvents(double screenWidth, double screenHeight) {
+  Widget _buildEvents(BuildContext context, double screenWidth, double screenHeight) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -709,7 +715,7 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16),
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
@@ -746,15 +752,17 @@ class HomePage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                          color: context.theme.textTheme.bodyMedium?.color,
                         ),
                       ),
                       SizedBox(height: 4.h),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.location_on,
-                            color: AppColors.primaryColor,
+                            color: context.theme.brightness == Brightness.dark
+                                ? const Color(0xFFCA7373)
+                                : AppColors.primaryColor,
                             size: 12,
                           ),
                           const SizedBox(width: 4),
@@ -766,7 +774,7 @@ class HomePage extends StatelessWidget {
                               style: GoogleFonts.manrope(
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black,
+                                color: context.theme.textTheme.bodyMedium?.color,
                               ),
                             ),
                           ),
@@ -789,9 +797,9 @@ class _FilterBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
       child: SingleChildScrollView(
@@ -815,27 +823,28 @@ class _FilterBottomSheet extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
             ),
             const SizedBox(height: 24),
-            Text('SORT BY', style: _sectionTitleStyle()),
-            _buildSortOption('Nearest to Me', false),
-            _buildSortOption('Recommended', true),
-            _buildSortOption('Rating (High to Low)', false),
+            Text('SORT BY', style: _sectionTitleStyle(context)),
+            _buildSortOption('Nearest to Me', false, context),
+            _buildSortOption('Recommended', true, context),
+            _buildSortOption('Rating (High to Low)', false, context),
             // _buildSortOption('Price (Low to High)', false),
             const SizedBox(height: 24),
-            Text('CUISINE TYPE', style: _sectionTitleStyle()),
+            Text('CUISINE TYPE', style: _sectionTitleStyle(context)),
             const SizedBox(height: 12),
             Wrap(
               spacing: 12,
               runSpacing: 12,
               children: [
-                _buildTag('Italian', true),
-                _buildTag('French', false),
-                _buildTag('Japanese', false),
-                _buildTag('Thai', false),
-                _buildTag('Mediterranean', false),
-                _buildTag('Mexican', false),
+                _buildTag('Italian', true, context),
+                _buildTag('French', false, context),
+                _buildTag('Japanese', false, context),
+                _buildTag('Thai', false, context),
+                _buildTag('Mediterranean', false, context),
+                _buildTag('Mexican', false, context),
                 //_buildTag('Steakhouse', false),
               ],
             ),
@@ -856,27 +865,34 @@ class _FilterBottomSheet extends StatelessWidget {
             //   ],
             // ),
             const SizedBox(height: 24),
-            Text('MINIMUM RATING', style: _sectionTitleStyle()),
+            Text('MINIMUM RATING', style: _sectionTitleStyle(context)),
             const SizedBox(height: 12),
             Row(
               children: [
                 ...List.generate(
                   4,
-                  (index) => const Icon(
+                  (index) => Icon(
                     Icons.star,
-                    color: AppColors.primaryColor,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFFCA7373)
+                        : AppColors.primaryColor,
                     size: 24,
                   ),
                 ),
-                const Icon(
+                Icon(
                   Icons.star_border,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFFCA7373)
+                      : AppColors.primaryColor,
                   size: 24,
                 ),
                 const SizedBox(width: 12),
                 Text(
                   '4.0 & Up',
-                  style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
+                  style: GoogleFonts.manrope(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
                 ),
               ],
             ),
@@ -892,6 +908,7 @@ class _FilterBottomSheet extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
                     Text(
@@ -907,7 +924,9 @@ class _FilterBottomSheet extends StatelessWidget {
                   value: true,
                   onChanged: (v) {},
                   activeColor: Colors.white,
-                  activeTrackColor: AppColors.primaryColor,
+                  activeTrackColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFFCA7373)
+                      : AppColors.primaryColor,
                 ),
               ],
             ),
@@ -927,7 +946,7 @@ class _FilterBottomSheet extends StatelessWidget {
                     child: Text(
                       'Clear All',
                       style: GoogleFonts.manrope(
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -938,7 +957,9 @@ class _FilterBottomSheet extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Get.back(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFFCA7373)
+                          : AppColors.primaryColor,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -961,16 +982,16 @@ class _FilterBottomSheet extends StatelessWidget {
     );
   }
 
-  TextStyle _sectionTitleStyle() {
+  TextStyle _sectionTitleStyle(BuildContext context) {
     return GoogleFonts.manrope(
       fontSize: 14,
       fontWeight: FontWeight.bold,
-      color: Colors.grey[700],
+      color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[400] : Colors.grey[700],
       letterSpacing: 1,
     );
   }
 
-  Widget _buildSortOption(String label, bool isSelected) {
+  Widget _buildSortOption(String label, bool isSelected, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
@@ -981,22 +1002,27 @@ class _FilterBottomSheet extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 16,
               fontWeight: FontWeight.w600,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
           ),
           Icon(
             isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-            color: isSelected ? AppColors.primaryColor : Colors.grey[300],
+            color: isSelected
+                ? (Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFFCA7373)
+                    : AppColors.primaryColor)
+                : Colors.grey[300],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTag(String label, bool isSelected) {
+  Widget _buildTag(String label, bool isSelected, BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primaryColor : const Color(0xFFFFF2EB),
+        color: isSelected ? AppColors.primaryColor : (Theme.of(context).brightness == Brightness.dark ? const Color(0xFF2A1A1A) : const Color(0xFFFFF2EB)),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

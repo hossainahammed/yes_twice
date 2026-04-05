@@ -10,8 +10,9 @@ class ImagePath {
 
   ///=================Onboarding Images======================
   static const String onboardingImg01 = "assets/images/onboarding01.png";
-  static const String onboardingImg02= "assets/images/onboarding02.png";
+  static const String onboardingImg02 = "assets/images/onboarding02.png";
   static const String successLogo = "assets/icons/success_logo.png";
+  static const String profileEdit = "assets/icons/profileEdit.png";
 
   // static const String user = "assets/images/user.png";
   // static const String videoPlay = "assets/images/video_play.png";
@@ -44,7 +45,7 @@ class ImagePath {
   // ///
   // static const String defaultImage = "https://via.placeholder.com/150?text=No+Image";
   //
-  static const String logoutIcon = "assets/icons/logout_icon.png";
+  static const String logoutIcon = "assets/icons/logout.png";
   // static const String editIcon = "assets/icons/edit_icon.png";
   // static const String certificate = "assets/images/certificate.png";
   // static const String payment = "assets/images/payment.png";
@@ -61,4 +62,28 @@ class ImagePath {
   // static const String homeImg03 = "assets/images/home_img03.png";
   // static const String homeImg04 = "assets/images/home_img04.png";
 
+  //Dashboard
+  static const String dashboardProfile = "assets/images/dashboardProfile.png";
+  static const String event = "assets/images/Event.png";
+  static const String gallery1 = "assets/images/Gallery1.png";
+  static const String gallery2 = "assets/images/Gallery2.png";
+
+  static const String popularDishes1 = "assets/images/popularDishes1.png";
+  static const String popularDishes2 = "assets/images/popularDishes2.png";
+  static const String popularDishes3 = "assets/images/popularDishes3.png";
+
+  static const String addEvent = "assets/icons/addEvent.png";
+  static const String uploadGallery = "assets/icons/uploadGallery.png";
+
+  static const String reviewAvatar = "assets/icons/reviewAvater.png";
+  static const String map = "assets/images/map.png";
+
+  // SVG Icons
+  static const String emptyResturantList =
+      "assets/icons/emptyResturantList.svg";
+  static const String emptyeventList = "assets/icons/emptyeventList.svg";
+  static const String accountCreatedSuccess =
+      "assets/icons/accountCreatedSuccess.svg";
+  static const String reviewSubmit = "assets/icons/reviewSubmit.svg";
+  static const String resturantAdd = "assets/icons/resturantAdd.svg";
 }

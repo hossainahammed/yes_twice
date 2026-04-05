@@ -13,14 +13,24 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    
+    // final screenWidth = MediaQuery.of(context).size.width;
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          top: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.2 : 0.05),
+            offset: const Offset(0, -5),
+            blurRadius: 20,
+          ),
+        ],
       ),
       child: SafeArea(
         child: Padding(
@@ -28,10 +38,35 @@ class BottomNavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(context, 0, "assets/icons/home_selected.png", "assets/icons/home_selected.png", 'Home'),
-              _buildNavItem(context, 1, "assets/icons/explore.png", "assets/icons/explore_selected.png", 'Explore'),
-              _buildNavItem(context, 2, "assets/icons/save.png", "assets/icons/save_selected.png", 'Save'),
-              _buildNavItem(context, 3, "assets/icons/more.png", "assets/icons/more_selected.png", 'More'),
+              _buildNavItem(
+                context,
+                0,
+                "assets/icons/home_selected.png",
+                "assets/icons/home_selected.png",
+                'Home',
+              ),
+              _buildNavItem(
+                context,
+                1,
+                "assets/icons/explore.png",
+                "assets/icons/explore_selected.png",
+                'Explore',
+              ),
+              _buildNavItem(
+                context,
+                2,
+                "assets/icons/save.png",
+                "assets/icons/save_selected.png",
+                'Save',
+              ),
+              _buildNavItem(
+                context,
+                3,
+                "assets/icons/more.png",
+                "assets/icons/more_selected.png",
+                'More',
+                skipSelectedTint: true,
+              ),
             ],
           ),
         ),
@@ -39,8 +74,26 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(BuildContext context, int index, String outlinedIcon, String filledIcon, String label) {
+  Widget _buildNavItem(
+    BuildContext context,
+    int index,
+    String outlinedIcon,
+    String filledIcon,
+    String label, {
+    bool skipSelectedTint = false,
+  }) {
     bool isSelected = selectedIndex == index;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark
+        ? const Color(0xFFCA7373)
+        : AppColors.primaryColor;
+
+    // For icons like "more" whose selected asset is already fully colored,
+    // we skip the color tint so the original image renders correctly.
+    final Color? iconColor = (isSelected && skipSelectedTint)
+        ? null
+        : (isSelected ? activeColor : Colors.grey);
+
     return GestureDetector(
       onTap: () => onItemTapped(index),
       child: Container(
@@ -51,7 +104,7 @@ class BottomNavBar extends StatelessWidget {
             const SizedBox(height: 2),
             Image.asset(
               isSelected ? filledIcon : outlinedIcon,
-              color: isSelected ? AppColors.primaryColor : Colors.grey,
+              color: iconColor,
               width: 26,
               height: 26,
             ),
@@ -59,7 +112,7 @@ class BottomNavBar extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? AppColors.primaryColor : Colors.grey,
+                color: isSelected ? activeColor : Colors.grey,
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),

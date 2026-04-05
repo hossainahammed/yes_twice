@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'core/theme/app_theme.dart';
 import 'core/constant/app_colors.dart';
 import 'feature/splash/view/splash_screen.dart';
 
@@ -15,36 +16,22 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 867),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) {
-        /// Override system text scaling globally
-        final fixedMediaQuery = MediaQuery.of(
-          context,
-        ).copyWith(textScaler: const TextScaler.linear(1.0));
-        return MediaQuery(
-          data: fixedMediaQuery,
-          child: GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            builder: EasyLoading.init(),
-            theme: ThemeData.light().copyWith(
-              primaryColor: AppColors.primaryColor,
-              scaffoldBackgroundColor: AppColors.whiteColor,
-              textTheme: GoogleFonts.robotoTextTheme(
-                ThemeData.light().textTheme,
-              ),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.transparent,
-                iconTheme: IconThemeData(color: AppColors.textColor),
-              ),
-              iconTheme: const IconThemeData(color: AppColors.primaryColor),
-              checkboxTheme: CheckboxThemeData(
-                shape: const CircleBorder(),
-                side: BorderSide(width: 1.5, color: AppColors.boxTextColor),
-              ),
-            ),
-            home: SplashScreen(),
-          ),
-        );
-      },
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) {
+          // Initialize EasyLoading
+          child = EasyLoading.init()(context, child);
+          // Override system text scaling globally
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+            child: child,
+          );
+        },
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.system, // Will track system state on startup
+        home: const SplashScreen(),
+      ),
     );
   }
 }

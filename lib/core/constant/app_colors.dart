@@ -17,5 +17,6 @@ class AppColors {
   static const Color buttonColor = Color(0xFF4E070C);
   static const Color ratingColor = Color(0xFFFC8838);
   static const Color redColor = Color(0xFFD9070B);
+  static const Color reviewBgColor = Color(0xFFFFDBD1);
 }
 //////////////////////////////////////////////
