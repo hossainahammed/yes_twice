@@ -29,7 +29,7 @@ class SettingsPage extends StatelessWidget {
       backgroundColor: context.theme.scaffoldBackgroundColor,
       body: Column(
         children: [
-          _buildHeader(),
+          _buildHeader(context),
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(20.w),
@@ -57,18 +57,19 @@ class SettingsPage extends StatelessWidget {
                           "My Profile",
                           context: context,
                           onTap: () {
-                            final controller = Get.find<RestaurantDashboardController>();
+                            final controller =
+                                Get.find<RestaurantDashboardController>();
                             controller.changeNavIndex(5);
                           },
                         ),
-                        _buildDivider(),
+                        // _buildDivider(),
                         _buildSettingsItem(
                           Icons.add_business_outlined,
                           "Add Restaurant",
                           context: context,
                           onTap: () => Get.to(() => const AddAccountPage()),
                         ),
-                        _buildDivider(),
+                        //   _buildDivider(),
                         _buildSettingsItem(
                           Icons.event_outlined,
                           "Add Event",
@@ -122,28 +123,28 @@ class SettingsPage extends StatelessWidget {
                                 : AppColors.primaryColor,
                           ),
                         ),
-                        _buildDivider(),
+                        //  _buildDivider(),
                         _buildSettingsItem(
                           Icons.shield_outlined,
                           "Security",
                           onTap: () => Get.to(() => const SecurityPage()),
                           context: context,
                         ),
-                        _buildDivider(),
+                        //  _buildDivider(),
                         _buildSettingsItem(
                           Icons.contact_phone_outlined,
                           "Contact Us",
                           onTap: () => Get.to(() => const ContactUsPage()),
                           context: context,
                         ),
-                        _buildDivider(),
+                        //  _buildDivider(),
                         _buildSettingsItem(
                           Icons.help_outline,
                           "Support Center",
                           onTap: () => Get.to(() => const SupportCenterPage()),
                           context: context,
                         ),
-                        _buildDivider(),
+                        //  _buildDivider(),
                         _buildSettingsItem(
                           Icons.lock_outline,
                           "Privacy & Policy",
@@ -176,14 +177,14 @@ class SettingsPage extends StatelessWidget {
                           subtitle: "Manage your profile details",
                           context: context,
                         ),
-                        _buildDivider(),
+                        // _buildDivider(),
                         _buildSettingsItem(
                           Icons.favorite_border,
                           "Saved",
                           subtitle: "Access your saved collections",
                           context: context,
                         ),
-                        _buildDivider(),
+                        //    _buildDivider(),
                         _buildSettingsItem(
                           Icons.email_outlined,
                           "Update Email",
@@ -338,7 +339,7 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(20.w, 50.h, 20.w, 30.h),
@@ -378,19 +379,202 @@ class SettingsPage extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Icon(
-              Icons.keyboard_arrow_down,
-              color: Colors.white,
-              size: 20.sp,
+          GestureDetector(
+            onTap: () => _showAccountSwitcherSheet(context),
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(
+                Icons.keyboard_arrow_down,
+                color: Colors.white,
+                size: 20.sp,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showAccountSwitcherSheet(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final sheetBg = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF5F5F5);
+    final cardBg = isDark ? const Color(0xFF2A2A2A) : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black87;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: sheetBg,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+      ),
+      builder: (_) => Padding(
+        padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 32.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Drag handle
+            Center(
+              child: Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+            ),
+            SizedBox(height: 20.h),
+
+            // ── Current account card ──
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              decoration: BoxDecoration(
+                color: cardBg,
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.15 : 0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  // Current restaurant row
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20.r,
+                        backgroundImage:
+                            AssetImage(ImagePath.dashboardProfile),
+                      ),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Text(
+                          "The Rustic Bistro",
+                          style: GoogleFonts.manrope(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                      // Checkmark badge
+                      Container(
+                        padding: EdgeInsets.all(4.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 14.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    height: 24.h,
+                    color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
+                  ),
+                  // Add Another Account row
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                      Get.to(() => const AddAccountPage());
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(6.w),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? Colors.grey.shade700
+                                : Colors.grey.shade100,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            size: 20.sp,
+                            color: isDark
+                                ? Colors.white70
+                                : Colors.black54,
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Text(
+                          "Add Another Account",
+                          style: GoogleFonts.manrope(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: textColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 24.h),
+
+            // ── Your Another Profile section ──
+            Text(
+              "Your Another Profile",
+              style: GoogleFonts.manrope(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                color: subTextColor,
+              ),
+            ),
+            SizedBox(height: 12.h),
+
+            // Another profile card
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              decoration: BoxDecoration(
+                color: cardBg,
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.15 : 0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20.r,
+                    backgroundImage:
+                        AssetImage(ImagePath.dashboardProfile),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Text(
+                      "The Rustic Bistro",
+                      style: GoogleFonts.manrope(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: textColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 8.h),
+          ],
+        ),
       ),
     );
   }
@@ -440,3 +624,4 @@ class SettingsPage extends StatelessWidget {
     );
   }
 }
+

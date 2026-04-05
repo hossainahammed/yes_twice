@@ -114,7 +114,9 @@ class RestaurantListPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => Get.to(() => const RestaurantDetailsPage()),
                   child: _buildGridCard(
-                    title: index % 2 == 0 ? 'The Southern Spoon' : 'Spice Theory',
+                    title: index % 2 == 0
+                        ? 'The Southern Spoon'
+                        : 'Spice Theory',
                     location: 'Johannesburg',
                     price: r'$$$',
                     rating: 4.9,
@@ -172,8 +174,10 @@ class RestaurantListPage extends StatelessWidget {
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12.r),
@@ -201,7 +205,7 @@ class RestaurantListPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -262,4 +266,3 @@ class RestaurantListPage extends StatelessWidget {
     );
   }
 }
-
