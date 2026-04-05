@@ -11,13 +11,18 @@ import 'privacy_policy_page.dart';
 import 'change_email_page.dart';
 import '../../../../core/constant/image_path.dart';
 
+import '../../../../core/theme/theme_controller.dart';
+
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Get.put(ThemeController());
+    final isDark = themeController.isDarkMode.value;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           _buildHeader(),
@@ -32,39 +37,62 @@ class SettingsPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: context.theme.textTheme.bodyMedium?.color,
                     ),
                   ),
                   SizedBox(height: 16.h),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(15.r),
                     ),
                     child: Column(
                       children: [
+                        Obx(() => SwitchListTile(
+                              title: Text(
+                                "Dark Mode",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.theme.textTheme.bodyMedium?.color,
+                                ),
+                              ),
+                              secondary: Icon(
+                                themeController.isDarkMode.value ? Icons.dark_mode : Icons.light_mode,
+                                color: context.theme.iconTheme.color,
+                                size: 22.sp,
+                              ),
+                              value: themeController.isDarkMode.value,
+                              onChanged: (value) => themeController.toggleTheme(),
+                              activeColor: AppColors.primaryColor,
+                            )),
+                        _buildDivider(),
                         _buildSettingsItem(
                           Icons.shield_outlined,
                           "Security",
                           onTap: () => Get.to(() => const SecurityPage()),
+                          context: context,
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           Icons.contact_phone_outlined,
                           "Contact Us",
                           onTap: () => Get.to(() => const ContactUsPage()),
+                          context: context,
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           Icons.help_outline,
                           "Support Center",
                           onTap: () => Get.to(() => const SupportCenterPage()),
+                          context: context,
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           Icons.lock_outline,
                           "Privacy & Policy",
                           onTap: () => Get.to(() => const PrivacyPolicyPage()),
+                          context: context,
                         ),
                       ],
                     ),
@@ -75,13 +103,13 @@ class SettingsPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: context.theme.textTheme.bodyMedium?.color,
                     ),
                   ),
                   SizedBox(height: 16.h),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(15.r),
                     ),
                     child: Column(
@@ -90,12 +118,14 @@ class SettingsPage extends StatelessWidget {
                           Icons.person_outline,
                           "Update Personal Information",
                           subtitle: "Manage your profile details",
+                          context: context,
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           Icons.favorite_border,
                           "Saved",
                           subtitle: "Access your saved collections",
+                          context: context,
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
@@ -104,6 +134,7 @@ class SettingsPage extends StatelessWidget {
                           subtitle:
                               "Change the email associated with your account",
                           onTap: () => Get.to(() => const ChangeEmailPage()),
+                          context: context,
                         ),
                       ],
                     ),
@@ -311,15 +342,17 @@ class SettingsPage extends StatelessWidget {
     String title, {
     String? subtitle,
     VoidCallback? onTap,
+    BuildContext? context,
   }) {
+    final theme = context?.theme ?? Get.theme;
     return ListTile(
-      leading: Icon(icon, color: Colors.black87, size: 22.sp),
+      leading: Icon(icon, color: theme.iconTheme.color, size: 22.sp),
       title: Text(
         title,
         style: GoogleFonts.manrope(
           fontSize: 14.sp,
           fontWeight: FontWeight.w600,
-          color: Colors.black87,
+          color: theme.textTheme.bodyMedium?.color,
         ),
       ),
       subtitle: subtitle != null
@@ -327,13 +360,13 @@ class SettingsPage extends StatelessWidget {
               subtitle,
               style: GoogleFonts.manrope(
                 fontSize: 10.sp,
-                color: Colors.grey.shade400,
+                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
               ),
             )
           : null,
       trailing: Icon(
         Icons.chevron_right,
-        color: Colors.grey.shade400,
+        color: theme.dividerColor,
         size: 20.sp,
       ),
       onTap: onTap,

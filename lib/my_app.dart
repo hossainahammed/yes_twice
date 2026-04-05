@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'core/theme/app_theme.dart';
 import 'core/constant/app_colors.dart';
 import 'feature/splash/view/splash_screen.dart';
 
@@ -26,22 +27,9 @@ class MyApp extends StatelessWidget {
             child: child,
           );
         },
-        theme: ThemeData.light().copyWith(
-          primaryColor: AppColors.primaryColor,
-          scaffoldBackgroundColor: AppColors.whiteColor,
-          textTheme: GoogleFonts.robotoTextTheme(
-            ThemeData.light().textTheme,
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            iconTheme: IconThemeData(color: AppColors.textColor),
-          ),
-          iconTheme: const IconThemeData(color: AppColors.primaryColor),
-          checkboxTheme: CheckboxThemeData(
-            shape: const CircleBorder(),
-            side: BorderSide(width: 1.5, color: AppColors.boxTextColor),
-          ),
-        ),
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.system, // Will track system state on startup
         home: const SplashScreen(),
       ),
     );
