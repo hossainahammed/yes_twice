@@ -17,7 +17,7 @@ class AllEventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: _buildAppBar(context),
       body: Obx(() {
         bool showEmpty = forceEmpty ?? (controller.events.isEmpty);
@@ -58,12 +58,12 @@ class AllEventPage extends StatelessWidget {
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: context.theme.dividerColor),
               ),
               child: Icon(
                 Icons.arrow_back_ios_new,
                 size: 20.sp,
-                color: Colors.black,
+                color: context.theme.iconTheme.color,
               ),
             ),
           ),
@@ -74,7 +74,7 @@ class AllEventPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: context.theme.textTheme.bodyMedium?.color,
         ),
       ),
       actions: [
@@ -88,7 +88,7 @@ class AllEventPage extends StatelessWidget {
                   width: 32.w,
                   height: 32.w,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF4C080C),
+                    color: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -124,7 +124,7 @@ class AllEventPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 20.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyMedium?.color,
             height: 1.3,
           ),
         ),
@@ -137,7 +137,7 @@ class AllEventPage extends StatelessWidget {
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(

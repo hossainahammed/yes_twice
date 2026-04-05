@@ -1,3 +1,5 @@
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_dish_page.dart';
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_event_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,24 +32,24 @@ class RestaurantDashboardPage extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: context.theme.scaffoldBackgroundColor,
-      body: Obx(() {
-        switch (controller.currentNavIndex.value) {
-          case 0:
-            return _buildDashboardBody(context);
-          case 1:
-            return AllPopularDishesPage();
-          case 2:
-            return AllEventPage();
-          case 3:
-            return GalleryPage();
-          case 4:
-            return const SettingsPage();
-          case 5:
-            return const RestaurantProfilePage();
-          default:
-            return _buildDashboardBody(context);
-        }
-      }),
+        body: Obx(() {
+          switch (controller.currentNavIndex.value) {
+            case 0:
+              return _buildDashboardBody(context);
+            case 1:
+              return AllPopularDishesPage();
+            case 2:
+              return AllEventPage();
+            case 3:
+              return GalleryPage();
+            case 4:
+              return const SettingsPage();
+            case 5:
+              return const RestaurantProfilePage();
+            default:
+              return _buildDashboardBody(context);
+          }
+        }),
         bottomNavigationBar: _buildBottomNav(context),
       ),
     );
@@ -108,7 +110,9 @@ class RestaurantDashboardPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(24.w, 40.h, 24.w, 35.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: context.theme.brightness == Brightness.dark
+            ? const Color(0xFFCA7373)
+            : AppColors.primaryColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40.r),
           bottomRight: Radius.circular(40.r),
@@ -234,9 +238,9 @@ class RestaurantDashboardPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +258,7 @@ class RestaurantDashboardPage extends StatelessWidget {
             mainValue,
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyMedium?.color,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -271,7 +275,9 @@ class RestaurantDashboardPage extends StatelessWidget {
       //height: 120.h,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor,
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFFCA7373)
+            : AppColors.primaryColor,
         borderRadius: BorderRadius.circular(25.r),
       ),
       child: Stack(
@@ -355,7 +361,7 @@ class RestaurantDashboardPage extends StatelessWidget {
       style: GoogleFonts.manrope(
         fontSize: 15.sp,
         fontWeight: FontWeight.w700,
-        color: Colors.black,
+        color: Get.theme.textTheme.bodyMedium?.color,
       ),
     );
   }
@@ -369,16 +375,20 @@ class RestaurantDashboardPage extends StatelessWidget {
           Icons.add_box_outlined,
           Colors.orange.shade50,
           Colors.orange,
+          () => Get.to(() => AddDishPage()),
         ),
         _buildActionItem(
           "Add Event",
-          ImagePath.addEvent,
+          Icons.event_outlined,
+          //ImagePath.addEvent,
           Colors.purple.shade50,
           Colors.purple,
+          () => Get.to(() => AddEventPage()),
         ),
         _buildActionItem(
           "Upload Gallery",
-          ImagePath.uploadGallery,
+          Icons.add_a_photo_rounded,
+          //ImagePath.uploadGallery,
           Colors.blue.shade50,
           Colors.blue,
           () => Get.to(() => UploadGalleryPage()),
@@ -401,40 +411,41 @@ class RestaurantDashboardPage extends StatelessWidget {
           Container(
             width: 90.w,
             height: 90.w,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15.r),
-            border: Border.all(color: Colors.grey.shade100),
-          ),
-          child: Center(
-            child: Container(
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(12.r),
+            decoration: BoxDecoration(
+              color: Get.theme.cardColor,
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: Get.theme.dividerColor),
+            ),
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.all(12.w),
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: iconOrImage is IconData
+                    ? Icon(iconOrImage, color: iconColor, size: 24.sp)
+                    : Image.asset(
+                        iconOrImage,
+                        width: 90.w,
+                        height: 90.w,
+                        fit: BoxFit.contain,
+                      ),
               ),
-              child: iconOrImage is IconData
-                  ? Icon(iconOrImage, color: iconColor, size: 24.sp)
-                  : Image.asset(
-                      iconOrImage,
-                      width: 90.w,
-                      height: 90.w,
-                      fit: BoxFit.contain,
-                    ),
             ),
           ),
-        ),
-        SizedBox(height: 10.h),
-        Text(
-          title,
-          style: GoogleFonts.manrope(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
+          SizedBox(height: 10.h),
+          Text(
+            title,
+            style: GoogleFonts.manrope(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: Get.theme.textTheme.bodyMedium?.color,
+            ),
           ),
-        ),
-      ],
-    ),);
+        ],
+      ),
+    );
   }
 
   Widget _buildTabs() {
@@ -458,15 +469,26 @@ class RestaurantDashboardPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryColor : Colors.grey.shade100,
+          color: isSelected
+              ? (Get.theme.brightness == Brightness.dark
+                    ? const Color(0xFFCA7373)
+                    : AppColors.primaryColor)
+              : Get.theme.cardColor,
           borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : Get.theme.dividerColor,
+          ),
         ),
         child: Text(
           text,
           style: GoogleFonts.manrope(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: isSelected ? Colors.white : Colors.grey.shade500,
+            color: isSelected
+                ? Colors.white
+                : (Get.theme.brightness == Brightness.dark
+                      ? Colors.grey.shade400
+                      : Colors.grey.shade500),
           ),
         ),
       ),
@@ -968,12 +990,16 @@ class RestaurantDashboardPage extends StatelessWidget {
           ],
         ),
         child: BottomNavigationBar(
-          currentIndex: controller.currentNavIndex.value > 4 ? 0 : controller.currentNavIndex.value,
+          currentIndex: controller.currentNavIndex.value > 4
+              ? 0
+              : controller.currentNavIndex.value,
           onTap: controller.changeNavIndex,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : AppColors.primaryColor,
+          selectedItemColor: context.theme.brightness == Brightness.dark
+              ? const Color(0xFFCA7373)
+              : AppColors.primaryColor,
           unselectedItemColor: Colors.grey.shade400,
           selectedLabelStyle: GoogleFonts.manrope(
             fontSize: 10.sp,

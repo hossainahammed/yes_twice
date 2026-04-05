@@ -8,10 +8,8 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -25,14 +23,14 @@ class SearchPage extends StatelessWidget {
                     onTap: () => Get.back(),
                     child: Container(
                       padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
                         shape: BoxShape.circle,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5)),
                         ],
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black),
+                      child: Icon(Icons.arrow_back_ios_new, size: 20, color: Theme.of(context).iconTheme.color),
                     ),
                   ),
                   const SizedBox(width: 15),
@@ -41,7 +39,7 @@ class SearchPage extends StatelessWidget {
                       height: 55,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(color: AppColors.primaryColor.withOpacity(0.5), width: 1),
                       ),
@@ -51,6 +49,7 @@ class SearchPage extends StatelessWidget {
                           const SizedBox(width: 10),
                           Expanded(
                             child: TextField(
+                              style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Search for hot & new restaurants',
@@ -70,26 +69,26 @@ class SearchPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    _buildCategoryPill('Today', Icons.calendar_today_outlined),
-                    _buildCategoryPill('Free Entry', Icons.local_offer_outlined),
-                    _buildCategoryPill('Live Music', Icons.music_note_outlined),
+                    _buildCategoryPill(context, 'Today', Icons.calendar_today_outlined),
+                    _buildCategoryPill(context, 'Free Entry', Icons.local_offer_outlined),
+                    _buildCategoryPill(context, 'Live Music', Icons.music_note_outlined),
                   ],
                 ),
               ),
               const SizedBox(height: 30),
-              _buildSectionTitle('Search History'),
+              _buildSectionTitle(context, 'Search History'),
               const SizedBox(height: 15),
-              _buildTagRow(['Sushi', 'Vegan', 'BBQ', 'African', 'Flavor Street']),
+              _buildTagRow(context, ['Sushi', 'Vegan', 'BBQ', 'African', 'Flavor Street']),
               const SizedBox(height: 10),
-              _buildTagRow(['NomNom Spot']),
+              _buildTagRow(context, ['NomNom Spot']),
               const SizedBox(height: 30),
-              _buildSectionTitle('Suggested'),
+              _buildSectionTitle(context, 'Suggested'),
               const SizedBox(height: 15),
-              _buildTagRow(['Sushi', 'Vegan', 'BBQ', 'African', 'Flavor Street']),
+              _buildTagRow(context, ['Sushi', 'Vegan', 'BBQ', 'African', 'Flavor Street']),
               const SizedBox(height: 30),
-              _buildSectionTitle('Top Restaurants'),
+              _buildSectionTitle(context, 'Top Restaurants'),
               const SizedBox(height: 15),
-              _buildLargeTagRow(['Fork & Soul', 'Golden Skillet', 'Flavor Street']),
+              _buildLargeTagRow(context, ['Fork & Soul', 'Golden Skillet', 'Flavor Street']),
               const SizedBox(height: 50),
             ],
           ),
@@ -98,12 +97,12 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryPill(String label, IconData icon) {
+  Widget _buildCategoryPill(BuildContext context, String label, IconData icon) {
     return Container(
       margin: const EdgeInsets.only(right: 15),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 5)),
@@ -121,45 +120,47 @@ class SearchPage extends StatelessWidget {
             child: Icon(icon, color: AppColors.primaryColor, size: 20),
           ),
           const SizedBox(width: 12),
-          Text(label, style: GoogleFonts.manrope(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black)),
+          Text(label, style: GoogleFonts.manrope(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color)),
         ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Text(
       title,
-      style: GoogleFonts.manrope(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+      style: GoogleFonts.manrope(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color),
     );
   }
 
-  Widget _buildTagRow(List<String> tags) {
+  Widget _buildTagRow(BuildContext context, List<String> tags) {
     return Wrap(
       spacing: 12,
       runSpacing: 12,
       children: tags.map((tag) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 5, offset: const Offset(0, 2)),
           ],
         ),
-        child: Text(tag, style: GoogleFonts.poppins(fontSize: 13, color: Colors.black54)),
+        child: Text(tag, style: GoogleFonts.poppins(fontSize: 13, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7))),
       )).toList(),
     );
   }
 
-  Widget _buildLargeTagRow(List<String> tags) {
-     return Wrap(
+  Widget _buildLargeTagRow(BuildContext context, List<String> tags) {
+    return Wrap(
       spacing: 12,
       runSpacing: 12,
       children: tags.map((tag) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFEDDF),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF2A1A1A)
+              : const Color(0xFFFFEDDF),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Text(tag, style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primaryColor)),

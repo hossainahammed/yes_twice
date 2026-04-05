@@ -15,7 +15,7 @@ class AllPopularDishesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: _buildAppBar(context),
       body: ListView.separated(
         padding: EdgeInsets.all(20.w),
@@ -48,7 +48,7 @@ class AllPopularDishesPage extends StatelessWidget {
       leading: controller.currentNavIndex.value == 1 
           ? null 
           : IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
+              icon: Icon(Icons.arrow_back, color: context.theme.iconTheme.color, size: 24.sp),
               onPressed: () => Get.back(),
             ),
       title: Text(
@@ -56,7 +56,7 @@ class AllPopularDishesPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: context.theme.textTheme.bodyMedium?.color,
         ),
       ),
       actions: [
@@ -68,7 +68,7 @@ class AllPopularDishesPage extends StatelessWidget {
               width: 32.w,
               height: 32.w,
               decoration: BoxDecoration(
-                color: const Color(0xFF4C080C),
+                color: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -93,9 +93,9 @@ class AllPopularDishesPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: context.theme.dividerColor),
       ),
       child: Row(
         children: [
@@ -118,7 +118,7 @@ class AllPopularDishesPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: context.theme.textTheme.bodyMedium?.color,
                   ),
                 ),
                 SizedBox(height: 6.h),
@@ -131,7 +131,7 @@ class AllPopularDishesPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: context.theme.textTheme.bodyMedium?.color,
                       ),
                     ),
                     SizedBox(width: 8.w),
@@ -168,6 +168,10 @@ class AllPopularDishesPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Container(
+          decoration: BoxDecoration(
+            color: context.theme.cardColor,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
           padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 20.w),
           width: 250.w,
           child: Column(
@@ -217,7 +221,7 @@ class AllPopularDishesPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyMedium?.color,
           ),
         ),
       ),

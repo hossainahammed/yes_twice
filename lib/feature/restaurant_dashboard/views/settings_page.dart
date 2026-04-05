@@ -1,5 +1,9 @@
 import 'package:bolaji277/core/constant/app_colors.dart';
 import 'package:bolaji277/feature/auth/login/views/login_page.dart';
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_account_page.dart';
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_event_page.dart';
+import 'package:bolaji277/feature/restaurant_dashboard/controllers/restaurant_dashboard_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,6 +37,49 @@ class SettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+                    "Personal Info",
+                    style: GoogleFonts.manrope(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: context.theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.theme.cardColor,
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildSettingsItem(
+                          Icons.person_outline,
+                          "My Profile",
+                          context: context,
+                          onTap: () {
+                            final controller = Get.find<RestaurantDashboardController>();
+                            controller.changeNavIndex(5);
+                          },
+                        ),
+                        _buildDivider(),
+                        _buildSettingsItem(
+                          Icons.add_business_outlined,
+                          "Add Restaurant",
+                          context: context,
+                          onTap: () => Get.to(() => const AddAccountPage()),
+                        ),
+                        _buildDivider(),
+                        _buildSettingsItem(
+                          Icons.event_outlined,
+                          "Add Event",
+                          onTap: () => Get.to(() => const AddEventPage()),
+                          context: context,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Text(
                     "General",
                     style: GoogleFonts.manrope(
                       fontSize: 18.sp,
@@ -48,24 +95,33 @@ class SettingsPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Obx(() => SwitchListTile(
-                              title: Text(
-                                themeController.isDarkMode.value ? "Dark Mode" : "Light Mode",
-                                style: GoogleFonts.manrope(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: context.theme.textTheme.bodyMedium?.color,
-                                ),
+                        Obx(
+                          () => SwitchListTile(
+                            title: Text(
+                              themeController.isDarkMode.value
+                                  ? "Dark Mode"
+                                  : "Light Mode",
+                              style: GoogleFonts.manrope(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color:
+                                    context.theme.textTheme.bodyMedium?.color,
                               ),
-                              secondary: Icon(
-                                themeController.isDarkMode.value ? Icons.dark_mode : Icons.light_mode,
-                                color: context.theme.iconTheme.color,
-                                size: 22.sp,
-                              ),
-                              value: themeController.isDarkMode.value,
-                              onChanged: (value) => themeController.toggleTheme(),
-                              activeColor: themeController.isDarkMode.value ? Colors.white : AppColors.primaryColor,
-                            )),
+                            ),
+                            secondary: Icon(
+                              themeController.isDarkMode.value
+                                  ? Icons.dark_mode
+                                  : Icons.light_mode,
+                              color: context.theme.iconTheme.color,
+                              size: 22.sp,
+                            ),
+                            value: themeController.isDarkMode.value,
+                            onChanged: (value) => themeController.toggleTheme(),
+                            activeColor: themeController.isDarkMode.value
+                                ? Colors.white
+                                : AppColors.primaryColor,
+                          ),
+                        ),
                         _buildDivider(),
                         _buildSettingsItem(
                           Icons.shield_outlined,
@@ -146,7 +202,9 @@ class SettingsPage extends StatelessWidget {
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 16.h),
                       decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF381B1B) : const Color(0xFFFFF2EF),
+                        color: isDark
+                            ? const Color(0xFF381B1B)
+                            : const Color(0xFFFFF2EF),
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: Row(

@@ -13,7 +13,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -65,6 +65,7 @@ class BottomNavBar extends StatelessWidget {
                 "assets/icons/more.png",
                 "assets/icons/more_selected.png",
                 'More',
+                skipSelectedTint: true,
               ),
             ],
           ),
@@ -78,12 +79,21 @@ class BottomNavBar extends StatelessWidget {
     int index,
     String outlinedIcon,
     String filledIcon,
-    String label,
-  ) {
+    String label, {
+    bool skipSelectedTint = false,
+  }) {
     bool isSelected = selectedIndex == index;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeColor = isDark ? const Color(0xFFCA7373) : AppColors.primaryColor;
-    
+    final activeColor = isDark
+        ? const Color(0xFFCA7373)
+        : AppColors.primaryColor;
+
+    // For icons like "more" whose selected asset is already fully colored,
+    // we skip the color tint so the original image renders correctly.
+    final Color? iconColor = (isSelected && skipSelectedTint)
+        ? null
+        : (isSelected ? activeColor : Colors.grey);
+
     return GestureDetector(
       onTap: () => onItemTapped(index),
       child: Container(
@@ -94,7 +104,7 @@ class BottomNavBar extends StatelessWidget {
             const SizedBox(height: 2),
             Image.asset(
               isSelected ? filledIcon : outlinedIcon,
-              color: isSelected ? activeColor : Colors.grey,
+              color: iconColor,
               width: 26,
               height: 26,
             ),

@@ -17,9 +17,9 @@ class SavePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -31,14 +31,14 @@ class SavePage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
       ),
       body: Column(
         children: [
           const SizedBox(height: 16),
-          _buildTabs(),
+          _buildTabs(context),
           const SizedBox(height: 16),
           Expanded(
             child: Obx(() {
@@ -52,15 +52,15 @@ class SavePage extends StatelessWidget {
                 items = controller.savedEvents;
 
               if (items.isEmpty) {
-                return _buildEmptyState();
+                return _buildEmptyState(context);
               }
 
               if (index == 0) {
-                return _buildRestaurantGrid(items);
+                return _buildRestaurantGrid(context, items);
               } else if (index == 1) {
                 return _buildFoodList(items);
               } else {
-                return _buildEventGrid(items);
+                return _buildEventGrid(context, items);
               }
             }),
           ),
@@ -69,7 +69,7 @@ class SavePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTabs() {
+  Widget _buildTabs(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
@@ -83,8 +83,11 @@ class SavePage extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 8),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primaryColor : Colors.white,
+                  color: isSelected ? AppColors.primaryColor : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: isSelected ? Colors.transparent : Theme.of(context).dividerColor,
+                  ),
                 ),
                 child: Text(
                   controller.tabs[index],
@@ -102,7 +105,7 @@ class SavePage extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -135,48 +138,48 @@ class SavePage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 20.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildRestaurantGrid(List<SavedItem> items) {
+  Widget _buildRestaurantGrid(BuildContext context, List<SavedItem> items) {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
         childAspectRatio: 0.7,
       ),
       itemCount: items.length,
-      itemBuilder: (context, index) {
+      itemBuilder: (ctx, index) {
         final item = items[index];
-        return _buildGridCard(item, isRestaurant: true);
+        return _buildGridCard(context, item, isRestaurant: true);
       },
     );
   }
 
-  Widget _buildEventGrid(List<SavedItem> items) {
+  Widget _buildEventGrid(BuildContext context, List<SavedItem> items) {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
         childAspectRatio: 0.7,
       ),
       itemCount: items.length,
-      itemBuilder: (context, index) {
+      itemBuilder: (ctx, index) {
         final item = items[index];
-        return _buildGridCard(item, isRestaurant: false);
+        return _buildGridCard(context, item, isRestaurant: false);
       },
     );
   }
 
-  Widget _buildGridCard(SavedItem item, {required bool isRestaurant}) {
+  Widget _buildGridCard(BuildContext context, SavedItem item, {required bool isRestaurant}) {
     return GestureDetector(
       onTap: () {
         if (isRestaurant) {
@@ -188,7 +191,7 @@ class SavePage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -222,7 +225,7 @@ class SavePage extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
@@ -265,7 +268,7 @@ class SavePage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -286,7 +289,7 @@ class SavePage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                         ),
                       ),
                     ),
@@ -323,11 +326,11 @@ class SavePage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 16),
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Theme.of(context).shadowColor.withOpacity(0.05),
                 blurRadius: 15,
                 offset: const Offset(0, 5),
               ),
@@ -357,7 +360,7 @@ class SavePage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -368,7 +371,7 @@ class SavePage extends StatelessWidget {
                         Text(
                           item.rating.toString(),
                           style: GoogleFonts.manrope(
-                            color: Colors.black,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w800,
                           ),
@@ -395,7 +398,7 @@ class SavePage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
                           ),
                         ),
                       ],

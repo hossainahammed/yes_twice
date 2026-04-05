@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'add_account_page.dart';
 import 'restaurant_list_page.dart';
+import '../controllers/restaurant_dashboard_controller.dart';
 import '../../../../core/constant/image_path.dart';
 
 class RestaurantProfilePage extends StatelessWidget {
@@ -43,7 +44,9 @@ class RestaurantProfilePage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(20.w, 50.h, 20.w, 30.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: context.theme.brightness == Brightness.dark
+            ? const Color(0xFF1E1E1E)
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30.r),
           bottomRight: Radius.circular(30.r),
@@ -51,6 +54,25 @@ class RestaurantProfilePage extends StatelessWidget {
       ),
       child: Row(
         children: [
+          GestureDetector(
+            onTap: () {
+              final controller = Get.find<RestaurantDashboardController>();
+              controller.changeNavIndex(4);
+            },
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 16.sp,
+              ),
+            ),
+          ),
+          SizedBox(width: 12.w),
           CircleAvatar(
             radius: 20.r,
             backgroundImage: AssetImage(ImagePath.dashboardProfile),
@@ -260,7 +282,7 @@ class RestaurantProfilePage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
@@ -280,7 +302,7 @@ class RestaurantProfilePage extends StatelessWidget {
       style: GoogleFonts.manrope(
         fontSize: 16.sp,
         fontWeight: FontWeight.w700,
-        color: Colors.black,
+        color: Get.theme.textTheme.bodyMedium?.color,
       ),
     );
   }
@@ -303,12 +325,17 @@ class RestaurantProfilePage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFF1A1A1A)
+            : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(
         text,
-        style: GoogleFonts.manrope(color: Colors.black87, fontSize: 13.sp),
+        style: GoogleFonts.manrope(
+          color: Get.theme.textTheme.bodyMedium?.color,
+          fontSize: 13.sp,
+        ),
       ),
     );
   }
@@ -318,7 +345,9 @@ class RestaurantProfilePage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFF1A1A1A)
+            : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
@@ -327,7 +356,10 @@ class RestaurantProfilePage extends StatelessWidget {
           SizedBox(width: 12.w),
           Text(
             text,
-            style: GoogleFonts.manrope(color: Colors.black87, fontSize: 13.sp),
+            style: GoogleFonts.manrope(
+              color: Get.theme.textTheme.bodyMedium?.color,
+              fontSize: 13.sp,
+            ),
           ),
         ],
       ),
@@ -339,13 +371,15 @@ class RestaurantProfilePage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFF1A1A1A)
+            : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(
         text,
         style: GoogleFonts.manrope(
-          color: Colors.black87,
+          color: Get.theme.textTheme.bodyMedium?.color,
           fontSize: 13.sp,
           height: 1.5,
         ),
@@ -393,7 +427,13 @@ class RestaurantProfilePage extends StatelessWidget {
         height: 40.h,
         margin: EdgeInsets.symmetric(horizontal: 4.w),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white : const Color(0xFFFFF2EF),
+          color: isSelected
+              ? (Get.theme.brightness == Brightness.dark
+                    ? const Color(0xFFCA7373)
+                    : Colors.white)
+              : (Get.theme.brightness == Brightness.dark
+                    ? const Color(0xFF381B1B)
+                    : const Color(0xFFFFF2EF)),
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: isSelected
               ? [
@@ -411,7 +451,11 @@ class RestaurantProfilePage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 14.sp,
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-              color: isSelected ? Colors.black : Colors.black54,
+              color: isSelected
+                  ? (Get.theme.brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black)
+                  : Colors.grey.shade400,
             ),
           ),
         ),
@@ -424,7 +468,9 @@ class RestaurantProfilePage extends StatelessWidget {
       width: 120.w,
       height: 40.h,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF2EF),
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFF381B1B)
+            : const Color(0xFFFFF2EF),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Center(
@@ -433,7 +479,7 @@ class RestaurantProfilePage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyMedium?.color,
           ),
         ),
       ),
@@ -445,7 +491,9 @@ class RestaurantProfilePage extends StatelessWidget {
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFFCA7373)
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(
@@ -466,7 +514,7 @@ class RestaurantProfilePage extends StatelessWidget {
       Container(
         padding: EdgeInsets.all(20.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Get.theme.cardColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.r),
             topRight: Radius.circular(30.r),
@@ -490,9 +538,9 @@ class RestaurantProfilePage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Get.theme.cardColor,
                 borderRadius: BorderRadius.circular(15.r),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Get.theme.dividerColor),
               ),
               child: Column(
                 children: [

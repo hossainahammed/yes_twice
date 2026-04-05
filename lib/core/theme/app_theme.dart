@@ -25,21 +25,21 @@ class AppTheme {
 
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: AppColors.primaryColor,
-    scaffoldBackgroundColor: const Color(0xFF121212),
+    primaryColor: const Color(0xFFCA7373),
+    scaffoldBackgroundColor: const Color(0xFF141414),
     colorScheme: const ColorScheme.dark(
-      primary: AppColors.primaryColor,
-      surface: Color(0xFF1E1E1E),
+      primary: Color(0xFFCA7373),
+      surface: Color(0xFF232323),
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF121212),
+      backgroundColor: Color(0xFF141414),
       foregroundColor: Colors.white,
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.white),
     ),
     textTheme: GoogleFonts.manropeTextTheme(ThemeData.dark().textTheme),
     iconTheme: const IconThemeData(color: Colors.white70),
-    cardColor: const Color(0xFF1E1E1E),
+    cardColor: const Color(0xFF232323),
     dividerColor: Colors.grey.shade800,
   );
 }

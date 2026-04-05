@@ -233,9 +233,9 @@ class ExplorePage extends StatelessWidget {
       builder: (BuildContext context) {
         return Container(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(24),
               topRight: Radius.circular(24),
             ),
@@ -264,31 +264,35 @@ class ExplorePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               // Divider
-              Divider(color: Colors.grey.shade300, thickness: 1),
+              Divider(color: Theme.of(context).dividerColor, thickness: 1),
               const SizedBox(height: 20),
               // Share options row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildShareOption(
+                    context,
                     title: 'Copy Link',
                     icon: Icons.copy,
                     backgroundColor: AppColors.primaryColor,
                   ),
                   _buildShareOption(
+                    context,
                     title: 'WhatsApp',
-                    icon: Icons.chat, // Approximation
-                    backgroundColor: Colors.green, // WhatsApp green
+                    icon: Icons.chat,
+                    backgroundColor: Colors.green,
                   ),
                   _buildShareOption(
+                    context,
                     title: 'Instagram',
-                    icon: Icons.camera_alt, // Approximation
+                    icon: Icons.camera_alt,
                     isGradient: true,
                   ),
                   _buildShareOption(
+                    context,
                     title: 'TikTok',
-                    icon: Icons.music_note, // Approximation
-                    backgroundColor: Colors.pinkAccent, // TikTok red/pink
+                    icon: Icons.music_note,
+                    backgroundColor: Colors.pinkAccent,
                   ),
                 ],
               ),
@@ -300,7 +304,8 @@ class ExplorePage extends StatelessWidget {
     );
   }
 
-  Widget _buildShareOption({
+  Widget _buildShareOption(
+    BuildContext context, {
     required String title,
     required IconData icon,
     Color? backgroundColor,
@@ -335,7 +340,7 @@ class ExplorePage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 10,
             fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
       ],
