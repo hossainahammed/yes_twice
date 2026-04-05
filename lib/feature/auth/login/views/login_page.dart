@@ -13,12 +13,11 @@ import '../controllers/login_page_controller.dart';
 import '../../claim/views/claim_page.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final LoginPageController controller = Get.put(LoginPageController());
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LoginPageController controller = Get.put(LoginPageController());
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

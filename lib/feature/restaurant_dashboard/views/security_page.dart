@@ -39,7 +39,7 @@ class SecurityPage extends StatelessWidget {
                   _buildDivider(),
                   _buildSecurityItem(
                     "Delete Restaurant",
-                    () => Get.to(() => const RestaurantListPage(isForDelete: true)),
+                    () => Get.to(() => RestaurantListPage(isForDelete: true)),
                   ),
                   _buildDivider(),
                   _buildSecurityItem(

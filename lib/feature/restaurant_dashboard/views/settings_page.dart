@@ -93,96 +93,100 @@ class SettingsPage extends StatelessWidget {
   }
 
   void _showLogoutDialog(BuildContext context) {
-    Get.dialog(
-      Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(24.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  shape: BoxShape.circle,
-                ),
-                child: Image.asset(ImagePath.logoutIcon),
-                // child: Icon(
-                //   Icons.report_problem_rounded,
-                //   color: Colors.red,
-                //   size: 32.sp,
-                // ),
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
+      ),
+      builder: (_) => Container(
+        padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 32.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(2.r),
               ),
-              SizedBox(height: 16.h),
-              Text(
-                "LOGOUT",
-                style: GoogleFonts.manrope(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),
+            ),
+            SizedBox(height: 24.h),
+            Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: Colors.red.shade50,
+                shape: BoxShape.circle,
               ),
-              SizedBox(height: 8.h),
-              Text(
-                "Are you sure you want to log out? You will need to sign in again to access your account.",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
-                  fontSize: 14.sp,
-                  color: Colors.grey.shade500,
-                ),
+              child: Image.asset(ImagePath.logoutIcon),
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              "LOGOUT",
+              style: GoogleFonts.manrope(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w800,
+                color: Colors.black,
               ),
-              SizedBox(height: 24.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Get.to(() => LoginPage()),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                        side: const BorderSide(color: Colors.red),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              "Are you sure you want to log out? You will need to sign in again to access your account.",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.manrope(
+                fontSize: 14.sp,
+                color: Colors.grey.shade500,
+              ),
+            ),
+            SizedBox(height: 24.h),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Get.offAll(() => const LoginPage()),
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                      side: const BorderSide(color: Colors.red),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
                       ),
-                      child: Text(
-                        "Logout",
-                        style: GoogleFonts.manrope(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.red,
-                        ),
+                    ),
+                    child: Text(
+                      "Logout",
+                      style: GoogleFonts.manrope(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.red,
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => Get.back(),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                        backgroundColor: const Color(0xFFFDE8E4),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => Get.back(),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                      backgroundColor: const Color(0xFFFDE8E4),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
                       ),
-                      child: Text(
-                        "Cancel",
-                        style: GoogleFonts.manrope(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF4C080C),
-                        ),
+                    ),
+                    child: Text(
+                      "Cancel",
+                      style: GoogleFonts.manrope(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF4C080C),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

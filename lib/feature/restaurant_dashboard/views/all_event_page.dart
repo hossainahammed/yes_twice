@@ -2,29 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import 'add_event_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 
 class AllEventPage extends StatelessWidget {
-  AllEventPage({super.key});
+  final bool? forceEmpty;
+  const AllEventPage({super.key, this.forceEmpty});
 
-  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  RestaurantDashboardController get controller => Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backGroundColor,
       appBar: _buildAppBar(context),
-      body: ListView.separated(
-        padding: EdgeInsets.all(20.w),
-        itemCount: 8,
-        separatorBuilder: (context, index) => SizedBox(height: 16.h),
-        itemBuilder: (context, index) {
-          return _buildEventCard(context);
-        },
-      ),
+      body: Obx(() {
+        bool showEmpty = forceEmpty ?? (controller.events.isEmpty);
+        return showEmpty 
+            ? _buildEmptyState()
+            : ListView.separated(
+                padding: EdgeInsets.all(20.w),
+                itemCount: controller.events.length,
+                separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                itemBuilder: (context, index) {
+                  return _buildEventCard(context);
+                },
+              );
+      }),
+      bottomNavigationBar: Obx(() {
+        bool showEmpty = forceEmpty ?? (controller.events.isEmpty);
+        return showEmpty 
+            ? Padding(
+                padding: EdgeInsets.all(20.w),
+                child: _buildAddRestaurantButton(),
+              )
+            : const SizedBox.shrink();
+      }),
     );
   }
 
@@ -33,12 +49,26 @@ class AllEventPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       automaticallyImplyLeading: false,
-      leading: controller.currentNavIndex.value == 2 
-          ? null 
-          : IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
-              onPressed: () => Get.back(),
+      leading: Padding(
+        padding: EdgeInsets.only(left: 10.w),
+        child: Center(
+          child: GestureDetector(
+            onTap: () => Get.back(),
+            child: Container(
+              padding: EdgeInsets.all(10.w),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                size: 20.sp,
+                color: Colors.black,
+              ),
             ),
+          ),
+        ),
+      ),
       title: Text(
         "All Event",
         style: GoogleFonts.manrope(
@@ -48,26 +78,78 @@ class AllEventPage extends StatelessWidget {
         ),
       ),
       actions: [
-        Padding(
-          padding: EdgeInsets.only(right: 20.w),
-          child: GestureDetector(
-            onTap: () => Get.to(() => const AddEventPage()),
-            child: Container(
-              width: 32.w,
-              height: 32.w,
-              decoration: BoxDecoration(
-                color: const Color(0xFF4C080C),
-                shape: BoxShape.circle,
+        Obx(() {
+          if (controller.events.isNotEmpty && forceEmpty != true) {
+            return Padding(
+              padding: EdgeInsets.only(right: 20.w),
+              child: GestureDetector(
+                onTap: () => Get.to(() => const AddEventPage()),
+                child: Container(
+                  width: 32.w,
+                  height: 32.w,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4C080C),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 20.sp,
+                  ),
+                ),
               ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 20.sp,
-              ),
-            ),
+            );
+          }
+          return const SizedBox.shrink();
+        }),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: SvgPicture.asset(
+            ImagePath.emptyeventList,
+            width: 140.w,
+            height: 140.w,
+          ),
+        ),
+        SizedBox(height: 40.h),
+        Text(
+          "Nothing here yet.\nGo explore!",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.manrope(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+            height: 1.3,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAddRestaurantButton() {
+    return Container(
+      width: double.infinity,
+      height: 56.h,
+      decoration: BoxDecoration(
+        color: const Color(0xFF4C080C),
+        borderRadius: BorderRadius.circular(30.r),
+      ),
+      child: Center(
+        child: Text(
+          "Add Restaurant",
+          style: GoogleFonts.manrope(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 

@@ -14,13 +14,11 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(
-          top: BorderSide(color: Color(0xFFF1F5F9), width: 1),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFFF1F5F9), width: 1)),
       ),
       child: SafeArea(
         child: Padding(
@@ -28,10 +26,34 @@ class BottomNavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(context, 0, "assets/icons/home_selected.png", "assets/icons/home_selected.png", 'Home'),
-              _buildNavItem(context, 1, "assets/icons/explore.png", "assets/icons/explore_selected.png", 'Explore'),
-              _buildNavItem(context, 2, "assets/icons/save.png", "assets/icons/save_selected.png", 'Save'),
-              _buildNavItem(context, 3, "assets/icons/more.png", "assets/icons/more_selected.png", 'More'),
+              _buildNavItem(
+                context,
+                0,
+                "assets/icons/home_selected.png",
+                "assets/icons/home_selected.png",
+                'Home',
+              ),
+              _buildNavItem(
+                context,
+                1,
+                "assets/icons/explore.png",
+                "assets/icons/explore_selected.png",
+                'Explore',
+              ),
+              _buildNavItem(
+                context,
+                2,
+                "assets/icons/save.png",
+                "assets/icons/save_selected.png",
+                'Save',
+              ),
+              _buildNavItem(
+                context,
+                3,
+                "assets/icons/more.png",
+                "assets/icons/more_selected.png",
+                'More',
+              ),
             ],
           ),
         ),
@@ -39,7 +61,13 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(BuildContext context, int index, String outlinedIcon, String filledIcon, String label) {
+  Widget _buildNavItem(
+    BuildContext context,
+    int index,
+    String outlinedIcon,
+    String filledIcon,
+    String label,
+  ) {
     bool isSelected = selectedIndex == index;
     return GestureDetector(
       onTap: () => onItemTapped(index),

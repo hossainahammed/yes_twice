@@ -2,40 +2,75 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constant/image_path.dart';
 import 'delete_restaurant_page.dart';
+import '../controllers/restaurant_dashboard_controller.dart';
 
 class RestaurantListPage extends StatelessWidget {
   final bool isForDelete;
-  const RestaurantListPage({super.key, this.isForDelete = false});
+  final bool? forceEmpty;
+  const RestaurantListPage({super.key, this.isForDelete = false, this.forceEmpty});
+
+  RestaurantDashboardController get controller => Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          _buildHeader(),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(20.w),
-              children: [
-                _buildRestaurantCard(context, "Smokehouse", "108 Oakway Lane, CA 91303", "\$\$", ImagePath.popularDishes1),
-                SizedBox(height: 16.h),
-                _buildRestaurantCard(context, "Shahjhan Grill", "3523 West Park SUMT 90001", "\$\$", ImagePath.popularDishes2),
-                SizedBox(height: 16.h),
-                _buildRestaurantCard(context, "Ramada", "1405 Mattson, IR 7103", "\$\$", ImagePath.popularDishes3),
-                SizedBox(height: 16.h),
-                _buildRestaurantCard(context, "HolidayInn", "2323 Dancing, NY 11101", "\$\$", ImagePath.gallery1),
-              ],
+      body: Obx(() {
+        bool showEmpty = forceEmpty ?? (controller.restaurants.isEmpty);
+        return Column(
+          children: [
+            _buildHeader(),
+            Expanded(
+              child: showEmpty
+                  ? _buildEmptyState()
+                  : ListView.separated(
+                      padding: EdgeInsets.all(20.w),
+                      itemCount: controller.restaurants.length,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 16.h),
+                      itemBuilder: (context, index) {
+                        final data = controller.restaurants[index];
+                        return _buildRestaurantCard(
+                          context,
+                          data["name"],
+                          data["address"],
+                          data["price"],
+                          ImagePath.popularDishes1, // Mocked image
+                        );
+                      },
+                    ),
             ),
+            Padding(padding: EdgeInsets.all(20.w), child: _buildAddButton()),
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          ImagePath.emptyResturantList,
+          width: 140.w,
+          height: 140.w,
+        ),
+        SizedBox(height: 40.h),
+        Text(
+          "Nothing here yet.\nGo explore!",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.manrope(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+            height: 1.3,
           ),
-          Padding(
-            padding: EdgeInsets.all(20.w),
-            child: _buildAddButton(),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -77,7 +112,13 @@ class RestaurantListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRestaurantCard(BuildContext context, String name, String address, String price, String imagePath) {
+  Widget _buildRestaurantCard(
+    BuildContext context,
+    String name,
+    String address,
+    String price,
+    String imagePath,
+  ) {
     return GestureDetector(
       onTap: () {
         if (isForDelete) {
@@ -124,7 +165,11 @@ class RestaurantListPage extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Row(
                     children: [
-                      Icon(Icons.location_on, color: const Color(0xFF4C080C), size: 12.sp),
+                      Icon(
+                        Icons.location_on,
+                        color: const Color(0xFF4C080C),
+                        size: 12.sp,
+                      ),
                       SizedBox(width: 4.w),
                       Expanded(
                         child: Text(

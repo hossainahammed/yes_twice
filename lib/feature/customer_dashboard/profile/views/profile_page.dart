@@ -1,5 +1,6 @@
 import 'package:bolaji277/core/constant/image_path.dart';
 import 'package:bolaji277/feature/auth/login/views/login_page.dart';
+import 'package:bolaji277/feature/customer_dashboard/home/views/event_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -64,7 +65,7 @@ class ProfilePage extends StatelessWidget {
                       radius: 28.r,
                       backgroundColor: Colors.grey.shade200,
                       backgroundImage: const AssetImage(
-                        'assets/images/Composer.png',
+                        'assets/images/profile.png',
                       ), // placeholder
                     ),
                     SizedBox(width: 16.w),
@@ -94,11 +95,16 @@ class ProfilePage extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () => Get.to(() => const EditProfilePage()),
-                      icon: Icon(
-                        Icons.edit_outlined,
-                        color: AppColors.primaryColor,
-                        size: 24.sp,
+                      icon: Image.asset(
+                        ImagePath.profileEdit,
+                        width: 40.w,
+                        height: 40.w,
                       ),
+                      // icon: Icon(
+                      //   Icons.edit_outlined,
+                      //   color: AppColors.primaryColor,
+                      //   size: 24.sp,
+                      // ),
                     ),
                   ],
                 ),
@@ -114,6 +120,13 @@ class ProfilePage extends StatelessWidget {
                 () => Get.to(() => const MyReviewsPage()),
               ),
 
+              SizedBox(height: 12.h),
+              _buildMenuItem(
+                Icons.event_available,
+                'Active event',
+                () => Get.to(() => const EventListPage()),
+              ),
+
               SizedBox(height: 24.h),
 
               Text('General', style: _sectionHeadingStyle()),
@@ -124,7 +137,7 @@ class ProfilePage extends StatelessWidget {
                 () => Get.to(() => const SecurityPage()),
               ),
               _buildMenuItem(
-                Icons.support_agent_outlined,
+                Icons.call_outlined,
                 'Contact Us',
                 () => Get.to(() => const ContactUsPage()),
               ),
@@ -134,7 +147,7 @@ class ProfilePage extends StatelessWidget {
                 () => Get.to(() => const SupportCenterPage()),
               ),
               _buildMenuItem(
-                Icons.privacy_tip_outlined,
+                Icons.lock_outline,
                 'Privacy & Policy',
                 () => Get.to(() => const PrivacyPolicyPage()),
               ),
@@ -266,7 +279,8 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(width: 16.w),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Get.to(() => LoginPage()), // Do logout
+                    onPressed: () =>
+                        Get.offAll(() => const LoginPage()), // Do logout
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
                       shape: RoundedRectangleBorder(

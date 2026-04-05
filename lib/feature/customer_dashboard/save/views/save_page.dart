@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart'; // For CustomBackButton
 import '../controllers/save_controller.dart';
+import '../../home/views/restaurant_details_page.dart';
+import '../../home/views/event_details_page.dart';
+import '../../home/views/dish_details_page.dart';
 
 class SavePage extends StatelessWidget {
   SavePage({super.key});
@@ -174,9 +177,17 @@ class SavePage extends StatelessWidget {
   }
 
   Widget _buildGridCard(SavedItem item, {required bool isRestaurant}) {
-    return Container(
-      padding: EdgeInsets.all(8.w),
-      decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        if (isRestaurant) {
+          Get.to(() => const RestaurantDetailsPage());
+        } else {
+          Get.to(() => const EventDetailsPage());
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.all(8.w),
+        decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
@@ -296,8 +307,9 @@ class SavePage extends StatelessWidget {
           SizedBox(height: 4.h),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildFoodList(List<SavedItem> items) {
     return ListView.builder(
@@ -305,10 +317,12 @@ class SavePage extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          padding: EdgeInsets.all(8.w),
-          decoration: BoxDecoration(
+        return GestureDetector(
+          onTap: () => Get.to(() => const DishDetailsPage()),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            padding: EdgeInsets.all(8.w),
+            decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
@@ -413,8 +427,9 @@ class SavePage extends StatelessWidget {
               ),
             ],
           ),
-        );
-      },
+        ),
+      );
+    },
     );
   }
 }

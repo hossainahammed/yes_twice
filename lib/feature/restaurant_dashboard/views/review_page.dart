@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/image_path.dart';
+import '../../../../core/constant/widgets/success_dialog.dart';
 
 class ReviewPage extends StatelessWidget {
   const ReviewPage({super.key});
@@ -58,7 +59,7 @@ class ReviewPage extends StatelessWidget {
               ],
             ),
           ),
-          Align(alignment: Alignment.bottomCenter, child: _buildReplySection()),
+          Align(alignment: Alignment.bottomCenter, child: _buildReplySection(context)),
         ],
       ),
     );
@@ -294,7 +295,7 @@ class ReviewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildReplySection() {
+  Widget _buildReplySection(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 40.h),
       decoration: BoxDecoration(
@@ -345,18 +346,28 @@ class ReviewPage extends StatelessWidget {
           SizedBox(height: 16.h),
           Align(
             alignment: Alignment.bottomRight,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFF4C080C),
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-              child: Text(
-                "Send",
-                style: GoogleFonts.manrope(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+            child: GestureDetector(
+              onTap: () {
+                SuccessDialog.show(
+                  title: "Review submitted",
+                  context: context,
+                  onPressed: () => Get.back(),
+                  iconPath: ImagePath.reviewSubmit,
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF4C080C),
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+                child: Text(
+                  "Send",
+                  style: GoogleFonts.manrope(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

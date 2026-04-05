@@ -220,7 +220,9 @@ class RestaurantProfilePage extends StatelessWidget {
               height: 120.h,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey.shade200, // Slightly darker to distinguish from white
+                color: Colors
+                    .grey
+                    .shade200, // Slightly darker to distinguish from white
                 image: DecorationImage(
                   image: AssetImage(ImagePath.map),
                   fit: BoxFit.cover, // Ensures the map fills the area
@@ -519,7 +521,7 @@ class RestaurantProfilePage extends StatelessWidget {
               ImagePath.popularDishes1,
               "The Rustic Bistro",
               false,
-              () => Get.to(() => const RestaurantListPage()),
+              () => Get.to(() => RestaurantListPage()),
             ),
             SizedBox(height: 20.h),
           ],
@@ -530,7 +532,11 @@ class RestaurantProfilePage extends StatelessWidget {
   }
 
   Widget _buildAccountSwitchItem(
-      String imagePath, String name, bool isSelected, VoidCallback onTap) {
+    String imagePath,
+    String name,
+    bool isSelected,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -543,10 +549,7 @@ class RestaurantProfilePage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 18.r,
-              backgroundImage: AssetImage(imagePath),
-            ),
+            CircleAvatar(radius: 18.r, backgroundImage: AssetImage(imagePath)),
             SizedBox(width: 12.w),
             Expanded(
               child: Text(
@@ -583,11 +586,7 @@ class RestaurantProfilePage extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.grey.shade200),
               ),
-              child: Icon(
-                Icons.add,
-                color: Colors.black,
-                size: 18.sp,
-              ),
+              child: Icon(Icons.add, color: Colors.black, size: 18.sp),
             ),
             SizedBox(width: 12.w),
             Text(

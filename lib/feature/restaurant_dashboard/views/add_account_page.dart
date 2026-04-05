@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/image_path.dart';
+import '../../../../core/constant/widgets/success_dialog.dart';
 
 class AddAccountPage extends StatelessWidget {
   const AddAccountPage({super.key});
@@ -45,7 +46,7 @@ class AddAccountPage extends StatelessWidget {
                   SizedBox(height: 16.h),
                   _buildPhotoSelection(),
                   SizedBox(height: 40.h),
-                  _buildAddButton(),
+                  _buildAddButton(context),
                   SizedBox(height: 20.h),
                 ],
               ),
@@ -267,21 +268,34 @@ class AddAccountPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAddButton() {
-    return Container(
-      width: double.infinity,
-      height: 56.h,
-      decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
-        borderRadius: BorderRadius.circular(30.r),
-      ),
-      child: Center(
-        child: Text(
-          "Add Restaurant",
-          style: GoogleFonts.manrope(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+  Widget _buildAddButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        SuccessDialog.show(
+          title: "Restaurant added",
+          context: context,
+          onPressed: () {
+            Get.back();
+            Get.back();
+          },
+          iconPath: ImagePath.resturantAdd,
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: 56.h,
+        decoration: BoxDecoration(
+          color: const Color(0xFF4C080C),
+          borderRadius: BorderRadius.circular(30.r),
+        ),
+        child: Center(
+          child: Text(
+            "Add Restaurant",
+            style: GoogleFonts.manrope(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
