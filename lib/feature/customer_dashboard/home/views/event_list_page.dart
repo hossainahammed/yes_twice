@@ -12,9 +12,9 @@ class EventListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -26,7 +26,7 @@ class EventListPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -42,7 +42,7 @@ class EventListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 GestureDetector(
@@ -96,7 +96,7 @@ class EventListPage extends StatelessWidget {
                 final event = events[index % 2];
                 return GestureDetector(
                   onTap: () => Get.to(() => const EventDetailsPage()),
-                  child: _buildEventCard(event),
+                  child: _buildEventCard(context, event),
                 );
               },
             ),
@@ -106,11 +106,11 @@ class EventListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEventCard(Map<String, String> event) {
+  Widget _buildEventCard(BuildContext context, Map<String, String> event) {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -147,7 +147,7 @@ class EventListPage extends StatelessWidget {
                       vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
@@ -167,7 +167,7 @@ class EventListPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                       ],
@@ -183,7 +183,7 @@ class EventListPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 14.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: context.theme.textTheme.bodyLarge?.color,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -203,7 +203,7 @@ class EventListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

@@ -39,9 +39,15 @@ class SearchPage extends StatelessWidget {
                       height: 55,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
+                        color: context.theme.brightness == Brightness.dark
+                            ? AppColors.darkBackgroundColor
+                            : context.theme.cardColor,
                         borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: AppColors.primaryColor.withOpacity(0.5), width: 1),
+                        border: Border.all(
+                            color: context.theme.brightness == Brightness.dark
+                                ? Colors.white10
+                                : AppColors.primaryColor.withOpacity(0.5),
+                            width: 1),
                       ),
                       child: Row(
                         children: [
@@ -57,7 +63,12 @@ class SearchPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Icon(Icons.tune, color: AppColors.primaryColor),
+                           Icon(
+                            Icons.tune,
+                            color: context.theme.brightness == Brightness.dark
+                                ? Colors.white
+                                : AppColors.primaryColor,
+                          ),
                         ],
                       ),
                     ),
@@ -102,10 +113,16 @@ class SearchPage extends StatelessWidget {
       margin: const EdgeInsets.only(right: 15),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: context.theme.brightness == Brightness.dark
+            ? AppColors.darkSurfaceColor
+            : Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 5)),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
         ],
       ),
       child: Row(
@@ -120,7 +137,16 @@ class SearchPage extends StatelessWidget {
             child: Icon(icon, color: AppColors.primaryColor, size: 20),
           ),
           const SizedBox(width: 12),
-          Text(label, style: GoogleFonts.manrope(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color)),
+          Text(
+            label,
+            style: GoogleFonts.manrope(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: context.theme.brightness == Brightness.dark
+                  ? Colors.white
+                  : context.theme.textTheme.bodyMedium?.color,
+            ),
+          ),
         ],
       ),
     );
@@ -140,13 +166,27 @@ class SearchPage extends StatelessWidget {
       children: tags.map((tag) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: context.theme.brightness == Brightness.dark
+              ? AppColors.darkSurfaceColor
+              : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 5, offset: const Offset(0, 2)),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.02),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            ),
           ],
         ),
-        child: Text(tag, style: GoogleFonts.poppins(fontSize: 13, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7))),
+        child: Text(
+          tag,
+          style: GoogleFonts.poppins(
+            fontSize: 13,
+            color: context.theme.brightness == Brightness.dark
+                ? Colors.white.withOpacity(0.7)
+                : context.theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+          ),
+        ),
       )).toList(),
     );
   }

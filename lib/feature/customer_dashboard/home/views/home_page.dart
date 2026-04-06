@@ -1,3 +1,4 @@
+import 'package:bolaji277/feature/customer_dashboard/home/views/all_reviews_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -49,7 +50,9 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: screenHeight * 0.03),
                   _buildEventsHappeningBanner(screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
-                  _buildSectionHeader(context, 'Recent Reviews', () {}),
+                  _buildSectionHeader(context, 'Recent Reviews', () {
+                    Get.to(() => const AllReviewsPage());
+                  }),
                   SizedBox(height: screenHeight * 0.02),
                   _buildReviews(context, screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.03),
@@ -144,7 +147,9 @@ class HomePage extends StatelessWidget {
               height: 52,
               padding: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.darkBackgroundColor
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(26),
               ),
               child: Row(
@@ -166,20 +171,14 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.tune,
-                          color: AppColors.primaryColor,
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
                           size: 20,
                         ),
                         const SizedBox(width: 8),
-                        // Text(
-                        //   'FILTERS',
-                        //   style: GoogleFonts.manrope(
-                        //     color: Colors.white,
-                        //     fontSize: 12,
-                        //     fontWeight: FontWeight.bold,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -202,7 +201,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title, VoidCallback onSeeAll) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    VoidCallback onSeeAll,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -223,7 +226,7 @@ class HomePage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 12,
                   color: context.theme.brightness == Brightness.dark
-                      ? const Color(0xFFCA7373)
+                      ? Colors.white
                       : AppColors.primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
@@ -231,7 +234,7 @@ class HomePage extends StatelessWidget {
               Icon(
                 Icons.chevron_right,
                 color: context.theme.brightness == Brightness.dark
-                    ? const Color(0xFFCA7373)
+                    ? Colors.white
                     : AppColors.primaryColor,
                 size: 16,
               ),
@@ -252,12 +255,16 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.only(right: 12),
             padding: const EdgeInsets.fromLTRB(4, 4, 16, 4),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryColor : context.theme.cardColor,
+              color: isSelected
+                  ? AppColors.primaryColor
+                  : (context.theme.brightness == Brightness.dark
+                      ? const Color(0xFF2C2C2C)
+                      : context.theme.cardColor),
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  blurRadius: 8,
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -275,7 +282,11 @@ class HomePage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : context.theme.textTheme.bodyMedium?.color,
+                    color: isSelected
+                        ? Colors.white
+                        : (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87),
                   ),
                 ),
               ],
@@ -291,7 +302,7 @@ class HomePage extends StatelessWidget {
       onTap: () => Get.to(() => PopularFoodSpotsPage()),
       child: Container(
         width: double.infinity,
-        height: 180, // Increased height to prevent overflow
+        height: 180,
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
           borderRadius: BorderRadius.circular(20),
@@ -384,7 +395,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRestaurants(BuildContext context, double screenWidth, double screenHeight) {
+  Widget _buildRestaurants(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -452,7 +467,11 @@ class HomePage extends StatelessWidget {
                                 Text(
                                   rest.rating.toString(),
                                   style: GoogleFonts.manrope(
-                                    color: context.theme.textTheme.bodyMedium?.color,
+                                    color: context
+                                        .theme
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w800,
                                   ),
@@ -485,9 +504,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.location_on,
-                              color: context.theme.brightness == Brightness.dark
-                                  ? const Color(0xFFCA7373)
-                                  : AppColors.primaryColor,
+                              color: AppColors.primaryColor,
                               size: 12,
                             ),
                             const SizedBox(width: 4),
@@ -499,7 +516,8 @@ class HomePage extends StatelessWidget {
                                 style: GoogleFonts.manrope(
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: context.theme.textTheme.bodyMedium?.color,
+                                  color:
+                                      context.theme.textTheme.bodyMedium?.color,
                                 ),
                               ),
                             ),
@@ -529,7 +547,7 @@ class HomePage extends StatelessWidget {
   Widget _buildEventsHappeningBanner(double screenWidth, double screenHeight) {
     return Container(
       width: double.infinity,
-      height: 180, // Increased height
+      height: 180,
       decoration: BoxDecoration(
         color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(20),
@@ -561,9 +579,9 @@ class HomePage extends StatelessWidget {
                 Text(
                   'Events Happening Nearby',
                   style: GoogleFonts.manrope(
-                    color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -621,7 +639,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildReviews(BuildContext context, double screenWidth, double screenHeight) {
+  Widget _buildReviews(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -704,7 +726,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildEvents(BuildContext context, double screenWidth, double screenHeight) {
+  Widget _buildEvents(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -760,9 +786,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.location_on,
-                            color: context.theme.brightness == Brightness.dark
-                                ? const Color(0xFFCA7373)
-                                : AppColors.primaryColor,
+                            color: AppColors.primaryColor,
                             size: 12,
                           ),
                           const SizedBox(width: 4),
@@ -774,7 +798,8 @@ class HomePage extends StatelessWidget {
                               style: GoogleFonts.manrope(
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w600,
-                                color: context.theme.textTheme.bodyMedium?.color,
+                                color:
+                                    context.theme.textTheme.bodyMedium?.color,
                               ),
                             ),
                           ),
@@ -873,17 +898,13 @@ class _FilterBottomSheet extends StatelessWidget {
                   4,
                   (index) => Icon(
                     Icons.star,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? const Color(0xFFCA7373)
-                        : AppColors.primaryColor,
+                    color: AppColors.primaryColor,
                     size: 24,
                   ),
                 ),
                 Icon(
                   Icons.star_border,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? const Color(0xFFCA7373)
-                      : AppColors.primaryColor,
+                  color: AppColors.primaryColor,
                   size: 24,
                 ),
                 const SizedBox(width: 12),
@@ -924,9 +945,7 @@ class _FilterBottomSheet extends StatelessWidget {
                   value: true,
                   onChanged: (v) {},
                   activeColor: Colors.white,
-                  activeTrackColor: Theme.of(context).brightness == Brightness.dark
-                      ? const Color(0xFFCA7373)
-                      : AppColors.primaryColor,
+                  activeTrackColor: AppColors.primaryColor,
                 ),
               ],
             ),
@@ -957,8 +976,9 @@ class _FilterBottomSheet extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Get.back(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).brightness == Brightness.dark
-                          ? const Color(0xFFCA7373)
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.primaryColor
                           : AppColors.primaryColor,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -986,7 +1006,9 @@ class _FilterBottomSheet extends StatelessWidget {
     return GoogleFonts.manrope(
       fontSize: 14,
       fontWeight: FontWeight.bold,
-      color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[400] : Colors.grey[700],
+      color: Theme.of(context).brightness == Brightness.dark
+          ? Colors.grey[400]
+          : Colors.grey[700],
       letterSpacing: 1,
     );
   }
@@ -1009,8 +1031,8 @@ class _FilterBottomSheet extends StatelessWidget {
             isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
             color: isSelected
                 ? (Theme.of(context).brightness == Brightness.dark
-                    ? const Color(0xFFCA7373)
-                    : AppColors.primaryColor)
+                      ? AppColors.primaryColor
+                      : AppColors.primaryColor)
                 : Colors.grey[300],
           ),
         ],
@@ -1022,7 +1044,11 @@ class _FilterBottomSheet extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primaryColor : (Theme.of(context).brightness == Brightness.dark ? const Color(0xFF2A1A1A) : const Color(0xFFFFF2EB)),
+        color: isSelected
+            ? AppColors.primaryColor
+            : (Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF2A1A1A)
+                  : const Color(0xFFFFF2EB)),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

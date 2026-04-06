@@ -13,9 +13,9 @@ class DishDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -27,7 +27,7 @@ class DishDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -51,7 +51,7 @@ class DishDetailsPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black87,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                         SizedBox(height: 4.h),
@@ -64,7 +64,7 @@ class DishDetailsPage extends StatelessWidget {
                               style: GoogleFonts.manrope(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black87,
+                                color: context.theme.textTheme.bodyLarge?.color,
                               ),
                             ),
                             SizedBox(width: 4.w),
@@ -89,7 +89,7 @@ class DishDetailsPage extends StatelessWidget {
                           child: Transform.flip(
                             flipX: true,
                             child: Icon(Icons.reply_rounded,
-                                color: Colors.black54, size: 24.sp),
+                                color: context.theme.textTheme.bodyLarge?.color, size: 24.sp),
                           ),
                         ),
                       ],
@@ -102,7 +102,7 @@ class DishDetailsPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -115,9 +115,9 @@ class DishDetailsPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.h),
-                _buildSectionHeader('Recent Reviews', () => Get.to(() => const AllReviewsPage())),
+                _buildSectionHeader(context, 'Recent Reviews', () => Get.to(() => const AllReviewsPage())),
                 SizedBox(height: 16.h),
-                _buildSampleReview(),
+                _buildSampleReview(context),
                 SizedBox(height: 30.h),
               ],
             ),
@@ -230,7 +230,7 @@ class DishDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title, VoidCallback onTap) {
+  Widget _buildSectionHeader(BuildContext context, String title, VoidCallback onTap) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -239,7 +239,7 @@ class DishDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 16.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
         GestureDetector(
@@ -251,10 +251,18 @@ class DishDetailsPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 10.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primaryColor,
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
                 ),
               ),
-              Icon(Icons.chevron_right, color: AppColors.primaryColor, size: 14.sp),
+              Icon(
+                Icons.chevron_right,
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.primaryColor,
+                size: 14.sp,
+              ),
             ],
           ),
         ),
@@ -262,11 +270,11 @@ class DishDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSampleReview() {
+  Widget _buildSampleReview(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -305,7 +313,7 @@ class DishDetailsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                          color: context.theme.textTheme.bodyLarge?.color,
                         ),
                       ),
                       Row(
@@ -323,7 +331,7 @@ class DishDetailsPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: context.theme.textTheme.bodyLarge?.color,
                       height: 1.5,
                     ),
                   ),
@@ -344,7 +352,7 @@ class DishDetailsPage extends StatelessWidget {
         return Container(
           padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.theme.cardColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),

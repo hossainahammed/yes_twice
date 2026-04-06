@@ -12,7 +12,7 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: PageView.builder(
         scrollDirection: Axis.vertical,
         itemCount: controller.exploreItems.length,

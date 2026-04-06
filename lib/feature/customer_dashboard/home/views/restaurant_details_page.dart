@@ -15,9 +15,9 @@ class RestaurantDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -29,7 +29,7 @@ class RestaurantDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -49,31 +49,33 @@ class RestaurantDetailsPage extends StatelessWidget {
                 SizedBox(height: 16.h),
                 _buildHeaderRow(context),
                 SizedBox(height: 8.h),
-                _buildInfoRows(),
+                _buildInfoRows(context),
                 SizedBox(height: 20.h),
-                Container(height: 1, color: Colors.grey.shade100),
+                Container(height: 1, color: context.theme.dividerColor),
                 SizedBox(height: 16.h),
-                _buildDescriptionSection(),
+                _buildDescriptionSection(context),
                 SizedBox(height: 16.h),
-                _buildContactInfo(),
+                _buildContactInfo(context),
                 SizedBox(height: 20.h),
-                Container(height: 1, color: Colors.grey.shade100),
+                Container(height: 1, color: context.theme.dividerColor),
                 SizedBox(height: 16.h),
                 _buildSectionHeader(
+                  context,
                   'Dishes',
                   () => Get.to(() => const DishListPage()),
                 ),
                 SizedBox(height: 12.h),
-                _buildDishesList(),
+                _buildDishesList(context),
                 SizedBox(height: 20.h),
                 Container(height: 1, color: Colors.grey.shade100),
                 SizedBox(height: 16.h),
                 _buildSectionHeader(
+                  context,
                   'Recent Reviews',
                   () => Get.to(() => const AllReviewsPage()),
                 ),
                 SizedBox(height: 12.h),
-                _buildRecentReviews(),
+                _buildRecentReviews(context),
                 SizedBox(height: 30.h),
               ],
             ),
@@ -219,7 +221,7 @@ class RestaurantDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 22.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
         Row(
@@ -241,7 +243,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRows() {
+  Widget _buildInfoRows(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -287,7 +289,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDescriptionSection() {
+  Widget _buildDescriptionSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -299,7 +301,7 @@ class RestaurantDetailsPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w800,
-                color: Colors.black87,
+                color: context.theme.textTheme.bodyLarge?.color,
               ),
             ),
             Row(
@@ -311,7 +313,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
               ],
@@ -331,7 +333,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildContactInfo() {
+  Widget _buildContactInfo(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -343,7 +345,7 @@ class RestaurantDetailsPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: context.theme.textTheme.bodyLarge?.color,
               ),
             ),
           ],
@@ -359,7 +361,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                  color: context.theme.textTheme.bodyLarge?.color,
                 ),
               ),
             ),
@@ -369,7 +371,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title, VoidCallback onTap) {
+  Widget _buildSectionHeader(BuildContext context, String title, VoidCallback onTap) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -378,7 +380,7 @@ class RestaurantDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 16.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
         GestureDetector(
@@ -389,12 +391,19 @@ class RestaurantDetailsPage extends StatelessWidget {
                 'See all',
                 style: GoogleFonts.manrope(
                   fontSize: 10.sp,
-                  color: AppColors.primaryColor,
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              Icon(Icons.chevron_right,
-                  color: AppColors.primaryColor, size: 14.sp),
+              Icon(
+                Icons.chevron_right,
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.primaryColor,
+                size: 14.sp,
+              ),
             ],
           ),
         ),
@@ -402,7 +411,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDishesList() {
+  Widget _buildDishesList(BuildContext context) {
     final dishes = [
       {'name': 'Pizza', 'image': 'assets/images/pizza.png', 'rating': '4.9'},
       {
@@ -421,7 +430,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 16.h),
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
@@ -454,7 +463,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                          color: context.theme.textTheme.bodyLarge?.color,
                         ),
                       ),
                       SizedBox(height: 4.h),
@@ -467,7 +476,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w800,
-                              color: Colors.black,
+                              color: context.theme.textTheme.bodyLarge?.color,
                             ),
                           ),
                           SizedBox(width: 4.w),
@@ -503,7 +512,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(color: AppColors.primaryColor),
                     ),
@@ -526,11 +535,11 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentReviews() {
+  Widget _buildRecentReviews(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -571,7 +580,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w800,
-                              color: Colors.black,
+                              color: context.theme.textTheme.bodyLarge?.color,
                             ),
                           ),
                           Row(
@@ -587,7 +596,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                         'Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper. Quisque ultrices lobortis elit sed euismod.',
                         style: GoogleFonts.manrope(
                           fontSize: 10.sp,
-                          color: Colors.black87,
+                          color: context.theme.textTheme.bodyLarge?.color,
                           height: 1.5,
                         ),
                       ),

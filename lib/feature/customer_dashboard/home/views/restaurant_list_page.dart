@@ -12,9 +12,9 @@ class RestaurantListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -39,9 +39,15 @@ class RestaurantListPage extends StatelessWidget {
             child: Container(
               height: 48.h,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.darkBackgroundColor
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(24.r),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white10
+                      : Colors.grey.shade300,
+                ),
               ),
               child: Row(
                 children: [
@@ -66,7 +72,9 @@ class RestaurantListPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Icon(
                       Icons.tune,
-                      color: AppColors.primaryColor,
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : AppColors.primaryColor,
                       size: 20.sp,
                     ),
                   ),
@@ -85,7 +93,7 @@ class RestaurantListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 Text(
@@ -114,6 +122,7 @@ class RestaurantListPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => Get.to(() => const RestaurantDetailsPage()),
                   child: _buildGridCard(
+                    context,
                     title: index % 2 == 0
                         ? 'The Southern Spoon'
                         : 'Spice Theory',
@@ -133,7 +142,8 @@ class RestaurantListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGridCard({
+  Widget _buildGridCard(
+    BuildContext context, {
     required String title,
     required String location,
     required String price,
@@ -143,7 +153,7 @@ class RestaurantListPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -179,7 +189,7 @@ class RestaurantListPage extends StatelessWidget {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
@@ -197,7 +207,7 @@ class RestaurantListPage extends StatelessWidget {
                         Text(
                           rating.toString(),
                           style: GoogleFonts.manrope(
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w800,
                           ),

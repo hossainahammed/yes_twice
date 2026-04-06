@@ -15,12 +15,18 @@ class CustomBackButton extends StatelessWidget {
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white10
+                : Colors.grey.shade300,
+          ),
         ),
         child: Icon(
           Icons.arrow_back_ios_new,
           size: 18.sp,
-          color: Colors.black87,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black87,
         ),
       ),
     );
@@ -73,11 +79,7 @@ class CustomAuthField extends StatelessWidget {
             ),
             prefixIcon: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Icon(
-                prefixIcon,
-                color: Colors.black87,
-                size: 22.sp,
-              ),
+              child: Icon(prefixIcon, color: Colors.black87, size: 22.sp),
             ),
             suffixIcon: isPassword
                 ? GestureDetector(
@@ -88,25 +90,26 @@ class CustomAuthField extends StatelessWidget {
                         (obscureText ?? true)
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: Colors.black87,
-                        size: 22.sp,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87,
                       ),
                     ),
                   )
                 : null,
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF0D0D0D) : Colors.white,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.w,
               vertical: 18.h,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(color: Colors.grey.shade100),
+              borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? Colors.white10 : Colors.grey.shade100),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(color: Colors.grey.shade200),
+              borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? Colors.white10 : Colors.grey.shade200),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
@@ -156,7 +159,7 @@ class SocialLoginButton extends StatelessWidget {
                 width: 22.w,
                 height: 22.w,
                 errorBuilder: (_, __, ___) => Icon(
-                  Icons.g_mobiledata,
+                  Icons.g_mobiledata_sharp,
                   color: Colors.blue,
                   size: 28.sp,
                 ),

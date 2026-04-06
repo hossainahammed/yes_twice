@@ -16,9 +16,9 @@ class PopularFoodSpotsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.backGroundColor,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -30,7 +30,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -43,9 +43,15 @@ class PopularFoodSpotsPage extends StatelessWidget {
             child: Container(
               height: 48.h,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.darkBackgroundColor
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(24.r),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white10
+                      : Colors.grey.shade300,
+                ),
               ),
               child: Row(
                 children: [
@@ -74,7 +80,9 @@ class PopularFoodSpotsPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Icon(
                       Icons.tune,
-                      color: AppColors.primaryColor,
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : AppColors.primaryColor,
                       size: 20.sp,
                     ),
                   ),
@@ -97,11 +105,18 @@ class PopularFoodSpotsPage extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 12),
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primaryColor : Colors.white,
+                    color: isSelected
+                        ? AppColors.primaryColor
+                        : (context.theme.brightness == Brightness.dark
+                            ? AppColors.darkSurfaceColor
+                            : Colors.white),
                     borderRadius: BorderRadius.circular(20.r),
                     border: isSelected
                         ? null
-                        : Border.all(color: Colors.grey.shade200),
+                        : Border.all(
+                            color: context.theme.brightness == Brightness.dark
+                                ? Colors.white10
+                                : Colors.grey.shade200),
                   ),
                   child: Row(
                     children: [
@@ -121,7 +136,11 @@ class PopularFoodSpotsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.white : Colors.black87,
+                          color: isSelected
+                              ? Colors.white
+                              : (context.theme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : context.theme.textTheme.bodyLarge?.color),
                         ),
                       ),
                     ],
@@ -140,6 +159,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => Get.to(() => RestaurantDetailsPage()),
                   child: _buildLargeRestaurantCard(
+                    context,
                     name: index == 0 ? 'The North Spoon' : 'The Southern Spoon',
                     location: 'Johannesburg',
                     price: r'$$$',
@@ -157,7 +177,8 @@ class PopularFoodSpotsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLargeRestaurantCard({
+  Widget _buildLargeRestaurantCard(
+    BuildContext context, {
     required String name,
     required String location,
     required String price,
@@ -168,7 +189,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 24),
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -201,7 +222,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: context.theme.cardColor,
                     borderRadius: BorderRadius.circular(12.r),
                     boxShadow: [
                       BoxShadow(
@@ -221,7 +242,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                          color: context.theme.textTheme.bodyLarge?.color,
                         ),
                       ),
                     ],
@@ -243,7 +264,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: context.theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -260,7 +281,7 @@ class PopularFoodSpotsPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                       ],
