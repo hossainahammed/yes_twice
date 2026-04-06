@@ -18,8 +18,13 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LoginPageController controller = Get.put(LoginPageController());
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
@@ -27,9 +32,6 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              // Only show back button if there is a route to pop back to.
-              // When navigating from Onboarding via Get.offAll(), the stack
-              // is empty and popping would crash.
               if (Navigator.of(context).canPop())
                 const CustomBackButton(),
               SizedBox(height: 30.h),
@@ -43,7 +45,7 @@ class LoginPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 28.sp,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textColor,
+                        color: textColor,
                       ),
                     ),
                     SizedBox(height: 8.h),
@@ -52,7 +54,7 @@ class LoginPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
+                        color: subTextColor,
                       ),
                     ),
                   ],
@@ -93,7 +95,7 @@ class LoginPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primaryColor.withOpacity(0.8),
+                      color: AppColors.primaryColor,
                     ),
                   ),
                 ),
@@ -192,7 +194,7 @@ class LoginPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade600,
+                      color: subTextColor,
                     ),
                     children: [
                       TextSpan(

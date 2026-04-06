@@ -22,11 +22,13 @@ class RestaurantListPage extends StatelessWidget {
           child: CustomBackButton(),
         ),
         title: Text(
-          'Restaurant list',
+          'Restaurant List',
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
           ),
         ),
       ),
@@ -101,7 +103,9 @@ class RestaurantListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.primaryColor,
+                    color: context.theme.brightness == Brightness.dark
+                        ? Colors.white
+                        : AppColors.primaryColor,
                   ),
                 ),
               ],
@@ -232,7 +236,9 @@ class RestaurantListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                    color: context.theme.brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -242,21 +248,22 @@ class RestaurantListPage extends StatelessWidget {
                     const Icon(
                       Icons.location_on,
                       color: AppColors.primaryColor,
-                      size: 12,
+                      size: 18,
                     ),
                     const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        location,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.manrope(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
+                    Text(
+                      location,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.manrope(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w600,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87,
                       ),
                     ),
+                    const SizedBox(width: 4),
                     Text(
                       '  $price',
                       style: GoogleFonts.manrope(

@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../controllers/home_controller.dart';
-import '../models/home_models.dart';
 import 'search_page.dart';
 import 'restaurant_list_page.dart';
 import 'popular_food_spots_page.dart';
 import 'restaurant_details_page.dart';
 import 'event_list_page.dart';
 import 'browse_by_food_page.dart';
+import 'event_details_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -212,9 +212,9 @@ class HomePage extends StatelessWidget {
         Text(
           title,
           style: GoogleFonts.manrope(
-            fontSize: 18,
+            fontSize: 19,
             fontWeight: FontWeight.w700,
-            color: context.theme.textTheme.bodyMedium?.color,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
         GestureDetector(
@@ -258,8 +258,8 @@ class HomePage extends StatelessWidget {
               color: isSelected
                   ? AppColors.primaryColor
                   : (context.theme.brightness == Brightness.dark
-                      ? const Color(0xFF2C2C2C)
-                      : context.theme.cardColor),
+                        ? const Color(0xFF2C2C2C)
+                        : context.theme.cardColor),
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
@@ -285,8 +285,8 @@ class HomePage extends StatelessWidget {
                     color: isSelected
                         ? Colors.white
                         : (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black87),
+                              ? Colors.white
+                              : Colors.black87),
                   ),
                 ),
               ],
@@ -545,96 +545,99 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildEventsHappeningBanner(double screenWidth, double screenHeight) {
-    return Container(
-      width: double.infinity,
-      height: 180,
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            bottom: 0,
-            top: 0,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.horizontal(
-                right: Radius.circular(20),
-              ),
-              child: Image.asset(
-                'assets/images/Composer.png',
-                width: screenWidth * 0.4,
-                fit: BoxFit.cover,
-                alignment: Alignment.centerLeft,
+    return GestureDetector(
+      onTap: () => Get.to(() => const EventListPage()),
+      child: Container(
+        width: double.infinity,
+        height: 180,
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.horizontal(
+                  right: Radius.circular(20),
+                ),
+                child: Image.asset(
+                  'assets/images/Composer.png',
+                  width: screenWidth * 0.4,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerLeft,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Events Happening Nearby',
-                  style: GoogleFonts.manrope(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: screenWidth * 0.45,
-                  child: Text(
-                    'Check out the cool events that are happening nearby.',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Events Happening Nearby',
                     style: GoogleFonts.manrope(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
                       color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      height: 1.3,
                     ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Explore now',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: screenWidth * 0.45,
+                    child: Text(
+                      'Check out the cool events that are happening nearby.',
+                      style: GoogleFonts.manrope(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        height: 1.3,
                       ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF1A1A1A),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.north_east_rounded,
-                          color: Colors.white,
-                          size: 14,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 15),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Explore now',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF1A1A1A),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.north_east_rounded,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -654,6 +657,11 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
               color: context.theme.cardColor,
+              border: Border.all(
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.white.withOpacity(0.1)
+                    : Colors.grey,
+              ),
               borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
@@ -735,81 +743,84 @@ class HomePage extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: controller.eventsNearby.map((event) {
-          return Container(
-            width: 200,
-            height: 230.h,
-            margin: const EdgeInsets.only(right: 16),
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: context.theme.cardColor,
-              borderRadius: BorderRadius.circular(24.r),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.r),
-                    child: Image.asset(
-                      event.imagePath,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
+          return GestureDetector(
+            onTap: () => Get.to(() => const EventDetailsPage()),
+            child: Container(
+              width: 200,
+              height: 230.h,
+              margin: const EdgeInsets.only(right: 16),
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: context.theme.cardColor,
+                borderRadius: BorderRadius.circular(24.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15.r),
+                      child: Image.asset(
+                        event.imagePath,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        event.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.manrope(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w800,
-                          color: context.theme.textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: AppColors.primaryColor,
-                            size: 12,
+                  SizedBox(height: 8.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          event.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.manrope(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w800,
+                            color: context.theme.textTheme.bodyMedium?.color,
                           ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              event.location,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.manrope(
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w600,
-                                color:
-                                    context.theme.textTheme.bodyMedium?.color,
+                        ),
+                        SizedBox(height: 4.h),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: AppColors.primaryColor,
+                              size: 12,
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                event.location,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.manrope(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color:
+                                      context.theme.textTheme.bodyMedium?.color,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-              ],
+                  SizedBox(height: 4.h),
+                ],
+              ),
             ),
           );
         }).toList(),
@@ -898,13 +909,18 @@ class _FilterBottomSheet extends StatelessWidget {
                   4,
                   (index) => Icon(
                     Icons.star,
-                    color: AppColors.primaryColor,
+                    color: context.theme.brightness == Brightness.dark
+                        ? Colors.deepOrange
+                        : AppColors.primaryColor,
+                    // color: AppColors.primaryColor,
                     size: 24,
                   ),
                 ),
                 Icon(
                   Icons.star_border,
-                  color: AppColors.primaryColor,
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.deepOrange
+                      : AppColors.primaryColor,
                   size: 24,
                 ),
                 const SizedBox(width: 12),

@@ -22,10 +22,10 @@ class SavePage extends StatelessWidget {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: true,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: CustomBackButton(),
-        ),
+        // leading: const Padding(
+        //   padding: EdgeInsets.only(left: 16),
+        //   child: CustomBackButton(),
+        // ),
         title: Text(
           'Saved',
           style: GoogleFonts.manrope(
@@ -81,12 +81,21 @@ class SavePage extends StatelessWidget {
               onTap: () => controller.switchTab(index),
               child: Container(
                 margin: const EdgeInsets.only(right: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primaryColor : Theme.of(context).cardColor,
+                  color: isSelected
+                      ? Theme.brightnessOf(context) == Brightness.dark
+                            ? AppColors.primaryColor
+                            : AppColors.primaryColor
+                      : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
-                    color: isSelected ? Colors.transparent : Theme.of(context).dividerColor,
+                    color: isSelected
+                        ? Colors.transparent
+                        : Theme.of(context).dividerColor,
                   ),
                 ),
                 child: Text(
@@ -114,8 +123,11 @@ class SavePage extends StatelessWidget {
           children: [
             Opacity(
               opacity: 0.1,
-              child:
-                  Icon(Icons.bookmark, size: 100, color: AppColors.primaryColor),
+              child: Icon(
+                Icons.bookmark,
+                size: 100,
+                color: AppColors.primaryColor,
+              ),
             ),
             Container(
               width: 60,
@@ -125,8 +137,11 @@ class SavePage extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Center(
-                child:
-                    Icon(Icons.close, color: AppColors.primaryColor, size: 30),
+                child: Icon(
+                  Icons.close,
+                  color: AppColors.primaryColor,
+                  size: 30,
+                ),
               ),
             ),
           ],
@@ -179,7 +194,11 @@ class SavePage extends StatelessWidget {
     );
   }
 
-  Widget _buildGridCard(BuildContext context, SavedItem item, {required bool isRestaurant}) {
+  Widget _buildGridCard(
+    BuildContext context,
+    SavedItem item, {
+    required bool isRestaurant,
+  }) {
     return GestureDetector(
       onTap: () {
         if (isRestaurant) {
@@ -191,128 +210,138 @@ class SavePage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.r),
-                  child: Image.asset(
-                    item.imagePath,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Container(color: Colors.grey[200]),
-                  ),
-                ),
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(12.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.asset(
+                      item.imagePath,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(color: Colors.grey[200]),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.star, color: Colors.orange, size: 10),
-                        const SizedBox(width: 4),
-                        Text(
-                          item.rating.toString(),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.orange,
+                            size: 10,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            item.rating.toString(),
+                            style: GoogleFonts.manrope(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 12.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.manrope(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w800,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.location_on,
+                        color: AppColors.primaryColor,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          item.location,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.manrope(
-                            color: Colors.black,
                             fontSize: 10.sp,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.color,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.manrope(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      color: AppColors.primaryColor,
-                      size: 12,
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        item.location,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.manrope(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
-                        ),
                       ),
-                    ),
-                    if (isRestaurant && item.priceOrCategory.isNotEmpty)
-                      Text(
-                        '  ${item.priceOrCategory}',
-                        style: GoogleFonts.manrope(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey,
+                      if (isRestaurant && item.priceOrCategory.isNotEmpty)
+                        Text(
+                          '  ${item.priceOrCategory}',
+                          style: GoogleFonts.manrope(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 4.h),
-        ],
+            SizedBox(height: 4.h),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildFoodList(List<SavedItem> items) {
     return ListView.builder(
@@ -326,114 +355,127 @@ class SavePage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 16),
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(24.r),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.05),
-                blurRadius: 15,
-                offset: const Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15.r),
-                child: Image.asset(
-                  item.imagePath,
-                  height: 80.h,
-                  width: 80.w,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Container(height: 80.h, width: 80.w, color: Colors.grey[200]),
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(24.r),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withOpacity(0.05),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      item.title,
-                      style: GoogleFonts.manrope(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w800,
+              ],
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    item.imagePath,
+                    height: 80.h,
+                    width: 80.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 80.h,
+                      width: 80.w,
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        item.title,
+                        style: GoogleFonts.manrope(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w800,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.orange,
+                            size: 14,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            item.rating.toString(),
+                            style: GoogleFonts.manrope(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '(${item.reviews})',
+                            style: GoogleFonts.manrope(
+                              color: Colors.grey,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on,
+                            color: AppColors.primaryColor,
+                            size: 14,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            item.priceOrCategory,
+                            style: GoogleFonts.manrope(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Quick View',
+                        style: GoogleFonts.manrope(
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.arrow_forward_ios,
                         color: Theme.of(context).textTheme.bodyMedium?.color,
+                        size: 10,
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.orange, size: 14),
-                        const SizedBox(width: 4),
-                        Text(
-                          item.rating.toString(),
-                          style: GoogleFonts.manrope(
-                            color: Theme.of(context).textTheme.bodyMedium?.color,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '(${item.reviews})',
-                          style: GoogleFonts.manrope(
-                            color: Colors.grey,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on,
-                            color: AppColors.primaryColor, size: 14),
-                        const SizedBox(width: 4),
-                        Text(
-                          item.priceOrCategory,
-                          style: GoogleFonts.manrope(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyMedium?.color,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Quick View',
-                      style: GoogleFonts.manrope(
-                        color: AppColors.primaryColor,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.primaryColor,
-                      size: 10,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    },
+        );
+      },
     );
   }
 }
-

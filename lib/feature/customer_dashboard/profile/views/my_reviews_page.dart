@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 
 class MyReviewsPage extends StatelessWidget {
@@ -8,13 +9,19 @@ class MyReviewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : Colors.black87;
+    final bgColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardColor = Theme.of(context).cardColor;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+
     // For demo purposes, checking if reviews exist
-    bool hasReviews = true; 
+    bool hasReviews = true;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: bgColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -26,15 +33,23 @@ class MyReviewsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: textColor,
           ),
         ),
       ),
-      body: hasReviews ? _buildReviewList() : _buildEmptyState(),
+      body: hasReviews
+          ? _buildReviewList(context, isDark, textColor, cardColor, subTextColor)
+          : _buildEmptyState(textColor),
     );
   }
 
-  Widget _buildReviewList() {
+  Widget _buildReviewList(
+    BuildContext context,
+    bool isDark,
+    Color textColor,
+    Color cardColor,
+    Color subTextColor,
+  ) {
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
       itemCount: 5,
@@ -43,11 +58,11 @@ class MyReviewsPage extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 20.h),
           padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: cardColor,
             borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withOpacity(isDark ? 0.2 : 0.05),
                 blurRadius: 15,
                 offset: const Offset(0, 5),
               ),
@@ -79,7 +94,7 @@ class MyReviewsPage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w800,
-                              color: Colors.black,
+                              color: textColor,
                             ),
                           ),
                           SizedBox(height: 2.h),
@@ -88,7 +103,7 @@ class MyReviewsPage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey,
+                              color: subTextColor,
                             ),
                           ),
                         ],
@@ -97,7 +112,8 @@ class MyReviewsPage extends StatelessWidget {
                     Row(
                       children: List.generate(
                         5,
-                        (i) => Icon(Icons.star, color: Colors.orange, size: 14.sp),
+                        (i) =>
+                            Icon(Icons.star, color: Colors.orange, size: 14.sp),
                       ),
                     ),
                   ],
@@ -110,7 +126,7 @@ class MyReviewsPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black87,
+                    color: isDark ? Colors.grey.shade300 : Colors.black87,
                     height: 1.5,
                   ),
                 ),
@@ -123,12 +139,12 @@ class MyReviewsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(Color textColor) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.star, color: const Color(0xFF4E070C), size: 100.sp),
+          Icon(Icons.star, color: AppColors.primaryColor, size: 100.sp),
           SizedBox(height: 24.h),
           Text(
             'No reviews are\nadded yet!',
@@ -136,7 +152,7 @@ class MyReviewsPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black87,
+              color: textColor,
             ),
           ),
         ],

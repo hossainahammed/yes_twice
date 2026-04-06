@@ -14,16 +14,28 @@ class DishListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dishes = [
       {'name': 'Pizza', 'image': 'assets/images/pizza.png', 'rating': '4.9'},
-      {'name': 'Chinese', 'image': 'assets/images/restaurent.png', 'rating': '4.9'},
+      {
+        'name': 'Chinese',
+        'image': 'assets/images/restaurent.png',
+        'rating': '4.9',
+      },
       {'name': 'Burgers', 'image': 'assets/images/burger.png', 'rating': '4.9'},
-      {'name': 'Pasta', 'image': 'assets/images/popularFoodSpots.png', 'rating': '4.8'},
-      {'name': 'Salad', 'image': 'assets/images/nearbyresturants.png', 'rating': '4.7'},
+      {
+        'name': 'Pasta',
+        'image': 'assets/images/popularFoodSpots.png',
+        'rating': '4.8',
+      },
+      {
+        'name': 'Salad',
+        'image': 'assets/images/nearbyresturants.png',
+        'rating': '4.7',
+      },
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -35,7 +47,7 @@ class DishListPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -50,11 +62,12 @@ class DishListPage extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(24.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: context.theme.textTheme.bodyLarge!.color!
+                        .withOpacity(0.05),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -69,8 +82,11 @@ class DishListPage extends StatelessWidget {
                       width: 80.w,
                       height: 80.h,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Container(width: 80.w, height: 80.h, color: Colors.grey[200]),
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: 80.w,
+                        height: 80.h,
+                        color: Colors.grey[200],
+                      ),
                     ),
                   ),
                   SizedBox(width: 16.w),
@@ -83,7 +99,7 @@ class DishListPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                         SizedBox(height: 6.h),
@@ -96,7 +112,7 @@ class DishListPage extends StatelessWidget {
                               style: GoogleFonts.manrope(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
+                                color: context.theme.textTheme.bodyLarge?.color,
                               ),
                             ),
                             SizedBox(width: 4.w),
@@ -105,7 +121,7 @@ class DishListPage extends StatelessWidget {
                               style: GoogleFonts.manrope(
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.grey,
+                                color: context.theme.textTheme.bodySmall?.color,
                               ),
                             ),
                           ],
@@ -116,31 +132,42 @@ class DishListPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.primaryColor,
+                            color: Colors.grey,
                           ),
                         ),
                       ],
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Get.to(() => ReviewPage(
-                      name: dish['name']!,
-                      rating: dish['rating']!,
-                      imagePath: dish['image']!,
-                    )),
+                    onTap: () => Get.to(
+                      () => ReviewPage(
+                        name: dish['name']!,
+                        rating: dish['rating']!,
+                        imagePath: dish['image']!,
+                      ),
+                    ),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 8.h,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: context.theme.cardColor,
                         borderRadius: BorderRadius.circular(20.r),
-                        border: Border.all(color: AppColors.primaryColor),
+                        border: Border.all(
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
+                        ),
                       ),
                       child: Text(
                         'Leave Review',
                         style: GoogleFonts.manrope(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.primaryColor,
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
                         ),
                       ),
                     ),

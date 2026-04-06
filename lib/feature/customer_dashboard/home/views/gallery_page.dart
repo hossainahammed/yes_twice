@@ -31,9 +31,9 @@ class _GalleryPageState extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -51,7 +51,7 @@ class _GalleryPageState extends State<GalleryPage> {
           style: GoogleFonts.manrope(
             fontSize: 18,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -77,7 +77,7 @@ class _GalleryPageState extends State<GalleryPage> {
               images[index],
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) =>
-                  Container(color: Colors.grey[200]),
+                  Container(color: context.theme.cardColor),
             ),
           ),
         );

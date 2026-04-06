@@ -14,9 +14,13 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double horizontalPadding = MediaQuery.of(context).size.width * 0.06;
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 10.h),
@@ -35,7 +39,7 @@ class RegistrationPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 28.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: textColor,
                       ),
                     ),
                     SizedBox(height: 8.h),
@@ -44,7 +48,7 @@ class RegistrationPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
+                        color: subTextColor,
                       ),
                     ),
                   ],
@@ -56,7 +60,7 @@ class RegistrationPage extends StatelessWidget {
               Obx(() => Container(
                 padding: EdgeInsets.all(6.w),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: theme.dividerColor),
                   borderRadius: BorderRadius.circular(30.r),
                 ),
                 child: Row(
@@ -77,7 +81,7 @@ class RegistrationPage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: !controller.isRestaurant.value ? Colors.white : Colors.grey.shade600,
+                              color: !controller.isRestaurant.value ? Colors.white : subTextColor,
                             ),
                           ),
                         ),
@@ -99,7 +103,7 @@ class RegistrationPage extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: controller.isRestaurant.value ? Colors.white : Colors.grey.shade600,
+                              color: controller.isRestaurant.value ? Colors.white : subTextColor,
                             ),
                           ),
                         ),
@@ -177,7 +181,7 @@ class RegistrationPage extends StatelessWidget {
                         text: "By continuing, you agree to PLTFUL ",
                         style: GoogleFonts.manrope(
                           fontSize: 12.sp,
-                          color: Colors.black,
+                          color: textColor,
                           height: 1.6,
                         ),
                         children: [
@@ -188,7 +192,12 @@ class RegistrationPage extends StatelessWidget {
                               color: AppColors.primaryColor,
                             ),
                           ),
-                          const TextSpan(text: " and acknowledge PLTFUL "),
+                          TextSpan(
+                            text: " and acknowledge PLTFUL ",
+                            style: GoogleFonts.manrope(
+                              color: textColor,
+                            ),
+                          ),
                           TextSpan(
                             text: "Privacy Policy",
                             style: GoogleFonts.manrope(
@@ -213,7 +222,7 @@ class RegistrationPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: controller.agreedToTerms.value ? AppColors.primaryColor : Colors.transparent,
                               border: Border.all(
-                                color: controller.agreedToTerms.value ? AppColors.primaryColor : Colors.grey.shade400,
+                                color: controller.agreedToTerms.value ? AppColors.primaryColor : subTextColor,
                                 width: 1.5,
                               ),
                               borderRadius: BorderRadius.circular(6.r),
@@ -229,7 +238,7 @@ class RegistrationPage extends StatelessWidget {
                               style: GoogleFonts.manrope(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black87,
+                                color: textColor,
                               ),
                             ),
                           ),

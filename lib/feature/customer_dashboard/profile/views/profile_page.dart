@@ -14,6 +14,7 @@ import 'security_page.dart';
 import 'contact_us_page.dart';
 import 'support_center_page.dart';
 import 'privacy_policy_page.dart';
+import '../../save/views/save_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -36,10 +37,10 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: bgColor,
         elevation: 0,
         centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: CustomBackButton(),
-        ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.only(left: 16),
+        //   child: CustomBackButton(),
+        // ),
         title: Text(
           'Profile',
           style: GoogleFonts.manrope(
@@ -123,7 +124,7 @@ class ProfilePage extends StatelessWidget {
                 context,
                 Icons.bookmark_outline,
                 'Saved',
-                () {},
+                () => Get.to(() => SavePage()),
               ),
               _buildMenuItem(
                 context,
@@ -213,10 +214,7 @@ class ProfilePage extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: iconBg,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
             child: Icon(
               isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
               size: 20.sp,
@@ -226,7 +224,7 @@ class ProfilePage extends StatelessWidget {
           SizedBox(width: 16.w),
           Expanded(
             child: Text(
-              'Dark Mode',
+              isDark ? 'Dark Mode' : 'Day Mode',
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -273,15 +271,8 @@ class ProfilePage extends StatelessWidget {
           children: [
             Container(
               padding: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                color: iconBg,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                size: 20.sp,
-                color: iconFg,
-              ),
+              decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
+              child: Icon(icon, size: 20.sp, color: iconFg),
             ),
             SizedBox(width: 16.w),
             Expanded(

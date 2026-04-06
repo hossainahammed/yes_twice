@@ -63,14 +63,17 @@ class CustomAuthField extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
           ),
         ),
         SizedBox(height: 10.h),
         TextField(
           controller: controller,
           obscureText: obscureText ?? false,
-          style: GoogleFonts.manrope(fontSize: 14.sp, color: Colors.black87),
+          style: GoogleFonts.manrope(
+            fontSize: 14.sp,
+            color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.manrope(
@@ -79,7 +82,13 @@ class CustomAuthField extends StatelessWidget {
             ),
             prefixIcon: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Icon(prefixIcon, color: Colors.black87, size: 22.sp),
+              child: Icon(
+                prefixIcon,
+                color:
+                    Theme.of(context).textTheme.bodyLarge?.color ??
+                    Colors.black,
+                size: 22.sp,
+              ),
             ),
             suffixIcon: isPassword
                 ? GestureDetector(
@@ -98,18 +107,28 @@ class CustomAuthField extends StatelessWidget {
                   )
                 : null,
             filled: true,
-            fillColor: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF0D0D0D) : Colors.white,
+            fillColor: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF0D0D0D)
+                : Colors.white,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.w,
               vertical: 18.h,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? Colors.white10 : Colors.grey.shade100),
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white10
+                    : Colors.grey.shade100,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? Colors.white10 : Colors.grey.shade200),
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white10
+                    : Colors.grey.shade200,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
@@ -170,7 +189,9 @@ class SocialLoginButton extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color:
+                    Theme.of(context).textTheme.bodyLarge?.color ??
+                    Colors.black,
               ),
             ),
           ],

@@ -19,7 +19,9 @@ class BottomNavBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).cardColor,
+        color: isDark
+            ? Theme.of(context).scaffoldBackgroundColor
+            : Theme.of(context).cardColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
@@ -41,7 +43,7 @@ class BottomNavBar extends StatelessWidget {
               _buildNavItem(
                 context,
                 0,
-                "assets/icons/home_selected.png",
+                "assets/icons/home.png",
                 "assets/icons/home_selected.png",
                 'Home',
               ),

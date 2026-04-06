@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import '../../../restaurant_dashboard/views/change_email_page.dart';
 import 'change_password_page.dart';
@@ -12,10 +13,12 @@ class SecurityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -27,7 +30,7 @@ class SecurityPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -36,21 +39,28 @@ class SecurityPage extends StatelessWidget {
         child: Column(
           children: [
             _buildSecurityItem(
+              context,
               Icons.email_outlined,
               'Change Email',
+              'Update your account email address',
               () => Get.to(() => const ChangeEmailPage()),
             ),
-
+            SizedBox(height: 16.h),
             _buildSecurityItem(
+              context,
               Icons.lock_outline,
               'Change Password',
+              'Reset your account password',
               () => Get.to(() => const ChangePasswordPage()),
             ),
-            SizedBox(height: 12.h),
+            SizedBox(height: 16.h),
             _buildSecurityItem(
-              Icons.delete_outline,
+              context,
+              Icons.delete_outline_rounded,
               'Delete Account',
+              'Permanently remove your account',
               () => Get.to(() => const DeleteAccountPage()),
+              isDestructive: true,
             ),
           ],
         ),
@@ -58,34 +68,81 @@ class SecurityPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSecurityItem(IconData icon, String title, VoidCallback onTap) {
+  Widget _buildSecurityItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String subtitle,
+    VoidCallback onTap, {
+    bool isDestructive = false,
+  }) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(15.r),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 8.w),
+      borderRadius: BorderRadius.circular(20.r),
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: theme.cardColor,
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: isDestructive ? Colors.red.withOpacity(0.3) : theme.dividerColor,
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(isDark ? 0.2 : 0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(8.w),
+              padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: Colors.grey.shade50,
+                color: isDestructive ? Colors.red.withOpacity(0.1) : AppColors.primaryColor.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 20.sp, color: Colors.grey.shade700),
+              child: Icon(
+                icon,
+                size: 22.sp,
+                color: isDestructive ? Colors.red : AppColors.primaryColor,
+              ),
             ),
             SizedBox(width: 16.w),
             Expanded(
-              child: Text(
-                title,
-                style: GoogleFonts.manrope(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.manrope(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w800,
+                      color: isDestructive ? Colors.red : theme.textTheme.bodyLarge?.color,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.manrope(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 22.sp),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.grey,
+              size: 24.sp,
+            ),
           ],
         ),
       ),

@@ -8,6 +8,7 @@ import 'gallery_page.dart';
 import 'review_page.dart';
 import 'all_reviews_page.dart';
 import 'dish_list_page.dart';
+import 'dish_details_page.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   const RestaurantDetailsPage({super.key});
@@ -226,15 +227,23 @@ class RestaurantDetailsPage extends StatelessWidget {
         ),
         Row(
           children: [
-            Icon(Icons.favorite_rounded,
-                color: AppColors.primaryColor, size: 24.sp),
+            Icon(
+              Icons.favorite_rounded,
+              color: AppColors.primaryColor,
+              size: 24.sp,
+            ),
             SizedBox(width: 12.w),
             GestureDetector(
               onTap: () => _showShareBottomSheet(context),
               child: Transform.flip(
                 flipX: true,
-                child: Icon(Icons.reply_rounded,
-                    color: Colors.black54, size: 24.sp),
+                child: Icon(
+                  Icons.reply_rounded,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
+                  size: 24.sp,
+                ),
               ),
             ),
           ],
@@ -264,8 +273,11 @@ class RestaurantDetailsPage extends StatelessWidget {
         SizedBox(height: 4.h),
         Row(
           children: [
-            Icon(Icons.access_time_filled,
-                color: AppColors.primaryColor, size: 12.sp),
+            Icon(
+              Icons.access_time_filled,
+              color: AppColors.primaryColor,
+              size: 12.sp,
+            ),
             SizedBox(width: 4.w),
             Text(
               '08:00 - 22:00  ',
@@ -279,7 +291,9 @@ class RestaurantDetailsPage extends StatelessWidget {
               'OPEN',
               style: GoogleFonts.manrope(
                 fontSize: 10.sp,
-                color: AppColors.primaryColor,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.primaryColor,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -324,8 +338,8 @@ class RestaurantDetailsPage extends StatelessWidget {
         Text(
           'Smokehouse brings the bold flavors of Southern-style barbecue to your plate with slow-cooked, fall-off-the-bone meats, house-made sauces, and hearty sides. Known for its signature smoked ribs and pulled pork sandwiches, this casual spot combines rustic charm with mouthwatering comfort food.',
           style: GoogleFonts.manrope(
-            fontSize: 10.sp,
-            color: Colors.grey[500],
+            fontSize: 12.sp,
+            color: Colors.grey[400],
             height: 1.6,
           ),
         ),
@@ -371,7 +385,11 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title, VoidCallback onTap) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    VoidCallback onTap,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -425,7 +443,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     return Column(
       children: dishes.map((dish) {
         return GestureDetector(
-          onTap: () => Get.to(() => const DishListPage()),
+          onTap: () => Get.to(() => const DishDetailsPage()),
           child: Container(
             margin: EdgeInsets.only(bottom: 16.h),
             padding: EdgeInsets.all(8.w),
@@ -450,7 +468,10 @@ class RestaurantDetailsPage extends StatelessWidget {
                     height: 60.w,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
-                        width: 60.w, height: 60.w, color: Colors.grey[200]),
+                      width: 60.w,
+                      height: 60.w,
+                      color: Colors.grey[200],
+                    ),
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -496,32 +517,42 @@ class RestaurantDetailsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.primaryColor,
+                          color: Colors.grey,
                         ),
                       ),
                     ],
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Get.to(() => ReviewPage(
-                        name: dish['name']!,
-                        rating: dish['rating']!,
-                        imagePath: dish['image']!,
-                      )),
+                  onTap: () => Get.to(
+                    () => ReviewPage(
+                      name: dish['name']!,
+                      rating: dish['rating']!,
+                      imagePath: dish['image']!,
+                    ),
+                  ),
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
                       color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(20.r),
-                      border: Border.all(color: AppColors.primaryColor),
+                      border: Border.all(
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                      ),
                     ),
                     child: Text(
                       'Review',
                       style: GoogleFonts.manrope(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primaryColor,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
                       ),
                     ),
                   ),
@@ -564,7 +595,10 @@ class RestaurantDetailsPage extends StatelessWidget {
                     height: 40.h,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
-                        width: 40.w, height: 40.h, color: Colors.grey[200]),
+                      width: 40.w,
+                      height: 40.h,
+                      color: Colors.grey[200],
+                    ),
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -585,8 +619,11 @@ class RestaurantDetailsPage extends StatelessWidget {
                           ),
                           Row(
                             children: List.generate(5, (index) {
-                              return Icon(Icons.star,
-                                  color: Colors.orange, size: 10.sp);
+                              return Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                                size: 10.sp,
+                              );
                             }),
                           ),
                         ],
@@ -642,7 +679,9 @@ class RestaurantDetailsPage extends StatelessWidget {
         return Container(
           padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkSurfaceColor
+                : Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -655,7 +694,9 @@ class RestaurantDetailsPage extends StatelessWidget {
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.black87,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
                   borderRadius: BorderRadius.circular(4.r),
                 ),
               ),
@@ -665,7 +706,9 @@ class RestaurantDetailsPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -675,21 +718,25 @@ class RestaurantDetailsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildShareOption(
+                    context,
                     title: 'Copy Link',
                     icon: Icons.copy,
                     backgroundColor: AppColors.primaryColor,
                   ),
                   _buildShareOption(
+                    context,
                     title: 'WhatsApp',
                     icon: Icons.chat,
                     backgroundColor: Colors.green,
                   ),
                   _buildShareOption(
+                    context,
                     title: 'Instagram',
                     icon: Icons.camera_alt,
                     isGradient: true,
                   ),
                   _buildShareOption(
+                    context,
                     title: 'TikTok',
                     icon: Icons.music_note,
                     backgroundColor: Colors.pinkAccent,
@@ -704,7 +751,8 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildShareOption({
+  Widget _buildShareOption(
+    BuildContext context, {
     required String title,
     required IconData icon,
     Color? backgroundColor,
@@ -739,11 +787,12 @@ class RestaurantDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 10.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
           ),
         ),
       ],
     );
   }
 }
-

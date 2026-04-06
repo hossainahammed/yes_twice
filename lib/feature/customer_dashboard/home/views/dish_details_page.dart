@@ -38,7 +38,7 @@ class DishDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDishImages(),
+                _buildDishImages(context),
                 SizedBox(height: 24.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +57,11 @@ class DishDetailsPage extends StatelessWidget {
                         SizedBox(height: 4.h),
                         Row(
                           children: [
-                            Icon(Icons.star_rounded, color: Colors.orange, size: 14.sp),
+                            Icon(
+                              Icons.star_rounded,
+                              color: Colors.orange,
+                              size: 14.sp,
+                            ),
                             SizedBox(width: 4.w),
                             Text(
                               '4.9',
@@ -81,15 +85,21 @@ class DishDetailsPage extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.favorite_border_rounded,
-                            color: AppColors.primaryColor, size: 24.sp),
+                        Icon(
+                          Icons.favorite_border_rounded,
+                          color: AppColors.primaryColor,
+                          size: 24.sp,
+                        ),
                         SizedBox(width: 16.w),
                         GestureDetector(
                           onTap: () => _showShareBottomSheet(context),
                           child: Transform.flip(
                             flipX: true,
-                            child: Icon(Icons.reply_rounded,
-                                color: context.theme.textTheme.bodyLarge?.color, size: 24.sp),
+                            child: Icon(
+                              Icons.reply_rounded,
+                              color: context.theme.textTheme.bodyLarge?.color,
+                              size: 24.sp,
+                            ),
                           ),
                         ),
                       ],
@@ -115,7 +125,11 @@ class DishDetailsPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.h),
-                _buildSectionHeader(context, 'Recent Reviews', () => Get.to(() => const AllReviewsPage())),
+                _buildSectionHeader(
+                  context,
+                  'Recent Reviews',
+                  () => Get.to(() => const AllReviewsPage()),
+                ),
                 SizedBox(height: 16.h),
                 _buildSampleReview(context),
                 SizedBox(height: 30.h),
@@ -127,11 +141,13 @@ class DishDetailsPage extends StatelessWidget {
             right: 24.w,
             bottom: 24.h,
             child: ElevatedButton(
-              onPressed: () => Get.to(() => const ReviewPage(
-                name: 'Pizza',
-                rating: '4.9',
-                imagePath: 'assets/images/pizza.png',
-              )),
+              onPressed: () => Get.to(
+                () => const ReviewPage(
+                  name: 'Pizza',
+                  rating: '4.9',
+                  imagePath: 'assets/images/pizza.png',
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 minimumSize: Size(double.infinity, 52.h),
@@ -154,7 +170,10 @@ class DishDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDishImages() {
+  Widget _buildDishImages(BuildContext context) {
+    final isDark = context.theme.brightness == Brightness.dark;
+    final placeholderColor = isDark ? Colors.grey[800] : Colors.grey[200];
+
     return SizedBox(
       height: 250.h,
       child: Row(
@@ -167,8 +186,10 @@ class DishDetailsPage extends StatelessWidget {
                 'assets/images/pizza.png',
                 height: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    Container(height: double.infinity, color: Colors.grey[200]),
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: double.infinity,
+                  color: placeholderColor,
+                ),
               ),
             ),
           ),
@@ -184,8 +205,10 @@ class DishDetailsPage extends StatelessWidget {
                       'assets/images/burger.png',
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Container(width: double.infinity, color: Colors.grey[200]),
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: double.infinity,
+                        color: placeholderColor,
+                      ),
                     ),
                   ),
                 ),
@@ -201,7 +224,10 @@ class DishDetailsPage extends StatelessWidget {
                           height: double.infinity,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
-                              Container(width: double.infinity, color: Colors.grey[200]),
+                              Container(
+                            width: double.infinity,
+                            color: placeholderColor,
+                          ),
                         ),
                         Container(
                           width: double.infinity,
@@ -230,7 +256,11 @@ class DishDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title, VoidCallback onTap) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    VoidCallback onTap,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -296,8 +326,11 @@ class DishDetailsPage extends StatelessWidget {
                 width: 40.w,
                 height: 40.h,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
-                    Container(width: 40.w, height: 40.h, color: Colors.grey[200]),
+                errorBuilder: (_, __, ___) => Container(
+                  width: 40.w,
+                  height: 40.h,
+                  color: Colors.grey[200],
+                ),
               ),
             ),
             SizedBox(width: 12.w),
@@ -318,9 +351,11 @@ class DishDetailsPage extends StatelessWidget {
                       ),
                       Row(
                         children: List.generate(5, (index) {
-                          return Icon(Icons.star,
-                              color: index < 5 ? Colors.orange : Colors.grey[200],
-                              size: 10.sp);
+                          return Icon(
+                            Icons.star,
+                            color: index < 5 ? Colors.orange : Colors.grey[200],
+                            size: 10.sp,
+                          );
                         }),
                       ),
                     ],
@@ -375,7 +410,9 @@ class DishDetailsPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -384,10 +421,15 @@ class DishDetailsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildShareOption('Copy Link', Icons.copy, AppColors.primaryColor),
-                  _buildShareOption('WhatsApp', Icons.chat, Colors.green),
-                  _buildShareOption('Instagram', Icons.camera_alt, Colors.pink),
-                  _buildShareOption('TikTok', Icons.music_note, Colors.black),
+                  _buildShareOption(
+                    context,
+                    'Copy Link',
+                    Icons.copy,
+                    AppColors.primaryColor,
+                  ),
+                  _buildShareOption(context, 'WhatsApp', Icons.chat, Colors.green),
+                  _buildShareOption(context, 'Instagram', Icons.camera_alt, Colors.pink),
+                  _buildShareOption(context, 'TikTok', Icons.music_note, Colors.black),
                 ],
               ),
             ],
@@ -397,7 +439,8 @@ class DishDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildShareOption(String title, IconData icon, Color color) {
+  Widget _buildShareOption(
+      BuildContext context, String title, IconData icon, Color color) {
     return Column(
       children: [
         Container(
@@ -415,7 +458,9 @@ class DishDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 10.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
       ],
