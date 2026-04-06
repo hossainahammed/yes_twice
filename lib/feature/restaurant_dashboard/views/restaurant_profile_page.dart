@@ -1,14 +1,23 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'add_account_page.dart';
 import 'restaurant_list_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 import '../../../../core/constant/image_path.dart';
 
-class RestaurantProfilePage extends StatelessWidget {
+class RestaurantProfilePage extends StatefulWidget {
   const RestaurantProfilePage({super.key});
+
+  @override
+  State<RestaurantProfilePage> createState() => _RestaurantProfilePageState();
+}
+
+class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
+  File? _profileImage;
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +129,116 @@ class RestaurantProfilePage extends StatelessWidget {
     );
   }
 
+  Future<void> _pickProfileImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final XFile? picked = await picker.pickImage(
+      source: source,
+      maxWidth: 1200,
+      maxHeight: 1200,
+      imageQuality: 85,
+    );
+    if (picked != null) {
+      setState(() {
+        _profileImage = File(picked.path);
+      });
+    }
+  }
+
+  void _showImagePickerOptions() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final sheetBg = isDark ? const Color(0xFF232323) : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black87;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: sheetBg,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (_) => SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                "Choose Photo",
+                style: GoogleFonts.manrope(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: textColor,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              ListTile(
+                leading: Container(
+                  padding: EdgeInsets.all(10.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9663A).withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.camera_alt_outlined,
+                    color: const Color(0xFFF9663A),
+                    size: 22.sp,
+                  ),
+                ),
+                title: Text(
+                  "Take a Photo",
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: textColor,
+                  ),
+                ),
+                onTap: () {
+                  Get.back();
+                  _pickProfileImage(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: Container(
+                  padding: EdgeInsets.all(10.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4C080C).withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.photo_library_outlined,
+                    color: const Color(0xFF4C080C),
+                    size: 22.sp,
+                  ),
+                ),
+                title: Text(
+                  "Choose from Gallery",
+                  style: GoogleFonts.manrope(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: textColor,
+                  ),
+                ),
+                onTap: () {
+                  Get.back();
+                  _pickProfileImage(ImageSource.gallery);
+                },
+              ),
+              SizedBox(height: 8.h),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildProfileSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,27 +249,37 @@ class RestaurantProfilePage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15.r),
-              child: Image.asset(
-                ImagePath.popularDishes1,
-                width: double.infinity,
-                height: 150.h,
-                fit: BoxFit.cover,
-              ),
+              child: _profileImage != null
+                  ? Image.file(
+                      _profileImage!,
+                      width: double.infinity,
+                      height: 150.h,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      ImagePath.popularDishes1,
+                      width: double.infinity,
+                      height: 150.h,
+                      fit: BoxFit.cover,
+                    ),
             ),
             Positioned(
               bottom: 12.h,
               right: 12.w,
-              child: Container(
-                padding: EdgeInsets.all(8.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF9663A),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Icon(
-                  Icons.camera_alt_outlined,
-                  color: Colors.white,
-                  size: 18.sp,
+              child: GestureDetector(
+                onTap: _showImagePickerOptions,
+                child: Container(
+                  padding: EdgeInsets.all(8.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9663A),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: Icon(
+                    Icons.camera_alt_outlined,
+                    color: Colors.white,
+                    size: 18.sp,
+                  ),
                 ),
               ),
             ),

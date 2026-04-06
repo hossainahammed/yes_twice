@@ -29,7 +29,10 @@ class ContactUsPage extends StatelessWidget {
                   _buildTextField(Icons.email_outlined, "m.k.freund@aol.com"),
                   SizedBox(height: 20.h),
                   _buildLabel("Description"),
-                  _buildTextArea(Icons.email_outlined, "Add description...."),
+                  _buildTextArea(
+                    Icons.description_outlined,
+                    "Add description....",
+                  ),
                   SizedBox(height: 40.h),
                   _buildSendButton(),
                 ],
@@ -107,7 +110,10 @@ class ContactUsPage extends StatelessWidget {
           icon: Icon(icon, color: Colors.black87, size: 20.sp),
           hintText: initialValue,
           border: InputBorder.none,
-          hintStyle: GoogleFonts.manrope(color: Colors.black87, fontSize: 13.sp),
+          hintStyle: GoogleFonts.manrope(
+            color: Colors.black87,
+            fontSize: 13.sp,
+          ),
         ),
       ),
     );
@@ -117,29 +123,44 @@ class ContactUsPage extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 120.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: Colors.grey.shade200),
       ),
-      child: TextField(
-        maxLines: null,
-        decoration: InputDecoration(
-          icon: Padding(
-            padding: EdgeInsets.only(bottom: 80.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 4.h),
             child: Icon(icon, color: Colors.grey.shade400, size: 20.sp),
           ),
-          hintText: hint,
-          border: InputBorder.none,
-          hintStyle: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
-        ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: TextField(
+              maxLines: null,
+              expands: true,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: InputDecoration(
+                hintText: hint,
+                border: InputBorder.none,
+                isCollapsed: true,
+                contentPadding: EdgeInsets.only(top: 4.h),
+                hintStyle: GoogleFonts.manrope(
+                  color: Colors.grey.shade300,
+                  fontSize: 13.sp,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSendButton() {
-     return Container(
+    return Container(
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
