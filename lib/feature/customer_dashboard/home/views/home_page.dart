@@ -87,7 +87,7 @@ class HomePage extends StatelessWidget {
       ),
       padding: EdgeInsets.fromLTRB(
         screenWidth * 0.05,
-        screenHeight * 0.03,
+        screenHeight * 0.04,
         screenWidth * 0.05,
         screenHeight * 0.04,
       ),
@@ -1063,19 +1063,17 @@ class _FilterBottomSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected
             ? AppColors.primaryColor
-            : (isDark
-                  ? const Color(0xFF1E1E1E)
-                  : const Color(0xFFFFF2EB)),
+            : (isDark ? const Color(0xFF1E1E1E) : const Color(0xFFFFF2EB)),
         borderRadius: BorderRadius.circular(20),
-        border: !isSelected && isDark 
-            ? Border.all(color: Colors.white10) 
+        border: !isSelected && isDark
+            ? Border.all(color: Colors.white10)
             : null,
       ),
       child: Text(
         label,
         style: GoogleFonts.manrope(
-          color: isSelected 
-              ? Colors.white 
+          color: isSelected
+              ? Colors.white
               : (isDark ? Colors.white70 : AppColors.primaryColor),
           fontWeight: FontWeight.w600,
         ),
