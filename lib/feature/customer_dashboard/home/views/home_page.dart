@@ -1057,37 +1057,46 @@ class _FilterBottomSheet extends StatelessWidget {
   }
 
   Widget _buildTag(String label, bool isSelected, BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: isSelected
             ? AppColors.primaryColor
-            : (Theme.of(context).brightness == Brightness.dark
-                  ? const Color(0xFF2A1A1A)
+            : (isDark
+                  ? const Color(0xFF1E1E1E)
                   : const Color(0xFFFFF2EB)),
         borderRadius: BorderRadius.circular(20),
+        border: !isSelected && isDark 
+            ? Border.all(color: Colors.white10) 
+            : null,
       ),
       child: Text(
         label,
         style: GoogleFonts.manrope(
-          color: isSelected ? Colors.white : AppColors.primaryColor,
+          color: isSelected 
+              ? Colors.white 
+              : (isDark ? Colors.white70 : AppColors.primaryColor),
           fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
 
-  Widget _buildPriceField(String hint) {
+  Widget _buildPriceField(String hint, BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF2EB),
+        color: isDark ? const Color(0xFF1E1E1E) : const Color(0xFFFFF2EB),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(
         child: Text(
           hint,
-          style: GoogleFonts.manrope(color: AppColors.primaryColor),
+          style: GoogleFonts.manrope(
+            color: isDark ? Colors.white70 : AppColors.primaryColor,
+          ),
         ),
       ),
     );
