@@ -1,5 +1,7 @@
+import 'package:bolaji277/core/constant/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../app_colors.dart';
 
@@ -41,6 +43,8 @@ class CustomAuthField extends StatelessWidget {
   final bool? obscureText;
   final VoidCallback? onSuffixIconPressed;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
 
   const CustomAuthField({
     super.key,
@@ -51,6 +55,8 @@ class CustomAuthField extends StatelessWidget {
     this.obscureText,
     this.onSuffixIconPressed,
     this.controller,
+    this.keyboardType,
+    this.textInputAction,
   });
 
   @override
@@ -133,7 +139,9 @@ class CustomAuthField extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
               borderSide: BorderSide(
-                color: AppColors.primaryColor.withOpacity(0.5),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white10
+                    : AppColors.primaryColor.withOpacity(0.5),
               ),
             ),
           ),
@@ -170,19 +178,25 @@ class SocialLoginButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (iconPath != null)
-              Image.asset(iconPath!, height: 24.h)
-            else
-              Image.network(
-                "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
-                width: 22.w,
-                height: 22.w,
-                errorBuilder: (_, __, ___) => Icon(
-                  Icons.g_mobiledata_sharp,
-                  color: Colors.blue,
-                  size: 28.sp,
-                ),
-              ),
+            Image.asset(
+              ImagePath.google, // Accessing your static string
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.contain,
+            ),
+
+            //if (iconPath != null) Image.asset(iconPath!, height: 24.h),
+            // else
+            // Image.network(
+            //   "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+            //   width: 22.w,
+            //   height: 22.w,
+            //   errorBuilder: (_, __, ___) => Icon(
+            //     Icons.g_mobiledata_sharp,
+            //     color: Colors.blue,
+            //     size: 28.sp,
+            //   ),
+            // ),
             SizedBox(width: 12.w),
             Text(
               text,

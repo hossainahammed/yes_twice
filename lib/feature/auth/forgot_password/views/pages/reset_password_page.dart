@@ -14,8 +14,12 @@ class ResetPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
@@ -31,7 +35,9 @@ class ResetPasswordPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
                 ),
               ),
               SizedBox(height: 8.h),
@@ -54,6 +60,8 @@ class ResetPasswordPage extends StatelessWidget {
                   prefixIcon: Icons.lock_outline_rounded,
                   isPassword: true,
                   obscureText: controller.isPasswordHidden.value,
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.next,
                   onSuffixIconPressed: () {
                     controller.isPasswordHidden.value =
                         !controller.isPasswordHidden.value;
@@ -77,9 +85,10 @@ class ResetPasswordPage extends StatelessWidget {
                   controller: controller.confirmPasswordController,
                 ),
               ),
-              
-              SizedBox(height: 120.h), // Spacing to match screenshot button position
 
+              SizedBox(
+                height: 120.h,
+              ), // Spacing to match screenshot button position
               /// Reset Password Button
               ElevatedButton(
                 onPressed: () => SuccessDialog.show(
@@ -92,7 +101,9 @@ class ResetPasswordPage extends StatelessWidget {
                   backgroundColor: AppColors.primaryColor,
                   minimumSize: Size(double.infinity, 56.h),
                   elevation: 0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
                 ),
                 child: Text(
                   'Reset password',
@@ -103,7 +114,7 @@ class ResetPasswordPage extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 20.h),
             ],
           ),
@@ -112,4 +123,3 @@ class ResetPasswordPage extends StatelessWidget {
     );
   }
 }
-

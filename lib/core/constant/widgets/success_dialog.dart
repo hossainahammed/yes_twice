@@ -19,7 +19,9 @@ class SuccessDialog {
   }) {
     Get.dialog(
       Dialog(
-        backgroundColor: AppColors.whiteColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey.shade900
+            : AppColors.whiteColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.r),
         ),
@@ -41,7 +43,9 @@ class SuccessDialog {
                 style: GoogleFonts.manrope(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                   height: 1.2,
                 ),
               ),

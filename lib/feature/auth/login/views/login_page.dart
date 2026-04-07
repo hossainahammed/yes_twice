@@ -67,6 +67,8 @@ class LoginPage extends StatelessWidget {
                 hint: 'Enter your email',
                 prefixIcon: Icons.email_outlined,
                 controller: controller.emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
               ),
               SizedBox(height: 20.h),
 

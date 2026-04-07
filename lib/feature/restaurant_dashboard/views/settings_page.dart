@@ -452,8 +452,7 @@ class SettingsPage extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 20.r,
-                        backgroundImage:
-                            AssetImage(ImagePath.dashboardProfile),
+                        backgroundImage: AssetImage(ImagePath.dashboardProfile),
                       ),
                       SizedBox(width: 12.w),
                       Expanded(
@@ -504,9 +503,7 @@ class SettingsPage extends StatelessWidget {
                           child: Icon(
                             Icons.add,
                             size: 20.sp,
-                            color: isDark
-                                ? Colors.white70
-                                : Colors.black54,
+                            color: isDark ? Colors.white70 : Colors.black54,
                           ),
                         ),
                         SizedBox(width: 12.w),
@@ -555,8 +552,7 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 20.r,
-                    backgroundImage:
-                        AssetImage(ImagePath.dashboardProfile),
+                    backgroundImage: AssetImage(ImagePath.dashboardProfile),
                   ),
                   SizedBox(width: 12.w),
                   Expanded(
@@ -624,4 +620,3 @@ class SettingsPage extends StatelessWidget {
     );
   }
 }
-

@@ -13,6 +13,7 @@ class ImagePath {
   static const String onboardingImg02 = "assets/images/onboarding02.png";
   static const String successLogo = "assets/icons/success_logo.png";
   static const String profileEdit = "assets/icons/profileEdit.png";
+  static const String google = "assets/icons/Google.png";
 
   // static const String user = "assets/images/user.png";
   // static const String videoPlay = "assets/images/video_play.png";

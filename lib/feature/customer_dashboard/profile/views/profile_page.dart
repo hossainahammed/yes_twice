@@ -316,7 +316,9 @@ class ProfilePage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w900,
-                color: titleColor,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
             SizedBox(height: 12.h),
@@ -336,7 +338,11 @@ class ProfilePage extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () => Get.back(),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: AppColors.primaryColor),
+                      side: BorderSide(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.r),
                       ),
@@ -347,7 +353,9 @@ class ProfilePage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                   ),
@@ -361,6 +369,11 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.r),
+                        side: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
+                        ),
                       ),
                       minimumSize: Size(0, 50.h),
                     ),
