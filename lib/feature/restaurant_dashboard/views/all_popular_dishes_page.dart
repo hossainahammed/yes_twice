@@ -10,7 +10,8 @@ import '../controllers/restaurant_dashboard_controller.dart';
 class AllPopularDishesPage extends StatelessWidget {
   AllPopularDishesPage({super.key});
 
-  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  final RestaurantDashboardController controller =
+      Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +46,18 @@ class AllPopularDishesPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       automaticallyImplyLeading: false,
-      leading: controller.currentNavIndex.value == 1 
-          ? null 
+      leading: controller.currentNavIndex.value == 1
+          ? null
           : IconButton(
-              icon: Icon(Icons.arrow_back, color: context.theme.iconTheme.color, size: 24.sp),
+              icon: Icon(
+                Icons.arrow_back,
+                color: context.theme.iconTheme.color,
+                size: 24.sp,
+              ),
               onPressed: () => Get.back(),
             ),
       title: Text(
-        "All Popular Dishes",
+        "All Dishes", // All Popular Dishes
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
@@ -68,14 +73,12 @@ class AllPopularDishesPage extends StatelessWidget {
               width: 32.w,
               height: 32.w,
               decoration: BoxDecoration(
-                color: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
+                color: context.theme.brightness == Brightness.dark
+                    ? const Color(0xFFCA7373)
+                    : const Color(0xFF4C080C),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 20.sp,
-              ),
+              child: Icon(Icons.add, color: Colors.white, size: 20.sp),
             ),
           ),
         ),
