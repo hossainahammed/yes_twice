@@ -32,8 +32,7 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              if (Navigator.of(context).canPop())
-                const CustomBackButton(),
+              if (Navigator.of(context).canPop()) const CustomBackButton(),
               SizedBox(height: 30.h),
 
               /// Header Title
@@ -95,7 +94,9 @@ class LoginPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primaryColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : const Color(0xFF4C080C),
                     ),
                   ),
                 ),

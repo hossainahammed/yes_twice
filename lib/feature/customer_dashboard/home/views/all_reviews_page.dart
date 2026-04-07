@@ -127,7 +127,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.r),
                   child: Image.asset(
-                    'assets/images/Composer.png',
+                    'assets/images/recentViewCard.png',
                     width: 50.w,
                     height: 50.w,
                     fit: BoxFit.cover,
@@ -394,7 +394,10 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                             style: GoogleFonts.manrope(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.bold,
-                              color: context.theme.cardColor,
+                              color:
+                                  Theme.brightnessOf(context) == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.white,
                             ),
                           ),
                         ),

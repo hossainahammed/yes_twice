@@ -105,10 +105,17 @@ class DeleteRestaurantPage extends StatelessWidget {
           Expanded(
             child: Text(
               hint,
-              style: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
+              style: GoogleFonts.manrope(
+                color: Colors.grey.shade300,
+                fontSize: 13.sp,
+              ),
             ),
           ),
-          Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20.sp),
+          Icon(
+            Icons.visibility_outlined,
+            color: Colors.grey.shade400,
+            size: 20.sp,
+          ),
         ],
       ),
     );
@@ -124,7 +131,7 @@ class DeleteRestaurantPage extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          "Request for Delete Restaurant",
+          "Request to Delete Restaurant",
           style: GoogleFonts.manrope(
             fontSize: 15.sp,
             fontWeight: FontWeight.w700,

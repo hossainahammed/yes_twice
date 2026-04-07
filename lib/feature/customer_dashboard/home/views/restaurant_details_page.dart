@@ -228,7 +228,7 @@ class RestaurantDetailsPage extends StatelessWidget {
         Row(
           children: [
             Icon(
-              Icons.favorite_rounded,
+              Icons.bookmark_border_rounded,
               color: AppColors.primaryColor,
               size: 24.sp,
             ),
@@ -590,7 +590,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.r),
                   child: Image.asset(
-                    'assets/images/Composer.png',
+                    'assets/images/recentViewCard.png',
                     width: 40.w,
                     height: 40.h,
                     fit: BoxFit.cover,

@@ -101,7 +101,11 @@ class SavePage extends StatelessWidget {
                 child: Text(
                   controller.tabs[index],
                   style: GoogleFonts.manrope(
-                    color: isSelected ? Colors.white : AppColors.primaryColor,
+                    color: isSelected
+                        ? Theme.brightnessOf(context) == Brightness.dark
+                              ? Colors.white
+                              : Colors.white
+                        : Theme.of(context).textTheme.bodyMedium?.color,
                     fontSize: 13.sp,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                   ),

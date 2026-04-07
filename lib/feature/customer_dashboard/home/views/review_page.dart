@@ -419,7 +419,7 @@ class _ReviewPageState extends State<ReviewPage> {
               ),
               SizedBox(height: 8.h),
               Text(
-                'Upload Photo/video',
+                'Upload Media',
                 style: GoogleFonts.manrope(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,

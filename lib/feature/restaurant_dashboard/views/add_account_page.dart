@@ -83,7 +83,7 @@ class AddAccountPage extends StatelessWidget {
             ),
           ),
           Text(
-            "Add Account",
+            "Add Restaurant",
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
@@ -257,7 +257,7 @@ class AddAccountPage extends StatelessWidget {
           Icon(Icons.add_photo_alternate_outlined, color: Colors.grey.shade400, size: 20.sp),
           SizedBox(height: 4.h),
           Text(
-            "Add photo",
+            "Add Media",
             style: GoogleFonts.manrope(
               fontSize: 8.sp,
               color: Colors.grey.shade400,

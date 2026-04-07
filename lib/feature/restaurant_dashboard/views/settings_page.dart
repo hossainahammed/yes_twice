@@ -511,7 +511,7 @@ class SettingsPage extends StatelessWidget {
                         ),
                         SizedBox(width: 12.w),
                         Text(
-                          "Add Another Account",
+                          "Add Another Restaurant",
                           style: GoogleFonts.manrope(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -528,7 +528,7 @@ class SettingsPage extends StatelessWidget {
 
             // ── Your Another Profile section ──
             Text(
-              "Your Another Profile",
+              "Your Another Restaurant",
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,

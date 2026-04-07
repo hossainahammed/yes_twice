@@ -61,7 +61,7 @@ class AddEventPage extends StatelessWidget {
             _buildDescriptionArea(),
             SizedBox(height: 32.h),
             Text(
-              "Add photos",
+              "Add Media",
               style: GoogleFonts.manrope(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
@@ -210,7 +210,7 @@ class AddEventPage extends StatelessWidget {
               Icon(Icons.add_photo_alternate_outlined, color: Colors.grey.shade500, size: 24.sp),
               SizedBox(height: 4.h),
               Text(
-                "Add photo",
+                "Add Media",
                 style: GoogleFonts.manrope(
                   fontSize: 10.sp,
                   color: Colors.grey.shade500,

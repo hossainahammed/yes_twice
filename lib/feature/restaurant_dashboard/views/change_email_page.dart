@@ -70,7 +70,9 @@ class ChangeEmailPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFFCA7373)
+                      : const Color(0xFF4C080C),
                 ),
               ),
             ),
@@ -137,13 +139,23 @@ class ChangeEmailPage extends StatelessWidget {
             fontSize: 13.sp,
             color: Colors.grey.shade400,
           ),
-          prefixIcon: Icon(prefixIcon, color: theme.textTheme.bodyLarge?.color?.withOpacity(0.6), size: 20.sp),
+          prefixIcon: Icon(
+            prefixIcon,
+            color: theme.textTheme.bodyLarge?.color?.withOpacity(0.6),
+            size: 20.sp,
+          ),
           suffixIcon: isPassword
-              ? Icon(Icons.visibility_off_outlined,
-                  color: theme.textTheme.bodyLarge?.color?.withOpacity(0.6), size: 20.sp)
+              ? Icon(
+                  Icons.visibility_off_outlined,
+                  color: theme.textTheme.bodyLarge?.color?.withOpacity(0.6),
+                  size: 20.sp,
+                )
               : null,
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 16.h,
+            horizontal: 16.w,
+          ),
         ),
       ),
     );

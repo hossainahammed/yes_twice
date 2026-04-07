@@ -83,7 +83,7 @@ class AddDishPage extends StatelessWidget {
             Icon(Icons.camera_alt_outlined, color: Colors.white, size: 30.sp),
             SizedBox(height: 8.h),
             Text(
-              "UPLOAD DISHES PHOTO",
+              "Add Media",// UPLOAD DISHES PHOTO
               style: GoogleFonts.manrope(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w700,

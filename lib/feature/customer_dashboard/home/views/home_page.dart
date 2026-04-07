@@ -261,6 +261,11 @@ class HomePage extends StatelessWidget {
                         ? const Color(0xFF2C2C2C)
                         : context.theme.cardColor),
               borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.grey,
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
@@ -508,19 +513,18 @@ class HomePage extends StatelessWidget {
                               size: 12,
                             ),
                             const SizedBox(width: 4),
-                            Expanded(
-                              child: Text(
-                                rest.location,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.manrope(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      context.theme.textTheme.bodyMedium?.color,
-                                ),
+                            Text(
+                              rest.location,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.manrope(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                                color:
+                                    context.theme.textTheme.bodyMedium?.color,
                               ),
                             ),
+                            const SizedBox(width: 4),
                             Text(
                               ' · ${rest.priceRange}',
                               style: GoogleFonts.manrope(
@@ -1004,7 +1008,9 @@ class _FilterBottomSheet extends StatelessWidget {
                     child: Text(
                       'Apply Filters',
                       style: GoogleFonts.manrope(
-                        color: Colors.white,
+                        color: Theme.brightnessOf(context) == Brightness.dark
+                            ? Colors.white
+                            : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

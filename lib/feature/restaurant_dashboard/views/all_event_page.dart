@@ -70,7 +70,7 @@ class AllEventPage extends StatelessWidget {
         ),
       ),
       title: Text(
-        "All Event",
+        "All Events",
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
