@@ -1,3 +1,5 @@
+import 'package:bolaji277/core/service/auth_service.dart';
+import '../../../auth/login/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -22,10 +24,6 @@ class SavePage extends StatelessWidget {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: true,
-        // leading: const Padding(
-        //   padding: EdgeInsets.only(left: 16),
-        //   child: CustomBackButton(),
-        // ),
         title: Text(
           'Saved',
           style: GoogleFonts.manrope(
@@ -35,37 +33,42 @@ class SavePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          _buildTabs(context),
-          const SizedBox(height: 16),
-          Expanded(
-            child: Obx(() {
-              int index = controller.selectedTabIndex.value;
-              List<SavedItem> items = [];
-              if (index == 0)
-                items = controller.savedRestaurants;
-              else if (index == 1)
-                items = controller.savedFoods;
-              else
-                items = controller.savedEvents;
+      body: Obx(() {
+        if (AuthService.to.isGuest) {
+          return _buildGuestAccessPrompt(context);
+        }
+        return Column(
+          children: [
+            const SizedBox(height: 16),
+            _buildTabs(context),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Obx(() {
+                int index = controller.selectedTabIndex.value;
+                List<SavedItem> items = [];
+                if (index == 0)
+                  items = controller.savedRestaurants;
+                else if (index == 1)
+                  items = controller.savedFoods;
+                else
+                  items = controller.savedEvents;
 
-              if (items.isEmpty) {
-                return _buildEmptyState(context);
-              }
+                if (items.isEmpty) {
+                  return _buildEmptyState(context);
+                }
 
-              if (index == 0) {
-                return _buildRestaurantGrid(context, items);
-              } else if (index == 1) {
-                return _buildFoodList(items);
-              } else {
-                return _buildEventGrid(context, items);
-              }
-            }),
-          ),
-        ],
-      ),
+                if (index == 0) {
+                  return _buildRestaurantGrid(context, items);
+                } else if (index == 1) {
+                  return _buildFoodList(items);
+                } else {
+                  return _buildEventGrid(context, items);
+                }
+              }),
+            ),
+          ],
+        );
+      }),
     );
   }
 
@@ -480,6 +483,69 @@ class SavePage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildGuestAccessPrompt(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.bookmark_border_rounded,
+                size: 60,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 32),
+            Text(
+              'Sign in to save items',
+              style: GoogleFonts.manrope(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w800,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Bookmarks help you keep track of your favorite restaurants, dishes, and events.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.manrope(
+                fontSize: 14.sp,
+                color: Colors.grey,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () => Get.offAll(() => const LoginPage()),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+                minimumSize: const Size(double.infinity, 56),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(28),
+                ),
+              ),
+              child: Text(
+                'Sign In Now',
+                style: GoogleFonts.manrope(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

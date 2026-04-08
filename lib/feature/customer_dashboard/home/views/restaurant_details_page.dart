@@ -1,9 +1,11 @@
+import 'package:bolaji277/core/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
+import 'package:bolaji277/feature/auth/claim/views/claim_page.dart';
 import 'gallery_page.dart';
 import 'review_page.dart';
 import 'all_reviews_page.dart';
@@ -33,6 +35,24 @@ class RestaurantDetailsPage extends StatelessWidget {
             color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: TextButton(
+              onPressed: () => Get.to(() => const ClaimPage()),
+              child: Text(
+                'Claim Restaurant',
+                style: GoogleFonts.manrope(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w800,
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -86,7 +106,11 @@ class RestaurantDetailsPage extends StatelessWidget {
             right: 24.w,
             bottom: 24.h,
             child: ElevatedButton(
-              onPressed: () => Get.to(() => const ReviewPage()),
+              onPressed: () {
+                if (AuthService.to.checkAuthAndPrompt()) {
+                  Get.to(() => const ReviewPage());
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 shape: RoundedRectangleBorder(
@@ -227,10 +251,17 @@ class RestaurantDetailsPage extends StatelessWidget {
         ),
         Row(
           children: [
-            Icon(
-              Icons.bookmark_border_rounded,
-              color: AppColors.primaryColor,
-              size: 24.sp,
+            GestureDetector(
+              onTap: () {
+                if (AuthService.to.checkAuthAndPrompt()) {
+                  // Logic to bookmark
+                }
+              },
+              child: Icon(
+                Icons.bookmark_border_rounded,
+                color: AppColors.primaryColor,
+                size: 24.sp,
+              ),
             ),
             SizedBox(width: 12.w),
             GestureDetector(
@@ -524,13 +555,17 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Get.to(
-                    () => ReviewPage(
-                      name: dish['name']!,
-                      rating: dish['rating']!,
-                      imagePath: dish['image']!,
-                    ),
-                  ),
+                  onTap: () {
+                    if (AuthService.to.checkAuthAndPrompt()) {
+                      Get.to(
+                        () => ReviewPage(
+                          name: dish['name']!,
+                          rating: dish['rating']!,
+                          imagePath: dish['image']!,
+                        ),
+                      );
+                    }
+                  },
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,

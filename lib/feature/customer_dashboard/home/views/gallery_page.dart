@@ -38,13 +38,15 @@ class _GalleryPageState extends State<GalleryPage> {
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 16),
-          child: CustomBackButton(onTap: () {
-            if (selectedImage != null) {
-              setState(() => selectedImage = null);
-            } else {
-              Get.back();
-            }
-          }),
+          child: CustomBackButton(
+            onTap: () {
+              if (selectedImage != null) {
+                setState(() => selectedImage = null);
+              } else {
+                Get.back();
+              }
+            },
+          ),
         ),
         title: Text(
           'Gallery',
@@ -112,11 +114,7 @@ class _GalleryPageState extends State<GalleryPage> {
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 16,
-                ),
+                child: const Icon(Icons.close, color: Colors.white, size: 16),
               ),
             ),
           ),

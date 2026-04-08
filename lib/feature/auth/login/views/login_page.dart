@@ -10,7 +10,6 @@ import '../../../customer_dashboard/dashboard/dashboard.dart';
 import '../../forgot_password/views/forgot_password_page.dart';
 import '../../registration/views/registration_page.dart';
 import '../controllers/login_page_controller.dart';
-import '../../claim/views/claim_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -149,43 +148,6 @@ class LoginPage extends StatelessWidget {
               ),
 
               SizedBox(height: 24.h),
-              Center(
-                child: Text(
-                  'OR',
-                  style: GoogleFonts.manrope(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
-
-              /// Social Login
-              SocialLoginButton(text: 'Continue with Google', onTap: () {}),
-              SizedBox(height: 24.h),
-
-              /// Claim Button
-              ElevatedButton(
-                onPressed: () => Get.to(() => const ClaimPage()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'Claim your restaurant',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                  ),
-                ),
-              ),
 
               SizedBox(height: 40.h),
 
@@ -214,6 +176,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 10.h),
               SizedBox(height: 20.h),
             ],
           ),

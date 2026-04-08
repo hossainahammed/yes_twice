@@ -1,3 +1,4 @@
+import 'package:bolaji277/feature/auth/login/views/login_page.dart';
 import 'package:bolaji277/feature/customer_dashboard/home/views/all_reviews_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -119,7 +120,7 @@ class HomePage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // Navigation if needed
+                  Get.to(() => const LoginPage());
                 },
                 child: Column(
                   children: [

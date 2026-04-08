@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -144,7 +145,11 @@ class ExplorePage extends StatelessWidget {
                         _buildActionIcon(
                           icon: Icons.favorite,
                           label: 'Likes',
-                          onTap: () {},
+                          onTap: () {
+                            if (AuthService.to.checkAuthAndPrompt()) {
+                              // Logic to like
+                            }
+                          },
                         ),
                         const SizedBox(height: 20),
                         _buildActionIcon(

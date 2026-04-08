@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/service/auth_service.dart';
 import 'package:bolaji277/core/constant/image_path.dart';
 import 'package:bolaji277/feature/auth/login/views/login_page.dart';
 import 'package:bolaji277/feature/customer_dashboard/home/views/event_list_page.dart';
@@ -37,10 +38,6 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: bgColor,
         elevation: 0,
         centerTitle: true,
-        // leading: Padding(
-        //   padding: const EdgeInsets.only(left: 16),
-        //   child: CustomBackButton(),
-        // ),
         title: Text(
           'Profile',
           style: GoogleFonts.manrope(
@@ -56,66 +53,71 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // User Card
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                decoration: BoxDecoration(
-                  color: cardBg,
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(color: borderColor),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(isDark ? 0.15 : 0.02),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 28.r,
-                      backgroundColor: Colors.grey.shade200,
-                      backgroundImage: const AssetImage(
-                        'assets/images/profile.png',
-                      ), // placeholder
-                    ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Jack Michael',
-                            style: GoogleFonts.manrope(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w800,
-                              color: textColor,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            'testemail@gmail.com',
-                            style: GoogleFonts.manrope(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
-                              color: subTextColor,
-                            ),
-                          ),
-                        ],
+              // User Card or Guest Card
+              Obx(() {
+                if (AuthService.to.isGuest) {
+                  return _buildGuestCard(context, cardBg, borderColor, textColor, subTextColor);
+                }
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: cardBg,
+                    borderRadius: BorderRadius.circular(20.r),
+                    border: Border.all(color: borderColor),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(isDark ? 0.15 : 0.02),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () => Get.to(() => const EditProfilePage()),
-                      icon: Image.asset(
-                        ImagePath.profileEdit,
-                        width: 40.w,
-                        height: 40.w,
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 28.r,
+                        backgroundColor: Colors.grey.shade200,
+                        backgroundImage: const AssetImage(
+                          'assets/images/profile.png',
+                        ), // placeholder
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                      SizedBox(width: 16.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Jack Michael',
+                              style: GoogleFonts.manrope(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w800,
+                                color: textColor,
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              'testemail@gmail.com',
+                              style: GoogleFonts.manrope(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: subTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Get.to(() => const EditProfilePage()),
+                        icon: Image.asset(
+                          ImagePath.profileEdit,
+                          width: 40.w,
+                          height: 40.w,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
               SizedBox(height: 24.h),
 
               Text('Activity', style: _sectionHeadingStyle(textColor)),
@@ -130,7 +132,11 @@ class ProfilePage extends StatelessWidget {
                 context,
                 Icons.star_outline,
                 'My reviews',
-                () => Get.to(() => const MyReviewsPage()),
+                () {
+                  if (AuthService.to.checkAuthAndPrompt()) {
+                    Get.to(() => const MyReviewsPage());
+                  }
+                },
               ),
 
               SizedBox(height: 12.h),
@@ -138,7 +144,11 @@ class ProfilePage extends StatelessWidget {
                 context,
                 Icons.event_available,
                 'Active event',
-                () => Get.to(() => const EventListPage()),
+                () {
+                  if (AuthService.to.checkAuthAndPrompt()) {
+                    Get.to(() => const EventListPage());
+                  }
+                },
               ),
 
               SizedBox(height: 24.h),
@@ -153,7 +163,11 @@ class ProfilePage extends StatelessWidget {
                 context,
                 Icons.shield_outlined,
                 'Security',
-                () => Get.to(() => const SecurityPage()),
+                () {
+                  if (AuthService.to.checkAuthAndPrompt()) {
+                    Get.to(() => const SecurityPage());
+                  }
+                },
               ),
               _buildMenuItem(
                 context,
@@ -391,6 +405,63 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildGuestCard(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color subTextColor) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: borderColor),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 28.r,
+            backgroundColor: Colors.grey.shade200,
+            backgroundImage: const AssetImage('assets/images/profile.png'),
+          ),
+          SizedBox(width: 16.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome, Guest',
+                  style: GoogleFonts.manrope(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                    color: textColor,
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  'Sign in to sync your activity',
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: subTextColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Get.offAll(() => const LoginPage()),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primaryColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+            ),
+            child: Text(
+              'Sign In',
+              style: GoogleFonts.manrope(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
     );
   }

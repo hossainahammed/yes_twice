@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -85,11 +86,18 @@ class DishDetailsPage extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(
-                          Icons.favorite_border_rounded,
-                          color: AppColors.primaryColor,
-                          size: 24.sp,
-                        ),
+                    GestureDetector(
+                      onTap: () {
+                        if (AuthService.to.checkAuthAndPrompt()) {
+                          // Logic to bookmark
+                        }
+                      },
+                      child: Icon(
+                        Icons.bookmark_border_rounded,
+                        color: AppColors.primaryColor,
+                        size: 24.sp,
+                      ),
+                    ),
                         SizedBox(width: 16.w),
                         GestureDetector(
                           onTap: () => _showShareBottomSheet(context),
@@ -141,13 +149,17 @@ class DishDetailsPage extends StatelessWidget {
             right: 24.w,
             bottom: 24.h,
             child: ElevatedButton(
-              onPressed: () => Get.to(
-                () => const ReviewPage(
-                  name: 'Pizza',
-                  rating: '4.9',
-                  imagePath: 'assets/images/pizza.png',
-                ),
-              ),
+              onPressed: () {
+                if (AuthService.to.checkAuthAndPrompt()) {
+                  Get.to(
+                    () => const ReviewPage(
+                      name: 'Pizza',
+                      rating: '4.9',
+                      imagePath: 'assets/images/pizza.png',
+                    ),
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 minimumSize: Size(double.infinity, 52.h),
@@ -186,10 +198,8 @@ class DishDetailsPage extends StatelessWidget {
                 'assets/images/pizza.png',
                 height: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: double.infinity,
-                  color: placeholderColor,
-                ),
+                errorBuilder: (context, error, stackTrace) =>
+                    Container(height: double.infinity, color: placeholderColor),
               ),
             ),
           ),
@@ -225,9 +235,9 @@ class DishDetailsPage extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               Container(
-                            width: double.infinity,
-                            color: placeholderColor,
-                          ),
+                                width: double.infinity,
+                                color: placeholderColor,
+                              ),
                         ),
                         Container(
                           width: double.infinity,
@@ -427,9 +437,24 @@ class DishDetailsPage extends StatelessWidget {
                     Icons.copy,
                     AppColors.primaryColor,
                   ),
-                  _buildShareOption(context, 'WhatsApp', Icons.chat, Colors.green),
-                  _buildShareOption(context, 'Instagram', Icons.camera_alt, Colors.pink),
-                  _buildShareOption(context, 'TikTok', Icons.music_note, Colors.black),
+                  _buildShareOption(
+                    context,
+                    'WhatsApp',
+                    Icons.chat,
+                    Colors.green,
+                  ),
+                  _buildShareOption(
+                    context,
+                    'Instagram',
+                    Icons.camera_alt,
+                    Colors.pink,
+                  ),
+                  _buildShareOption(
+                    context,
+                    'TikTok',
+                    Icons.music_note,
+                    Colors.black,
+                  ),
                 ],
               ),
             ],
@@ -440,7 +465,11 @@ class DishDetailsPage extends StatelessWidget {
   }
 
   Widget _buildShareOption(
-      BuildContext context, String title, IconData icon, Color color) {
+    BuildContext context,
+    String title,
+    IconData icon,
+    Color color,
+  ) {
     return Column(
       children: [
         Container(

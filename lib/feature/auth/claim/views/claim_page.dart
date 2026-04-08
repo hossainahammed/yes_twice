@@ -102,14 +102,22 @@ class _ClaimPageState extends State<ClaimPage> {
                   ),
                   child: Column(
                     children: [
-                      Icon(Icons.description_outlined, color: AppColors.primaryColor, size: 28.sp),
+                      Icon(
+                        Icons.description_outlined,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 28.sp,
+                      ),
                       SizedBox(height: 8.h),
                       Text(
                         'Upload Photo',
                         style: GoogleFonts.manrope(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.primaryColor,
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
                         ),
                       ),
                       SizedBox(height: 12.h),
@@ -146,10 +154,7 @@ class _ClaimPageState extends State<ClaimPage> {
                 ),
                 child: TextFormField(
                   maxLines: 4,
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    color: textColor,
-                  ),
+                  style: GoogleFonts.manrope(fontSize: 14.sp, color: textColor),
                   decoration: InputDecoration(
                     hintText: 'Message Box',
                     hintStyle: GoogleFonts.manrope(
@@ -160,8 +165,10 @@ class _ClaimPageState extends State<ClaimPage> {
                       padding: EdgeInsets.only(bottom: 50.h),
                       child: Icon(
                         Icons.edit_note_outlined,
-                        color: AppColors.primaryColor.withOpacity(0.4),
-                        size: 20.sp,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 24.sp,
                       ),
                     ),
                     border: InputBorder.none,
@@ -172,7 +179,7 @@ class _ClaimPageState extends State<ClaimPage> {
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 24.h),
 
               Row(
@@ -189,9 +196,13 @@ class _ClaimPageState extends State<ClaimPage> {
                       width: 18.w,
                       height: 18.w,
                       decoration: BoxDecoration(
-                        color: isChecked ? AppColors.primaryColor : Colors.transparent,
+                        color: isChecked
+                            ? AppColors.primaryColor
+                            : Colors.transparent,
                         border: Border.all(
-                          color: isChecked ? AppColors.primaryColor : subTextColor,
+                          color: isChecked
+                              ? AppColors.primaryColor
+                              : subTextColor,
                           width: 1.5,
                         ),
                         borderRadius: BorderRadius.circular(4.r),
@@ -214,7 +225,7 @@ class _ClaimPageState extends State<ClaimPage> {
                   ),
                 ],
               ),
-              
+
               SizedBox(height: 40.h),
 
               ElevatedButton(
@@ -224,7 +235,7 @@ class _ClaimPageState extends State<ClaimPage> {
                   minimumSize: Size(double.infinity, 56.h),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.r), 
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                 ),
                 child: Text(
