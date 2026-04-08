@@ -27,10 +27,18 @@ class SearchPage extends StatelessWidget {
                         color: Theme.of(context).cardColor,
                         shape: BoxShape.circle,
                         boxShadow: const [
-                          BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5)),
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
                         ],
                       ),
-                      child: Icon(Icons.arrow_back_ios_new, size: 20, color: Theme.of(context).iconTheme.color),
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 20,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 15),
@@ -44,10 +52,11 @@ class SearchPage extends StatelessWidget {
                             : context.theme.cardColor,
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                            color: context.theme.brightness == Brightness.dark
-                                ? Colors.white10
-                                : AppColors.primaryColor.withOpacity(0.5),
-                            width: 1),
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white10
+                              : AppColors.primaryColor.withOpacity(0.5),
+                          width: 1,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -55,15 +64,22 @@ class SearchPage extends StatelessWidget {
                           const SizedBox(width: 10),
                           Expanded(
                             child: TextField(
-                              style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                              style: TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.color,
+                              ),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Search for hot & new restaurants',
-                                hintStyle: GoogleFonts.manrope(color: Colors.grey[400], fontSize: 13),
+                                hintStyle: GoogleFonts.manrope(
+                                  color: Colors.grey[400],
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
                           ),
-                           Icon(
+                          Icon(
                             Icons.tune,
                             color: context.theme.brightness == Brightness.dark
                                 ? Colors.white
@@ -80,26 +96,54 @@ class SearchPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    _buildCategoryPill(context, 'Today', Icons.calendar_today_outlined),
-                    _buildCategoryPill(context, 'Free Entry', Icons.local_offer_outlined),
-                    _buildCategoryPill(context, 'Live Music', Icons.music_note_outlined),
+                    _buildCategoryPill(
+                      context,
+                      'Today',
+                      Icons.calendar_today_outlined,
+                    ),
+                    _buildCategoryPill(
+                      context,
+                      'Free Entry',
+                      Icons.local_offer_outlined,
+                    ),
+                    _buildCategoryPill(
+                      context,
+                      'Live Music',
+                      Icons.music_note_outlined,
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 30),
               _buildSectionTitle(context, 'Search History'),
               const SizedBox(height: 15),
-              _buildTagRow(context, ['Sushi', 'Vegan', 'BBQ', 'African', 'Flavor Street']),
+              _buildTagRow(context, [
+                'Sushi',
+                'Vegan',
+                'BBQ',
+                'African',
+                'Flavor Street',
+              ]),
               const SizedBox(height: 10),
               _buildTagRow(context, ['NomNom Spot']),
               const SizedBox(height: 30),
               _buildSectionTitle(context, 'Suggested'),
               const SizedBox(height: 15),
-              _buildTagRow(context, ['Sushi', 'Vegan', 'BBQ', 'African', 'Flavor Street']),
+              _buildTagRow(context, [
+                'Sushi',
+                'Vegan',
+                'BBQ',
+                'African',
+                'Flavor Street',
+              ]),
               const SizedBox(height: 30),
               _buildSectionTitle(context, 'Top Restaurants'),
               const SizedBox(height: 15),
-              _buildLargeTagRow(context, ['Fork & Soul', 'Golden Skillet', 'Flavor Street']),
+              _buildLargeTagRow(context, [
+                'Fork & Soul',
+                'Golden Skillet',
+                'Flavor Street',
+              ]),
               const SizedBox(height: 50),
             ],
           ),
@@ -117,6 +161,11 @@ class SearchPage extends StatelessWidget {
             ? AppColors.darkSurfaceColor
             : Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : AppColors.greyColor,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -155,7 +204,11 @@ class SearchPage extends StatelessWidget {
   Widget _buildSectionTitle(BuildContext context, String title) {
     return Text(
       title,
-      style: GoogleFonts.manrope(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color),
+      style: GoogleFonts.manrope(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).textTheme.bodyMedium?.color,
+      ),
     );
   }
 
@@ -163,31 +216,42 @@ class SearchPage extends StatelessWidget {
     return Wrap(
       spacing: 12,
       runSpacing: 12,
-      children: tags.map((tag) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: context.theme.brightness == Brightness.dark
-              ? AppColors.darkSurfaceColor
-              : Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.02),
-              blurRadius: 5,
-              offset: const Offset(0, 2),
+      children: tags
+          .map(
+            (tag) => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.darkSurfaceColor
+                    : Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.02),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                border: Border.all(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.greyColor,
+                ),
+              ),
+              child: Text(
+                tag,
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white.withOpacity(0.7)
+                      : context.theme.textTheme.bodyMedium?.color?.withOpacity(
+                          0.7,
+                        ),
+                ),
+              ),
             ),
-          ],
-        ),
-        child: Text(
-          tag,
-          style: GoogleFonts.poppins(
-            fontSize: 13,
-            color: context.theme.brightness == Brightness.dark
-                ? Colors.white.withOpacity(0.7)
-                : context.theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-          ),
-        ),
-      )).toList(),
+          )
+          .toList(),
     );
   }
 
@@ -195,16 +259,34 @@ class SearchPage extends StatelessWidget {
     return Wrap(
       spacing: 12,
       runSpacing: 12,
-      children: tags.map((tag) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? const Color(0xFF2A1A1A)
-              : const Color(0xFFFFEDDF),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Text(tag, style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primaryColor)),
-      )).toList(),
+      children: tags
+          .map(
+            (tag) => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.darkSurfaceColor
+                    : const Color(0xFFFFEDDF),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.greyColor,
+                ),
+              ),
+              child: Text(
+                tag,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
+                ),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

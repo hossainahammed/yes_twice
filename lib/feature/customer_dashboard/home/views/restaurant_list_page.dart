@@ -6,8 +6,15 @@ import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart'; // For CustomBackButton
 import 'restaurant_details_page.dart';
 
-class RestaurantListPage extends StatelessWidget {
+class RestaurantListPage extends StatefulWidget {
   const RestaurantListPage({super.key});
+
+  @override
+  State<RestaurantListPage> createState() => _RestaurantListPageState();
+}
+
+class _RestaurantListPageState extends State<RestaurantListPage> {
+  String selectedFilter = 'All';
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +105,81 @@ class RestaurantListPage extends StatelessWidget {
                     color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-                Text(
-                  'Near Me',
-                  style: GoogleFonts.manrope(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w700,
-                    color: context.theme.brightness == Brightness.dark
-                        ? Colors.white
-                        : AppColors.primaryColor,
+
+                PopupMenuButton<String>(
+                  initialValue: selectedFilter,
+                  onSelected: (String value) {
+                    setState(() {
+                      selectedFilter = value;
+                    });
+                  },
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  color: context.theme.cardColor,
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'All ',
+                      child: Text(
+                        'All ',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'Near Me',
+                      child: Text(
+                        'Near Me',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
+                  ],
+                  child: Row(
+                    children: [
+                      Text(
+                        selectedFilter,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color:
+                              Theme.of(context).brightness ==
+                                  Brightness
+                                      .dark // Now context is defined
+                              ? Colors.white
+                              : AppColors.primaryColor,
+                        ),
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color:
+                            Theme.of(context).brightness ==
+                                Brightness
+                                    .dark // Now context is defined
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 16.sp,
+                      ),
+                    ],
                   ),
                 ),
+                // Text(
+                //   'Near Me',
+                //   style: GoogleFonts.manrope(
+                //     fontSize: 10.sp,
+                //     fontWeight: FontWeight.w700,
+                //     color: context.theme.brightness == Brightness.dark
+                //         ? Colors.white
+                //         : AppColors.primaryColor,
+                //   ),
+                // ),
               ],
             ),
           ),
