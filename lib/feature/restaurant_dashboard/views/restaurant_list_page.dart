@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import 'delete_restaurant_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
@@ -17,7 +18,7 @@ class RestaurantListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: Obx(() {
         bool showEmpty = forceEmpty ?? (controller.restaurants.isEmpty);
         return Column(
@@ -66,7 +67,7 @@ class RestaurantListPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 20.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
             height: 1.3,
           ),
         ),
@@ -89,12 +90,12 @@ class RestaurantListPage extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.theme.dividerColor),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new,
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Get.theme.iconTheme.color,
                 ),
               ),
             ),
@@ -104,7 +105,7 @@ class RestaurantListPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -128,7 +129,7 @@ class RestaurantListPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Get.theme.cardColor,
           borderRadius: BorderRadius.circular(15.r),
           boxShadow: [
             BoxShadow(
@@ -159,7 +160,7 @@ class RestaurantListPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: Get.theme.textTheme.bodyLarge?.color,
                     ),
                   ),
                   SizedBox(height: 4.h),
@@ -167,7 +168,9 @@ class RestaurantListPage extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.location_on,
-                        color: const Color(0xFF4C080C),
+                        color: Get.theme.brightness == Brightness.dark
+                            ? AppColors.primaryColor
+                            : const Color(0xFF4C080C),
                         size: 12.sp,
                       ),
                       SizedBox(width: 4.w),
@@ -197,7 +200,9 @@ class RestaurantListPage extends StatelessWidget {
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? AppColors.primaryColor
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(

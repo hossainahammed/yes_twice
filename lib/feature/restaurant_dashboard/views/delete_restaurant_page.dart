@@ -2,14 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constant/app_colors.dart';
 
-class DeleteRestaurantPage extends StatelessWidget {
+class DeleteRestaurantPage extends StatefulWidget {
   const DeleteRestaurantPage({super.key});
+
+  @override
+  State<DeleteRestaurantPage> createState() => _DeleteRestaurantPageState();
+}
+
+class _DeleteRestaurantPageState extends State<DeleteRestaurantPage> {
+  final TextEditingController _passwordController = TextEditingController();
+  
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -35,11 +51,16 @@ class DeleteRestaurantPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: Get.theme.textTheme.bodyLarge?.color,
                     ),
                   ),
                   SizedBox(height: 12.h),
-                  _buildPasswordField("Enter current password"),
+                  _buildPasswordField(
+                    "Enter current password",
+                    _passwordController,
+                    _obscurePassword,
+                    () => setState(() => _obscurePassword = !_obscurePassword),
+                  ),
                   SizedBox(height: 40.h),
                   _buildDeleteButton(),
                 ],
@@ -66,12 +87,12 @@ class DeleteRestaurantPage extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.theme.dividerColor),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new,
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Get.theme.iconTheme.color,
                 ),
               ),
             ),
@@ -81,7 +102,7 @@ class DeleteRestaurantPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -89,34 +110,39 @@ class DeleteRestaurantPage extends StatelessWidget {
     );
   }
 
-  Widget _buildPasswordField(String hint) {
+  Widget _buildPasswordField(String hint, TextEditingController controller, bool isObscure, VoidCallback onToggle) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(30.r),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
-      child: Row(
-        children: [
-          Icon(Icons.lock_outline, color: Colors.grey.shade400, size: 20.sp),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Text(
-              hint,
-              style: GoogleFonts.manrope(
-                color: Colors.grey.shade300,
-                fontSize: 13.sp,
-              ),
+      child: TextField(
+        controller: controller,
+        obscureText: isObscure,
+        style: GoogleFonts.manrope(
+          color: Get.theme.textTheme.bodyLarge?.color,
+          fontSize: 14.sp,
+        ),
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.lock_outline, color: Colors.grey.shade400, size: 20.sp),
+          suffixIcon: GestureDetector(
+            onTap: onToggle,
+            child: Icon(
+              isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+              color: Colors.grey.shade400,
+              size: 20.sp,
             ),
           ),
-          Icon(
-            Icons.visibility_outlined,
-            color: Colors.grey.shade400,
-            size: 20.sp,
+          hintText: hint,
+          hintStyle: GoogleFonts.manrope(
+            color: Colors.grey.shade300,
+            fontSize: 13.sp,
           ),
-        ],
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        ),
       ),
     );
   }
@@ -126,7 +152,9 @@ class DeleteRestaurantPage extends StatelessWidget {
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? AppColors.primaryColor
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(
