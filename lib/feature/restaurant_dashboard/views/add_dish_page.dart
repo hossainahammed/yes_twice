@@ -6,7 +6,9 @@ import '../../../../core/constant/image_path.dart';
 import '../../../../core/constant/app_colors.dart';
 
 class AddDishPage extends StatelessWidget {
-  const AddDishPage({super.key});
+  final Map<String, dynamic>? dishData;
+  final bool isEdit;
+  const AddDishPage({super.key, this.dishData, this.isEdit = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class AddDishPage extends StatelessWidget {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          "Add New Dishes",
+          isEdit ? "Edit Dishes" : "Add New Dishes",
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w700,
@@ -46,15 +48,15 @@ class AddDishPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12.h),
-            _buildMainPhotoSelection(),
+            _buildMainPhotoSelection(image: dishData?['image']),
             SizedBox(height: 12.h),
             _buildThumbnailRow(),
             SizedBox(height: 24.h),
-            _buildInputField("Food Name", "Truffle Tagliatelle"),
+            _buildInputField("Food Name", dishData?['name'] ?? "Truffle Tagliatelle"),
             SizedBox(height: 20.h),
             _buildDropdownField("Category", "Pasta"),
             SizedBox(height: 20.h),
-            _buildInputField("Price", "\$ 0.00"),
+            _buildInputField("Price", dishData?['price'] ?? "\$ 0.00"),
             SizedBox(height: 20.h),
             _buildDescriptionField(
               "Description",
@@ -69,14 +71,14 @@ class AddDishPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMainPhotoSelection() {
+  Widget _buildMainPhotoSelection({String? image}) {
     return Container(
       width: double.infinity,
       height: 180.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
         image: DecorationImage(
-          image: AssetImage(ImagePath.popularDishes1),
+          image: AssetImage(image ?? ImagePath.popularDishes1),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.3),

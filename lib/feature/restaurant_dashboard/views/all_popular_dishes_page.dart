@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import 'add_dish_page.dart';
+import 'dish_details_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 
 class AllPopularDishesPage extends StatelessWidget {
@@ -93,13 +94,20 @@ class AllPopularDishesPage extends StatelessWidget {
     String totalReviews,
     String imagePath,
   ) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: AppColors.greyColor),
-      ),
+    return GestureDetector(
+      onTap: () => Get.to(() => DishDetailsPage(
+            name: name,
+            rating: rating,
+            totalReviews: totalReviews,
+            imagePath: imagePath,
+          )),
+      child: Container(
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: context.theme.cardColor,
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.greyColor),
+        ),
       child: Row(
         children: [
           ClipRRect(
@@ -152,15 +160,15 @@ class AllPopularDishesPage extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => _showActionMenu(context),
-            icon: Icon(Icons.more_vert, color: Color(0xFF101828), size: 20.sp),
+            onPressed: () => _showActionMenu(context, name: name, image: imagePath),
+            icon: Icon(Icons.more_vert, color: const Color(0xFF101828), size: 20.sp),
           ),
         ],
       ),
+    ),
     );
   }
-
-  void _showActionMenu(BuildContext context) {
+  void _showActionMenu(BuildContext context, {String? name, String? image}) {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(
@@ -178,6 +186,14 @@ class AllPopularDishesPage extends StatelessWidget {
             children: [
               _buildMenuItem("Edit", () {
                 Get.back();
+                Get.to(() => AddDishPage(
+                      isEdit: true,
+                      dishData: {
+                        'name': name,
+                        'image': image,
+                        'price': "\$ 12.00", // Mocked price
+                      },
+                    ));
               }),
               SizedBox(height: 20.h),
               _buildMenuItem("Delete", () {

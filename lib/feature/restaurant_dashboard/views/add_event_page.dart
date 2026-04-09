@@ -8,7 +8,9 @@ import '../../../../core/constant/image_path.dart';
 import '../../../../core/constant/app_colors.dart';
 
 class AddEventPage extends StatefulWidget {
-  const AddEventPage({super.key});
+  final Map<String, dynamic>? eventData;
+  final bool isEdit;
+  const AddEventPage({super.key, this.eventData, this.isEdit = false});
 
   @override
   State<AddEventPage> createState() => _AddEventPageState();
@@ -17,7 +19,20 @@ class AddEventPage extends StatefulWidget {
 class _AddEventPageState extends State<AddEventPage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _venueController = TextEditingController();
   File? _selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEdit && widget.eventData != null) {
+      _nameController.text = widget.eventData!['name'] ?? "";
+      _venueController.text = widget.eventData!['venue'] ?? "";
+      _dateController.text = widget.eventData!['date'] ?? "";
+      _timeController.text = widget.eventData!['time'] ?? "";
+    }
+  }
 
   Future<void> _pickDate() async {
     DateTime? picked = await showDatePicker(
@@ -59,6 +74,8 @@ class _AddEventPageState extends State<AddEventPage> {
   void dispose() {
     _dateController.dispose();
     _timeController.dispose();
+    _nameController.dispose();
+    _venueController.dispose();
     super.dispose();
   }
 
@@ -85,7 +102,7 @@ class _AddEventPageState extends State<AddEventPage> {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          "Add Event",
+          widget.isEdit ? "Edit Event" : "Add Event",
           style: GoogleFonts.manrope(
             fontSize: 20.sp,
             fontWeight: FontWeight.w700,
@@ -100,13 +117,14 @@ class _AddEventPageState extends State<AddEventPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildFieldLabel("Event Name"),
-            _buildInputField(Icons.badge_outlined, "Enter Event Name"),
+            _buildInputField(Icons.badge_outlined, "Enter Event Name", controller: _nameController),
             SizedBox(height: 20.h),
             _buildFieldLabel("Venue"),
             _buildInputFieldWithSuffix(
               Icons.location_on_outlined,
               "Enter address or drop pin on map",
               Icons.map_outlined,
+              controller: _venueController,
             ),
             SizedBox(height: 20.h),
             _buildFieldLabel("Date"),
@@ -179,8 +197,9 @@ class _AddEventPageState extends State<AddEventPage> {
     );
   }
 
-  Widget _buildInputField(IconData prefix, String hint) {
+  Widget _buildInputField(IconData prefix, String hint, {TextEditingController? controller}) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         prefixIcon: Icon(prefix, color: Colors.grey.shade400, size: 20.sp),
         hintText: hint,

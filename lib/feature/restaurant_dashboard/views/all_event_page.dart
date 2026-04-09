@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import 'add_event_page.dart';
+import 'event_details_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 
 class AllEventPage extends StatelessWidget {
@@ -153,15 +154,16 @@ class AllEventPage extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildEventCard(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Get.theme.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: AppColors.greyColor),
-      ),
+    return GestureDetector(
+      onTap: () => Get.to(() => const EventDetailsPage()),
+      child: Container(
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: Get.theme.cardColor,
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.greyColor),
+        ),
       child: Row(
         children: [
           ClipRRect(
@@ -191,7 +193,7 @@ class AllEventPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.calendar_today_outlined,
-                      color: Colors.black,
+                      color: Get.theme.iconTheme.color,
                       size: 11.sp,
                     ),
                     SizedBox(width: 4.w),
@@ -232,15 +234,15 @@ class AllEventPage extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => _showActionMenu(context),
-            icon: Icon(Icons.more_vert, color: Colors.black, size: 20.sp),
+            onPressed: () => _showActionMenu(context, name: "Sunset Jazz & Tapas"),
+            icon: Icon(Icons.more_vert, color: Get.theme.iconTheme.color, size: 20.sp),
           ),
         ],
       ),
+    ),
     );
   }
-
-  void _showActionMenu(BuildContext context) {
+  void _showActionMenu(BuildContext context, {String? name}) {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(
@@ -258,6 +260,15 @@ class AllEventPage extends StatelessWidget {
             children: [
               _buildMenuItem("Edit", () {
                 Get.back();
+                Get.to(() => AddEventPage(
+                      isEdit: true,
+                      eventData: {
+                        'name': name,
+                        'venue': "Wilmington",
+                        'date': "2025-07-21",
+                        'time': "11:30 PM",
+                      },
+                    ));
               }),
               SizedBox(height: 20.h),
               _buildMenuItem("Delete", () {
