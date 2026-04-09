@@ -282,8 +282,11 @@ class RestaurantDashboardPage extends StatelessWidget {
   Widget _buildTotalViewsCard() {
     return Container(
       width: double.infinity,
+
       //height: 120.h,
-      padding: EdgeInsets.all(20.w),
+      // padding: EdgeInsets.all(18.w),
+      // padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+      padding: EdgeInsets.only(left: 20.w, right: 0.w, top: 10.h, bottom: 10.h),
       decoration: BoxDecoration(
         color: Get.theme.brightness == Brightness.dark
             ? AppColors.primaryColor
@@ -293,13 +296,14 @@ class RestaurantDashboardPage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            right: -12.w,
-            bottom: -32.h,
+            right: -22.w,
+            bottom: -28.h,
+            // top: 5.h,
             child: Opacity(
               opacity: 0.1,
               child: Icon(
                 Icons.visibility_outlined,
-                size: 130.sp,
+                size: 125.sp,
                 color: Colors.white,
               ),
             ),
