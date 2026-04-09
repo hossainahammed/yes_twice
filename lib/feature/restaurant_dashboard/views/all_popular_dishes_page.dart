@@ -74,7 +74,7 @@ class AllPopularDishesPage extends StatelessWidget {
               height: 32.w,
               decoration: BoxDecoration(
                 color: context.theme.brightness == Brightness.dark
-                    ? const Color(0xFFCA7373)
+                    ? AppColors.primaryColor
                     : const Color(0xFF4C080C),
                 shape: BoxShape.circle,
               ),
@@ -98,7 +98,7 @@ class AllPopularDishesPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: context.theme.dividerColor),
+        border: Border.all(color: AppColors.greyColor),
       ),
       child: Row(
         children: [
@@ -153,11 +153,7 @@ class AllPopularDishesPage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => _showActionMenu(context),
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.grey.shade400,
-              size: 20.sp,
-            ),
+            icon: Icon(Icons.more_vert, color: Color(0xFF101828), size: 20.sp),
           ),
         ],
       ),

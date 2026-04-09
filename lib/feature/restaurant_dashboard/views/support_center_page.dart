@@ -9,7 +9,7 @@ class SupportCenterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           _buildHeader(),
@@ -55,12 +55,12 @@ class SupportCenterPage extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.theme.dividerColor),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new,
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Get.theme.iconTheme.color,
                 ),
               ),
             ),
@@ -70,7 +70,7 @@ class SupportCenterPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -81,9 +81,9 @@ class SupportCenterPage extends StatelessWidget {
   Widget _buildFaqItem(String question, String answer) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Theme(
         data: ThemeData(dividerColor: Colors.transparent),
@@ -93,11 +93,11 @@ class SupportCenterPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
-          iconColor: Colors.black,
-          collapsedIconColor: Colors.black,
+          iconColor: Get.theme.iconTheme.color,
+          collapsedIconColor: Get.theme.iconTheme.color,
           childrenPadding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
           children: [
             Text(

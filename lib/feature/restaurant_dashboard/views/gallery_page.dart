@@ -14,7 +14,7 @@ class GalleryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       appBar: _buildAppBar(context),
       body: GridView.builder(
         padding: EdgeInsets.all(20.w),
@@ -41,7 +41,7 @@ class GalleryPage extends StatelessWidget {
       leading: controller.currentNavIndex.value == 3 
           ? null 
           : IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
+              icon: Icon(Icons.arrow_back, color: Get.theme.iconTheme.color, size: 24.sp),
               onPressed: () => Get.back(),
             ),
       title: Text(
@@ -49,7 +49,7 @@ class GalleryPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: Get.theme.textTheme.bodyLarge?.color,
         ),
       ),
       actions: [
@@ -59,12 +59,12 @@ class GalleryPage extends StatelessWidget {
             width: 32.w,
             height: 32.w,
             decoration: BoxDecoration(
-              color: const Color(0xFF4C080C),
+              color: Get.theme.brightness == Brightness.dark ? AppColors.whiteColor : const Color(0xFF4C080C),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.add,
-              color: Colors.white,
+              color: Get.theme.brightness == Brightness.dark ? AppColors.primaryColor : Colors.white,
               size: 20.sp,
             ),
           ),
@@ -93,12 +93,12 @@ class GalleryPage extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(4.w),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+                color: Get.theme.cardColor.withOpacity(0.8),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.more_vert,
-                color: Colors.black87,
+                color: Get.theme.textTheme.bodyLarge?.color,
                 size: 16.sp,
               ),
             ),
@@ -164,7 +164,7 @@ class GalleryPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),

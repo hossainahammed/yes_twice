@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/image_path.dart';
+import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/success_dialog.dart';
 
 class ReviewPage extends StatelessWidget {
@@ -11,12 +12,12 @@ class ReviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
+          icon: Icon(Icons.arrow_back, color: Get.theme.iconTheme.color, size: 24.sp),
           onPressed: () => Get.back(),
         ),
         title: Text(
@@ -24,7 +25,7 @@ class ReviewPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -46,6 +47,7 @@ class ReviewPage extends StatelessWidget {
                   5,
                   [ImagePath.popularDishes1, ImagePath.gallery2],
                   true,
+                  context,
                 ),
                 SizedBox(height: 20.h),
                 _buildReviewItem(
@@ -55,11 +57,11 @@ class ReviewPage extends StatelessWidget {
                   3,
                   [],
                   false,
+                  context,
                 ),
               ],
             ),
           ),
-          Align(alignment: Alignment.bottomCenter, child: _buildReplySection(context)),
         ],
       ),
     );
@@ -74,13 +76,13 @@ class ReviewPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 16.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
           decoration: BoxDecoration(
-            color: const Color(0xFFFFF2EF),
+            color: Get.theme.brightness == Brightness.dark ? const Color(0xFF381B1B) : const Color(0xFFFFF2EF),
             borderRadius: BorderRadius.circular(20.r),
           ),
           child: Row(
@@ -92,7 +94,7 @@ class ReviewPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black,
+                  color: Get.theme.brightness == Brightness.dark ? AppColors.whiteColor : Colors.black,
                 ),
               ),
             ],
@@ -123,10 +125,10 @@ class ReviewPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFF4C080C) : Colors.white,
+        color: isSelected ? const Color(0xFF4C080C) : Get.theme.cardColor,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: isSelected ? Colors.transparent : Colors.grey.shade200,
+          color: isSelected ? Colors.transparent : Get.theme.dividerColor,
         ),
       ),
       child: Text(
@@ -147,11 +149,12 @@ class ReviewPage extends StatelessWidget {
     int rating,
     List<String> images,
     bool isHighlighted,
+    BuildContext context,
   ) {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
@@ -180,7 +183,7 @@ class ReviewPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: Get.theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     Row(
@@ -263,29 +266,32 @@ class ReviewPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF2EF),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.reply,
-                      color: const Color(0xFFA12C05),
-                      size: 14.sp,
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      "Reply",
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700,
+              GestureDetector(
+                onTap: () => _showReplyBottomSheet(context),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  decoration: BoxDecoration(
+                    color: Get.theme.brightness == Brightness.dark ? const Color(0xFF381B1B) : const Color(0xFFFFF2EF),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.reply,
                         color: const Color(0xFFA12C05),
+                        size: 14.sp,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 8.w),
+                      Text(
+                        "Reply",
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Get.theme.brightness == Brightness.dark ? AppColors.whiteColor : const Color(0xFFA12C05),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -295,85 +301,89 @@ class ReviewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildReplySection(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 40.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.r),
-          topRight: Radius.circular(30.r),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Reply Message",
-            style: GoogleFonts.manrope(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          TextField(
-            maxLines: 3,
-            decoration: InputDecoration(
-              hintText:
-                  "Describe the flavors, ingredients, and soul of the dish...",
-              hintStyle: GoogleFonts.manrope(
-                color: Colors.grey.shade400,
-                fontSize: 12.sp,
+  void _showReplyBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 40.h),
+            decoration: BoxDecoration(
+              color: Get.theme.scaffoldBackgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30.r),
+                topRight: Radius.circular(30.r),
               ),
-              filled: true,
-              fillColor: Colors.grey.shade50,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.r),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: EdgeInsets.all(16.w),
             ),
-          ),
-          SizedBox(height: 16.h),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: GestureDetector(
-              onTap: () {
-                SuccessDialog.show(
-                  title: "Review submitted",
-                  context: context,
-                  onPressed: () => Get.back(),
-                  iconPath: ImagePath.reviewSubmit,
-                );
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF4C080C),
-                  borderRadius: BorderRadius.circular(30.r),
-                ),
-                child: Text(
-                  "Send",
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Reply Message",
                   style: GoogleFonts.manrope(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: Get.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-              ),
+                SizedBox(height: 12.h),
+                TextField(
+                  maxLines: 3,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: "Describe the flavors, ingredients, and soul of the dish...",
+                    hintStyle: GoogleFonts.manrope(
+                      color: Colors.grey.shade400,
+                      fontSize: 12.sp,
+                    ),
+                    filled: true,
+                    fillColor: Get.theme.cardColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: EdgeInsets.all(16.w),
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back(); // close bottom sheet
+                      SuccessDialog.show(
+                        title: "Review submitted",
+                        context: context,
+                        onPressed: () => Get.back(),
+                        iconPath: ImagePath.reviewSubmit,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4C080C),
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                      child: Text(
+                        "Send",
+                        style: GoogleFonts.manrope(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -344,7 +344,9 @@ class SettingsPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(20.w, 50.h, 20.w, 30.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.primaryColor
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30.r),
           bottomRight: Radius.circular(30.r),

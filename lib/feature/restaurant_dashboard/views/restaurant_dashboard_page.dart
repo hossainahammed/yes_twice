@@ -31,7 +31,7 @@ class RestaurantDashboardPage extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
       child: Scaffold(
-        backgroundColor: context.theme.scaffoldBackgroundColor,
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
         body: Obx(() {
           switch (controller.currentNavIndex.value) {
             case 0:
@@ -110,8 +110,8 @@ class RestaurantDashboardPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(24.w, 40.h, 24.w, 35.h),
       decoration: BoxDecoration(
-        color: context.theme.brightness == Brightness.dark
-            ? const Color(0xFFCA7373)
+        color: Get.theme.brightness == Brightness.dark
+            ? AppColors.primaryColor
             : AppColors.primaryColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40.r),
@@ -209,7 +209,9 @@ class RestaurantDashboardPage extends StatelessWidget {
               children: [
                 Icon(
                   Icons.check_circle, // Success sign
-                  color: AppColors.secondaryColor,
+                  color: (Get.theme.brightness == Brightness.dark
+                      ? AppColors.whiteColor
+                      : AppColors.secondaryColor),
                   size: 14.sp,
                 ),
                 SizedBox(width: 4.w), // Space between icon and text
@@ -217,7 +219,9 @@ class RestaurantDashboardPage extends StatelessWidget {
                   "Top 5% in city",
                   style: GoogleFonts.manrope(
                     fontSize: 12.sp,
-                    color: AppColors.secondaryColor,
+                    color: (Get.theme.brightness == Brightness.dark
+                        ? AppColors.whiteColor
+                        : AppColors.secondaryColor),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -240,7 +244,11 @@ class RestaurantDashboardPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Get.theme.dividerColor),
+        border: Border.all(
+          color: Get.theme.brightness == Brightness.dark
+              ? Colors.white
+              : AppColors.greyColor,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,7 +257,9 @@ class RestaurantDashboardPage extends StatelessWidget {
             title,
             style: GoogleFonts.manrope(
               fontSize: 12.sp,
-              color: AppColors.secondaryColor,
+              color: (Get.theme.brightness == Brightness.dark
+                  ? AppColors.whiteColor
+                  : AppColors.secondaryColor),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -276,7 +286,7 @@ class RestaurantDashboardPage extends StatelessWidget {
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         color: Get.theme.brightness == Brightness.dark
-            ? const Color(0xFFCA7373)
+            ? AppColors.primaryColor
             : AppColors.primaryColor,
         borderRadius: BorderRadius.circular(25.r),
       ),
@@ -471,12 +481,12 @@ class RestaurantDashboardPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? (Get.theme.brightness == Brightness.dark
-                    ? const Color(0xFFCA7373)
+                    ? AppColors.primaryColor
                     : AppColors.primaryColor)
               : Get.theme.cardColor,
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
-            color: isSelected ? Colors.transparent : Get.theme.dividerColor,
+            color: isSelected ? Colors.transparent : AppColors.greyColor,
           ),
         ),
         child: Text(
@@ -488,7 +498,7 @@ class RestaurantDashboardPage extends StatelessWidget {
                 ? Colors.white
                 : (Get.theme.brightness == Brightness.dark
                       ? Colors.grey.shade400
-                      : Colors.grey.shade500),
+                      : Colors.black),
           ),
         ),
       ),
@@ -539,7 +549,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 15.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
         GestureDetector(
@@ -550,13 +560,17 @@ class RestaurantDashboardPage extends StatelessWidget {
                 "View All",
                 style: GoogleFonts.manrope(
                   fontSize: 12.sp,
-                  color: AppColors.secondaryColor,
+                  color: (Get.theme.brightness == Brightness.dark
+                      ? AppColors.whiteColor
+                      : AppColors.secondaryColor),
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Icon(
                 Icons.chevron_right,
-                color: AppColors.secondaryColor,
+                color: (Get.theme.brightness == Brightness.dark
+                    ? AppColors.whiteColor
+                    : AppColors.secondaryColor),
                 size: 16.sp,
               ),
             ],
@@ -576,9 +590,9 @@ class RestaurantDashboardPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.greyColor),
       ),
       child: Row(
         children: [
@@ -601,7 +615,7 @@ class RestaurantDashboardPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: Get.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 SizedBox(height: 6.h),
@@ -614,7 +628,7 @@ class RestaurantDashboardPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: Get.theme.textTheme.bodyMedium?.color,
                       ),
                     ),
                     SizedBox(width: 8.w),
@@ -636,7 +650,9 @@ class RestaurantDashboardPage extends StatelessWidget {
             onTap: () => _showActionMenu(context),
             child: Icon(
               Icons.more_vert,
-              color: Colors.grey.shade400,
+              color: Get.theme.brightness == Brightness.dark
+                  ? Colors.grey.shade400
+                  : Colors.black,
               size: 20.sp,
             ),
           ),
@@ -665,9 +681,9 @@ class RestaurantDashboardPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.greyColor),
       ),
       child: Row(
         children: [
@@ -690,7 +706,7 @@ class RestaurantDashboardPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: Get.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 SizedBox(height: 6.h),
@@ -698,7 +714,9 @@ class RestaurantDashboardPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.calendar_today_outlined,
-                      color: Colors.grey.shade400,
+                      color: Get.theme.brightness == Brightness.dark
+                          ? Colors.grey.shade400
+                          : Colors.black,
                       size: 12.sp,
                     ),
                     SizedBox(width: 4.w),
@@ -707,7 +725,9 @@ class RestaurantDashboardPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade400,
+                        color: Get.theme.brightness == Brightness.dark
+                            ? Colors.grey.shade400
+                            : Colors.black,
                       ),
                     ),
                   ],
@@ -716,8 +736,8 @@ class RestaurantDashboardPage extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.location_on_outlined,
-                      color: Colors.grey.shade400,
+                      Icons.location_pin,
+                      color: AppColors.primaryColor,
                       size: 12.sp,
                     ),
                     SizedBox(width: 4.w),
@@ -726,7 +746,9 @@ class RestaurantDashboardPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade400,
+                        color: Get.theme.brightness == Brightness.dark
+                            ? Colors.grey.shade400
+                            : Colors.black,
                       ),
                     ),
                   ],
@@ -738,7 +760,9 @@ class RestaurantDashboardPage extends StatelessWidget {
             onTap: () => _showActionMenu(context),
             child: Icon(
               Icons.more_vert,
-              color: Colors.grey.shade400,
+              color: Get.theme.brightness == Brightness.dark
+                  ? Colors.grey.shade400
+                  : Colors.black,
               size: 20.sp,
             ),
           ),
@@ -785,12 +809,12 @@ class RestaurantDashboardPage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(4.w),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Get.theme.cardColor.withOpacity(0.8),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.more_vert,
-                        color: Colors.black87,
+                        color: Get.theme.textTheme.bodyLarge?.color,
                         size: 16.sp,
                       ),
                     ),
@@ -821,6 +845,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
+              //color: Color(0xFF2C2C2C),
               color: AppColors.reviewBgColor,
               borderRadius: BorderRadius.circular(10.r),
             ),
@@ -843,7 +868,7 @@ class RestaurantDashboardPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: Get.theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     Text(
@@ -876,6 +901,7 @@ class RestaurantDashboardPage extends StatelessWidget {
   void _showActionMenu(BuildContext context) {
     Get.dialog(
       Dialog(
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
         ),
@@ -929,7 +955,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -976,7 +1002,7 @@ class RestaurantDashboardPage extends StatelessWidget {
     return Obx(
       () => Container(
         decoration: BoxDecoration(
-          color: context.theme.cardColor,
+          color: Get.theme.cardColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.r),
             topRight: Radius.circular(30.r),
@@ -997,8 +1023,8 @@ class RestaurantDashboardPage extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: context.theme.brightness == Brightness.dark
-              ? const Color(0xFFCA7373)
+          selectedItemColor: Get.theme.brightness == Brightness.dark
+              ? AppColors.primaryColor
               : AppColors.primaryColor,
           unselectedItemColor: Colors.grey.shade400,
           selectedLabelStyle: GoogleFonts.manrope(
@@ -1023,7 +1049,7 @@ class RestaurantDashboardPage extends StatelessWidget {
               label: "Event",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.grid_view_outlined),
+              icon: Icon(Icons.image_outlined),
               label: "Gallery",
             ),
             BottomNavigationBarItem(

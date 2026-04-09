@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import '../../../../core/constant/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'add_account_page.dart';
 import 'restaurant_list_page.dart';
@@ -558,7 +559,7 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
         decoration: BoxDecoration(
           color: isSelected
               ? (Get.theme.brightness == Brightness.dark
-                    ? const Color(0xFFCA7373)
+                    ? AppColors.primaryColor
                     : Colors.white)
               : (Get.theme.brightness == Brightness.dark
                     ? const Color(0xFF381B1B)
@@ -621,7 +622,7 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
       height: 56.h,
       decoration: BoxDecoration(
         color: Get.theme.brightness == Brightness.dark
-            ? const Color(0xFFCA7373)
+            ? AppColors.primaryColor
             : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
@@ -690,7 +691,7 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
               style: GoogleFonts.manrope(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
-                color: Colors.black,
+                color: Get.theme.textTheme.bodyLarge?.color,
               ),
             ),
             SizedBox(height: 12.h),
@@ -720,9 +721,9 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
         margin: EdgeInsets.only(bottom: 8.h),
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Get.theme.cardColor,
           borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(color: Get.theme.dividerColor),
         ),
         child: Row(
           children: [
@@ -734,7 +735,7 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
                 style: GoogleFonts.manrope(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black,
+                  color: Get.theme.textTheme.bodyLarge?.color,
                 ),
               ),
             ),
@@ -761,9 +762,13 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
               padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Get.theme.dividerColor),
               ),
-              child: Icon(Icons.add, color: Colors.black, size: 18.sp),
+              child: Icon(
+                Icons.add,
+                color: Get.theme.textTheme.bodyLarge?.color,
+                size: 18.sp,
+              ),
             ),
             SizedBox(width: 12.w),
             Text(
@@ -771,7 +776,7 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: Get.theme.textTheme.bodyMedium?.color,
               ),
             ),
           ],

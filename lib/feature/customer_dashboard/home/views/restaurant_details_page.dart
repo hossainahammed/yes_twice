@@ -46,8 +46,8 @@ class RestaurantDetailsPage extends StatelessWidget {
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w800,
                   color: context.theme.brightness == Brightness.dark
-                      ? Colors.white
-                      : AppColors.primaryColor,
+                      ? AppColors.secondaryColor
+                      : AppColors.whiteColor,
                 ),
               ),
             ),

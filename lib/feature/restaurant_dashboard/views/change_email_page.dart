@@ -71,7 +71,7 @@ class ChangeEmailPage extends StatelessWidget {
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? const Color(0xFFCA7373)
+                      ? AppColors.primaryColor
                       : const Color(0xFF4C080C),
                 ),
               ),

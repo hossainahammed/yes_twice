@@ -12,16 +12,17 @@ class AllEventPage extends StatelessWidget {
   final bool? forceEmpty;
   const AllEventPage({super.key, this.forceEmpty});
 
-  RestaurantDashboardController get controller => Get.find<RestaurantDashboardController>();
+  RestaurantDashboardController get controller =>
+      Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       appBar: _buildAppBar(context),
       body: Obx(() {
         bool showEmpty = forceEmpty ?? (controller.events.isEmpty);
-        return showEmpty 
+        return showEmpty
             ? _buildEmptyState()
             : ListView.separated(
                 padding: EdgeInsets.all(20.w),
@@ -34,7 +35,7 @@ class AllEventPage extends StatelessWidget {
       }),
       bottomNavigationBar: Obx(() {
         bool showEmpty = forceEmpty ?? (controller.events.isEmpty);
-        return showEmpty 
+        return showEmpty
             ? Padding(
                 padding: EdgeInsets.all(20.w),
                 child: _buildAddRestaurantButton(),
@@ -58,12 +59,12 @@ class AllEventPage extends StatelessWidget {
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: context.theme.dividerColor),
+                border: Border.all(color: Get.theme.dividerColor),
               ),
               child: Icon(
                 Icons.arrow_back_ios_new,
                 size: 20.sp,
-                color: context.theme.iconTheme.color,
+                color: Get.theme.iconTheme.color,
               ),
             ),
           ),
@@ -74,7 +75,7 @@ class AllEventPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          color: context.theme.textTheme.bodyMedium?.color,
+          color: Get.theme.textTheme.bodyMedium?.color,
         ),
       ),
       actions: [
@@ -88,14 +89,12 @@ class AllEventPage extends StatelessWidget {
                   width: 32.w,
                   height: 32.w,
                   decoration: BoxDecoration(
-                    color: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
+                    color: Get.theme.brightness == Brightness.dark
+                        ? AppColors.primaryColor
+                        : const Color(0xFF4C080C),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 20.sp,
-                  ),
+                  child: Icon(Icons.add, color: Colors.white, size: 20.sp),
                 ),
               ),
             );
@@ -137,7 +136,9 @@ class AllEventPage extends StatelessWidget {
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: Get.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? AppColors.primaryColor
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(
@@ -157,9 +158,9 @@ class AllEventPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.greyColor),
       ),
       child: Row(
         children: [
@@ -182,7 +183,7 @@ class AllEventPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: Get.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 SizedBox(height: 6.h),
@@ -190,7 +191,7 @@ class AllEventPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.calendar_today_outlined,
-                      color: Colors.grey.shade400,
+                      color: Colors.black,
                       size: 11.sp,
                     ),
                     SizedBox(width: 4.w),
@@ -199,7 +200,9 @@ class AllEventPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade400,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.greyColor
+                            : Colors.black,
                       ),
                     ),
                   ],
@@ -208,8 +211,8 @@ class AllEventPage extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.location_on_outlined,
-                      color: Colors.grey.shade400,
+                      Icons.location_on,
+                      color: AppColors.primaryColor,
                       size: 11.sp,
                     ),
                     SizedBox(width: 4.w),
@@ -218,7 +221,9 @@ class AllEventPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade400,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.greyColor
+                            : Colors.black,
                       ),
                     ),
                   ],
@@ -228,11 +233,7 @@ class AllEventPage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => _showActionMenu(context),
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.grey.shade400,
-              size: 20.sp,
-            ),
+            icon: Icon(Icons.more_vert, color: Colors.black, size: 20.sp),
           ),
         ],
       ),
@@ -246,6 +247,10 @@ class AllEventPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Container(
+          decoration: BoxDecoration(
+            color: Get.theme.cardColor,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
           padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 20.w),
           width: 250.w,
           child: Column(
@@ -295,7 +300,7 @@ class AllEventPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
