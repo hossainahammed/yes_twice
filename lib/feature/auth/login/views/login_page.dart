@@ -23,16 +23,32 @@ class LoginPage extends StatelessWidget {
     final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: isDark ? AppColors.darkSurfaceColor : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10.h),
-              if (Navigator.of(context).canPop()) const CustomBackButton(),
-              SizedBox(height: 30.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (Navigator.of(context).canPop())
+                    const CustomBackButton()
+                  else
+                    const SizedBox.shrink(),
+                  Text(
+                    'Login',
+                    style: GoogleFonts.manrope(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: textColor.withOpacity(0.5),
+                    ),
+                  ),
+                  const SizedBox(width: 40), // Spacing for alignment
+                ],
+              ),
+              SizedBox(height: 40.h),
 
               /// Header Title
               Center(
@@ -41,16 +57,16 @@ class LoginPage extends StatelessWidget {
                     Text(
                       'Log In',
                       style: GoogleFonts.manrope(
-                        fontSize: 28.sp,
+                        fontSize: 32.sp,
                         fontWeight: FontWeight.w800,
                         color: textColor,
                       ),
                     ),
                     SizedBox(height: 8.h),
                     Text(
-                      'Sign in to continue using the app.',
+                      'Login to continue using the app.',
                       style: GoogleFonts.manrope(
-                        fontSize: 14.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w400,
                         color: subTextColor,
                       ),
@@ -58,16 +74,79 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 48.h),
+              SizedBox(height: 30.h),
+
+              /// Role Selection Toggle
+              Obx(
+                () => Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => controller.selectedRole.value = 'user',
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: controller.selectedRole.value == 'user'
+                                  ? AppColors.buttonColor
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: Text(
+                              'User',
+                              style: GoogleFonts.manrope(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: controller.selectedRole.value == 'user'
+                                    ? Colors.white
+                                    : textColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => controller.selectedRole.value = 'restaurant',
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: controller.selectedRole.value == 'restaurant'
+                                  ? AppColors.buttonColor
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: Text(
+                              'Restaurant',
+                              style: GoogleFonts.manrope(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: controller.selectedRole.value == 'restaurant'
+                                    ? Colors.white
+                                    : textColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 30.h),
 
               /// Form Fields
               CustomAuthField(
                 label: 'Email Address',
-                hint: 'Enter your email',
+                hint: 'Enter Email',
                 prefixIcon: Icons.email_outlined,
                 controller: controller.emailController,
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
               ),
               SizedBox(height: 20.h),
 
@@ -90,14 +169,15 @@ class LoginPage extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () => Get.to(() => ForgotPasswordPage()),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
                   child: Text(
                     'Forgot Password?',
                     style: GoogleFonts.manrope(
                       fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : const Color(0xFF4C080C),
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryColor,
                     ),
                   ),
                 ),
@@ -106,50 +186,63 @@ class LoginPage extends StatelessWidget {
 
               /// Login Button
               ElevatedButton(
-                onPressed: () => Get.offAll(() => const CustomerDashboard()),
+                onPressed: () {
+                  if (controller.selectedRole.value == 'user') {
+                    Get.offAll(() => const CustomerDashboard());
+                  } else {
+                    Get.offAll(() => RestaurantDashboardPage());
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
                   minimumSize: Size(double.infinity, 56.h),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
+                    borderRadius: BorderRadius.circular(30.r),
                   ),
                 ),
                 child: Text(
-                  'LOGIN',
+                  'Login',
                   style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    letterSpacing: 1,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              ElevatedButton(
-                onPressed: () => Get.offAll(() => RestaurantDashboardPage()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'LOGIN AS RESTAURANT OWNER',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
                   ),
                 ),
               ),
 
-              SizedBox(height: 24.h),
+              SizedBox(height: 20.h),
 
-              SizedBox(height: 40.h),
+              /// OR Divider
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Text(
+                      'OR',
+                      style: GoogleFonts.manrope(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                ],
+              ),
+
+              SizedBox(height: 20.h),
+
+              /// Google Login Button
+              SocialLoginButton(
+                text: 'Continue with Google',
+                onTap: () {
+                  // TODO: Implement Google Sign In
+                },
+              ),
+
+              SizedBox(height: 30.h),
 
               /// Footer
               Center(
@@ -157,7 +250,7 @@ class LoginPage extends StatelessWidget {
                   text: TextSpan(
                     text: "Don’t have an account? ",
                     style: GoogleFonts.manrope(
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: subTextColor,
                     ),
@@ -165,22 +258,20 @@ class LoginPage extends StatelessWidget {
                       TextSpan(
                         text: "Sign Up",
                         style: GoogleFonts.manrope(
-                          fontSize: 15.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
                           color: AppColors.primaryColor,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => Get.to(() => RegistrationPage()),
+                              ),
+                            ],
+                          ),
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Get.to(() => RegistrationPage()),
                       ),
                     ],
                   ),
                 ),
-              ),
-              SizedBox(height: 10.h),
-              SizedBox(height: 20.h),
-            ],
-          ),
-        ),
       ),
     );
   }
