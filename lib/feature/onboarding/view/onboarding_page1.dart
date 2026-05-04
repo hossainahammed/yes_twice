@@ -6,7 +6,11 @@ class OnboardingPage1 extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onSkip;
 
-  const OnboardingPage1({super.key, required this.onNext, required this.onSkip});
+  const OnboardingPage1({
+    super.key,
+    required this.onNext,
+    required this.onSkip,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class OnboardingPage1 extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: height * 0.05),
-          
+
           /// ─── Image Card ────────────────────────────────────────────────
           Center(
             child: Stack(
@@ -49,14 +53,16 @@ class OnboardingPage1 extends StatelessWidget {
                             color: Colors.black.withOpacity(0.05),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
-                          )
+                          ),
                         ],
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
                             child: Image.asset(
                               'assets/images/onbording_Background01.png',
                               width: double.infinity,
@@ -64,7 +70,10 @@ class OnboardingPage1 extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.025),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05,
+                              vertical: height * 0.025,
+                            ),
                             child: Row(
                               children: [
                                 Container(
@@ -74,7 +83,11 @@ class OnboardingPage1 extends StatelessWidget {
                                     color: AppColors.secondaryColor,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Icon(Icons.explore_outlined, color: Colors.white, size: width * 0.05),
+                                  child: Icon(
+                                    Icons.explore_outlined,
+                                    color: Colors.white,
+                                    size: width * 0.05,
+                                  ),
                                 ),
                                 SizedBox(width: width * 0.035),
                                 Column(
@@ -109,7 +122,10 @@ class OnboardingPage1 extends StatelessWidget {
                       bottom: -15,
                       right: 20,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.035, vertical: height * 0.01),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.035,
+                          vertical: height * 0.01,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -124,7 +140,11 @@ class OnboardingPage1 extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.location_on, color: AppColors.secondaryColor, size: width * 0.04),
+                            Icon(
+                              Icons.location_on,
+                              color: AppColors.secondaryColor,
+                              size: width * 0.04,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'PARIS, FR',
@@ -143,7 +163,7 @@ class OnboardingPage1 extends StatelessWidget {
               ],
             ),
           ),
-          
+
           SizedBox(height: height * 0.05),
 
           /// ─── Title ──────────────────────────────────────────────
@@ -157,7 +177,7 @@ class OnboardingPage1 extends StatelessWidget {
               height: 1.2,
             ),
           ),
-          
+
           SizedBox(height: height * 0.025),
 
           /// ─── Description ─────────────────────────────────────────
@@ -180,7 +200,9 @@ class OnboardingPage1 extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
               minimumSize: Size(double.infinity, height * 0.065),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(height * 0.03)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(height * 0.03),
+              ),
               elevation: 0,
             ),
             child: Text(
@@ -192,9 +214,9 @@ class OnboardingPage1 extends StatelessWidget {
               ),
             ),
           ),
-          
+
           SizedBox(height: height * 0.015),
-          
+
           TextButton(
             onPressed: onSkip,
             child: Text(
@@ -206,7 +228,7 @@ class OnboardingPage1 extends StatelessWidget {
               ),
             ),
           ),
-          
+
           SizedBox(height: height * 0.025),
         ],
       ),
