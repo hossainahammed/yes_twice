@@ -24,9 +24,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final LoginPageController controller = Get.put(LoginPageController());
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color textColor = isDark ? Colors.white : AppColors.textColor;
+    final Color subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade500;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkSurfaceColor : Colors.white,
+      backgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
@@ -65,13 +68,13 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 height: 50.h,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
+                  color: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(30.r),
                 ),
                 child: Row(
                   children: [
-                    _buildTab(label: 'User', index: 0),
-                    _buildTab(label: 'Restaurant', index: 1),
+                    _buildTab(label: 'User', index: 0, isDark: isDark),
+                    _buildTab(label: 'Restaurant', index: 1, isDark: isDark),
                   ],
                 ),
               ),
@@ -160,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
               /// ── OR Divider ───────────────────────────────────────────
               Row(
                 children: [
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Expanded(child: Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300)),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     child: Text(
@@ -168,11 +171,11 @@ class _LoginPageState extends State<LoginPage> {
                       style: GoogleFonts.manrope(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade400,
+                        color: isDark ? Colors.grey.shade500 : Colors.grey.shade400,
                       ),
                     ),
                   ),
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Expanded(child: Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300)),
                 ],
               ),
               SizedBox(height: 20.h),
@@ -198,13 +201,9 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
                           color: AppColors.primaryColor,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => Get.to(() => RegistrationPage()),
-                              ),
-                            ],
-                          ),
                         ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.to(() => RegistrationPage()),
                       ),
                     ],
                   ),
@@ -218,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildTab({required String label, required int index}) {
+  Widget _buildTab({required String label, required int index, required bool isDark}) {
     final bool isActive = _selectedTab == index;
     return Expanded(
       child: GestureDetector(
@@ -236,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
             style: GoogleFonts.manrope(
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
-              color: isActive ? Colors.white : Colors.grey.shade600,
+              color: isActive ? Colors.white : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
             ),
           ),
         ),
