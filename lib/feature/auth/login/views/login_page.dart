@@ -10,43 +10,48 @@ import '../../../customer_dashboard/dashboard/dashboard.dart';
 import '../../forgot_password/views/forgot_password_page.dart';
 import '../../registration/views/registration_page.dart';
 import '../controllers/login_page_controller.dart';
-import '../../claim/views/claim_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  int _selectedTab = 0; // 0 = User, 1 = Restaurant
 
   @override
   Widget build(BuildContext context) {
     final LoginPageController controller = Get.put(LoginPageController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10.h),
-              const CustomBackButton(),
-              SizedBox(height: 30.h),
+              SizedBox(height: 8.h),
 
-              /// Header Title
+              /// ── Header ──────────────────────────────────────────────
               Center(
                 child: Column(
                   children: [
                     Text(
                       'Log In',
                       style: GoogleFonts.manrope(
-                        fontSize: 28.sp,
+                        fontSize: 26.sp,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textColor,
                       ),
                     ),
-                    SizedBox(height: 8.h),
+                    SizedBox(height: 6.h),
                     Text(
-                      'Sign in to continue using the app.',
+                      'Login to continue using the app.',
                       style: GoogleFonts.manrope(
-                        fontSize: 14.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w400,
                         color: Colors.grey.shade500,
                       ),
@@ -54,17 +59,34 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 48.h),
+              SizedBox(height: 24.h),
 
-              /// Form Fields
+              /// ── User / Restaurant Toggle Tab ─────────────────────────
+              Container(
+                height: 50.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+                child: Row(
+                  children: [
+                    _buildTab(label: 'User', index: 0),
+                    _buildTab(label: 'Restaurant', index: 1),
+                  ],
+                ),
+              ),
+              SizedBox(height: 28.h),
+
+              /// ── Email Field ──────────────────────────────────────────
               CustomAuthField(
                 label: 'Email Address',
-                hint: 'Enter your email',
-                prefixIcon: Icons.email_outlined,
+                hint: 'Enter Email',
+                prefixIcon: Icons.mail_outline_rounded,
                 controller: controller.emailController,
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 18.h),
 
+              /// ── Password Field ───────────────────────────────────────
               Obx(
                 () => CustomAuthField(
                   label: 'Password',
@@ -80,121 +102,99 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
 
+              /// ── Forgot Password ──────────────────────────────────────
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () => Get.to(() => ForgotPasswordPage()),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                   child: Text(
                     'Forgot Password?',
                     style: GoogleFonts.manrope(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primaryColor.withOpacity(0.8),
+                      color: AppColors.primaryColor.withOpacity(0.85),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 18.h),
 
-              /// Login Button
-              ElevatedButton(
-                onPressed: () => Get.offAll(() => const CustomerDashboard()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
+              /// ── Login Button ─────────────────────────────────────────
+              SizedBox(
+                width: double.infinity,
+                height: 52.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_selectedTab == 0) {
+                      Get.offAll(() => const CustomerDashboard());
+                    } else {
+                      Get.offAll(() => RestaurantDashboardPage());
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
                   ),
-                ),
-                child: Text(
-                  'LOGIN',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
+                  child: Text(
+                    'Login',
+                    style: GoogleFonts.manrope(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
-              ElevatedButton(
-                onPressed: () => Get.offAll(() => RestaurantDashboardPage()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'LOGIN AS RESTAURANT OWNER',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                  ),
-                ),
-              ),
+              SizedBox(height: 20.h),
 
-              SizedBox(height: 24.h),
-              Center(
-                child: Text(
-                  'OR',
-                  style: GoogleFonts.manrope(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey.shade400,
+              /// ── OR Divider ───────────────────────────────────────────
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: Text(
+                      'OR',
+                      style: GoogleFonts.manrope(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                ],
               ),
-              SizedBox(height: 24.h),
+              SizedBox(height: 20.h),
 
-              /// Social Login
+              /// ── Continue with Google ─────────────────────────────────
               SocialLoginButton(text: 'Continue with Google', onTap: () {}),
-              SizedBox(height: 24.h),
+              SizedBox(height: 28.h),
 
-              /// Claim Button
-              ElevatedButton(
-                onPressed: () => Get.to(() => const ClaimPage()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'Claim your restaurant',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 40.h),
-
-              /// Footer
+              /// ── Sign Up Footer ───────────────────────────────────────
               Center(
                 child: RichText(
                   text: TextSpan(
-                    text: "Don’t have an account? ",
+                    text: "Don't have an account? ",
                     style: GoogleFonts.manrope(
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey.shade600,
                     ),
                     children: [
                       TextSpan(
-                        text: "Sign Up",
+                        text: 'Sign Up',
                         style: GoogleFonts.manrope(
-                          fontSize: 15.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
                           color: AppColors.primaryColor,
                         ),
@@ -205,8 +205,34 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 16.h),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTab({required String label, required int index}) {
+    final bool isActive = _selectedTab == index;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _selectedTab = index),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          margin: EdgeInsets.all(4.r),
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.primaryColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(26.r),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: GoogleFonts.manrope(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w700,
+              color: isActive ? Colors.white : Colors.grey.shade600,
+            ),
           ),
         ),
       ),
