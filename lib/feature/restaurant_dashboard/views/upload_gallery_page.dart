@@ -9,17 +9,22 @@ import 'gallery_page.dart';
 class UploadGalleryPage extends StatelessWidget {
   UploadGalleryPage({super.key});
 
-  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  final RestaurantDashboardController controller =
+      Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.theme.iconTheme.color,
+            size: 24.sp,
+          ),
           onPressed: () => Get.back(),
         ),
         title: Text(
@@ -27,7 +32,7 @@ class UploadGalleryPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -53,10 +58,12 @@ class UploadGalleryPage extends StatelessWidget {
       width: double.infinity,
       height: 220.h,
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Get.theme.brightness == Brightness.dark
+            ? const Color(0xFF1E1E1E)
+            : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: Colors.grey.shade300,
+          color: Get.theme.dividerColor,
           width: 1,
           style: BorderStyle.solid, // Fallback for dashed
         ),
@@ -71,16 +78,20 @@ class UploadGalleryPage extends StatelessWidget {
                 color: const Color(0xFFFFF2EF),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.camera_enhance_outlined, color: const Color(0xFFA12C05), size: 30.sp),
+              child: Icon(
+                Icons.camera_enhance_outlined,
+                color: const Color(0xFFA12C05),
+                size: 30.sp,
+              ),
             ),
             SizedBox(height: 16.h),
             Text(
-              "Tap to upload photos/\nVideo",
+              "Upload Media",
               textAlign: TextAlign.center,
               style: GoogleFonts.manrope(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
-                color: Colors.black,
+                color: Get.theme.textTheme.bodyLarge?.color,
               ),
             ),
             SizedBox(height: 8.h),
@@ -134,7 +145,7 @@ class UploadGalleryPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 16.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
         GestureDetector(
@@ -169,7 +180,12 @@ class UploadGalleryPage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15.r),
-              child: Image.asset(image, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
+              child: Image.asset(
+                image,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             Positioned(
               top: 10.w,
@@ -179,10 +195,14 @@ class UploadGalleryPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(4.w),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Get.theme.cardColor.withOpacity(0.8),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.more_vert, color: Colors.black87, size: 16.sp),
+                  child: Icon(
+                    Icons.more_vert,
+                    color: Get.theme.textTheme.bodyLarge?.color,
+                    size: 16.sp,
+                  ),
                 ),
               ),
             ),
@@ -195,6 +215,7 @@ class UploadGalleryPage extends StatelessWidget {
   void _showActionMenu(BuildContext context) {
     Get.dialog(
       Dialog(
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
         ),
@@ -248,7 +269,7 @@ class UploadGalleryPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),

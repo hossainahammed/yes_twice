@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import '../../../../core/constant/widgets/success_dialog.dart';
 
@@ -11,7 +12,7 @@ class AddAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -72,22 +73,22 @@ class AddAccountPage extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.theme.dividerColor),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new,
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Get.theme.iconTheme.color,
                 ),
               ),
             ),
           ),
           Text(
-            "Add Account",
+            "Add Restaurant",
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -103,7 +104,7 @@ class AddAccountPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 14.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: Get.theme.textTheme.bodyMedium?.color,
         ),
       ),
     );
@@ -114,9 +115,9 @@ class AddAccountPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Row(
         children: [
@@ -136,9 +137,9 @@ class AddAccountPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Row(
         children: [
@@ -161,9 +162,9 @@ class AddAccountPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Row(
         children: [
@@ -187,9 +188,9 @@ class AddAccountPage extends StatelessWidget {
       padding: EdgeInsets.all(16.w),
       height: 120.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +214,7 @@ class AddAccountPage extends StatelessWidget {
       style: GoogleFonts.manrope(
         fontSize: 18.sp,
         fontWeight: FontWeight.w700,
-        color: Colors.black,
+        color: Get.theme.textTheme.bodyLarge?.color,
       ),
     );
   }
@@ -247,9 +248,9 @@ class AddAccountPage extends StatelessWidget {
       width: 60.w,
       height: 60.w,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Colors.grey.shade200, style: BorderStyle.solid),
+        border: Border.all(color: Get.theme.dividerColor, style: BorderStyle.solid),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -257,7 +258,7 @@ class AddAccountPage extends StatelessWidget {
           Icon(Icons.add_photo_alternate_outlined, color: Colors.grey.shade400, size: 20.sp),
           SizedBox(height: 4.h),
           Text(
-            "Add photo",
+            "Add Media",
             style: GoogleFonts.manrope(
               fontSize: 8.sp,
               color: Colors.grey.shade400,
@@ -285,7 +286,7 @@ class AddAccountPage extends StatelessWidget {
         width: double.infinity,
         height: 56.h,
         decoration: BoxDecoration(
-          color: const Color(0xFF4C080C),
+          color: Get.theme.brightness == Brightness.dark ? AppColors.primaryColor : const Color(0xFF4C080C),
           borderRadius: BorderRadius.circular(30.r),
         ),
         child: Center(

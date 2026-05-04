@@ -6,15 +6,22 @@ import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart'; // For CustomBackButton
 import 'restaurant_details_page.dart';
 
-class RestaurantListPage extends StatelessWidget {
+class RestaurantListPage extends StatefulWidget {
   const RestaurantListPage({super.key});
+
+  @override
+  State<RestaurantListPage> createState() => _RestaurantListPageState();
+}
+
+class _RestaurantListPageState extends State<RestaurantListPage> {
+  String selectedFilter = 'All';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -22,11 +29,13 @@ class RestaurantListPage extends StatelessWidget {
           child: CustomBackButton(),
         ),
         title: Text(
-          'Restaurant list',
+          'Restaurant List',
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
           ),
         ),
       ),
@@ -39,9 +48,15 @@ class RestaurantListPage extends StatelessWidget {
             child: Container(
               height: 48.h,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.darkBackgroundColor
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(24.r),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white10
+                      : Colors.grey.shade300,
+                ),
               ),
               child: Row(
                 children: [
@@ -66,7 +81,9 @@ class RestaurantListPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Icon(
                       Icons.tune,
-                      color: AppColors.primaryColor,
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : AppColors.primaryColor,
                       size: 20.sp,
                     ),
                   ),
@@ -85,17 +102,84 @@ class RestaurantListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-                Text(
-                  'Near Me',
-                  style: GoogleFonts.manrope(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primaryColor,
+
+                PopupMenuButton<String>(
+                  initialValue: selectedFilter,
+                  onSelected: (String value) {
+                    setState(() {
+                      selectedFilter = value;
+                    });
+                  },
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  color: context.theme.cardColor,
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'All ',
+                      child: Text(
+                        'All ',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'Near Me',
+                      child: Text(
+                        'Near Me',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
+                  ],
+                  child: Row(
+                    children: [
+                      Text(
+                        selectedFilter,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color:
+                              Theme.of(context).brightness ==
+                                  Brightness
+                                      .dark // Now context is defined
+                              ? Colors.white
+                              : AppColors.primaryColor,
+                        ),
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color:
+                            Theme.of(context).brightness ==
+                                Brightness
+                                    .dark // Now context is defined
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 16.sp,
+                      ),
+                    ],
                   ),
                 ),
+                // Text(
+                //   'Near Me',
+                //   style: GoogleFonts.manrope(
+                //     fontSize: 10.sp,
+                //     fontWeight: FontWeight.w700,
+                //     color: context.theme.brightness == Brightness.dark
+                //         ? Colors.white
+                //         : AppColors.primaryColor,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -114,7 +198,10 @@ class RestaurantListPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => Get.to(() => const RestaurantDetailsPage()),
                   child: _buildGridCard(
-                    title: index % 2 == 0 ? 'The Southern Spoon' : 'Spice Theory',
+                    context,
+                    title: index % 2 == 0
+                        ? 'The Southern Spoon'
+                        : 'Spice Theory',
                     location: 'Johannesburg',
                     price: r'$$$',
                     rating: 4.9,
@@ -131,7 +218,8 @@ class RestaurantListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGridCard({
+  Widget _buildGridCard(
+    BuildContext context, {
     required String title,
     required String location,
     required String price,
@@ -141,7 +229,7 @@ class RestaurantListPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -172,10 +260,12 @@ class RestaurantListPage extends StatelessWidget {
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
@@ -193,7 +283,7 @@ class RestaurantListPage extends StatelessWidget {
                         Text(
                           rating.toString(),
                           style: GoogleFonts.manrope(
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w800,
                           ),
@@ -201,7 +291,7 @@ class RestaurantListPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -218,7 +308,9 @@ class RestaurantListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                    color: context.theme.brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -228,21 +320,22 @@ class RestaurantListPage extends StatelessWidget {
                     const Icon(
                       Icons.location_on,
                       color: AppColors.primaryColor,
-                      size: 12,
+                      size: 18,
                     ),
                     const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        location,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.manrope(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
+                    Text(
+                      location,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.manrope(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w600,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87,
                       ),
                     ),
+                    const SizedBox(width: 4),
                     Text(
                       '  $price',
                       style: GoogleFonts.manrope(
@@ -262,4 +355,3 @@ class RestaurantListPage extends StatelessWidget {
     );
   }
 }
-

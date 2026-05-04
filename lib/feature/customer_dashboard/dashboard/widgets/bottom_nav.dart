@@ -19,7 +19,9 @@ class BottomNavBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: isDark
+            ? Theme.of(context).scaffoldBackgroundColor
+            : Theme.of(context).cardColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
@@ -41,7 +43,7 @@ class BottomNavBar extends StatelessWidget {
               _buildNavItem(
                 context,
                 0,
-                "assets/icons/home_selected.png",
+                "assets/icons/home.png",
                 "assets/icons/home_selected.png",
                 'Home',
               ),
@@ -83,16 +85,18 @@ class BottomNavBar extends StatelessWidget {
     bool skipSelectedTint = false,
   }) {
     bool isSelected = selectedIndex == index;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeColor = isDark
-        ? const Color(0xFFCA7373)
-        : AppColors.primaryColor;
+    final activeColor = AppColors.primaryColor;
 
     // For icons like "more" whose selected asset is already fully colored,
     // we skip the color tint so the original image renders correctly.
     final Color? iconColor = (isSelected && skipSelectedTint)
         ? null
-        : (isSelected ? activeColor : Colors.grey);
+        : isSelected
+        ? Theme.of(context).brightness == Brightness.dark
+              ? AppColors.primaryColor
+              : AppColors.primaryColor
+        : Colors.grey;
+    // : (isSelected ? activeColor : Colors.grey);
 
     return GestureDetector(
       onTap: () => onItemTapped(index),
@@ -112,7 +116,14 @@ class BottomNavBar extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? activeColor : Colors.grey,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? isSelected
+                          ? AppColors.primaryColor
+                          : AppColors.greyColor
+                    : isSelected
+                    ? AppColors.primaryColor
+                    : AppColors.greyColor,
+
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),

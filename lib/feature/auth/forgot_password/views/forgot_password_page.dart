@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,13 +10,20 @@ import 'pages/reset_otp_page.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});
+  ThemeController themeController = Get.put(ThemeController());
 
-  final ForgotPasswordController controller = Get.put(ForgotPasswordController());
+  final ForgotPasswordController controller = Get.put(
+    ForgotPasswordController(),
+  );
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
@@ -31,7 +39,9 @@ class ForgotPasswordPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
                 ),
               ),
               SizedBox(height: 8.h),
@@ -52,7 +62,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 prefixIcon: Icons.email_outlined,
                 controller: controller.emailController,
               ),
-              
+
               SizedBox(height: 48.h),
 
               /// Send Code Button
@@ -62,7 +72,9 @@ class ForgotPasswordPage extends StatelessWidget {
                   backgroundColor: AppColors.primaryColor,
                   minimumSize: Size(double.infinity, 56.h),
                   elevation: 0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
                 ),
                 child: Text(
                   'Send Code',
@@ -80,4 +92,3 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 }
-

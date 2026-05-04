@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 
@@ -14,11 +15,17 @@ class ClaimPage extends StatefulWidget {
 
 class _ClaimPageState extends State<ClaimPage> {
   bool isChecked = false;
+  bool isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
@@ -35,7 +42,7 @@ class _ClaimPageState extends State<ClaimPage> {
                     style: GoogleFonts.manrope(
                       fontSize: 22.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.textColor,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -56,12 +63,26 @@ class _ClaimPageState extends State<ClaimPage> {
               ),
               SizedBox(height: 20.h),
 
+              CustomAuthField(
+                label: 'Choose Password',
+                hint: 'Enter a secure password',
+                prefixIcon: Icons.lock_outline_rounded,
+                isPassword: true,
+                obscureText: isPasswordHidden,
+                onSuffixIconPressed: () {
+                  setState(() {
+                    isPasswordHidden = !isPasswordHidden;
+                  });
+                },
+              ),
+              SizedBox(height: 25.h),
+
               Text(
                 'Proof Upload',
                 style: GoogleFonts.manrope(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                  color: textColor,
                 ),
               ),
               SizedBox(height: 8.h),
@@ -76,19 +97,27 @@ class _ClaimPageState extends State<ClaimPage> {
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 24.h),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: theme.cardColor,
                     borderRadius: BorderRadius.circular(15.r),
                   ),
                   child: Column(
                     children: [
-                      Icon(Icons.description_outlined, color: AppColors.primaryColor, size: 28.sp),
+                      Icon(
+                        Icons.description_outlined,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 28.sp,
+                      ),
                       SizedBox(height: 8.h),
                       Text(
                         'Upload Photo',
                         style: GoogleFonts.manrope(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.primaryColor,
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
                         ),
                       ),
                       SizedBox(height: 12.h),
@@ -119,26 +148,38 @@ class _ClaimPageState extends State<ClaimPage> {
 
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade50,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(15.r),
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: Border.all(color: theme.dividerColor),
                 ),
                 child: TextFormField(
                   maxLines: 4,
-                  style: GoogleFonts.manrope(fontSize: 14.sp),
+                  style: GoogleFonts.manrope(fontSize: 14.sp, color: textColor),
                   decoration: InputDecoration(
                     hintText: 'Message Box',
-                    hintStyle: GoogleFonts.manrope(color: Colors.grey.shade400, fontSize: 14.sp),
+                    hintStyle: GoogleFonts.manrope(
+                      color: Colors.grey.shade400,
+                      fontSize: 14.sp,
+                    ),
                     prefixIcon: Padding(
                       padding: EdgeInsets.only(bottom: 50.h),
-                      child: Icon(Icons.edit_note_outlined, color: AppColors.primaryColor.withOpacity(0.4), size: 20.sp),
+                      child: Icon(
+                        Icons.edit_note_outlined,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 24.sp,
+                      ),
                     ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 16.h,
+                    ),
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 24.h),
 
               Row(
@@ -155,9 +196,13 @@ class _ClaimPageState extends State<ClaimPage> {
                       width: 18.w,
                       height: 18.w,
                       decoration: BoxDecoration(
-                        color: isChecked ? AppColors.primaryColor : Colors.white,
+                        color: isChecked
+                            ? AppColors.primaryColor
+                            : Colors.transparent,
                         border: Border.all(
-                          color: isChecked ? AppColors.primaryColor : Colors.grey.shade400,
+                          color: isChecked
+                              ? AppColors.primaryColor
+                              : subTextColor,
                           width: 1.5,
                         ),
                         borderRadius: BorderRadius.circular(4.r),
@@ -173,14 +218,14 @@ class _ClaimPageState extends State<ClaimPage> {
                       style: GoogleFonts.manrope(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black87,
+                        color: textColor.withOpacity(0.8),
                         height: 1.4,
                       ),
                     ),
                   ),
                 ],
               ),
-              
+
               SizedBox(height: 40.h),
 
               ElevatedButton(
@@ -190,7 +235,7 @@ class _ClaimPageState extends State<ClaimPage> {
                   minimumSize: Size(double.infinity, 56.h),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.r), 
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                 ),
                 child: Text(

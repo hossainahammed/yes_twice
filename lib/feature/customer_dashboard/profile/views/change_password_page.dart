@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
@@ -9,10 +10,14 @@ class ChangePasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = theme.brightness == Brightness.dark ? Colors.grey.shade400 : Colors.grey.shade600;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -24,7 +29,7 @@ class ChangePasswordPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: textColor,
           ),
         ),
       ),
@@ -40,7 +45,7 @@ class ChangePasswordPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                  color: textColor,
                 ),
               ),
               SizedBox(height: 12.h),
@@ -49,7 +54,7 @@ class ChangePasswordPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade500,
+                  color: subTextColor,
                 ),
               ),
               SizedBox(height: 40.h),

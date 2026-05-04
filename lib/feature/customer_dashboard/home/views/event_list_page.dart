@@ -6,15 +6,22 @@ import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import 'event_details_page.dart';
 
-class EventListPage extends StatelessWidget {
+class EventListPage extends StatefulWidget {
   const EventListPage({super.key});
+
+  @override
+  State<EventListPage> createState() => _EventListPageState();
+}
+
+class _EventListPageState extends State<EventListPage> {
+  String selectedFilter = 'All Event';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -22,11 +29,11 @@ class EventListPage extends StatelessWidget {
           child: const CustomBackButton(),
         ),
         title: Text(
-          'Even List',
+          'Event List',
           style: GoogleFonts.manrope(
             fontSize: 24.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -42,24 +49,68 @@ class EventListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      Text(
-                        'ALL Event',
+                PopupMenuButton<String>(
+                  initialValue: selectedFilter,
+                  onSelected: (String value) {
+                    setState(() {
+                      selectedFilter = value;
+                    });
+                  },
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  color: context.theme.cardColor,
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'All Event',
+                      child: Text(
+                        'All Event',
                         style: GoogleFonts.manrope(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.primaryColor,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'Near Me',
+                      child: Text(
+                        'Near Me',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                    ),
+                  ],
+                  child: Row(
+                    children: [
+                      Text(
+                        selectedFilter,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color:
+                              Theme.of(context).brightness ==
+                                  Brightness
+                                      .dark // Now context is defined
+                              ? Colors.white
+                              : AppColors.primaryColor,
                         ),
                       ),
                       Icon(
                         Icons.keyboard_arrow_down,
-                        color: AppColors.primaryColor,
+                        color:
+                            Theme.of(context).brightness ==
+                                Brightness
+                                    .dark // Now context is defined
+                            ? Colors.white
+                            : AppColors.primaryColor,
                         size: 16.sp,
                       ),
                     ],
@@ -96,7 +147,7 @@ class EventListPage extends StatelessWidget {
                 final event = events[index % 2];
                 return GestureDetector(
                   onTap: () => Get.to(() => const EventDetailsPage()),
-                  child: _buildEventCard(event),
+                  child: _buildEventCard(context, event),
                 );
               },
             ),
@@ -106,11 +157,11 @@ class EventListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEventCard(Map<String, String> event) {
+  Widget _buildEventCard(BuildContext context, Map<String, String> event) {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -147,7 +198,7 @@ class EventListPage extends StatelessWidget {
                       vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
@@ -167,7 +218,7 @@ class EventListPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                       ],
@@ -183,7 +234,7 @@ class EventListPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 14.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: context.theme.textTheme.bodyLarge?.color,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -203,7 +254,7 @@ class EventListPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

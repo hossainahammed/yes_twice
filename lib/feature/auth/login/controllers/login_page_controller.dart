@@ -12,6 +12,7 @@ class LoginPageController extends GetxController {
   /// Observables
   var isPasswordHidden = true.obs;
   var rememberMe = false.obs;
+  var selectedRole = 'user'.obs; // 'user' or 'restaurant'
 
   /// Validation
   String? validateEmail() {

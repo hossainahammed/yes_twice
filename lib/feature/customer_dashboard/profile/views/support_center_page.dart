@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
@@ -9,10 +10,12 @@ class SupportCenterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -24,7 +27,7 @@ class SupportCenterPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -35,36 +38,43 @@ class SupportCenterPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'How can we help you today?',
+                'How can we help you?',
                 style: GoogleFonts.manrope(
-                  fontSize: 20.sp,
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                  color: theme.textTheme.bodyLarge?.color,
                 ),
               ),
               SizedBox(height: 12.h),
               Text(
-                'Find answers to frequently asked questions below, or feel free to reach out to our team if you need more help.',
+                'Have questions? We have answers. If you can\'t find what you\'re looking for, feel free to contact us.',
                 style: GoogleFonts.manrope(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade600,
-                  height: 1.5,
+                  color: Colors.grey,
+                  height: 1.6,
                 ),
               ),
-              SizedBox(height: 30.h),
-              
+              SizedBox(height: 32.h),
               _buildFaqItem(
-                'How do I update my reserved IT?',
+                context,
+                'How do I update my reserved table?',
                 'To update your reservation, go to the My Reservations tab, select the booking and tap "Edit". You can adjust your reservation details up to 2 hours before the scheduled time.',
               ),
               _buildFaqItem(
-                'What happens if I\'m late to pick up my reserve?',
-                'We hold reservations for an additional 15 minutes past the scheduled time. After that, we may need to release the table or item. Please contact us if you are running materially late.',
+                context,
+                'What happens if I\'m late for my reservation?',
+                'We hold reservations for an additional 15 minutes past the scheduled time. After that, we may need to release the table or item. Please contact us if you are running late.',
               ),
               _buildFaqItem(
+                context,
                 'Can I reserve for someone else?',
                 'Yes, you can specify the guest name and contact details when making the reservation. Please make sure they check in under their name.',
+              ),
+              _buildFaqItem(
+                context,
+                'Is there a cancellation fee?',
+                'Most reservations can be cancelled for free up to 24 hours in advance. Please check the specific restaurant policy for details.',
               ),
             ],
           ),
@@ -73,45 +83,51 @@ class SupportCenterPage extends StatelessWidget {
     );
   }
 
-  Widget _buildFaqItem(String question, String answer) {
+  Widget _buildFaqItem(BuildContext context, String question, String answer) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade200),
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: theme.dividerColor, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withOpacity(isDark ? 0.2 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: ExpansionTile(
-        title: Text(
-          question,
-          style: GoogleFonts.manrope(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
-          ),
-        ),
-        iconColor: AppColors.primaryColor,
-        collapsedIconColor: Colors.grey.shade400,
-        childrenPadding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
-        expandedAlignment: Alignment.topLeft,
-        children: [
-          Text(
-            answer,
+      child: Theme(
+        data: theme.copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          title: Text(
+            question,
             style: GoogleFonts.manrope(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey.shade600,
-              height: 1.6,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w700,
+              color: theme.textTheme.bodyLarge?.color,
             ),
           ),
-        ],
+          iconColor: AppColors.primaryColor,
+          collapsedIconColor: Colors.grey,
+          childrenPadding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 20.h),
+          expandedAlignment: Alignment.topLeft,
+          children: [
+            Text(
+              answer,
+              style: GoogleFonts.manrope(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+                height: 1.6,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

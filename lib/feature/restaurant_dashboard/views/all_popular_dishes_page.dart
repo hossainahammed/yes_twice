@@ -5,12 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import 'add_dish_page.dart';
+import 'dish_details_page.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 
 class AllPopularDishesPage extends StatelessWidget {
   AllPopularDishesPage({super.key});
 
-  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  final RestaurantDashboardController controller =
+      Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +47,18 @@ class AllPopularDishesPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       automaticallyImplyLeading: false,
-      leading: controller.currentNavIndex.value == 1 
-          ? null 
+      leading: controller.currentNavIndex.value == 1
+          ? null
           : IconButton(
-              icon: Icon(Icons.arrow_back, color: context.theme.iconTheme.color, size: 24.sp),
+              icon: Icon(
+                Icons.arrow_back,
+                color: context.theme.iconTheme.color,
+                size: 24.sp,
+              ),
               onPressed: () => Get.back(),
             ),
       title: Text(
-        "All Popular Dishes",
+        "All Dishes", // All Popular Dishes
         style: GoogleFonts.manrope(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
@@ -68,14 +74,12 @@ class AllPopularDishesPage extends StatelessWidget {
               width: 32.w,
               height: 32.w,
               decoration: BoxDecoration(
-                color: context.theme.brightness == Brightness.dark ? const Color(0xFFCA7373) : const Color(0xFF4C080C),
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.primaryColor
+                    : const Color(0xFF4C080C),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 20.sp,
-              ),
+              child: Icon(Icons.add, color: Colors.white, size: 20.sp),
             ),
           ),
         ),
@@ -90,13 +94,20 @@ class AllPopularDishesPage extends StatelessWidget {
     String totalReviews,
     String imagePath,
   ) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: context.theme.dividerColor),
-      ),
+    return GestureDetector(
+      onTap: () => Get.to(() => DishDetailsPage(
+            name: name,
+            rating: rating,
+            totalReviews: totalReviews,
+            imagePath: imagePath,
+          )),
+      child: Container(
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: context.theme.cardColor,
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.greyColor),
+        ),
       child: Row(
         children: [
           ClipRRect(
@@ -149,19 +160,15 @@ class AllPopularDishesPage extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => _showActionMenu(context),
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.grey.shade400,
-              size: 20.sp,
-            ),
+            onPressed: () => _showActionMenu(context, name: name, image: imagePath),
+            icon: Icon(Icons.more_vert, color: const Color(0xFF101828), size: 20.sp),
           ),
         ],
       ),
+    ),
     );
   }
-
-  void _showActionMenu(BuildContext context) {
+  void _showActionMenu(BuildContext context, {String? name, String? image}) {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(
@@ -179,6 +186,14 @@ class AllPopularDishesPage extends StatelessWidget {
             children: [
               _buildMenuItem("Edit", () {
                 Get.back();
+                Get.to(() => AddDishPage(
+                      isEdit: true,
+                      dishData: {
+                        'name': name,
+                        'image': image,
+                        'price': "\$ 12.00", // Mocked price
+                      },
+                    ));
               }),
               SizedBox(height: 20.h),
               _buildMenuItem("Delete", () {

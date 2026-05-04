@@ -63,9 +63,10 @@ class _ReviewPageState extends State<ReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      //backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 16.w),
@@ -84,7 +85,9 @@ class _ReviewPageState extends State<ReviewPage> {
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w800,
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
             SizedBox(height: 16.h),
@@ -95,14 +98,18 @@ class _ReviewPageState extends State<ReviewPage> {
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w800,
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
             Text(
               'A few things to consider in your review',
               style: GoogleFonts.manrope(
-                fontSize: 10.sp,
-                color: Colors.grey[400],
+                fontSize: 12.sp,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey
+                    : Colors.grey,
               ),
             ),
             SizedBox(height: 12.h),
@@ -126,11 +133,13 @@ class _ReviewPageState extends State<ReviewPage> {
         Container(
           padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.theme.cardColor,
             borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.black26
+                    : Colors.black.withOpacity(0.05),
                 blurRadius: 15,
                 offset: const Offset(0, 5),
               ),
@@ -162,7 +171,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       style: GoogleFonts.manrope(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: context.theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     SizedBox(height: 4.h),
@@ -175,7 +184,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           style: GoogleFonts.manrope(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                         SizedBox(width: 4.w),
@@ -213,7 +222,11 @@ class _ReviewPageState extends State<ReviewPage> {
             padding: EdgeInsets.only(right: 8.w),
             child: Icon(
               Icons.star_rounded,
-              color: index < _rating ? Colors.orange : Colors.grey[200],
+              color: index < _rating
+                  ? Colors.orange
+                  : (context.theme.brightness == Brightness.dark
+                        ? Colors.grey[800]
+                        : Colors.grey[200]),
               size: 32.sp,
             ),
           ),
@@ -232,10 +245,18 @@ class _ReviewPageState extends State<ReviewPage> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryColor : Colors.white,
+              color: isSelected
+                  ? AppColors.primaryColor
+                  : (context.theme.brightness == Brightness.dark
+                        ? AppColors.darkSurfaceColor
+                        : Colors.white),
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
-                color: isSelected ? AppColors.primaryColor : Colors.grey[200]!,
+                color: isSelected
+                    ? AppColors.primaryColor
+                    : (context.theme.brightness == Brightness.dark
+                          ? Colors.white10
+                          : Colors.grey[200]!),
               ),
             ),
             child: Text(
@@ -243,7 +264,11 @@ class _ReviewPageState extends State<ReviewPage> {
               style: GoogleFonts.manrope(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.grey[600],
+                color: isSelected
+                    ? Colors.white
+                    : (context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.grey[600]),
               ),
             ),
           ),
@@ -255,9 +280,15 @@ class _ReviewPageState extends State<ReviewPage> {
   Widget _buildReviewInput() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: context.theme.brightness == Brightness.dark
+            ? AppColors.darkSurfaceColor
+            : Colors.grey[50],
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.grey[200]!),
+        border: Border.all(
+          color: context.theme.brightness == Brightness.dark
+              ? Colors.white10
+              : Colors.grey[200]!,
+        ),
       ),
       padding: EdgeInsets.all(16.w),
       child: Column(
@@ -286,13 +317,18 @@ class _ReviewPageState extends State<ReviewPage> {
                     hintText: 'Write a review',
                     hintStyle: GoogleFonts.manrope(
                       fontSize: 12.sp,
-                      color: Colors.grey[400],
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.grey[500]
+                          : Colors.grey[400],
                     ),
                     border: InputBorder.none,
                     // ContentPadding helps align the text with the icon
                     contentPadding: EdgeInsets.symmetric(vertical: 10.h),
                   ),
-                  style: GoogleFonts.manrope(fontSize: 12.sp),
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.sp,
+                    color: context.theme.textTheme.bodyMedium?.color,
+                  ),
                 ),
               ),
             ],
@@ -311,7 +347,7 @@ class _ReviewPageState extends State<ReviewPage> {
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
         SizedBox(height: 12.h),
@@ -368,7 +404,7 @@ class _ReviewPageState extends State<ReviewPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: AppColors.primaryColor.withOpacity(0.3),
+              color: context.theme.textTheme.bodyLarge!.color!.withOpacity(0.3),
               style: BorderStyle.solid,
               width: 1,
             ),
@@ -383,11 +419,11 @@ class _ReviewPageState extends State<ReviewPage> {
               ),
               SizedBox(height: 8.h),
               Text(
-                'Upload Photo/video',
+                'Upload Media',
                 style: GoogleFonts.manrope(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black87,
+                  color: context.theme.textTheme.bodyMedium?.color,
                 ),
               ),
               SizedBox(height: 12.h),

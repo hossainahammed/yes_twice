@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constant/app_colors.dart';
 
 class ContactUsPage extends StatelessWidget {
   const ContactUsPage({super.key});
@@ -9,7 +10,7 @@ class ContactUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -29,7 +30,10 @@ class ContactUsPage extends StatelessWidget {
                   _buildTextField(Icons.email_outlined, "m.k.freund@aol.com"),
                   SizedBox(height: 20.h),
                   _buildLabel("Description"),
-                  _buildTextArea(Icons.email_outlined, "Add description...."),
+                  _buildTextArea(
+                    Icons.description_outlined,
+                    "Add description....",
+                  ),
                   SizedBox(height: 40.h),
                   _buildSendButton(),
                 ],
@@ -56,12 +60,12 @@ class ContactUsPage extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.theme.dividerColor),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new,
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Get.theme.iconTheme.color,
                 ),
               ),
             ),
@@ -71,7 +75,7 @@ class ContactUsPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -87,7 +91,7 @@ class ContactUsPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 14.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: Get.theme.textTheme.bodyLarge?.color,
         ),
       ),
     );
@@ -98,16 +102,19 @@ class ContactUsPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(30.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: TextField(
         decoration: InputDecoration(
-          icon: Icon(icon, color: Colors.black87, size: 20.sp),
+          icon: Icon(icon, color: Get.theme.iconTheme.color, size: 20.sp),
           hintText: initialValue,
           border: InputBorder.none,
-          hintStyle: GoogleFonts.manrope(color: Colors.black87, fontSize: 13.sp),
+          hintStyle: GoogleFonts.manrope(
+            color: Get.theme.textTheme.bodyLarge?.color?.withOpacity(0.8),
+            fontSize: 13.sp,
+          ),
         ),
       ),
     );
@@ -117,33 +124,50 @@ class ContactUsPage extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 120.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
-      child: TextField(
-        maxLines: null,
-        decoration: InputDecoration(
-          icon: Padding(
-            padding: EdgeInsets.only(bottom: 80.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 4.h),
             child: Icon(icon, color: Colors.grey.shade400, size: 20.sp),
           ),
-          hintText: hint,
-          border: InputBorder.none,
-          hintStyle: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
-        ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: TextField(
+              maxLines: null,
+              expands: true,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: InputDecoration(
+                hintText: hint,
+                border: InputBorder.none,
+                isCollapsed: true,
+                contentPadding: EdgeInsets.only(top: 4.h),
+                hintStyle: GoogleFonts.manrope(
+                  color: Colors.grey.shade300,
+                  fontSize: 13.sp,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSendButton() {
-     return Container(
+    return Container(
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? AppColors.primaryColor
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(

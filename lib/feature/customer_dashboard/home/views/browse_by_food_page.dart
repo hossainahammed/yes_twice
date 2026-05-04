@@ -14,9 +14,9 @@ class BrowseByFoodPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.backGroundColor,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -28,7 +28,7 @@ class BrowseByFoodPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -42,9 +42,15 @@ class BrowseByFoodPage extends StatelessWidget {
             child: Container(
               height: 48.h,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.brightness == Brightness.dark
+                    ? AppColors.darkBackgroundColor
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(24.r),
-                border: Border.all(color: AppColors.primaryColor.withOpacity(0.5)),
+                border: Border.all(
+                  color: context.theme.brightness == Brightness.dark
+                      ? Colors.white10
+                      : Colors.grey.shade300,
+                ),
               ),
               child: Row(
                 children: [
@@ -56,7 +62,7 @@ class BrowseByFoodPage extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'Search for hot & new restaurants',
                         hintStyle: GoogleFonts.manrope(
-                          color: Colors.grey[400],
+                          color: context.theme.cardColor,
                           fontSize: 12.sp,
                         ),
                         border: InputBorder.none,
@@ -64,16 +70,14 @@ class BrowseByFoodPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 1.w,
-                    height: 24.h,
-                    color: Colors.grey[300],
-                  ),
+                  Container(width: 1.w, height: 24.h, color: Colors.grey[300]),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Icon(
                       Icons.tune,
-                      color: AppColors.primaryColor,
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : AppColors.primaryColor,
                       size: 20.sp,
                     ),
                   ),
@@ -89,7 +93,7 @@ class BrowseByFoodPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w800,
-                color: Colors.black,
+                color: context.theme.textTheme.bodyLarge?.color,
               ),
             ),
           ),
@@ -106,15 +110,25 @@ class BrowseByFoodPage extends StatelessWidget {
               itemCount: controller.categories.length,
               itemBuilder: (context, index) {
                 final category = controller.categories[index];
-                bool isSelected = index == 0; // Mocking selection for demo
+                bool isSelected = index == 1; // Mocking selection for demo
 
                 return Container(
                   decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF4E070C) : Colors.white,
+                    color: isSelected
+                        ? AppColors.primaryColor
+                        : (context.theme.brightness == Brightness.dark
+                              ? AppColors.darkSurfaceColor
+                              : Colors.white),
+                    border: Border.all(
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.grey,
+                    ),
                     borderRadius: BorderRadius.circular(12.r),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: context.theme.textTheme.bodyLarge!.color!
+                            .withOpacity(0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -126,8 +140,13 @@ class BrowseByFoodPage extends StatelessWidget {
                       Container(
                         width: 32.w,
                         height: 32.w,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
+                          border: Border.all(
+                            color: context.theme.brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.grey,
+                          ),
                         ),
                         child: ClipOval(
                           child: Image.asset(
@@ -145,7 +164,15 @@ class BrowseByFoodPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w700,
-                            color: isSelected ? Colors.white : Colors.black87,
+                            color: isSelected
+                                ? Colors.white
+                                : (context.theme.brightness == Brightness.dark
+                                      ? Colors.white
+                                      : context
+                                            .theme
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

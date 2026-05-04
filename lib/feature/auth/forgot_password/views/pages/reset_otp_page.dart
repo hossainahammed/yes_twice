@@ -14,8 +14,12 @@ class ResetOtpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
@@ -34,7 +38,7 @@ class ResetOtpPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black87,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -47,7 +51,9 @@ class ResetOtpPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.primaryColor,
                 ),
               ),
               SizedBox(height: 12.h),
@@ -67,9 +73,9 @@ class ResetOtpPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(4, (index) => _buildOtpBox(context)),
               ),
-              
+
               SizedBox(height: 24.h),
-              
+
               /// Timer
               Center(
                 child: Text(
@@ -81,7 +87,7 @@ class ResetOtpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 48.h),
 
               /// Verify Button
@@ -91,7 +97,9 @@ class ResetOtpPage extends StatelessWidget {
                   backgroundColor: AppColors.primaryColor,
                   minimumSize: Size(double.infinity, 56.h),
                   elevation: 0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
                 ),
                 child: Text(
                   'Verify',
@@ -102,9 +110,9 @@ class ResetOtpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 32.h),
-              
+
               /// Resend Footer
               Center(
                 child: RichText(
@@ -145,13 +153,20 @@ class ResetOtpPage extends StatelessWidget {
       width: 65.w,
       height: 65.w,
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.white
+            : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.grey.shade200
+              : Colors.grey.shade200,
+        ),
       ),
       child: TextField(
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
         maxLength: 1,
         style: GoogleFonts.manrope(
           fontSize: 22.sp,
@@ -166,4 +181,3 @@ class ResetOtpPage extends StatelessWidget {
     );
   }
 }
-

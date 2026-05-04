@@ -12,7 +12,7 @@ class SecurityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           _buildHeader(),
@@ -20,7 +20,7 @@ class SecurityPage extends StatelessWidget {
             padding: EdgeInsets.all(20.w),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Get.theme.cardColor,
                 borderRadius: BorderRadius.circular(15.r),
                 boxShadow: [
                   BoxShadow(
@@ -70,12 +70,12 @@ class SecurityPage extends StatelessWidget {
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.theme.dividerColor),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new,
                   size: 20.sp,
-                  color: Colors.black,
+                  color: Get.theme.iconTheme.color,
                 ),
               ),
             ),
@@ -85,7 +85,7 @@ class SecurityPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -100,7 +100,7 @@ class SecurityPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 14.sp,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: Get.theme.textTheme.bodyLarge?.color,
         ),
       ),
       onTap: onTap,

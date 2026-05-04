@@ -1,5 +1,7 @@
+import 'package:bolaji277/core/constant/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../app_colors.dart';
 
@@ -15,12 +17,18 @@ class CustomBackButton extends StatelessWidget {
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white10
+                : Colors.grey.shade300,
+          ),
         ),
         child: Icon(
           Icons.arrow_back_ios_new,
           size: 18.sp,
-          color: Colors.black87,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black87,
         ),
       ),
     );
@@ -35,6 +43,8 @@ class CustomAuthField extends StatelessWidget {
   final bool? obscureText;
   final VoidCallback? onSuffixIconPressed;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
 
   const CustomAuthField({
     super.key,
@@ -45,6 +55,8 @@ class CustomAuthField extends StatelessWidget {
     this.obscureText,
     this.onSuffixIconPressed,
     this.controller,
+    this.keyboardType,
+    this.textInputAction,
   });
 
   @override
@@ -57,14 +69,17 @@ class CustomAuthField extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
           ),
         ),
         SizedBox(height: 10.h),
         TextField(
           controller: controller,
           obscureText: obscureText ?? false,
-          style: GoogleFonts.manrope(fontSize: 14.sp, color: Colors.black87),
+          style: GoogleFonts.manrope(
+            fontSize: 14.sp,
+            color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.manrope(
@@ -75,7 +90,9 @@ class CustomAuthField extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Icon(
                 prefixIcon,
-                color: Colors.black87,
+                color:
+                    Theme.of(context).textTheme.bodyLarge?.color ??
+                    Colors.black,
                 size: 22.sp,
               ),
             ),
@@ -88,30 +105,43 @@ class CustomAuthField extends StatelessWidget {
                         (obscureText ?? true)
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: Colors.black87,
-                        size: 22.sp,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87,
                       ),
                     ),
                   )
                 : null,
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF0D0D0D)
+                : Colors.white,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.w,
               vertical: 18.h,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(color: Colors.grey.shade100),
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white10
+                    : Colors.grey.shade100,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
-              borderSide: BorderSide(color: Colors.grey.shade200),
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white10
+                    : Colors.grey.shade200,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.r),
               borderSide: BorderSide(
-                color: AppColors.primaryColor.withOpacity(0.5),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white10
+                    : AppColors.primaryColor.withOpacity(0.5),
               ),
             ),
           ),
@@ -148,26 +178,34 @@ class SocialLoginButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (iconPath != null)
-              Image.asset(iconPath!, height: 24.h)
-            else
-              Image.network(
-                "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
-                width: 22.w,
-                height: 22.w,
-                errorBuilder: (_, __, ___) => Icon(
-                  Icons.g_mobiledata,
-                  color: Colors.blue,
-                  size: 28.sp,
-                ),
-              ),
+            Image.asset(
+              ImagePath.google, // Accessing your static string
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.contain,
+            ),
+
+            //if (iconPath != null) Image.asset(iconPath!, height: 24.h),
+            // else
+            // Image.network(
+            //   "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+            //   width: 22.w,
+            //   height: 22.w,
+            //   errorBuilder: (_, __, ___) => Icon(
+            //     Icons.g_mobiledata_sharp,
+            //     color: Colors.blue,
+            //     size: 28.sp,
+            //   ),
+            // ),
             SizedBox(width: 12.w),
             Text(
               text,
               style: GoogleFonts.manrope(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color:
+                    Theme.of(context).textTheme.bodyLarge?.color ??
+                    Colors.black,
               ),
             ),
           ],

@@ -11,10 +11,15 @@ class DeleteAccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: const Padding(
@@ -26,7 +31,7 @@ class DeleteAccountPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: textColor,
           ),
         ),
       ),
@@ -34,27 +39,32 @@ class DeleteAccountPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Delete Account',
-                    style: GoogleFonts.manrope(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 22.sp),
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: EdgeInsets.all(16.w),
+            //   decoration: BoxDecoration(
+            //     color: theme.cardColor,
+            //     borderRadius: BorderRadius.circular(15.r),
+            //     border: Border.all(color: theme.dividerColor),
+            //   ),
+            //   // child: Row(
+            //   //   mainAxisAlignment: MainAxisAlignment.center,
+            //   //   children: [
+            //   //     Text(
+            //   //       'Delete Account',
+            //   //       style: GoogleFonts.manrope(
+            //   //         fontSize: 14.sp,
+            //   //         fontWeight: FontWeight.w600,
+            //   //         color: textColor,
+            //   //       ),
+            //   //     ),
+            //   //     // Icon(
+            //   //     //   Icons.chevron_right,
+            //   //     //   color: Colors.grey.shade400,
+            //   //     //   size: 22.sp,
+            //   //     // ),
+            //   //   ],
+            //   // ),
+            // ),
             const Spacer(),
             Icon(Icons.cancel, color: const Color(0xFFD9070B), size: 80.sp),
             SizedBox(height: 24.h),
@@ -63,7 +73,7 @@ class DeleteAccountPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w900,
-                color: Colors.black87,
+                color: textColor,
               ),
             ),
             SizedBox(height: 16.h),
@@ -73,7 +83,7 @@ class DeleteAccountPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade600,
+                color: subTextColor,
                 height: 1.5,
               ),
             ),
@@ -85,22 +95,41 @@ class DeleteAccountPage extends StatelessWidget {
                     onPressed: () => Get.back(),
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: AppColors.primaryColor),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
                       minimumSize: Size(0, 50.h),
                     ),
-                    child: Text('No', style: GoogleFonts.manrope(fontSize: 15.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+                    child: Text(
+                      'No',
+                      style: GoogleFonts.manrope(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(width: 16.w),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Get.to(() => const DeleteAccountConfirmPage()),
+                    onPressed: () =>
+                        Get.to(() => const DeleteAccountConfirmPage()),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.buttonColor,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
                       minimumSize: Size(0, 50.h),
                     ),
-                    child: Text('Yes', style: GoogleFonts.manrope(fontSize: 15.sp, fontWeight: FontWeight.bold, color: Colors.white)),
+                    child: Text(
+                      'Yes',
+                      style: GoogleFonts.manrope(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],

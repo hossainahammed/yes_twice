@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     final LoginPageController controller = Get.put(LoginPageController());
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDark ? AppColors.darkSurfaceColor : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: GoogleFonts.manrope(
                         fontSize: 26.sp,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textColor,
+                        color: textColor,
                       ),
                     ),
                     SizedBox(height: 6.h),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: GoogleFonts.manrope(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
+                        color: subTextColor,
                       ),
                     ),
                   ],
@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 hint: 'Enter Email',
                 prefixIcon: Icons.mail_outline_rounded,
                 controller: controller.emailController,
+                keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 18.h),
 
@@ -188,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: GoogleFonts.manrope(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade600,
+                      color: subTextColor,
                     ),
                     children: [
                       TextSpan(
@@ -197,9 +198,13 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
                           color: AppColors.primaryColor,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => Get.to(() => RegistrationPage()),
+                              ),
+                            ],
+                          ),
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Get.to(() => RegistrationPage()),
                       ),
                     ],
                   ),

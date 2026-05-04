@@ -23,23 +23,33 @@ class AppTheme {
     dividerColor: Colors.grey.shade200,
   );
 
+  ///Colors Used in Dark Mode:
+  ///Main Background: #0D0D0D
+  ///Surface / Cards: #2C2C2C
+  ///Search Bar (Active): #0D0D0D
+  ///Highlights (See All): White
+  ///Interactive Elements: AppColors.primaryColor (Dark Red)
+
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: const Color(0xFFCA7373),
-    scaffoldBackgroundColor: const Color(0xFF141414),
+    primaryColor: AppColors.primaryColor,
+    scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFFCA7373),
-      surface: Color(0xFF232323),
+      primary: AppColors.primaryColor,
+      surface: AppColors.darkSurfaceColor,
+      onSurface: Colors.white,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF141414),
+      backgroundColor: AppColors.darkBackgroundColor,
       foregroundColor: Colors.white,
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.white),
     ),
-    textTheme: GoogleFonts.manropeTextTheme(ThemeData.dark().textTheme),
-    iconTheme: const IconThemeData(color: Colors.white70),
-    cardColor: const Color(0xFF232323),
+    textTheme: GoogleFonts.manropeTextTheme(
+      ThemeData.dark().textTheme,
+    ).apply(bodyColor: Colors.white, displayColor: Colors.white),
+    iconTheme: const IconThemeData(color: Colors.white),
+    cardColor: AppColors.darkSurfaceColor,
     dividerColor: Colors.grey.shade800,
   );
 }

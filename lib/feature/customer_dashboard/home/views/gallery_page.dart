@@ -31,27 +31,29 @@ class _GalleryPageState extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 16),
-          child: CustomBackButton(onTap: () {
-            if (selectedImage != null) {
-              setState(() => selectedImage = null);
-            } else {
-              Get.back();
-            }
-          }),
+          child: CustomBackButton(
+            onTap: () {
+              if (selectedImage != null) {
+                setState(() => selectedImage = null);
+              } else {
+                Get.back();
+              }
+            },
+          ),
         ),
         title: Text(
           'Gallery',
           style: GoogleFonts.manrope(
             fontSize: 18,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -77,7 +79,7 @@ class _GalleryPageState extends State<GalleryPage> {
               images[index],
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) =>
-                  Container(color: Colors.grey[200]),
+                  Container(color: context.theme.cardColor),
             ),
           ),
         );
@@ -112,11 +114,7 @@ class _GalleryPageState extends State<GalleryPage> {
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 16,
-                ),
+                child: const Icon(Icons.close, color: Colors.white, size: 16),
               ),
             ),
           ),

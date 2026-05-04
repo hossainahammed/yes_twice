@@ -5,16 +5,24 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
 import 'review_page.dart';
+import 'dish_details_page.dart';
 
-class EventDetailsPage extends StatelessWidget {
+class EventDetailsPage extends StatefulWidget {
   const EventDetailsPage({super.key});
+
+  @override
+  State<EventDetailsPage> createState() => _EventDetailsPageState();
+}
+
+class _EventDetailsPageState extends State<EventDetailsPage> {
+  String selectedSuggestionFilter = 'All Event';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -26,7 +34,7 @@ class EventDetailsPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -43,7 +51,7 @@ class EventDetailsPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 Icon(
@@ -111,10 +119,12 @@ class EventDetailsPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(color: AppColors.greyColor, width: 0.5),
-
+                border: Border.all(
+                  color: context.theme.dividerColor,
+                  width: 0.5,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.03),
@@ -132,10 +142,10 @@ class EventDetailsPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black87,
+                      color: context.theme.textTheme.bodyLarge?.color,
                     ),
                   ),
-                  Divider(color: AppColors.greyColor),
+                  Divider(color: context.theme.dividerColor),
                   SizedBox(height: 12.h),
                   Text(
                     'Smokehouse brings the bold flavors of Southern-style barbecue to your plate with slow-cooked, fall-off-the-bone meats, house-made sauces, and hearty sides. Known for its signature smoked ribs and pulled pork sandwiches, this casual spot combines rustic charm with mouthwatering comfort food.',
@@ -153,9 +163,12 @@ class EventDetailsPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(color: AppColors.greyColor, width: 0.5),
+                border: Border.all(
+                  color: context.theme.dividerColor,
+                  width: 0.5,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.03),
@@ -170,7 +183,8 @@ class EventDetailsPage extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.calendar_month,
-                        color: Colors.black54,
+                        color: context.theme.textTheme.bodyMedium?.color
+                            ?.withOpacity(0.7),
                         size: 16.sp,
                       ),
                       SizedBox(width: 12.w),
@@ -179,7 +193,7 @@ class EventDetailsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black87,
+                          color: context.theme.textTheme.bodyLarge?.color,
                         ),
                       ),
                     ],
@@ -198,7 +212,7 @@ class EventDetailsPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black87,
+                          color: context.theme.textTheme.bodyLarge?.color,
                         ),
                       ),
                     ],
@@ -253,25 +267,66 @@ class EventDetailsPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'All Event',
-                      style: GoogleFonts.manrope(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primaryColor,
+                PopupMenuButton<String>(
+                  initialValue: selectedSuggestionFilter,
+                  onSelected: (String value) {
+                    setState(() {
+                      selectedSuggestionFilter = value;
+                    });
+                  },
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  color: context.theme.cardColor,
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'All Event',
+                      child: Text(
+                        'All Event',
+                        style: GoogleFonts.manrope(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
                       ),
                     ),
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      color: AppColors.primaryColor,
-                      size: 14.sp,
+                    PopupMenuItem<String>(
+                      value: 'Near Me',
+                      child: Text(
+                        'Near Me',
+                        style: GoogleFonts.manrope(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
                     ),
                   ],
+                  child: Row(
+                    children: [
+                      Text(
+                        selectedSuggestionFilter,
+                        style: GoogleFonts.manrope(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primaryColor,
+                        ),
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 14.sp,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -297,10 +352,19 @@ class EventDetailsPage extends StatelessWidget {
                     },
                   ];
                   final event = events[index % 2];
-                  return Container(
-                    width: 180.w,
-                    margin: EdgeInsets.only(right: 16.w),
-                    child: _buildSuggestionCard(event),
+                  return GestureDetector(
+                    onTap: () {
+                      if (event['name']!.contains('Fried Rice')) {
+                        Get.to(() => const DishDetailsPage());
+                      } else {
+                        Get.to(() => const EventDetailsPage(), preventDuplicates: false);
+                      }
+                    },
+                    child: Container(
+                      width: 180.w,
+                      margin: EdgeInsets.only(right: 16.w),
+                      child: _buildSuggestionCard(context, event),
+                    ),
                   );
                 },
               ),
@@ -330,11 +394,11 @@ class EventDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSuggestionCard(Map<String, String> event) {
+  Widget _buildSuggestionCard(BuildContext context, Map<String, String> event) {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -370,7 +434,7 @@ class EventDetailsPage extends StatelessWidget {
                       vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
@@ -390,7 +454,7 @@ class EventDetailsPage extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: context.theme.textTheme.bodyLarge?.color,
                           ),
                         ),
                       ],
@@ -406,7 +470,7 @@ class EventDetailsPage extends StatelessWidget {
             style: GoogleFonts.manrope(
               fontSize: 12.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black,
+              color: context.theme.textTheme.bodyLarge?.color,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -426,7 +490,7 @@ class EventDetailsPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: context.theme.textTheme.bodyMedium?.color,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

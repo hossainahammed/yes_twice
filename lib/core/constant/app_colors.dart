@@ -18,5 +18,8 @@ class AppColors {
   static const Color ratingColor = Color(0xFFFC8838);
   static const Color redColor = Color(0xFFD9070B);
   static const Color reviewBgColor = Color(0xFFFFDBD1);
+  
+  static const Color darkBackgroundColor = Color(0xFF0D0D0D);
+  static const Color darkSurfaceColor = Color(0xFF2C2C2C);
 }
 //////////////////////////////////////////////

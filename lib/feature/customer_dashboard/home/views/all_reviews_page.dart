@@ -30,9 +30,9 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: Padding(
@@ -44,7 +44,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -62,7 +62,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                    color: context.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 GestureDetector(
@@ -71,7 +71,9 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                     padding: EdgeInsets.all(4.w),
                     child: Icon(
                       Icons.tune,
-                      color: AppColors.primaryColor,
+                      color: context.theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : AppColors.primaryColor,
                       size: 20.sp,
                     ),
                   ),
@@ -104,7 +106,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
@@ -125,7 +127,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.r),
                   child: Image.asset(
-                    'assets/images/Composer.png',
+                    'assets/images/recentViewCard.png',
                     width: 50.w,
                     height: 50.w,
                     fit: BoxFit.cover,
@@ -149,7 +151,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                             style: GoogleFonts.manrope(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w800,
-                              color: Colors.black,
+                              color: context.theme.textTheme.bodyLarge?.color,
                             ),
                           ),
                           Row(
@@ -170,7 +172,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                         'Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper. Quisque ultrices lobortis elit sed euismod.',
                         style: GoogleFonts.manrope(
                           fontSize: 11.sp,
-                          color: Colors.black87,
+                          color: context.theme.textTheme.bodyLarge?.color,
                           height: 1.5,
                         ),
                       ),
@@ -263,7 +265,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                 style: GoogleFonts.manrope(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black,
+                  color: context.theme.textTheme.bodyLarge?.color,
                 ),
               ),
               SizedBox(height: 4.h),
@@ -293,7 +295,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
             return Container(
               padding: EdgeInsets.fromLTRB(24.w, 10.h, 24.w, 32.h),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24.r),
                   topRight: Radius.circular(24.r),
@@ -308,7 +310,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                       width: 40.w,
                       height: 4.h,
                       decoration: BoxDecoration(
-                        color: Colors.grey[300],
+                        color: context.theme.dividerColor,
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                     ),
@@ -392,7 +394,10 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                             style: GoogleFonts.manrope(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color:
+                                  Theme.brightnessOf(context) == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.white,
                             ),
                           ),
                         ),
@@ -426,7 +431,9 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
               style: GoogleFonts.manrope(
                 fontSize: 13.sp,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                color: isSelected ? Colors.black : Colors.grey[600],
+                color: isSelected
+                    ? context.theme.textTheme.bodyLarge?.color
+                    : Colors.grey[600],
               ),
             ),
             Container(
@@ -476,7 +483,7 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
           style: GoogleFonts.manrope(
             fontSize: 12.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            color: context.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ],

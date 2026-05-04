@@ -3,27 +3,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/image_path.dart';
+import '../../../../core/constant/app_colors.dart';
 
 class AddDishPage extends StatelessWidget {
-  const AddDishPage({super.key});
+  final Map<String, dynamic>? dishData;
+  final bool isEdit;
+  const AddDishPage({super.key, this.dishData, this.isEdit = false});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.theme.iconTheme.color,
+            size: 24.sp,
+          ),
           onPressed: () => Get.back(),
         ),
         title: Text(
-          "Add New Dishes",
+          isEdit ? "Edit Dishes" : "Add New Dishes",
           style: GoogleFonts.manrope(
             fontSize: 18.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
       ),
@@ -37,21 +44,24 @@ class AddDishPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
-                color: Colors.black,
+                color: Get.theme.textTheme.bodyLarge?.color,
               ),
             ),
             SizedBox(height: 12.h),
-            _buildMainPhotoSelection(),
+            _buildMainPhotoSelection(image: dishData?['image']),
             SizedBox(height: 12.h),
             _buildThumbnailRow(),
             SizedBox(height: 24.h),
-            _buildInputField("Food Name", "Truffle Tagliatelle"),
+            _buildInputField("Food Name", dishData?['name'] ?? "Truffle Tagliatelle"),
             SizedBox(height: 20.h),
             _buildDropdownField("Category", "Pasta"),
             SizedBox(height: 20.h),
-            _buildInputField("Price", "\$ 0.00"),
+            _buildInputField("Price", dishData?['price'] ?? "\$ 0.00"),
             SizedBox(height: 20.h),
-            _buildDescriptionField("Description", "Describe the flavors, ingredients, and soul of the dish..."),
+            _buildDescriptionField(
+              "Description",
+              "Describe the flavors, ingredients, and soul of the dish...",
+            ),
             SizedBox(height: 40.h),
             _buildPublishButton(),
             SizedBox(height: 20.h),
@@ -61,14 +71,14 @@ class AddDishPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMainPhotoSelection() {
+  Widget _buildMainPhotoSelection({String? image}) {
     return Container(
       width: double.infinity,
       height: 180.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
         image: DecorationImage(
-          image: AssetImage(ImagePath.popularDishes1),
+          image: AssetImage(image ?? ImagePath.popularDishes1),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.3),
@@ -83,7 +93,7 @@ class AddDishPage extends StatelessWidget {
             Icon(Icons.camera_alt_outlined, color: Colors.white, size: 30.sp),
             SizedBox(height: 8.h),
             Text(
-              "UPLOAD DISHES PHOTO",
+              "Add Media", // UPLOAD DISHES PHOTO
               style: GoogleFonts.manrope(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w700,
@@ -165,21 +175,39 @@ class AddDishPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
         SizedBox(height: 10.h),
         TextField(
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: GoogleFonts.manrope(color: Colors.grey.shade400, fontSize: 13.sp),
+            hintStyle: GoogleFonts.manrope(color: Colors.grey, fontSize: 13.sp),
             filled: true,
-            fillColor: Colors.grey.shade50,
+            // fillColor: Get.theme.cardColor,
+            fillColor: Get.theme.brightness == Brightness.dark
+                ? Get.theme.cardColor
+                : Colors.grey.shade100,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(
+                color: Get.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.grey.shade100,
+              ),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(
+                color: Get.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.grey.shade100,
+              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 14.h,
+            ),
           ),
         ),
       ],
@@ -195,24 +223,35 @@ class AddDishPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
         SizedBox(height: 10.h),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           decoration: BoxDecoration(
-            color: Colors.grey.shade50,
+            // color: Get.theme.cardColor,
+            color: Get.theme.brightness == Brightness.dark
+                ? Get.theme.cardColor
+                : Colors.grey.shade100,
             borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(
+              color: Get.theme.brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.grey.shade100,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 value,
-                style: GoogleFonts.manrope(color: Colors.grey.shade600, fontSize: 13.sp),
+                style: GoogleFonts.manrope(
+                  color: Get.theme.textTheme.bodyMedium?.color,
+                  fontSize: 13.sp,
+                ),
               ),
-              Icon(Icons.keyboard_arrow_down, color: Colors.grey.shade400),
+              Icon(Icons.keyboard_arrow_down, color: Get.theme.iconTheme.color),
             ],
           ),
         ),
@@ -229,7 +268,7 @@ class AddDishPage extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: Get.theme.textTheme.bodyLarge?.color,
           ),
         ),
         SizedBox(height: 10.h),
@@ -237,12 +276,30 @@ class AddDishPage extends StatelessWidget {
           maxLines: 5,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: GoogleFonts.manrope(color: Colors.grey.shade400, fontSize: 13.sp),
+            hintStyle: GoogleFonts.manrope(
+              color: Colors.grey.shade400,
+              fontSize: 13.sp,
+            ),
             filled: true,
-            fillColor: Colors.grey.shade50,
+            fillColor: Get.theme.brightness == Brightness.dark
+                ? Get.theme.cardColor
+                : Colors.grey.shade100,
+            // fillColor: Get.theme.cardColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(
+                color: Get.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.grey.shade100,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(
+                color: Get.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.grey.shade100,
+              ),
             ),
             contentPadding: EdgeInsets.all(16.w),
           ),
@@ -256,7 +313,9 @@ class AddDishPage extends StatelessWidget {
       width: double.infinity,
       height: 56.h,
       decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
+        color: Get.theme.brightness == Brightness.dark
+            ? AppColors.primaryColor
+            : const Color(0xFF4C080C),
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Center(
@@ -268,11 +327,19 @@ class AddDishPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: Get.theme.brightness == Brightness.dark
+                    ? AppColors.whiteColor
+                    : Colors.white,
               ),
             ),
             SizedBox(width: 8.w),
-            Icon(Icons.restaurant_menu, color: Colors.white, size: 20.sp),
+            Icon(
+              Icons.restaurant_menu,
+              color: Get.theme.brightness == Brightness.dark
+                  ? AppColors.primaryColor
+                  : Colors.white,
+              size: 20.sp,
+            ),
           ],
         ),
       ),
