@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/constant/widgets/filterBottomSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -62,7 +63,10 @@ class BrowseByFoodPage extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'Search for hot & new restaurants',
                         hintStyle: GoogleFonts.manrope(
-                          color: context.theme.cardColor,
+                          // color: context.theme.cardColor,
+                          color: context.theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.grey,
                           fontSize: 12.sp,
                         ),
                         border: InputBorder.none,
@@ -73,12 +77,17 @@ class BrowseByFoodPage extends StatelessWidget {
                   Container(width: 1.w, height: 24.h, color: Colors.grey[300]),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Icon(
-                      Icons.tune,
-                      color: context.theme.brightness == Brightness.dark
-                          ? Colors.white
-                          : AppColors.primaryColor,
-                      size: 20.sp,
+                    child: GestureDetector(
+                      onTap: () {
+                        _showFilterBottomSheet(context);
+                      },
+                      child: Icon(
+                        Icons.tune,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -110,7 +119,7 @@ class BrowseByFoodPage extends StatelessWidget {
               itemCount: controller.categories.length,
               itemBuilder: (context, index) {
                 final category = controller.categories[index];
-                bool isSelected = index == 1; // Mocking selection for demo
+                bool isSelected = index == 1;
 
                 return Container(
                   decoration: BoxDecoration(
@@ -187,6 +196,15 @@ class BrowseByFoodPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FilterBottomSheet(),
     );
   }
 }

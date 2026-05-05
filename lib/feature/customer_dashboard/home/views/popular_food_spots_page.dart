@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/constant/widgets/filterBottomSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -71,19 +72,20 @@ class PopularFoodSpotsPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 1,
-                    height: 24,
-                    color: Colors.grey[300],
-                  ),
+                  Container(width: 1, height: 24, color: Colors.grey[300]),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Icon(
-                      Icons.tune,
-                      color: context.theme.brightness == Brightness.dark
-                          ? Colors.white
-                          : AppColors.primaryColor,
-                      size: 20.sp,
+                    child: GestureDetector(
+                      onTap: () {
+                        _showFilterBottomSheet(context);
+                      },
+                      child: Icon(
+                        Icons.tune,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -108,15 +110,16 @@ class PopularFoodSpotsPage extends StatelessWidget {
                     color: isSelected
                         ? AppColors.primaryColor
                         : (context.theme.brightness == Brightness.dark
-                            ? AppColors.darkSurfaceColor
-                            : Colors.white),
+                              ? AppColors.darkSurfaceColor
+                              : Colors.white),
                     borderRadius: BorderRadius.circular(20.r),
                     border: isSelected
                         ? null
                         : Border.all(
                             color: context.theme.brightness == Brightness.dark
                                 ? Colors.white10
-                                : Colors.grey.shade200),
+                                : Colors.grey.shade200,
+                          ),
                   ),
                   child: Row(
                     children: [
@@ -139,8 +142,8 @@ class PopularFoodSpotsPage extends StatelessWidget {
                           color: isSelected
                               ? Colors.white
                               : (context.theme.brightness == Brightness.dark
-                                  ? Colors.white
-                                  : context.theme.textTheme.bodyLarge?.color),
+                                    ? Colors.white
+                                    : context.theme.textTheme.bodyLarge?.color),
                         ),
                       ),
                     ],
@@ -174,6 +177,16 @@ class PopularFoodSpotsPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      // builder: (context) => _FilterBottomSheet(),
+      builder: (context) => FilterBottomSheet(),
     );
   }
 
@@ -219,8 +232,10 @@ class PopularFoodSpotsPage extends StatelessWidget {
                 top: 12,
                 right: 12,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: context.theme.cardColor,
                     borderRadius: BorderRadius.circular(12.r),
@@ -308,4 +323,3 @@ class PopularFoodSpotsPage extends StatelessWidget {
     );
   }
 }
-
