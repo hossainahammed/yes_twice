@@ -1,3 +1,4 @@
+import 'package:bolaji277/core/constant/widgets/filterBottomSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -79,12 +80,31 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                   Container(width: 1, height: 24, color: Colors.grey[300]),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Icon(
-                      Icons.tune,
-                      color: context.theme.brightness == Brightness.dark
-                          ? Colors.white
-                          : AppColors.primaryColor,
-                      size: 20.sp,
+                    //   GestureDetector(
+                    //   onTap: () => _showFilterBottomSheet(context),
+                    //   child: Row(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: [
+                    //       Icon(
+                    //         Icons.tune,
+                    //         color: context.theme.brightness == Brightness.dark
+                    //             ? Colors.white
+                    //             : AppColors.primaryColor,
+                    //         size: 20,
+                    //       ),
+                    //       const SizedBox(width: 8),
+                    //     ],
+                    //   ),
+                    // ),
+                    child: GestureDetector(
+                      onTap: () => _showFilterBottomSheet(context),
+                      child: Icon(
+                        Icons.tune,
+                        color: context.theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.primaryColor,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -215,6 +235,16 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      // builder: (context) => _FilterBottomSheet(),
+      builder: (context) => FilterBottomSheet(),
     );
   }
 

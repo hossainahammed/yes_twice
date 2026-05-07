@@ -14,6 +14,8 @@ import 'all_event_page.dart';
 import 'gallery_page.dart';
 import 'upload_gallery_page.dart';
 import 'review_page.dart';
+import 'dish_details_page.dart';
+import 'event_details_page.dart';
 import 'restaurant_profile_page.dart';
 import 'settings_page.dart';
 
@@ -591,8 +593,17 @@ class RestaurantDashboardPage extends StatelessWidget {
     String price,
     String imagePath,
   ) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => DishDetailsPage(
+              name: name,
+              rating: rating,
+              totalReviews: price,
+              imagePath: imagePath,
+            ));
+      },
+      child: Container(
+        padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
@@ -662,7 +673,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildEventContent(BuildContext context) {
@@ -682,8 +693,12 @@ class RestaurantDashboardPage extends StatelessWidget {
   }
 
   Widget _buildEventCard(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => const EventDetailsPage());
+      },
+      child: Container(
+        padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
@@ -772,7 +787,7 @@ class RestaurantDashboardPage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildGalleryContent() {
@@ -793,8 +808,12 @@ class RestaurantDashboardPage extends StatelessWidget {
           ),
           itemCount: 4,
           itemBuilder: (context, index) {
-            return Stack(
-              children: [
+            return GestureDetector(
+              onTap: () {
+                Get.to(() => GalleryPage());
+              },
+              child: Stack(
+                children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.r),
                   child: Image.asset(
@@ -825,7 +844,7 @@ class RestaurantDashboardPage extends StatelessWidget {
                   ),
                 ),
               ],
-            );
+            ));
           },
         ),
         SizedBox(height: 24.h),

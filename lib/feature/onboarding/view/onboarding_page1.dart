@@ -22,7 +22,11 @@ class OnboardingPage1 extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: width * 0.08),
       child: Column(
         children: [
-          SizedBox(height: height * 0.05),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: height * 0.05),
 
           /// ─── Image Card ────────────────────────────────────────────────
           Center(
@@ -191,11 +195,14 @@ class OnboardingPage1 extends StatelessWidget {
               height: 1.5,
             ),
           ),
+          SizedBox(height: height * 0.025),
+        ],
+      ),
+    ),
+  ),
 
-          const Spacer(),
-
-          /// ─── Buttons ────────────────────────────────────────────
-          ElevatedButton(
+  /// ─── Buttons ────────────────────────────────────────────
+  ElevatedButton(
             onPressed: onNext,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
