@@ -241,21 +241,41 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ),
             ),
             SizedBox(height: 16.h),
-            Center(
-              child: Text(
-                'Share Now!',
-                style: GoogleFonts.manrope(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.secondaryColor, // This is the text color
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppColors
-                      .secondaryColor, // <--- Add this for a custom underline color
-                  decorationThickness:
-                      2, // Optional: makes the underline thicker
-                  decorationStyle:
-                      TextDecorationStyle.solid, // Optional: e.g., wavy, dashed
+            ElevatedButton(
+              onPressed: () => Get.to(() => const ReviewPage()),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 52.h),
+                elevation: 0,
+
+                side: BorderSide(
+                  color: AppColors.primaryColor,
+                  width: 1.5,
                 ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.r),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Share Now!',
+                    style: GoogleFonts.manrope(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryColor,
+                      //decoration: TextDecoration.underline,
+                      decorationColor: AppColors.primaryColor,
+                      decorationThickness: 2,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Icon(
+                    Icons.reply_rounded,
+                    color: AppColors.primaryColor,
+                    size: 18.sp,
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 32.h),
