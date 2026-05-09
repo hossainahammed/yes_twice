@@ -76,6 +76,18 @@ class SupportCenterPage extends StatelessWidget {
                 'Is there a cancellation fee?',
                 'Most reservations can be cancelled for free up to 24 hours in advance. Please check the specific restaurant policy for details.',
               ),
+
+              // SizedBox(height: 12.h),
+              // Text(
+              //   'Have questions? We have answers. If you can\'t find what you\'re looking for, feel free to contact us.',
+              //   style: GoogleFonts.manrope(
+              //     fontSize: 14.sp,
+              //     fontWeight: FontWeight.w500,
+              //     color: Colors.grey,
+              //     height: 1.6,
+              //   ),
+              // ),
+
             ],
           ),
         ),

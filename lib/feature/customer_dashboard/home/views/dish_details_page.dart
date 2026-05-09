@@ -393,11 +393,13 @@ class DishDetailsPage extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) {
+      builder: (BuildContext context) {
         return Container(
           padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
           decoration: BoxDecoration(
-            color: context.theme.cardColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkSurfaceColor
+                : Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -410,11 +412,13 @@ class DishDetailsPage extends StatelessWidget {
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
                   borderRadius: BorderRadius.circular(4.r),
                 ),
               ),
-              SizedBox(height: 24.h),
+              SizedBox(height: 20.h),
               Text(
                 'Share',
                 style: GoogleFonts.manrope(
@@ -422,41 +426,42 @@ class DishDetailsPage extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                   color: Theme.of(context).brightness == Brightness.dark
                       ? Colors.white
-                      : Colors.black,
+                      : Colors.black87,
                 ),
               ),
               SizedBox(height: 16.h),
-              Divider(color: Colors.grey[200], thickness: 1),
+              Divider(color: Colors.grey.shade300, thickness: 1),
               SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildShareOption(
                     context,
-                    'Copy Link',
-                    Icons.copy,
-                    AppColors.primaryColor,
+                    title: 'Copy Link',
+                    icon: Icons.copy,
+                    backgroundColor: AppColors.primaryColor,
                   ),
                   _buildShareOption(
                     context,
-                    'WhatsApp',
-                    Icons.chat,
-                    Colors.green,
+                    title: 'WhatsApp',
+                    icon: Icons.chat,
+                    backgroundColor: Colors.green,
                   ),
                   _buildShareOption(
                     context,
-                    'Instagram',
-                    Icons.camera_alt,
-                    Colors.pink,
+                    title: 'Instagram',
+                    icon: Icons.camera_alt,
+                    isGradient: true,
                   ),
                   _buildShareOption(
                     context,
-                    'TikTok',
-                    Icons.music_note,
-                    Colors.black,
+                    title: 'TikTok',
+                    icon: Icons.music_note,
+                    backgroundColor: Colors.pinkAccent,
                   ),
                 ],
               ),
+              SizedBox(height: 10.h),
             ],
           ),
         );
@@ -465,21 +470,34 @@ class DishDetailsPage extends StatelessWidget {
   }
 
   Widget _buildShareOption(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-  ) {
+      BuildContext context, {
+        required String title,
+        required IconData icon,
+        Color? backgroundColor,
+        bool isGradient = false,
+      }) {
     return Column(
       children: [
         Container(
           width: 50.w,
-          height: 50.h,
+          height: 50.w,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: isGradient ? null : backgroundColor,
+            gradient: isGradient
+                ? const LinearGradient(
+              colors: [
+                Color(0xFF833AB4),
+                Color(0xFFFD1D1D),
+                Color(0xFFF56040),
+                Color(0xFFFFDC80),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            )
+                : null,
             borderRadius: BorderRadius.circular(16.r),
           ),
-          child: Icon(icon, color: color, size: 24.sp),
+          child: Icon(icon, color: Colors.white, size: 24.sp),
         ),
         SizedBox(height: 8.h),
         Text(
@@ -489,7 +507,7 @@ class DishDetailsPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white
-                : Colors.black,
+                : Colors.black87,
           ),
         ),
       ],

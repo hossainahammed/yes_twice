@@ -242,7 +242,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             ),
             SizedBox(height: 16.h),
             ElevatedButton(
-              onPressed: () => Get.to(() => const ReviewPage()),
+            //  onPressed: () => Get.to(() => const ReviewPage()),
+              onPressed: ()=>_showShareBottomSheet(context),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 52.h),
                 elevation: 0,
@@ -270,10 +271,18 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                     ),
                   ),
                   SizedBox(width: 8.w),
-                  Icon(
-                    Icons.reply_rounded,
-                    color: AppColors.primaryColor,
-                    size: 18.sp,
+                  GestureDetector(
+                    onTap: () => _showShareBottomSheet(context),
+                    child: Transform.flip(
+                      flipX: true,
+                      child: Icon(
+                        Icons.reply_rounded,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87,
+                        size: 24.sp,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -521,6 +530,130 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           SizedBox(height: 4.h),
         ],
       ),
+    );
+  }
+  void _showShareBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkSurfaceColor
+                : Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.r),
+              topRight: Radius.circular(24.r),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                'Share',
+                style: GoogleFonts.manrope(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w800,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Divider(color: Colors.grey.shade300, thickness: 1),
+              SizedBox(height: 20.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildShareOption(
+                    context,
+                    title: 'Copy Link',
+                    icon: Icons.copy,
+                    backgroundColor: AppColors.primaryColor,
+                  ),
+                  _buildShareOption(
+                    context,
+                    title: 'WhatsApp',
+                    icon: Icons.chat,
+                    backgroundColor: Colors.green,
+                  ),
+                  _buildShareOption(
+                    context,
+                    title: 'Instagram',
+                    icon: Icons.camera_alt,
+                    isGradient: true,
+                  ),
+                  _buildShareOption(
+                    context,
+                    title: 'TikTok',
+                    icon: Icons.music_note,
+                    backgroundColor: Colors.pinkAccent,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.h),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildShareOption(
+      BuildContext context, {
+        required String title,
+        required IconData icon,
+        Color? backgroundColor,
+        bool isGradient = false,
+      }) {
+    return Column(
+      children: [
+        Container(
+          width: 50.w,
+          height: 50.w,
+          decoration: BoxDecoration(
+            color: isGradient ? null : backgroundColor,
+            gradient: isGradient
+                ? const LinearGradient(
+              colors: [
+                Color(0xFF833AB4),
+                Color(0xFFFD1D1D),
+                Color(0xFFF56040),
+                Color(0xFFFFDC80),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            )
+                : null,
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Icon(icon, color: Colors.white, size: 24.sp),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          title,
+          style: GoogleFonts.manrope(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
+          ),
+        ),
+      ],
     );
   }
 }
