@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
+import 'contact_us_page.dart';
 
 class SupportCenterPage extends StatelessWidget {
   const SupportCenterPage({super.key});
@@ -76,6 +77,37 @@ class SupportCenterPage extends StatelessWidget {
                 'Is there a cancellation fee?',
                 'Most reservations can be cancelled for free up to 24 hours in advance. Please check the specific restaurant policy for details.',
               ),
+
+              SizedBox(height: 12.h),
+              Text(
+                'Have questions? We have answers. If you can\'t find what you\'re looking for, feel free to contact us.',
+                style: GoogleFonts.manrope(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  height: 1.6,
+                ),
+              ),
+              SizedBox(height: 24.h),
+              ElevatedButton(
+                onPressed: () => Get.to(() => const ContactUsPage()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  minimumSize: Size(double.infinity, 50.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+                child: Text(
+                  'Contact Us',
+                  style: GoogleFonts.manrope(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),

@@ -26,7 +26,7 @@ class _GalleryPageState extends State<GalleryPage> {
     'assets/images/resturant_details03.png',
   ];
 
-  String? selectedImage;
+  int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class _GalleryPageState extends State<GalleryPage> {
           padding: const EdgeInsets.only(left: 16),
           child: CustomBackButton(
             onTap: () {
-              if (selectedImage != null) {
-                setState(() => selectedImage = null);
+              if (selectedIndex != null) {
+                setState(() => selectedIndex = null);
               } else {
                 Get.back();
               }
@@ -57,7 +57,7 @@ class _GalleryPageState extends State<GalleryPage> {
           ),
         ),
       ),
-      body: selectedImage != null ? _buildImageView() : _buildGalleryGrid(),
+      body: selectedIndex != null ? _buildImageView() : _buildGalleryGrid(),
     );
   }
 
@@ -72,7 +72,7 @@ class _GalleryPageState extends State<GalleryPage> {
       itemCount: images.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => setState(() => selectedImage = images[index]),
+          onTap: () => setState(() => selectedIndex = index),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
@@ -92,29 +92,40 @@ class _GalleryPageState extends State<GalleryPage> {
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Image.asset(
-                selectedImage!,
-                fit: BoxFit.contain,
-                width: double.infinity,
-              ),
-            ),
+          PageView.builder(
+            controller: PageController(initialPage: selectedIndex!),
+            onPageChanged: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            itemCount: images.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(24),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image.asset(
+                    images[index],
+                    fit: BoxFit.contain,
+                    width: double.infinity,
+                  ),
+                ),
+              );
+            },
           ),
           Positioned(
-            top: 10,
-            right: 10,
+            top: 34,
+            right: 34,
             child: GestureDetector(
-              onTap: () => setState(() => selectedImage = null),
+              onTap: () => setState(() => selectedIndex = null),
               child: Container(
-                padding: const EdgeInsets.all(4),
+                padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.close, color: Colors.white, size: 16),
+                child: const Icon(Icons.close, color: Colors.white, size: 20),
               ),
             ),
           ),
