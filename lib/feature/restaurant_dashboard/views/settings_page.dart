@@ -243,7 +243,7 @@ class SettingsPage extends StatelessWidget {
   void _showLogoutDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
       ),
@@ -264,7 +264,7 @@ class SettingsPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: Colors.red.shade50,
+                color: Get.theme.brightness == Brightness.dark ? Colors.red.withOpacity(0.1) : Colors.red.shade50,
                 shape: BoxShape.circle,
               ),
               child: Image.asset(ImagePath.logoutIcon),
@@ -275,7 +275,7 @@ class SettingsPage extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w800,
-                color: Colors.black,
+                color: Get.theme.textTheme.bodyLarge?.color,
               ),
             ),
             SizedBox(height: 8.h),
@@ -294,7 +294,7 @@ class SettingsPage extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () => Get.back(),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: AppColors.primaryColor),
+                      side: BorderSide(color: Get.theme.brightness == Brightness.dark ? Colors.white : AppColors.primaryColor),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.r),
                       ),
@@ -305,7 +305,7 @@ class SettingsPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor,
+                        color: Get.theme.brightness == Brightness.dark ? Colors.white : AppColors.primaryColor,
                       ),
                     ),
                   ),
@@ -316,7 +316,7 @@ class SettingsPage extends StatelessWidget {
                     onPressed: () =>
                         Get.offAll(() => const LoginPage()), // Do logout
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor: Get.theme.brightness == Brightness.dark ? Colors.red.shade800 : AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.r),
                       ),
