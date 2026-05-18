@@ -17,16 +17,20 @@ class SupportCenterPage extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               children: [
-                _buildFaqItem("How do I reset my password?",
-                    "To reset your password, visit the login page and click 'Forgot Password'. Follow the email link provided."),
+                _buildFaqItem(
+                  "How do I reset my password?",
+                  "To reset your password, visit the login page and click 'Forgot Password'. Follow the email link provided.",
+                ),
                 SizedBox(height: 12.h),
                 _buildFaqItem(
                   "How can I update my account information?",
                   "To update your account information (like email, phone number, or password):\n1. Open your profile settings from the main menu.\n2. Select 'Edit Profile.'\n3. Update your details and save changes.\nYour account will be updated immediately, and you'll be notified if anything is changed.",
                 ),
                 SizedBox(height: 12.h),
-                _buildFaqItem("How do I delete my account?",
-                    "To delete your account, visit Security > Delete Account and provide your password for confirmation."),
+                _buildFaqItem(
+                  "How do I delete my account?",
+                  "To delete your account, visit Security > Delete Account and provide your password for confirmation.",
+                ),
                 SizedBox(height: 12.h),
                 _buildFaqItem(
                   "Where can I find the latest updates on app features?",

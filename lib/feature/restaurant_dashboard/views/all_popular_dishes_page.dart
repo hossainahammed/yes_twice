@@ -95,12 +95,14 @@ class AllPopularDishesPage extends StatelessWidget {
     String imagePath,
   ) {
     return GestureDetector(
-      onTap: () => Get.to(() => DishDetailsPage(
-            name: name,
-            rating: rating,
-            totalReviews: totalReviews,
-            imagePath: imagePath,
-          )),
+      onTap: () => Get.to(
+        () => DishDetailsPage(
+          name: name,
+          rating: rating,
+          totalReviews: totalReviews,
+          imagePath: imagePath,
+        ),
+      ),
       child: Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
@@ -108,66 +110,74 @@ class AllPopularDishesPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(color: AppColors.greyColor),
         ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: Image.asset(
-              imagePath,
-              width: 60.w,
-              height: 60.w,
-              fit: BoxFit.cover,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: Image.asset(
+                imagePath,
+                width: 60.w,
+                height: 60.w,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: context.theme.textTheme.bodyMedium?.color,
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: GoogleFonts.manrope(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: context.theme.textTheme.bodyMedium?.color,
+                    ),
                   ),
-                ),
-                SizedBox(height: 6.h),
-                Row(
-                  children: [
-                    Image.asset(ImagePath.rating, width: 12.w, height: 12.w),
-                    SizedBox(width: 4.w),
-                    Text(
-                      rating,
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: context.theme.textTheme.bodyMedium?.color,
+                  SizedBox(height: 6.h),
+                  Row(
+                    children: [
+                      Image.asset(ImagePath.rating, width: 12.w, height: 12.w),
+                      SizedBox(width: 4.w),
+                      Text(
+                        rating,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: context.theme.textTheme.bodyMedium?.color,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      totalReviews,
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade400,
+                      SizedBox(width: 8.w),
+                      Text(
+                        totalReviews,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade400,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () => _showActionMenu(context, name: name, image: imagePath),
-            icon: Icon(Icons.more_vert, color: const Color(0xFF101828), size: 20.sp),
-          ),
-        ],
+            IconButton(
+              onPressed: () =>
+                  _showActionMenu(context, name: name, image: imagePath),
+              icon: Icon(
+                Icons.more_vert,
+                color: Get.theme.iconTheme.color,
+
+                // color: const Color(0xFF101828),ere
+                size: 20.sp,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
+
   void _showActionMenu(BuildContext context, {String? name, String? image}) {
     Get.dialog(
       Dialog(
@@ -186,37 +196,39 @@ class AllPopularDishesPage extends StatelessWidget {
             children: [
               _buildMenuItem("Edit", () {
                 Get.back();
-                Get.to(() => AddDishPage(
-                      isEdit: true,
-                      dishData: {
-                        'name': name,
-                        'image': image,
-                        'price': "\$ 12.00", // Mocked price
-                      },
-                    ));
+                Get.to(
+                  () => AddDishPage(
+                    isEdit: true,
+                    dishData: {
+                      'name': name,
+                      'image': image,
+                      'price': "\$ 12.00", // Mocked price
+                    },
+                  ),
+                );
               }),
               SizedBox(height: 20.h),
               _buildMenuItem("Delete", () {
                 Get.back();
               }),
-              SizedBox(height: 35.h),
-              Obx(
-                () => _buildToggleItem(
-                  "ACTIVE",
-                  controller.isActive.value,
-                  const Color(0xFFA12C05),
-                  (val) => controller.isActive.value = val,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Obx(
-                () => _buildToggleItem(
-                  "HIDE",
-                  controller.isHide.value,
-                  const Color(0xFF90A1B9),
-                  (val) => controller.isHide.value = val,
-                ),
-              ),
+              //SizedBox(height: 35.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "ACTIVE",
+              //     controller.isActive.value,
+              //     const Color(0xFFA12C05),
+              //     (val) => controller.isActive.value = val,
+              //   ),
+              // ),
+              // SizedBox(height: 16.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "HIDE",
+              //     controller.isHide.value,
+              //     const Color(0xFF90A1B9),
+              //     (val) => controller.isHide.value = val,
+              //   ),
+              // ),
             ],
           ),
         ),
