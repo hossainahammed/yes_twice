@@ -154,6 +154,7 @@ class AllEventPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildEventCard(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.to(() => const EventDetailsPage()),
@@ -164,84 +165,90 @@ class AllEventPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(color: AppColors.greyColor),
         ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: Image.asset(
-              ImagePath.event,
-              width: 60.w,
-              height: 60.w,
-              fit: BoxFit.cover,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: Image.asset(
+                ImagePath.event,
+                width: 60.w,
+                height: 60.w,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Sunset Jazz & Tapas",
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Get.theme.textTheme.bodyLarge?.color,
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Sunset Jazz & Tapas",
+                    style: GoogleFonts.manrope(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Get.theme.textTheme.bodyLarge?.color,
+                    ),
                   ),
-                ),
-                SizedBox(height: 6.h),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.calendar_today_outlined,
-                      color: Get.theme.iconTheme.color,
-                      size: 11.sp,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      "21 July, 2025 | 11:30 pm",
-                      style: GoogleFonts.manrope(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppColors.greyColor
-                            : Colors.black,
+                  SizedBox(height: 6.h),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_today_outlined,
+                        color: Get.theme.iconTheme.color,
+                        size: 11.sp,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      color: AppColors.primaryColor,
-                      size: 11.sp,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      "123 Foodie Lane, Joha...",
-                      style: GoogleFonts.manrope(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppColors.greyColor
-                            : Colors.black,
+                      SizedBox(width: 4.w),
+                      Text(
+                        "21 July, 2025 | 11:30 pm",
+                        style: GoogleFonts.manrope(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.greyColor
+                              : Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: 4.h),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        color: AppColors.primaryColor,
+                        size: 11.sp,
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        "123 Foodie Lane, Joha...",
+                        style: GoogleFonts.manrope(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.greyColor
+                              : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () => _showActionMenu(context, name: "Sunset Jazz & Tapas"),
-            icon: Icon(Icons.more_vert, color: Get.theme.iconTheme.color, size: 20.sp),
-          ),
-        ],
+            IconButton(
+              onPressed: () =>
+                  _showActionMenu(context, name: "Sunset Jazz & Tapas"),
+              icon: Icon(
+                Icons.more_vert,
+                color: Get.theme.iconTheme.color,
+                size: 20.sp,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
+
   void _showActionMenu(BuildContext context, {String? name}) {
     Get.dialog(
       Dialog(
@@ -260,38 +267,40 @@ class AllEventPage extends StatelessWidget {
             children: [
               _buildMenuItem("Edit", () {
                 Get.back();
-                Get.to(() => AddEventPage(
-                      isEdit: true,
-                      eventData: {
-                        'name': name,
-                        'venue': "Wilmington",
-                        'date': "2025-07-21",
-                        'time': "11:30 PM",
-                      },
-                    ));
+                Get.to(
+                  () => AddEventPage(
+                    isEdit: true,
+                    eventData: {
+                      'name': name,
+                      'venue': "Wilmington",
+                      'date': "2025-07-21",
+                      'time': "11:30 PM",
+                    },
+                  ),
+                );
               }),
               SizedBox(height: 20.h),
               _buildMenuItem("Delete", () {
                 Get.back();
               }),
-              SizedBox(height: 35.h),
-              Obx(
-                () => _buildToggleItem(
-                  "ACTIVE",
-                  controller.isActive.value,
-                  const Color(0xFFA12C05),
-                  (val) => controller.isActive.value = val,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Obx(
-                () => _buildToggleItem(
-                  "HIDE",
-                  controller.isHide.value,
-                  const Color(0xFF90A1B9),
-                  (val) => controller.isHide.value = val,
-                ),
-              ),
+              // SizedBox(height: 35.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "ACTIVE",
+              //     controller.isActive.value,
+              //     const Color(0xFFA12C05),
+              //     (val) => controller.isActive.value = val,
+              //   ),
+              // ),
+              // SizedBox(height: 16.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "HIDE",
+              //     controller.isHide.value,
+              //     const Color(0xFF90A1B9),
+              //     (val) => controller.isHide.value = val,
+              //   ),
+              // ),
             ],
           ),
         ),

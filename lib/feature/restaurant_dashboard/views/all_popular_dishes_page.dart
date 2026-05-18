@@ -211,24 +211,24 @@ class AllPopularDishesPage extends StatelessWidget {
               _buildMenuItem("Delete", () {
                 Get.back();
               }),
-              SizedBox(height: 35.h),
-              Obx(
-                () => _buildToggleItem(
-                  "ACTIVE",
-                  controller.isActive.value,
-                  const Color(0xFFA12C05),
-                  (val) => controller.isActive.value = val,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Obx(
-                () => _buildToggleItem(
-                  "HIDE",
-                  controller.isHide.value,
-                  const Color(0xFF90A1B9),
-                  (val) => controller.isHide.value = val,
-                ),
-              ),
+              //SizedBox(height: 35.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "ACTIVE",
+              //     controller.isActive.value,
+              //     const Color(0xFFA12C05),
+              //     (val) => controller.isActive.value = val,
+              //   ),
+              // ),
+              // SizedBox(height: 16.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "HIDE",
+              //     controller.isHide.value,
+              //     const Color(0xFF90A1B9),
+              //     (val) => controller.isHide.value = val,
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -10,7 +10,8 @@ import 'upload_gallery_page.dart';
 class GalleryPage extends StatelessWidget {
   GalleryPage({super.key});
 
-  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  final RestaurantDashboardController controller =
+      Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,9 @@ class GalleryPage extends StatelessWidget {
         ),
         itemCount: 10,
         itemBuilder: (context, index) {
-          String image = index % 2 == 0 ? ImagePath.gallery1 : ImagePath.gallery2;
+          String image = index % 2 == 0
+              ? ImagePath.gallery1
+              : ImagePath.gallery2;
           return _buildGalleryItem(context, image);
         },
       ),
@@ -39,10 +42,14 @@ class GalleryPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       automaticallyImplyLeading: false,
-      leading: controller.currentNavIndex.value == 3 
-          ? null 
+      leading: controller.currentNavIndex.value == 3
+          ? null
           : IconButton(
-              icon: Icon(Icons.arrow_back, color: Get.theme.iconTheme.color, size: 24.sp),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Get.theme.iconTheme.color,
+                size: 24.sp,
+              ),
               onPressed: () => Get.back(),
             ),
       title: Text(
@@ -62,12 +69,16 @@ class GalleryPage extends StatelessWidget {
               width: 32.w,
               height: 32.w,
               decoration: BoxDecoration(
-                color: Get.theme.brightness == Brightness.dark ? AppColors.whiteColor : const Color(0xFF4C080C),
+                color: Get.theme.brightness == Brightness.dark
+                    ? AppColors.whiteColor
+                    : const Color(0xFF4C080C),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.add,
-                color: Get.theme.brightness == Brightness.dark ? AppColors.primaryColor : Colors.white,
+                color: Get.theme.brightness == Brightness.dark
+                    ? AppColors.primaryColor
+                    : Colors.white,
                 size: 20.sp,
               ),
             ),
@@ -131,24 +142,24 @@ class GalleryPage extends StatelessWidget {
               _buildMenuItem("Delete", () {
                 Get.back();
               }),
-              SizedBox(height: 35.h),
-              Obx(
-                () => _buildToggleItem(
-                  "ACTIVE",
-                  controller.isActive.value,
-                  const Color(0xFFA12C05),
-                  (val) => controller.isActive.value = val,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Obx(
-                () => _buildToggleItem(
-                  "HIDE",
-                  controller.isHide.value,
-                  const Color(0xFF90A1B9),
-                  (val) => controller.isHide.value = val,
-                ),
-              ),
+              // SizedBox(height: 35.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "ACTIVE",
+              //     controller.isActive.value,
+              //     const Color(0xFFA12C05),
+              //     (val) => controller.isActive.value = val,
+              //   ),
+              // ),
+              // SizedBox(height: 16.h),
+              // Obx(
+              //   () => _buildToggleItem(
+              //     "HIDE",
+              //     controller.isHide.value,
+              //     const Color(0xFF90A1B9),
+              //     (val) => controller.isHide.value = val,
+              //   ),
+              // ),
             ],
           ),
         ),
