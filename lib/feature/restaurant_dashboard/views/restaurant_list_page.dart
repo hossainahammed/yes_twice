@@ -1,3 +1,4 @@
+import 'package:bolaji277/feature/restaurant_dashboard/views/add_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,9 +12,14 @@ import '../controllers/restaurant_dashboard_controller.dart';
 class RestaurantListPage extends StatelessWidget {
   final bool isForDelete;
   final bool? forceEmpty;
-  const RestaurantListPage({super.key, this.isForDelete = false, this.forceEmpty});
+  const RestaurantListPage({
+    super.key,
+    this.isForDelete = false,
+    this.forceEmpty,
+  });
 
-  RestaurantDashboardController get controller => Get.find<RestaurantDashboardController>();
+  RestaurantDashboardController get controller =>
+      Get.find<RestaurantDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -196,22 +202,28 @@ class RestaurantListPage extends StatelessWidget {
   }
 
   Widget _buildAddButton() {
-    return Container(
-      width: double.infinity,
-      height: 56.h,
-      decoration: BoxDecoration(
-        color: Get.theme.brightness == Brightness.dark
-            ? AppColors.primaryColor
-            : const Color(0xFF4C080C),
-        borderRadius: BorderRadius.circular(30.r),
-      ),
-      child: Center(
-        child: Text(
-          "Add Restaurant",
-          style: GoogleFonts.manrope(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to your target page using GetX
+        Get.to(() => const AddAccountPage());
+      },
+      child: Container(
+        width: double.infinity,
+        height: 56.h,
+        decoration: BoxDecoration(
+          color: Get.theme.brightness == Brightness.dark
+              ? AppColors.primaryColor
+              : const Color(0xFF4C080C),
+          borderRadius: BorderRadius.circular(30.r),
+        ),
+        child: Center(
+          child: Text(
+            "Add Restaurant",
+            style: GoogleFonts.manrope(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
+import 'upload_gallery_page.dart';
 
 class GalleryPage extends StatelessWidget {
   GalleryPage({super.key});
@@ -55,17 +56,20 @@ class GalleryPage extends StatelessWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 20.w),
-          child: Container(
-            width: 32.w,
-            height: 32.w,
-            decoration: BoxDecoration(
-              color: Get.theme.brightness == Brightness.dark ? AppColors.whiteColor : const Color(0xFF4C080C),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.add,
-              color: Get.theme.brightness == Brightness.dark ? AppColors.primaryColor : Colors.white,
-              size: 20.sp,
+          child: GestureDetector(
+            onTap: () => Get.to(() => UploadGalleryPage()),
+            child: Container(
+              width: 32.w,
+              height: 32.w,
+              decoration: BoxDecoration(
+                color: Get.theme.brightness == Brightness.dark ? AppColors.whiteColor : const Color(0xFF4C080C),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add,
+                color: Get.theme.brightness == Brightness.dark ? AppColors.primaryColor : Colors.white,
+                size: 20.sp,
+              ),
             ),
           ),
         ),

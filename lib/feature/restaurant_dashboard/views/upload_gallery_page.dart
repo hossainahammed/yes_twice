@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -54,57 +55,60 @@ class UploadGalleryPage extends StatelessWidget {
   }
 
   Widget _buildDashedUploadArea() {
-    return Container(
-      width: double.infinity,
-      height: 220.h,
-      decoration: BoxDecoration(
-        color: Get.theme.brightness == Brightness.dark
-            ? const Color(0xFF1E1E1E)
-            : Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(
-          color: Get.theme.dividerColor,
-          width: 1,
-          style: BorderStyle.solid, // Fallback for dashed
-        ),
+    return CustomPaint(
+      painter: DashedRectPainter(
+        color: Get.theme.dividerColor,
+        strokeWidth: 1.5,
+        radius: 20.r,
       ),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFF2EF),
-                shape: BoxShape.circle,
+      child: Container(
+        width: double.infinity,
+        height: 220.h,
+        decoration: BoxDecoration(
+          color: Get.theme.brightness == Brightness.dark
+              ? const Color(0xFF1E1E1E)
+              : Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.w),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFF2EF),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.add_a_photo_outlined,
+                  color: const Color(0xFFA12C05),
+                  size: 30.sp,
+                ),
               ),
-              child: Icon(
-                Icons.camera_enhance_outlined,
-                color: const Color(0xFFA12C05),
-                size: 30.sp,
+              SizedBox(height: 16.h),
+              Text(
+                "Upload Media",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.manrope(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Get.theme.textTheme.bodyLarge?.color,
+                ),
               ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              "Upload Media",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w700,
-                color: Get.theme.textTheme.bodyLarge?.color,
+              SizedBox(height: 8.h),
+              Text(
+                "High-resolution assets make your restaurant stand\nout. Supports JPG,PNG,mp4 video",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.manrope(
+                  fontSize: 11.sp,
+                  color: Colors.grey.shade400,
+                  fontWeight: FontWeight.w500,
+                  height: 1.5,
+                ),
               ),
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              "High-resolution assets make your restaurant stand\nout. Supports JPG,PNG,mp4 video",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
-                fontSize: 11.sp,
-                color: Colors.grey.shade400,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -175,7 +179,13 @@ class UploadGalleryPage extends StatelessWidget {
       ),
       itemCount: 4,
       itemBuilder: (context, index) {
-        String image = index == 0 ? ImagePath.gallery1 : ImagePath.gallery2;
+        List<String> images = [
+          ImagePath.popularDishes1,
+          ImagePath.gallery1,
+          ImagePath.popularDishes2,
+          ImagePath.gallery2,
+        ];
+        String image = images[index % images.length];
         return Stack(
           children: [
             ClipRRect(
@@ -312,3 +322,62 @@ class UploadGalleryPage extends StatelessWidget {
     );
   }
 }
+
+class DashedRectPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final double gap;
+  final double dashWidth;
+  final double radius;
+
+  DashedRectPainter({
+    this.color = Colors.black,
+    this.strokeWidth = 1.0,
+    this.gap = 5.0,
+    this.dashWidth = 5.0,
+    this.radius = 20.0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint dashedPaint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    double x = size.width;
+    double y = size.height;
+    double r = radius;
+
+    Path path = Path()
+      ..moveTo(r, 0)
+      ..lineTo(x - r, 0)
+      ..arcToPoint(Offset(x, r), radius: Radius.circular(r))
+      ..lineTo(x, y - r)
+      ..arcToPoint(Offset(x - r, y), radius: Radius.circular(r))
+      ..lineTo(r, y)
+      ..arcToPoint(Offset(0, y - r), radius: Radius.circular(r))
+      ..lineTo(0, r)
+      ..arcToPoint(Offset(r, 0), radius: Radius.circular(r));
+
+    Path dashPath = Path();
+    double distance = 0.0;
+
+    for (PathMetric pathMetric in path.computeMetrics()) {
+      while (distance < pathMetric.length) {
+        dashPath.addPath(
+          pathMetric.extractPath(distance, distance + dashWidth),
+          Offset.zero,
+        );
+        distance += dashWidth + gap;
+      }
+      distance = 0.0; // Reset for next segment if any
+    }
+
+    canvas.drawPath(dashPath, dashedPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
