@@ -1,13 +1,61 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/image_path.dart';
 import '../../../../core/constant/widgets/success_dialog.dart';
 
-class AddAccountPage extends StatelessWidget {
-  const AddAccountPage({super.key});
+class AddAccountPage extends StatefulWidget {
+  final bool isEditMode;
+  const AddAccountPage({super.key, this.isEditMode = false});
+
+  @override
+  State<AddAccountPage> createState() => _AddAccountPageState();
+}
+
+class _AddAccountPageState extends State<AddAccountPage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController cuisineController = TextEditingController();
+  final TextEditingController descController = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+  final List<File> _selectedImages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEditMode) {
+      nameController.text = "The Golden Plate";
+      countryController.text = "United States";
+      locationController.text = "123 Main St, New York, NY";
+      cuisineController.text = "Italian";
+      descController.text = "A fine dining experience offering authentic Italian cuisine with a modern twist.";
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    countryController.dispose();
+    locationController.dispose();
+    cuisineController.dispose();
+    descController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _selectedImages.add(File(image.path));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +71,44 @@ class AddAccountPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildFieldLabel("Restaurant Name"),
-                  _buildIconTextField(Icons.store_outlined, "Enter Restaurant Name"),
+                  _buildTextField(
+                    icon: Icons.store_outlined,
+                    hint: "Enter Restaurant Name",
+                    controller: nameController,
+                  ),
                   SizedBox(height: 20.h),
                   _buildFieldLabel("Country"),
-                  _buildDropdownField(Icons.public_outlined, "Enter Country"),
+                  _buildTextField(
+                    icon: Icons.public_outlined,
+                    hint: "Enter Country",
+                    controller: countryController,
+                    suffixIcon: Icons.keyboard_arrow_down,
+                  ),
                   SizedBox(height: 20.h),
                   _buildFieldLabel("Location"),
-                  _buildLocationField("Enter address or drop pin on map"),
+                  _buildTextField(
+                    icon: Icons.location_on_outlined,
+                    hint: "Enter address or drop pin on map",
+                    controller: locationController,
+                    suffixIcon: Icons.map_outlined,
+                    suffixIconColor: const Color(0xFF4C080C),
+                  ),
                   SizedBox(height: 20.h),
                   _buildFieldLabel("Cuisine"),
-                  _buildDropdownField(Icons.restaurant_outlined, "Select cuisine type"),
+                  _buildTextField(
+                    icon: Icons.restaurant_outlined,
+                    hint: "Select cuisine type",
+                    controller: cuisineController,
+                    suffixIcon: Icons.keyboard_arrow_down,
+                  ),
                   SizedBox(height: 20.h),
-                  _buildTextArea(Icons.description_outlined, "Add description...."),
+                  _buildTextField(
+                    icon: Icons.description_outlined,
+                    hint: "Add description....",
+                    controller: descController,
+                    maxLines: 5,
+                    height: 120.h,
+                  ),
                   SizedBox(height: 24.h),
                   _buildSectionTitle("Add photos"),
                   Text(
@@ -84,7 +158,7 @@ class AddAccountPage extends StatelessWidget {
             ),
           ),
           Text(
-            "Add Restaurant",
+            widget.isEditMode ? "Edit Restaurant" : "Add Restaurant",
             style: GoogleFonts.manrope(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
@@ -110,100 +184,43 @@ class AddAccountPage extends StatelessWidget {
     );
   }
 
-  Widget _buildIconTextField(IconData icon, String hint) {
+  Widget _buildTextField({
+    required IconData icon,
+    required String hint,
+    required TextEditingController controller,
+    IconData? suffixIcon,
+    Color? suffixIconColor,
+    int maxLines = 1,
+    double? height,
+  }) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+      height: height,
       decoration: BoxDecoration(
         color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
         border: Border.all(color: Get.theme.dividerColor),
       ),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.grey.shade400, size: 20.sp),
-          SizedBox(width: 12.w),
-          Text(
-            hint,
-            style: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
+      child: TextField(
+        controller: controller,
+        maxLines: maxLines,
+        style: GoogleFonts.manrope(
+          color: Get.theme.textTheme.bodyLarge?.color,
+          fontSize: 13.sp,
+        ),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hint,
+          hintStyle: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(bottom: maxLines > 1 ? 60.h : 0),
+            child: Icon(icon, color: Colors.grey.shade400, size: 20.sp),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDropdownField(IconData icon, String hint) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-      decoration: BoxDecoration(
-        color: Get.theme.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Get.theme.dividerColor),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.grey.shade400, size: 20.sp),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Text(
-              hint,
-              style: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
-            ),
-          ),
-          Icon(Icons.keyboard_arrow_down, color: Colors.grey.shade400, size: 20.sp),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLocationField(String hint) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-      decoration: BoxDecoration(
-        color: Get.theme.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Get.theme.dividerColor),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.location_on_outlined, color: Colors.grey.shade400, size: 20.sp),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Text(
-              hint,
-              style: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
-            ),
-          ),
-          Icon(Icons.map_outlined, color: const Color(0xFF4C080C), size: 20.sp),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextArea(IconData icon, String hint) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      height: 120.h,
-      decoration: BoxDecoration(
-        color: Get.theme.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Get.theme.dividerColor),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: Colors.grey.shade400, size: 20.sp),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Text(
-              hint,
-              style: GoogleFonts.manrope(color: Colors.grey.shade300, fontSize: 13.sp),
-            ),
-          ),
-        ],
+          suffixIcon: suffixIcon != null
+              ? Icon(suffixIcon, color: suffixIconColor ?? Colors.grey.shade400, size: 20.sp)
+              : null,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        ),
       ),
     );
   }
@@ -220,14 +237,31 @@ class AddAccountPage extends StatelessWidget {
   }
 
   Widget _buildPhotoSelection() {
-    return Row(
-      children: [
-        _buildSmallPhoto(ImagePath.popularDishes1),
-        SizedBox(width: 12.w),
-        _buildSmallPhoto(ImagePath.popularDishes2),
-        SizedBox(width: 12.w),
-        _buildAddPhotoButton(),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _buildSmallPhoto(ImagePath.popularDishes1),
+          SizedBox(width: 12.w),
+          _buildSmallPhoto(ImagePath.popularDishes2),
+          SizedBox(width: 12.w),
+          ..._selectedImages.map((file) {
+            return Padding(
+              padding: EdgeInsets.only(right: 12.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: Image.file(
+                  file,
+                  width: 60.w,
+                  height: 60.w,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          }).toList(),
+          _buildAddPhotoButton(),
+        ],
+      ),
     );
   }
 
@@ -244,27 +278,30 @@ class AddAccountPage extends StatelessWidget {
   }
 
   Widget _buildAddPhotoButton() {
-    return Container(
-      width: 60.w,
-      height: 60.w,
-      decoration: BoxDecoration(
-        color: Get.theme.cardColor,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Get.theme.dividerColor, style: BorderStyle.solid),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.add_photo_alternate_outlined, color: Colors.grey.shade400, size: 20.sp),
-          SizedBox(height: 4.h),
-          Text(
-            "Add Media",
-            style: GoogleFonts.manrope(
-              fontSize: 8.sp,
-              color: Colors.grey.shade400,
+    return GestureDetector(
+      onTap: _pickImage,
+      child: Container(
+        width: 60.w,
+        height: 60.w,
+        decoration: BoxDecoration(
+          color: Get.theme.cardColor,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: Get.theme.dividerColor, style: BorderStyle.solid),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add_photo_alternate_outlined, color: Colors.grey.shade400, size: 20.sp),
+            SizedBox(height: 4.h),
+            Text(
+              "Add Media",
+              style: GoogleFonts.manrope(
+                fontSize: 8.sp,
+                color: Colors.grey.shade400,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -273,7 +310,7 @@ class AddAccountPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         SuccessDialog.show(
-          title: "Restaurant added",
+          title: widget.isEditMode ? "Restaurant updated" : "Restaurant added",
           context: context,
           onPressed: () {
             Get.back();
@@ -291,7 +328,7 @@ class AddAccountPage extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Add Restaurant",
+            widget.isEditMode ? "Update Restaurant" : "Add Restaurant",
             style: GoogleFonts.manrope(
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,

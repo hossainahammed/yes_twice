@@ -1,17 +1,35 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/constant/image_path.dart';
 import '../controllers/restaurant_dashboard_controller.dart';
 import 'gallery_page.dart';
 
-class UploadGalleryPage extends StatelessWidget {
+class UploadGalleryPage extends StatefulWidget {
   UploadGalleryPage({super.key});
 
+  @override
+  State<UploadGalleryPage> createState() => _UploadGalleryPageState();
+}
+
+class _UploadGalleryPageState extends State<UploadGalleryPage> {
   final RestaurantDashboardController controller =
       Get.find<RestaurantDashboardController>();
+  final ImagePicker _picker = ImagePicker();
+  final List<File> _selectedImages = [];
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _selectedImages.insert(0, File(image.path));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,59 +73,62 @@ class UploadGalleryPage extends StatelessWidget {
   }
 
   Widget _buildDashedUploadArea() {
-    return CustomPaint(
-      painter: DashedRectPainter(
-        color: Get.theme.dividerColor,
-        strokeWidth: 1.5,
-        radius: 20.r,
-      ),
-      child: Container(
-        width: double.infinity,
-        height: 220.h,
-        decoration: BoxDecoration(
-          color: Get.theme.brightness == Brightness.dark
-              ? const Color(0xFF1E1E1E)
-              : Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(20.r),
+    return GestureDetector(
+      onTap: _pickImage,
+      child: CustomPaint(
+        painter: DashedRectPainter(
+          color: Get.theme.dividerColor,
+          strokeWidth: 1.5,
+          radius: 20.r,
         ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFF2EF),
-                  shape: BoxShape.circle,
+        child: Container(
+          width: double.infinity,
+          height: 220.h,
+          decoration: BoxDecoration(
+            color: Get.theme.brightness == Brightness.dark
+                ? const Color(0xFF1E1E1E)
+                : Colors.grey.shade50,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFFFF2EF),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: const Color(0xFFA12C05),
+                    size: 30.sp,
+                  ),
                 ),
-                child: Icon(
-                  Icons.add_a_photo_outlined,
-                  color: const Color(0xFFA12C05),
-                  size: 30.sp,
+                SizedBox(height: 16.h),
+                Text(
+                  "Upload Media",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.manrope(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Get.theme.textTheme.bodyLarge?.color,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                "Upload Media",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Get.theme.textTheme.bodyLarge?.color,
+                SizedBox(height: 8.h),
+                Text(
+                  "High-resolution assets make your restaurant stand\nout. Supports JPG,PNG,mp4 video",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.manrope(
+                    fontSize: 11.sp,
+                    color: Colors.grey.shade400,
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                  ),
                 ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                "High-resolution assets make your restaurant stand\nout. Supports JPG,PNG,mp4 video",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
-                  fontSize: 11.sp,
-                  color: Colors.grey.shade400,
-                  fontWeight: FontWeight.w500,
-                  height: 1.5,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -115,27 +136,30 @@ class UploadGalleryPage extends StatelessWidget {
   }
 
   Widget _buildUploadButton() {
-    return Container(
-      width: double.infinity,
-      height: 56.h,
-      decoration: BoxDecoration(
-        color: const Color(0xFF4C080C),
-        borderRadius: BorderRadius.circular(30.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Upload Now",
-            style: GoogleFonts.manrope(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+    return GestureDetector(
+      onTap: _pickImage,
+      child: Container(
+        width: double.infinity,
+        height: 56.h,
+        decoration: BoxDecoration(
+          color: const Color(0xFF4C080C),
+          borderRadius: BorderRadius.circular(30.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Upload Now",
+              style: GoogleFonts.manrope(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
             ),
-          ),
-          SizedBox(width: 12.w),
-          Icon(Icons.image_outlined, color: Colors.white, size: 20.sp),
-        ],
+            SizedBox(width: 12.w),
+            Icon(Icons.image_outlined, color: Colors.white, size: 20.sp),
+          ],
+        ),
       ),
     );
   }
@@ -177,15 +201,51 @@ class UploadGalleryPage extends StatelessWidget {
         mainAxisSpacing: 12.h,
         childAspectRatio: 1,
       ),
-      itemCount: 4,
+      itemCount: 4 + _selectedImages.length,
       itemBuilder: (context, index) {
+        if (index < _selectedImages.length) {
+          return Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15.r),
+                child: Image.file(
+                  _selectedImages[index],
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: 10.w,
+                right: 10.w,
+                child: GestureDetector(
+                  onTap: () => _showActionMenu(context),
+                  child: Container(
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      color: Get.theme.cardColor.withOpacity(0.8),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.more_vert,
+                      color: Get.theme.textTheme.bodyLarge?.color,
+                      size: 16.sp,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+
+        int mockIndex = index - _selectedImages.length;
         List<String> images = [
           ImagePath.popularDishes1,
           ImagePath.gallery1,
           ImagePath.popularDishes2,
           ImagePath.gallery2,
         ];
-        String image = images[index % images.length];
+        String image = images[mockIndex % images.length];
         return Stack(
           children: [
             ClipRRect(
@@ -380,4 +440,3 @@ class DashedRectPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-

@@ -173,17 +173,18 @@ class SettingsPage extends StatelessWidget {
                       children: [
                         _buildSettingsItem(
                           Icons.person_outline,
-                          "Update Personal Information",
-                          subtitle: "Manage your profile details",
+                          "Update Restaurant Information",
+                          subtitle: "Manage your restaurant details",
+                          onTap: () => Get.to(() => const AddAccountPage(isEditMode: true)),
                           context: context,
                         ),
                         // _buildDivider(),
-                        _buildSettingsItem(
-                          Icons.favorite_border,
-                          "Saved",
-                          subtitle: "Access your saved collections",
-                          context: context,
-                        ),
+                        // _buildSettingsItem(
+                        //   Icons.favorite_border,
+                        //   "Saved",
+                        //   subtitle: "Access your saved collections",
+                        //   context: context,
+                        // ),
                         //    _buildDivider(),
                         _buildSettingsItem(
                           Icons.email_outlined,
