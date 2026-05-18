@@ -10,7 +10,7 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           _buildHeader(context),
@@ -88,9 +88,9 @@ class NotificationPage extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,12 +108,12 @@ class NotificationPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
-              color: AppColors.reviewBgColor,
+              color: Get.theme.brightness == Brightness.dark ? const Color(0xFF4C080C) : AppColors.reviewBgColor,
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(
               Icons.rate_review_outlined,
-              color: Colors.red.shade800,
+              color: Get.theme.brightness == Brightness.dark ? Colors.red.shade300 : Colors.red.shade800,
               size: 20.sp,
             ),
           ),
@@ -130,7 +130,7 @@ class NotificationPage extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: Get.theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     Text(
