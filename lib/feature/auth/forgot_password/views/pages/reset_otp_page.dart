@@ -83,7 +83,7 @@ class ResetOtpPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.red.shade700,
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.red.shade400 : Colors.red.shade700,
                   ),
                 ),
               ),
@@ -129,7 +129,7 @@ class ResetOtpPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.primaryColor,
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.red.shade300 : AppColors.primaryColor,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
@@ -153,14 +153,10 @@ class ResetOtpPage extends StatelessWidget {
       width: 65.w,
       height: 65.w,
       decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white
-            : Colors.grey.shade50,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.grey.shade200
-              : Colors.grey.shade200,
+          color: Theme.of(context).dividerColor,
         ),
       ),
       child: TextField(
@@ -171,7 +167,7 @@ class ResetOtpPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 22.sp,
           fontWeight: FontWeight.w700,
-          color: AppColors.primaryColor,
+          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primaryColor,
         ),
         decoration: const InputDecoration(
           counterText: '',

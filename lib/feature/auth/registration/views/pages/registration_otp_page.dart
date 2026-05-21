@@ -15,7 +15,7 @@ class RegistrationOtpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
@@ -34,7 +34,7 @@ class RegistrationOtpPage extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black87,
+                      color: Get.theme.textTheme.bodyLarge?.color,
                     ),
                   ),
                 ],
@@ -47,7 +47,7 @@ class RegistrationOtpPage extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primaryColor,
+                  color: Get.theme.brightness == Brightness.dark ? Colors.white : AppColors.primaryColor,
                 ),
               ),
               SizedBox(height: 12.h),
@@ -77,7 +77,7 @@ class RegistrationOtpPage extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.red.shade700,
+                    color: Get.theme.brightness == Brightness.dark ? Colors.red.shade400 : Colors.red.shade700,
                   ),
                 ),
               ),
@@ -127,7 +127,7 @@ class RegistrationOtpPage extends StatelessWidget {
                         style: GoogleFonts.manrope(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.primaryColor,
+                          color: Get.theme.brightness == Brightness.dark ? Colors.red.shade300 : AppColors.primaryColor,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
@@ -151,9 +151,9 @@ class RegistrationOtpPage extends StatelessWidget {
       width: 65.w,
       height: 65.w,
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Get.theme.dividerColor),
       ),
       child: TextField(
         textAlign: TextAlign.center,
@@ -162,7 +162,7 @@ class RegistrationOtpPage extends StatelessWidget {
         style: GoogleFonts.manrope(
           fontSize: 22.sp,
           fontWeight: FontWeight.w700,
-          color: AppColors.primaryColor,
+          color: Get.theme.brightness == Brightness.dark ? Colors.white : AppColors.primaryColor,
         ),
         decoration: const InputDecoration(
           counterText: '',
