@@ -394,8 +394,9 @@ class _AllReviewsPageState extends State<AllReviewsPage> {
                             style: GoogleFonts.manrope(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.bold,
-                              color:
-                                  Theme.brightnessOf(context) == Brightness.dark
+                              // color:
+                              //     Theme.brightnessOf(context) == Brightness.dark
+                              color: Theme.of(context).brightness == Brightness.dark
                                   ? Colors.white
                                   : Colors.white,
                             ),

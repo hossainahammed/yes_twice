@@ -180,7 +180,8 @@ class FilterBottomSheet extends StatelessWidget {
                     child: Text(
                       'Apply Filters',
                       style: GoogleFonts.manrope(
-                        color: Theme.brightnessOf(context) == Brightness.dark
+                       // color: Theme.brightnessOf(context) == Brightness.dark
+                        color: Theme.of(context).brightness == Brightness.dark
                             ? Colors.white
                             : Colors.white,
                         fontWeight: FontWeight.bold,

@@ -90,8 +90,9 @@ class SavePage extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? Theme.brightnessOf(context) == Brightness.dark
-                            ? AppColors.primaryColor
+                     // ? Theme.brightnessOf(context) == Brightness.dark
+                      ?Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.primaryColor
                             : AppColors.primaryColor
                       : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(20.r),
@@ -105,7 +106,8 @@ class SavePage extends StatelessWidget {
                   controller.tabs[index],
                   style: GoogleFonts.manrope(
                     color: isSelected
-                        ? Theme.brightnessOf(context) == Brightness.dark
+                       // ? Theme.brightnessOf(context) == Brightness.dark
+                          ? Theme.of(context).brightness == Brightness.dark
                               ? Colors.white
                               : Colors.white
                         : Theme.of(context).textTheme.bodyMedium?.color,
