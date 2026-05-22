@@ -242,16 +242,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             ),
             SizedBox(height: 16.h),
             ElevatedButton(
-            //  onPressed: () => Get.to(() => const ReviewPage()),
-              onPressed: ()=>_showShareBottomSheet(context),
+              //  onPressed: () => Get.to(() => const ReviewPage()),
+              onPressed: () => _showShareBottomSheet(context),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 52.h),
                 elevation: 0,
 
-                side: BorderSide(
-                  color: AppColors.primaryColor,
-                  width: 1.5,
-                ),
+                side: BorderSide(color: AppColors.primaryColor, width: 1.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24.r),
                 ),
@@ -262,9 +259,12 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                   Text(
                     'Share Now!',
                     style: GoogleFonts.manrope(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primaryColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : AppColors.primaryColor,
+                      //color: Colors.white,
                       //decoration: TextDecoration.underline,
                       decorationColor: AppColors.primaryColor,
                       decorationThickness: 2,
@@ -386,7 +386,10 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       if (event['name']!.contains('Fried Rice')) {
                         Get.to(() => const DishDetailsPage());
                       } else {
-                        Get.to(() => const EventDetailsPage(), preventDuplicates: false);
+                        Get.to(
+                          () => const EventDetailsPage(),
+                          preventDuplicates: false,
+                        );
                       }
                     },
                     child: Container(
@@ -532,6 +535,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       ),
     );
   }
+
   void _showShareBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -613,12 +617,12 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   }
 
   Widget _buildShareOption(
-      BuildContext context, {
-        required String title,
-        required IconData icon,
-        Color? backgroundColor,
-        bool isGradient = false,
-      }) {
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    Color? backgroundColor,
+    bool isGradient = false,
+  }) {
     return Column(
       children: [
         Container(
@@ -628,15 +632,15 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             color: isGradient ? null : backgroundColor,
             gradient: isGradient
                 ? const LinearGradient(
-              colors: [
-                Color(0xFF833AB4),
-                Color(0xFFFD1D1D),
-                Color(0xFFF56040),
-                Color(0xFFFFDC80),
-              ],
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-            )
+                    colors: [
+                      Color(0xFF833AB4),
+                      Color(0xFFFD1D1D),
+                      Color(0xFFF56040),
+                      Color(0xFFFFDC80),
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  )
                 : null,
             borderRadius: BorderRadius.circular(16.r),
           ),

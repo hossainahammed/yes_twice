@@ -61,6 +61,15 @@ class ContactUsPage extends StatelessWidget {
                 icon: Icons.email_outlined,
               ),
               SizedBox(height: 20.h),
+              // --- Added Title Section ---
+              _buildContactField(
+                context,
+                label: 'Subject / Title',
+                hint: 'Type the subject of your message',
+                icon: Icons.title_rounded,
+              ),
+              SizedBox(height: 20.h),
+              // ---------------------------
               _buildMessageBox(context),
               SizedBox(height: 48.h),
               _buildSendButton(context),
@@ -91,7 +100,10 @@ class ContactUsPage extends StatelessWidget {
         ),
         SizedBox(height: 10.h),
         TextField(
-          style: GoogleFonts.manrope(fontSize: 14.sp, color: context.theme.textTheme.bodyLarge?.color),
+          style: GoogleFonts.manrope(
+            fontSize: 14.sp,
+            color: context.theme.textTheme.bodyLarge?.color,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.manrope(color: Colors.grey, fontSize: 14.sp),
@@ -132,7 +144,10 @@ class ContactUsPage extends StatelessWidget {
         SizedBox(height: 10.h),
         TextField(
           maxLines: 5,
-          style: GoogleFonts.manrope(fontSize: 14.sp, color: context.theme.textTheme.bodyLarge?.color),
+          style: GoogleFonts.manrope(
+            fontSize: 14.sp,
+            color: context.theme.textTheme.bodyLarge?.color,
+          ),
           decoration: InputDecoration(
             hintText: 'Type your message here...',
             hintStyle: GoogleFonts.manrope(color: Colors.grey, fontSize: 14.sp),
