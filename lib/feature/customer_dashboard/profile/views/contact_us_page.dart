@@ -69,15 +69,6 @@ class ContactUsPage extends StatelessWidget {
                 icon: Icons.title_rounded,
               ),
               SizedBox(height: 20.h),
-
-              // --- Added Title Section ---
-              _buildContactField(
-                context,
-                label: 'Subject / Title',
-                hint: 'Type the subject of your message',
-                icon: Icons.title_rounded,
-              ),
-              SizedBox(height: 20.h),
               // ---------------------------
               _buildMessageBox(context),
               SizedBox(height: 48.h),
