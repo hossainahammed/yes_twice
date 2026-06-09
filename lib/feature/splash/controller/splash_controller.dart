@@ -23,19 +23,19 @@ class SplashController extends GetxController {
       debugPrint('Token: $token');
 
       if (!onboardingDone) {
-        /// First launch → onboarding
+
         Get.offAll(() => OnboardingScreen());
       } else if (token == null || token.isEmpty) {
-        /// Not logged in → Dashboard as guest
+
         Get.offAll(() => const CustomerDashboard());
       } else {
-        /// Logged in → dashboard
+
         Get.offAll(() => const CustomerDashboard());
       }
     } catch (e) {
       debugPrint('Error in splash logic: $e');
 
-      /// Fallback navigation
+
       Get.offAll(() => const CustomerDashboard());
     }
   }

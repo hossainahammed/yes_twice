@@ -31,7 +31,7 @@ class ExplorePage extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Background Image
+
         Image.asset(
           item.imagePath,
           fit: BoxFit.cover,
@@ -39,7 +39,7 @@ class ExplorePage extends StatelessWidget {
               Container(color: Colors.grey[800]),
         ),
         
-        // Gradient overlay for better text readability at bottom and top
+
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -56,12 +56,12 @@ class ExplorePage extends StatelessWidget {
           ),
         ),
 
-        // Safar Area for top content
+
         SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Top Title
+
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
@@ -74,20 +74,20 @@ class ExplorePage extends StatelessWidget {
                 ),
               ),
 
-              // Middle Play Button
+
               const Icon(
                 Icons.play_arrow_rounded,
                 color: Colors.white,
                 size: 80,
               ),
 
-              // Bottom Content Area
+
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 0, 16, screenHeight * 0.04), // Adjust padding for nav bar
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    // Left Details (Title & Chip Row)
+
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +101,7 @@ class ExplorePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          // Chips Row
+
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -138,7 +138,7 @@ class ExplorePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    // Right actions (Likes, Share)
+
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -147,15 +147,15 @@ class ExplorePage extends StatelessWidget {
                           label: 'Likes',
                           onTap: () {
                             if (AuthService.to.checkAuthAndPrompt()) {
-                              // Logic to like
+
                             }
                           },
                         ),
                         const SizedBox(height: 20),
                         _buildActionIcon(
-                          icon: Icons.reply, // Closest material icon for Share looking like the image
+                          icon: Icons.reply,
                           label: 'Share',
-                          isMirrored: true, // Flip to point right
+                          isMirrored: true,
                           onTap: () => _showShareBottomSheet(context),
                         ),
                       ],

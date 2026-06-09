@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class TaskController extends GetxController {
-  var selectedDuration = 1.obs; // 0: 30m, 1: 1h, 2: 2h
+  var selectedDuration = 1.obs;
   var isHighPriority = false.obs;
   var isToday = false.obs;
 

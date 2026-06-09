@@ -25,7 +25,7 @@ class AuthService extends GetxService {
       _isGuest.value = false;
     } else {
       _isLoggedIn.value = false;
-      // Note: we don't set _isGuest to true here because we might not be in guest mode yet
+
     }
   }
 

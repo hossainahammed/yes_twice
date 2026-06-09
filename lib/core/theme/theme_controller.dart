@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 class ThemeController extends GetxController {
   static ThemeController get instance => Get.find();
 
-  // Observable property to check if dark mode is active
+
   RxBool isDarkMode = Get.isDarkMode.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // Initialize based on current system theme if not already set
+
     isDarkMode.value = Get.isDarkMode;
   }
 

@@ -19,7 +19,7 @@ class SavedItem {
 }
 
 class SaveController extends GetxController {
-  var selectedTabIndex = 1.obs; // Default to Food tab as per the user instruction
+  var selectedTabIndex = 1.obs;
 
   final List<String> tabs = ['Restaurant', 'Food', 'Event'];
 

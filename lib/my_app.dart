@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         builder: (context, child) {
-          // Initialize EasyLoading
+
           child = EasyLoading.init()(context, child);
-          // Override system text scaling globally
+
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
             child: child,
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         },
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system, // Will track system state on startup
+        themeMode: ThemeMode.system,
         home: const SplashScreen(),
       ),
     );

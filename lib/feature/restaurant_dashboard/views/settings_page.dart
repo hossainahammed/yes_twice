@@ -314,7 +314,7 @@ class SettingsPage extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () =>
-                        Get.offAll(() => const LoginPage()), // Do logout
+                        Get.offAll(() => const LoginPage()),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Get.theme.brightness == Brightness.dark ? Colors.red.shade800 : AppColors.primaryColor,
                       shape: RoundedRectangleBorder(

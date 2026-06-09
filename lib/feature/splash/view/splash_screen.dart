@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 3),
     );
 
-    // 1. Slide up from bottom (0% - 25%)
+
     _slideUpAnimation = Tween<double>(begin: 800.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _controller,
@@ -50,8 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    // 2. Blossoming: Fast Rotate 45 deg Right & Growing together (25% - 50%)
-    // Exactly the same interval for both to happen simultaneously
+
     const blossomingInterval = Interval(0.25, 0.5, curve: Curves.easeOutBack);
 
     _rotationAnimation = Tween<double>(
@@ -64,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
       end: 180.0,
     ).animate(CurvedAnimation(parent: _controller, curve: blossomingInterval));
 
-    // 3. Shrink into tiny dot (50% - 70%)
+
     _dotSizeAnimation = Tween<double>(begin: 1.0, end: 0.08).animate(
       CurvedAnimation(
         parent: _controller,
@@ -72,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    // 4. Dot Move & Logo Fade in (70% - 95%)
+
     _dotMoveAnimation =
         Tween<Offset>(begin: Offset.zero, end: const Offset(98, -1)).animate(
           CurvedAnimation(
@@ -111,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen>
               alignment: Alignment.center,
               children: [
                 if (value < 0.7) ...[
-                  // Animating Maroon Shape/Center Dot
+
                   Transform.translate(
                     offset: Offset(0, _slideUpAnimation.value),
                     child: Opacity(
@@ -143,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ],
                 if (value >= 0.7) ...[
-                  // Branding Text
+
                   Opacity(
                     opacity: _logoOpacityAnimation.value,
                     child: Column(
@@ -171,7 +170,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ],
                     ),
                   ),
-                  // Moving Red Dot
+
                   Transform.translate(
                     offset: _dotMoveAnimation.value,
                     child: Container(

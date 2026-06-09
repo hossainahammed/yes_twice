@@ -88,7 +88,7 @@ class ResetPasswordPage extends StatelessWidget {
 
               SizedBox(
                 height: 120.h,
-              ), // Spacing to match screenshot button position
+              ),
               /// Reset Password Button
               ElevatedButton(
                 onPressed: () => SuccessDialog.show(

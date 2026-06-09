@@ -296,12 +296,12 @@ class _ReviewPageState extends State<ReviewPage> {
         children: [
           Row(
             crossAxisAlignment:
-                CrossAxisAlignment.start, // Aligns icon to the top-left
+                CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.only(
                   top: 12.h,
-                ), // Adjust this to align with the first line of text
+                ),
                 child: Icon(
                   Icons.edit_note,
                   color: Colors.grey[400],
@@ -322,7 +322,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           : Colors.grey[400],
                     ),
                     border: InputBorder.none,
-                    // ContentPadding helps align the text with the icon
+
                     contentPadding: EdgeInsets.symmetric(vertical: 10.h),
                   ),
                   style: GoogleFonts.manrope(

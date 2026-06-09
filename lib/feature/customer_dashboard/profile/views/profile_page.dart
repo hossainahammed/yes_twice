@@ -29,7 +29,7 @@ class ProfilePage extends StatelessWidget {
     final cardBg = Theme.of(context).cardColor;
     final borderColor = isDark ? Colors.grey.shade800 : Colors.grey.shade200;
 
-    // Ensure ThemeController is available
+
     final themeController = Get.put(ThemeController());
 
     return Scaffold(
@@ -156,7 +156,7 @@ class ProfilePage extends StatelessWidget {
               Text('General', style: _sectionHeadingStyle(textColor)),
               SizedBox(height: 12.h),
 
-              // ── Dark Mode Toggle ──
+
               _buildDarkModeToggle(context, themeController),
 
               _buildMenuItem(
@@ -212,7 +212,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  /// Dark / Light mode toggle row
+
   Widget _buildDarkModeToggle(
     BuildContext context,
     ThemeController themeController,

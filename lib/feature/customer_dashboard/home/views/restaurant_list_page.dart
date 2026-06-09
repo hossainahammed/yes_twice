@@ -172,7 +172,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                           color:
                               Theme.of(context).brightness ==
                                   Brightness
-                                      .dark // Now context is defined
+                                      .dark
                               ? Colors.white
                               : AppColors.primaryColor,
                         ),
@@ -182,7 +182,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                         color:
                             Theme.of(context).brightness ==
                                 Brightness
-                                    .dark // Now context is defined
+                                    .dark
                             ? Colors.white
                             : AppColors.primaryColor,
                         size: 16.sp,

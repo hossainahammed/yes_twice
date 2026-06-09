@@ -87,8 +87,7 @@ class BottomNavBar extends StatelessWidget {
     bool isSelected = selectedIndex == index;
     final activeColor = AppColors.primaryColor;
 
-    // For icons like "more" whose selected asset is already fully colored,
-    // we skip the color tint so the original image renders correctly.
+
     final Color? iconColor = (isSelected && skipSelectedTint)
         ? null
         : isSelected

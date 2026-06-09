@@ -7,7 +7,7 @@ import 'core/constant/app_colors.dart';
 import 'my_app.dart';
 
 void main() {
-  /// Register services globally so they can be found anywhere
+
   configEasyLoading();
   Get.put(AuthService());
 

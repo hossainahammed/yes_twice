@@ -4,18 +4,17 @@ class RestaurantDashboardController extends GetxController {
   var selectedTab = 0.obs; // 0: Dishes, 1: Event, 2: Gallery
   var currentNavIndex = 0.obs;
 
-  // States for the action menu
+
   var isActive = true.obs;
   var isHide = false.obs;
 
-  // Mock data for restaurants and events
+
   var restaurants = <Map<String, dynamic>>[].obs;
   var events = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    // Default: Populate with mock data so the list is visible
     loadMockData();
   }
 
