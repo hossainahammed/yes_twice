@@ -148,7 +148,7 @@ class OnboardingPage3 extends StatelessWidget {
 
           /// ─── Title ──────────────────────────────────────────────
           Text(
-            'Watch Short\nReels',
+            'Earn rewards for \n your reviews',
             textAlign: TextAlign.center,
             style: GoogleFonts.robotoSerif(
               fontSize: width * 0.08,
@@ -162,7 +162,7 @@ class OnboardingPage3 extends StatelessWidget {
 
           /// ─── Description ─────────────────────────────────────────
           Text(
-            'Experience restaurants through short\nvideos. Get a real feel of the vibe\nand dishes before you visit.',
+            'Sharing your thoughts pays off!\n Leave reviews and unlock \n exclusive perks and rewards.',
             textAlign: TextAlign.center,
             style: GoogleFonts.manrope(
               fontSize: width * 0.035,
@@ -203,6 +203,9 @@ class OnboardingPage3 extends StatelessWidget {
                 fontSize: width * 0.035,
                 fontWeight: FontWeight.w600,
                 color: AppColors.primaryColor.withOpacity(0.6),
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.primaryColor.withOpacity(0.6),
+
               ),
             ),
           ),

@@ -203,6 +203,8 @@ class OnboardingPage2 extends StatelessWidget {
                 fontSize: width * 0.035,
                 fontWeight: FontWeight.w600,
                 color: AppColors.primaryColor.withOpacity(0.6),
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.primaryColor.withOpacity(0.6),
               ),
             ),
           ),
