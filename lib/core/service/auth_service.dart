@@ -29,6 +29,12 @@ class AuthService extends GetxService {
     }
   }
 
+  /// Call this after a successful login to mark the user as authenticated.
+  void setLoggedIn() {
+    _isLoggedIn.value = true;
+    _isGuest.value = false;
+  }
+
   void setGuestMode(bool value) {
     _isGuest.value = value;
     if (value) {

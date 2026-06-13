@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/widgets/custom_auth_widgets.dart';
+import '../../../../core/service/auth_service.dart';
 import '../../../customer_dashboard/dashboard/dashboard.dart';
 import '../../forgot_password/views/forgot_password_page.dart';
 import '../../registration/views/registration_page.dart';
@@ -134,6 +135,8 @@ class _LoginPageState extends State<LoginPage> {
                 height: 52.h,
                 child: ElevatedButton(
                   onPressed: () {
+                    // ✅ Mark user as logged in so checkAuthAndPrompt() works correctly
+                    AuthService.to.setLoggedIn();
                     if (_selectedTab == 0) {
                       Get.offAll(() => const CustomerDashboard());
                     } else {
