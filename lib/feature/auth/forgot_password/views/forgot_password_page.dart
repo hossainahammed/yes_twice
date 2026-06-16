@@ -59,20 +59,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   /// Pulse logo icon
                   Center(
                     child: Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1E1012),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          // color: const Color(0xFF1E1012),
+                          //color: const Color(0xFF101828).withValues(alpha: 0.55),
+                          color: AppColors.shade1,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            // color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                            color: Colors.white.withValues(alpha: 0.08),
+                          ),
                         ),
-                      ),
-                      child: const Icon(
-                        Icons.monitor_heart,
-                        color: Color(0xFFFF7F7F),
-                        size: 24,
-                      ),
+                        child:
+                        Image.asset('assets/icons/login_heart.png')
+                      // const Icon(
+                      //  // Icons.monitor_heart,
+                      //   color: Color(0xFFFF7F7F),
+                      //   size: 24,
+                      // ),
                     ),
                   ),
 

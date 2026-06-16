@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
 import '../controller/profile_controller.dart';
 import 'settings_privacy_screen.dart';
 
@@ -118,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: const Color(0xFFFF7F7F),
+                            color: AppColors.whiteColor,
                           ),
                         ),
                       ],
@@ -131,8 +132,14 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _buildStatCard(
-                            icon: Icons.bolt,
-                            iconColor: const Color(0xFF4CB5FF),
+                            icon: Image.asset(
+                              'assets/icons/training_pulse.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            //  icon: Icons.bolt,
+                            //
+                            // iconColor: const Color(0xFF4CB5FF),
                             value: '${controller.trainingCount.value}',
                             label: 'Training',
                           ),
@@ -140,8 +147,12 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _buildStatCard(
-                            icon: Icons.favorite,
-                            iconColor: const Color(0xFFFF4C4C),
+                            // icon: Icons.favorite,
+                            // iconColor: const Color(0xFFFF4C4C),
+                            icon: Image.asset('assets/icons/check-Ins.png',
+                              width: 24,
+                              height: 24,
+                            ),
                             value: '${controller.checkinsCount.value}',
                             label: 'Check-ins',
                           ),
@@ -149,8 +160,12 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _buildStatCard(
-                            icon: Icons.show_chart,
-                            iconColor: const Color(0xFFB54CFF),
+                            icon: Image.asset('assets/icons/event_icon.png',
+                            width: 24,
+                            height: 24,
+                            ),
+                            // icon: Icons.show_chart,
+                            // iconColor: const Color(0xFFB54CFF),
                             value: '${controller.eventsCount.value}',
                             label: 'Events',
                           ),
@@ -246,7 +261,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'Data Management',
@@ -262,7 +277,8 @@ class ProfileScreen extends StatelessWidget {
                         child: Container(
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.35),
+                           // color: Colors.black.withValues(alpha: 0.35),
+                            color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
                               color: const Color(0xFFFF4C4C).withValues(alpha: 0.25),
@@ -273,14 +289,16 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               const Icon(
                                 Icons.delete_outline,
-                                color: Color(0xFFFF4C4C),
+                               // color: Color(0xFFFF4C4C),
+                                color:AppColors.whiteColor,
                                 size: 20,
                               ),
                               const SizedBox(width: 8),
                               Text(
                                 'Clear All Data',
                                 style: GoogleFonts.poppins(
-                                  color: const Color(0xFFFF4C4C),
+                                 // color: const Color(0xFFFF4C4C),
+                                  color:AppColors.whiteColor,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -301,7 +319,7 @@ class ProfileScreen extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFFFF4C4C)),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     minimumSize: const Size(double.infinity, 50),
                   ),
@@ -333,8 +351,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildStatCard({
-    required IconData icon,
-    required Color iconColor,
+   // required IconData icon,
+   // required Color iconColor,
+    required Widget icon,
     required String value,
     required String label,
   }) {
@@ -349,7 +368,8 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, color: iconColor, size: 24),
+          //Icon(icon, color: iconColor, size: 24),
+          icon,
           const SizedBox(height: 8),
           Text(
             value,

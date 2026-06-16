@@ -12,10 +12,10 @@ class ImagePath {
   static const String onboardingImg02 = "assets/images/onboarding02.png";
   static const String successLogo = "assets/icons/success_logo.png";
   static const String profileEdit = "assets/icons/profileEdit.png";
-  static const String google = "assets/icons/Google.png";
+  static const String google = "assets/icons/google_Icon.png";
 
-  // static const String defaultImage = "https://via.placeholder.com/150?text=No+Image";
-  //
+
+
   static const String logoutIcon = "assets/icons/logout.png";
 
   //Dashboard

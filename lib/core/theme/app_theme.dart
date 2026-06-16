@@ -25,7 +25,10 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
         foregroundColor: Colors.white,
-        elevation: 0,
+
+        elevation: 8, // shadow depth
+        shadowColor: AppColors.shadow.withOpacity(0.5),
+        //FF7F7F
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
