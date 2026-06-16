@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../onboarding/view/onboarding_screen.dart';
 import '../../../feature/auth/login/views/login_page.dart';
+import '../view/splash_slides_screen.dart';
 
 class SplashController extends GetxController {
   static SplashController get instance => Get.find();
@@ -17,13 +18,19 @@ class SplashController extends GetxController {
     try {
       await Future.delayed(const Duration(seconds: 3));
 
+      final splashSlidesDone =
+          await SharedPreferencesHelper.isSplashSlidesCompleted();
       final onboardingDone =
           await SharedPreferencesHelper.isOnboardingCompleted();
       final token = await SharedPreferencesHelper.getToken();
+      
+      debugPrint('Splash Slides Completed: $splashSlidesDone');
       debugPrint('Onboarding Completed: $onboardingDone');
       debugPrint('Token: $token');
 
-      if (!onboardingDone) {
+      if (!splashSlidesDone) {
+        Get.offAll(() => SplashSlidesScreen());
+      } else if (!onboardingDone) {
         Get.offAll(() => OnboardingScreen());
       } else if (token == null || token.isEmpty) {
         // No token — user is a guest

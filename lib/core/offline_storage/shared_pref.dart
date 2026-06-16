@@ -6,6 +6,7 @@ class SharedPreferencesHelper {
   static const String _tokenKey = 'accessToken';
   static const String _onboardingKey = 'onboardingCompleted';
   static const String _roleKey = 'user_role';
+  static const String _splashSlidesKey = 'splashSlidesCompleted';
 
   static const _rememberMeKey = 'remember_me';
   static const _emailKey = 'remembered_email';
@@ -27,6 +28,18 @@ class SharedPreferencesHelper {
   static Future<void> clearToken() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
+  }
+
+  /// Save Splash Slides Completion
+  static Future<void> setSplashSlidesCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_splashSlidesKey, true);
+  }
+
+  /// Check Splash Slides Status
+  static Future<bool> isSplashSlidesCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_splashSlidesKey) ?? false;
   }
 
   /// Save Onboarding Completion
