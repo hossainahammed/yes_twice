@@ -21,6 +21,20 @@ class AppTheme {
     iconTheme: const IconThemeData(color: AppColors.primaryColor),
     cardColor: Colors.white,
     dividerColor: Colors.grey.shade200,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        textStyle: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
   );
 
   ///Colors Used in Dark Mode:
@@ -51,5 +65,19 @@ class AppTheme {
     iconTheme: const IconThemeData(color: Colors.white),
     cardColor: AppColors.darkSurfaceColor,
     dividerColor: Colors.grey.shade800,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        textStyle: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
   );
 }

@@ -1,6 +1,7 @@
-import 'package:bolaji277/feature/auth/login/views/login_page.dart';
+import 'package:yes_twice/feature/auth/login/views/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
 import '../offline_storage/shared_pref.dart';
 
 class AuthService extends GetxService {
@@ -59,7 +60,7 @@ class AuthService extends GetxService {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.lock_outline, size: 50, color: Color(0xFF4C080C)),
+              const Icon(Icons.lock_outline, size: 50, color: AppColors.primaryColor),
               const SizedBox(height: 20),
               const Text(
                 'Login Required',
@@ -91,7 +92,7 @@ class AuthService extends GetxService {
                         Get.offAll(() => const LoginPage());
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4C080C),
+                        backgroundColor: AppColors.primaryColor,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                       child: const Text('Login', style: TextStyle(color: Colors.white)),

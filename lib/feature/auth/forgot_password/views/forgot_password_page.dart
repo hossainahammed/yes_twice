@@ -1,94 +1,244 @@
-import 'package:bolaji277/core/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/widgets/custom_auth_widgets.dart';
-import '../controllers/forgot_password_controller.dart';
-import 'pages/reset_otp_page.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
+import 'package:yes_twice/feature/auth/forgot_password/views/pages/reset_otp_page.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  ForgotPasswordPage({super.key});
-  ThemeController themeController = Get.put(ThemeController());
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
-  final ForgotPasswordController controller = Get.put(
-    ForgotPasswordController(),
-  );
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = theme.brightness == Brightness.dark;
-    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
-    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CustomBackButton(),
-              SizedBox(height: 30.h),
-
-              /// Header Title
-              Text(
-                'Forgot Password?',
-                style: GoogleFonts.manrope(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w800,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : AppColors.primaryColor,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'Dont\'t worry, happens.',
-                style: GoogleFonts.manrope(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey.shade500,
-                ),
-              ),
-              SizedBox(height: 48.h),
-
-              /// Form Field
-              CustomAuthField(
-                label: 'Email',
-                hint: 'Enter your email',
-                prefixIcon: Icons.email_outlined,
-                controller: controller.emailController,
-              ),
-
-              SizedBox(height: 48.h),
-
-              /// Send Code Button
-              ElevatedButton(
-                onPressed: () => Get.to(() => ResetOtpPage()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'Send Code',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+      backgroundColor: Colors.black,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.7, -0.7),
+            radius: 1.2,
+            colors: [
+              Color(0xFF2B1416),
+              Color(0xFF080808),
             ],
           ),
         ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 10),
+
+                  /// Back to Login Button
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: _buildBackButton(),
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  /// Pulse logo icon
+                  Center(
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1012),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.monitor_heart,
+                        color: Color(0xFFFF7F7F),
+                        size: 24,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  /// Heading & Subtitle
+                  Text(
+                    'Forgot Password?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lora(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "No worries, we'll send you reset instructions",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFB3B5BA),
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  /// Form Card
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF101828).withValues(alpha: 0.55),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.08),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        /// Email Input
+                        _buildInputField(
+                          label: 'Email Address',
+                          hint: 'you@example.com',
+                          prefixIcon: Icons.email_outlined,
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 8),
+
+                        /// Helper text
+                        Text(
+                          "We'll send a verification code to this email",
+                          style: GoogleFonts.poppins(
+                            fontSize: 11,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        /// Send Reset Code Button
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Get.to(() => const ResetOtpPage());
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 48),
+                          ),
+                          child: const Text('Send Reset Code'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _buildBackButton() {
+    return GestureDetector(
+      onTap: () => Get.back(),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.arrow_back, color: Colors.white, size: 16),
+            const SizedBox(width: 8),
+            Text(
+              'Back to Login',
+              style: GoogleFonts.poppins(
+                color: Colors.white.withValues(alpha: 0.85),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required String label,
+    required String hint,
+    required IconData prefixIcon,
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFFB3B5BA),
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return 'This field is required';
+            }
+            return null;
+          },
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: GoogleFonts.poppins(
+              color: Colors.grey.shade600,
+              fontSize: 14,
+            ),
+            prefixIcon: Icon(prefixIcon, color: Colors.grey.shade400, size: 20),
+            filled: true,
+            fillColor: Colors.black.withValues(alpha: 0.35),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+            ),
+            errorStyle: GoogleFonts.poppins(fontSize: 11),
+          ),
+        ),
+      ],
     );
   }
 }

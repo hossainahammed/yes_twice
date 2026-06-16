@@ -3,6 +3,8 @@ class ImagePath {
 
   static const String splash01 = "assets/icons/splash01.png";
   static const String splash02 = "assets/icons/splash02.png";
+  static const String splashScreen1 = "assets/images/Splash Screen 1.png";
+  static const String splashScreen2 = "assets/images/Splash Screen 2.png";
   static const String rating = "assets/icons/rating.png";
 
   ///=================Onboarding Images======================

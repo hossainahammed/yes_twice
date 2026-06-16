@@ -1,9 +1,8 @@
-import 'package:bolaji277/core/offline_storage/shared_pref.dart';
-import 'package:bolaji277/core/service/auth_service.dart';
-import 'package:bolaji277/feature/customer_dashboard/dashboard/dashboard.dart';
+import 'package:yes_twice/core/offline_storage/shared_pref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../onboarding/view/onboarding_screen.dart';
+import '../../../feature/auth/login/views/login_page.dart';
 
 class SplashController extends GetxController {
   static SplashController get instance => Get.find();
@@ -28,17 +27,14 @@ class SplashController extends GetxController {
         Get.offAll(() => OnboardingScreen());
       } else if (token == null || token.isEmpty) {
         // No token — user is a guest
-        AuthService.to.setGuestMode(true); // ✅
-        Get.offAll(() => const CustomerDashboard());
+        Get.offAll(() => const LoginPage());
       } else {
         // Token present — user is logged in
-        AuthService.to.setLoggedIn(); // ✅
-        Get.offAll(() => const CustomerDashboard());
+        Get.offAll(() => const LoginPage());
       }
     } catch (e) {
       debugPrint('Error in splash logic: $e');
-      AuthService.to.setGuestMode(true); // ✅ safe fallback
-      Get.offAll(() => const CustomerDashboard());
+      Get.offAll(() => const LoginPage());
     }
   }
 }

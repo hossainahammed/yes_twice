@@ -1,8 +1,7 @@
-import 'package:bolaji277/feature/customer_dashboard/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:bolaji277/core/offline_storage/shared_pref.dart';
-import 'package:bolaji277/core/service/auth_service.dart';
+import 'package:yes_twice/core/offline_storage/shared_pref.dart';
+import '../../../feature/auth/login/views/login_page.dart';
 
 class OnboardingController extends GetxController {
   final PageController pageController = PageController();
@@ -22,15 +21,15 @@ class OnboardingController extends GetxController {
       );
     } else {
       await SharedPreferencesHelper.setOnboardingCompleted();
-      AuthService.to.setGuestMode(true); // ✅ enter as guest
-      Get.offAll(() => const CustomerDashboard()); 
+
+      Get.offAll(() => const LoginPage());
     }
   }
 
   void skip() async {
     await SharedPreferencesHelper.setOnboardingCompleted();
-    AuthService.to.setGuestMode(true); // ✅ enter as guest
-    Get.offAll(() => const CustomerDashboard());
+
+    Get.offAll(() => const LoginPage());
   }
 
   @override

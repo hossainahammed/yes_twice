@@ -1,178 +1,220 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../../core/constant/app_colors.dart';
-import '../../../../../core/constant/widgets/custom_auth_widgets.dart';
-import '../../controllers/reset_otp_controller.dart';
-import 'reset_password_page.dart';
+import 'package:yes_twice/feature/auth/forgot_password/views/pages/reset_password_page.dart';
 
-class ResetOtpPage extends StatelessWidget {
-  ResetOtpPage({super.key});
-  final ResetOtpController controller = Get.put(ResetOtpController());
+class ResetOtpPage extends StatefulWidget {
+  const ResetOtpPage({super.key});
+
+  @override
+  State<ResetOtpPage> createState() => _ResetOtpPageState();
+}
+
+class _ResetOtpPageState extends State<ResetOtpPage> {
+  final List<TextEditingController> _controllers =
+      List.generate(5, (_) => TextEditingController());
+  final List<FocusNode> _focusNodes = List.generate(5, (_) => FocusNode());
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = theme.brightness == Brightness.dark;
-    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
-    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: CustomBackButton(),
-                  ),
-                  Text(
-                    'OTP',
-                    style: GoogleFonts.manrope(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w700,
-                      color: textColor,
+      backgroundColor: Colors.black,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.7, -0.7),
+            radius: 1.2,
+            colors: [
+              Color(0xFF2B1416),
+              Color(0xFF080808),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 10),
+
+                /// Back to Login Button
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: _buildBackButton(),
+                ),
+
+                const SizedBox(height: 40),
+
+                /// Pulse logo icon
+                Center(
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E1012),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.monitor_heart,
+                      color: Color(0xFFFF7F7F),
+                      size: 24,
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 48.h),
-
-              /// Header
-              Text(
-                'OTP Verification',
-                style: GoogleFonts.manrope(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w800,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : AppColors.primaryColor,
                 ),
-              ),
-              SizedBox(height: 12.h),
-              Text(
-                'Please enter the 4-digit code sent to your email address below.',
-                style: GoogleFonts.manrope(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey.shade500,
-                  height: 1.5,
-                ),
-              ),
-              SizedBox(height: 48.h),
 
-              /// OTP Boxes
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(4, (index) => _buildOtpBox(context)),
-              ),
+                const SizedBox(height: 24),
 
-              SizedBox(height: 24.h),
-
-              /// Timer
-              Center(
-                child: Text(
-                  'Resend code in 0:11',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).brightness == Brightness.dark ? Colors.red.shade400 : Colors.red.shade700,
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 48.h),
-
-              /// Verify Button
-              ElevatedButton(
-                onPressed: () => Get.to(() => ResetPasswordPage()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'Verify',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
+                /// Heading & Subtitle
+                Text(
+                  'OTP Verification',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lora(
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-              ),
+                const SizedBox(height: 8),
+                Text(
+                  'Please type the verification code',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFFB3B5BA),
+                  ),
+                ),
 
-              SizedBox(height: 32.h),
+                const SizedBox(height: 32),
 
-              /// Resend Footer
-              Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: "Didn’t receive Code? ",
-                    style: GoogleFonts.manrope(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade600,
+                /// Form Card
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF101828).withValues(alpha: 0.55),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.08),
                     ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      TextSpan(
-                        text: "Resend",
-                        style: GoogleFonts.manrope(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w800,
-                          color: Theme.of(context).brightness == Brightness.dark ? Colors.red.shade300 : AppColors.primaryColor,
+                      /// OTP boxes row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(5, (index) => _buildOtpField(index)),
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      /// Verify Button
+                      ElevatedButton(
+                        onPressed: () {
+                          // Join fields and check validation
+                          final otp = _controllers.map((c) => c.text).join();
+                          if (otp.length == 5) {
+                            Get.to(() => const ResetPasswordPage());
+                          } else {
+                            Get.snackbar(
+                              'Invalid OTP',
+                              'Please enter the 5-digit code',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red.withValues(alpha: 0.8),
+                              colorText: Colors.white,
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 48),
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            // Handle Resend
-                          },
+                        child: const Text('Verify'),
                       ),
                     ],
                   ),
                 ),
-              ),
-              SizedBox(height: 20.h),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildOtpBox(BuildContext context) {
+  Widget _buildBackButton() {
+    return GestureDetector(
+      onTap: () => Get.until((route) => route.isFirst),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.arrow_back, color: Colors.white, size: 16),
+            const SizedBox(width: 8),
+            Text(
+              'Back to Login',
+              style: GoogleFonts.poppins(
+                color: Colors.white.withValues(alpha: 0.85),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOtpField(int index) {
     return Container(
-      width: 65.w,
-      height: 65.w,
+      width: 48,
+      height: 48,
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(12.r),
+        color: Colors.black.withValues(alpha: 0.35),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Theme.of(context).dividerColor,
+          color: Colors.white.withValues(alpha: 0.08),
         ),
       ),
       child: TextField(
+        controller: _controllers[index],
+        focusNode: _focusNodes[index],
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.next,
         maxLength: 1,
-        style: GoogleFonts.manrope(
-          fontSize: 22.sp,
-          fontWeight: FontWeight.w700,
-          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primaryColor,
+        style: GoogleFonts.poppins(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
         decoration: const InputDecoration(
           counterText: '',
           border: InputBorder.none,
         ),
+        onChanged: (value) {
+          if (value.isNotEmpty && index < 4) {
+            _focusNodes[index + 1].requestFocus();
+          } else if (value.isEmpty && index > 0) {
+            _focusNodes[index - 1].requestFocus();
+          }
+        },
       ),
     );
   }

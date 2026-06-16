@@ -1,4 +1,4 @@
-import 'package:bolaji277/core/constant/widgets/primary_button.dart';
+import 'package:yes_twice/core/constant/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

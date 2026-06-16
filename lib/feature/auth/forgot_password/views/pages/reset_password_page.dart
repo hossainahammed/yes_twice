@@ -1,125 +1,292 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../../core/constant/app_colors.dart';
-import '../../../../../core/constant/widgets/custom_auth_widgets.dart';
-import '../../../../../core/constant/widgets/success_dialog.dart';
-import '../../../login/views/login_page.dart';
-import '../../controllers/reset_password_controller.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
+import 'package:yes_twice/feature/auth/login/views/login_page.dart';
 
-class ResetPasswordPage extends StatelessWidget {
-  ResetPasswordPage({super.key});
-  final ResetPasswordController controller = Get.put(ResetPasswordController());
+class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({super.key});
+
+  @override
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+}
+
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = theme.brightness == Brightness.dark;
-    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
-    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CustomBackButton(),
-              SizedBox(height: 30.h),
-
-              /// Header Title
-              Text(
-                'Enter New Password',
-                style: GoogleFonts.manrope(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w800,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : AppColors.primaryColor,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'Your new password must be different from previously used password.',
-                style: GoogleFonts.manrope(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey.shade500,
-                  height: 1.5,
-                ),
-              ),
-              SizedBox(height: 48.h),
-
-              /// Form Fields
-              Obx(
-                () => CustomAuthField(
-                  label: 'Enter new password',
-                  hint: 'Enter your password',
-                  prefixIcon: Icons.lock_outline_rounded,
-                  isPassword: true,
-                  obscureText: controller.isPasswordHidden.value,
-                  keyboardType: TextInputType.visiblePassword,
-                  textInputAction: TextInputAction.next,
-                  onSuffixIconPressed: () {
-                    controller.isPasswordHidden.value =
-                        !controller.isPasswordHidden.value;
-                  },
-                  controller: controller.passwordController,
-                ),
-              ),
-              SizedBox(height: 20.h),
-
-              Obx(
-                () => CustomAuthField(
-                  label: 'Confirm password',
-                  hint: 'Enter Confirm Password',
-                  prefixIcon: Icons.lock_outline_rounded,
-                  isPassword: true,
-                  obscureText: controller.isConfirmPasswordHidden.value,
-                  onSuffixIconPressed: () {
-                    controller.isConfirmPasswordHidden.value =
-                        !controller.isConfirmPasswordHidden.value;
-                  },
-                  controller: controller.confirmPasswordController,
-                ),
-              ),
-
-              SizedBox(
-                height: 120.h,
-              ),
-              /// Reset Password Button
-              ElevatedButton(
-                onPressed: () => SuccessDialog.show(
-                  title: "Password reset success!",
-                  subtitle: "Your password is successfully reset",
-                  context: context,
-                  onPressed: () => Get.to(() => LoginPage()),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                ),
-                child: Text(
-                  'Reset password',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20.h),
+      backgroundColor: Colors.black,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.7, -0.7),
+            radius: 1.2,
+            colors: [
+              Color(0xFF2B1416),
+              Color(0xFF080808),
             ],
           ),
         ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 10),
+
+                  /// Back to Login Button
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: _buildBackButton(),
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  /// Pulse logo icon
+                  Center(
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1012),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.monitor_heart,
+                        color: Color(0xFFFF7F7F),
+                        size: 24,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  /// Heading & Subtitle
+                  Text(
+                    'Set New Password',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lora(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Create a strong new password to secure your account.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFB3B5BA),
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  /// Form Card
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF101828).withValues(alpha: 0.55),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.08),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        /// Password
+                        _buildInputField(
+                          label: 'Password',
+                          hint: 'At least 8 characters',
+                          prefixIcon: Icons.lock_outline,
+                          isPassword: true,
+                          obscureText: _obscurePassword,
+                          controller: _passwordController,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 18),
+
+                        /// Confirm Password
+                        _buildInputField(
+                          label: 'Confirm Password',
+                          hint: 'Re-enter your password',
+                          prefixIcon: Icons.lock_outline,
+                          isPassword: true,
+                          obscureText: _obscureConfirmPassword,
+                          controller: _confirmPasswordController,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'This field is required';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        /// Update Password Button
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              Get.snackbar(
+                                'Success',
+                                'Password updated successfully!',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.green.withValues(alpha: 0.8),
+                                colorText: Colors.white,
+                              );
+                              Get.offAll(() => const LoginPage());
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 48),
+                          ),
+                          child: const Text('Update Password'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _buildBackButton() {
+    return GestureDetector(
+      onTap: () => Get.until((route) => route.isFirst),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.arrow_back, color: Colors.white, size: 16),
+            const SizedBox(width: 8),
+            Text(
+              'Back to Login',
+              style: GoogleFonts.poppins(
+                color: Colors.white.withValues(alpha: 0.85),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required String label,
+    required String hint,
+    required IconData prefixIcon,
+    bool isPassword = false,
+    bool obscureText = false,
+    VoidCallback? onToggleVisibility,
+    TextEditingController? controller,
+    FormFieldValidator<String>? validator,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFFB3B5BA),
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          obscureText: isPassword && obscureText,
+          validator: validator ??
+              (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'This field is required';
+                }
+                return null;
+              },
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: GoogleFonts.poppins(
+              color: Colors.grey.shade600,
+              fontSize: 14,
+            ),
+            prefixIcon: Icon(prefixIcon, color: Colors.grey.shade400, size: 20),
+            suffixIcon: isPassword
+                ? IconButton(
+                    icon: Icon(
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Colors.grey.shade400,
+                      size: 20,
+                    ),
+                    onPressed: onToggleVisibility,
+                  )
+                : null,
+            filled: true,
+            fillColor: Colors.black.withValues(alpha: 0.35),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+            ),
+            errorStyle: GoogleFonts.poppins(fontSize: 11),
+          ),
+        ),
+      ],
     );
   }
 }

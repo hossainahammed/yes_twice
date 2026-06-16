@@ -1,16 +1,10 @@
-import 'package:bolaji277/feature/restaurant_dashboard/views/restaurant_dashboard_page.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/widgets/custom_auth_widgets.dart';
-import '../../../../core/service/auth_service.dart';
-import '../../../customer_dashboard/dashboard/dashboard.dart';
-import '../../forgot_password/views/forgot_password_page.dart';
-import '../../registration/views/registration_page.dart';
-import '../controllers/login_page_controller.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
+import 'package:yes_twice/core/constant/image_path.dart';
+import 'package:yes_twice/feature/auth/registration/views/registration_page.dart';
+import 'package:yes_twice/feature/auth/forgot_password/views/forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,229 +14,377 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int _selectedTab = 0; // 0 = User, 1 = Restaurant
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _rememberMe = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final LoginPageController controller = Get.put(LoginPageController());
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    final Color textColor = isDark ? Colors.white : AppColors.textColor;
-    final Color subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade500;
-
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 8.h),
+      backgroundColor: Colors.black,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.7, -0.7),
+            radius: 1.2,
+            colors: [
+              Color(0xFF2B1416),
+              Color(0xFF080808),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 20),
 
-              /// ── Header ──────────────────────────────────────────────
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Log In',
-                      style: GoogleFonts.manrope(
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.w800,
-                        color: textColor,
+                  /// EKG pulse logo
+                  Center(
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1012),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.monitor_heart,
+                        color: Color(0xFFFF7F7F),
+                        size: 24,
                       ),
                     ),
-                    SizedBox(height: 6.h),
-                    Text(
-                      'Login to continue using the app.',
-                      style: GoogleFonts.manrope(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400,
-                        color: subTextColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24.h),
-
-              /// ── User / Restaurant Toggle Tab ─────────────────────────
-              Container(
-                height: 50.h,
-                decoration: BoxDecoration(
-                  color: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(30.r),
-                ),
-                child: Row(
-                  children: [
-                    _buildTab(label: 'User', index: 0, isDark: isDark),
-                    _buildTab(label: 'Restaurant', index: 1, isDark: isDark),
-                  ],
-                ),
-              ),
-              SizedBox(height: 28.h),
-
-              /// ── Email Field ──────────────────────────────────────────
-              CustomAuthField(
-                label: 'Email Address',
-                hint: 'Enter Email',
-                prefixIcon: Icons.mail_outline_rounded,
-                controller: controller.emailController,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 18.h),
-
-              /// ── Password Field ───────────────────────────────────────
-              Obx(
-                () => CustomAuthField(
-                  label: 'Password',
-                  hint: 'Enter your password',
-                  prefixIcon: Icons.lock_outline_rounded,
-                  isPassword: true,
-                  obscureText: controller.isPasswordHidden.value,
-                  onSuffixIconPressed: () {
-                    controller.isPasswordHidden.value =
-                        !controller.isPasswordHidden.value;
-                  },
-                  controller: controller.passwordController,
-                ),
-              ),
-
-              /// ── Forgot Password ──────────────────────────────────────
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => Get.to(() => ForgotPasswordPage()),
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  child: Text(
-                    'Forgot Password?',
-                    style: GoogleFonts.manrope(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primaryColor.withOpacity(0.85),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 18.h),
 
-              /// ── Login Button ─────────────────────────────────────────
-              SizedBox(
-                width: double.infinity,
-                height: 52.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // ✅ Mark user as logged in so checkAuthAndPrompt() works correctly
-                    AuthService.to.setLoggedIn();
-                    if (_selectedTab == 0) {
-                      Get.offAll(() => const CustomerDashboard());
-                    } else {
-                      Get.offAll(() => RestaurantDashboardPage());
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: GoogleFonts.manrope(
-                      fontSize: 15.sp,
+                  const SizedBox(height: 24),
+
+                  /// Header
+                  Text(
+                    'Welcome Back',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lora(
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      letterSpacing: 0.5,
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 20.h),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Precision performance starts here',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFB3B5BA),
+                    ),
+                  ),
 
-              /// ── OR Divider ───────────────────────────────────────────
-              Row(
-                children: [
-                  Expanded(child: Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: Text(
-                      'OR',
-                      style: GoogleFonts.manrope(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: isDark ? Colors.grey.shade500 : Colors.grey.shade400,
+                  const SizedBox(height: 32),
+
+                  /// Form Card
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF101828).withValues(alpha: 0.55),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.08),
                       ),
                     ),
-                  ),
-                  Expanded(child: Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300)),
-                ],
-              ),
-              SizedBox(height: 20.h),
-
-              /// ── Continue with Google ─────────────────────────────────
-              SocialLoginButton(text: 'Continue with Google', onTap: () {}),
-              SizedBox(height: 28.h),
-
-              /// ── Sign Up Footer ───────────────────────────────────────
-              Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: "Don't have an account? ",
-                    style: GoogleFonts.manrope(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: subTextColor,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: 'Sign Up',
-                        style: GoogleFonts.manrope(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.primaryColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        /// Email Address
+                        _buildInputField(
+                          label: 'Email Address',
+                          hint: 'you@example.com',
+                          prefixIcon: Icons.email_outlined,
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Get.to(() => RegistrationPage()),
+                        const SizedBox(height: 18),
+
+                        /// Password
+                        _buildInputField(
+                          label: 'Secure Password',
+                          hint: '••••••••',
+                          prefixIcon: Icons.lock_outline,
+                          isPassword: true,
+                          obscureText: _obscurePassword,
+                          controller: _passwordController,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 14),
+
+                        /// Remember me & Forgot Password
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: Checkbox(
+                                    value: _rememberMe,
+                                    activeColor: AppColors.primaryColor,
+                                    checkColor: Colors.white,
+                                    side: BorderSide(
+                                      color: Colors.white.withValues(alpha: 0.4),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _rememberMe = value ?? false;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Remember me',
+                                  style: GoogleFonts.poppins(
+                                    color: const Color(0xFFB3B5BA),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () => Get.to(() => const ForgotPasswordPage()),
+                              child: Text(
+                                'Forgot Password?',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFF7F7F),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        /// Log in Button
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              // Standard transition/mock action for onboarding complete
+                              Get.snackbar(
+                                'Success',
+                                'Logged in successfully!',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.green.withValues(alpha: 0.8),
+                                colorText: Colors.white,
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 48),
+                          ),
+                          child: const Text('Log in'),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        /// OR Divider
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.white.withValues(alpha: 0.1),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: Text(
+                                'Or continue with',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 11,
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Colors.white.withValues(alpha: 0.1),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        /// Google Button
+                        OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.black.withValues(alpha: 0.3),
+                            side: BorderSide(
+                              color: Colors.white.withValues(alpha: 0.08),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            minimumSize: const Size(double.infinity, 48),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                ImagePath.google,
+                                width: 18,
+                                height: 18,
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                'Continue with Google',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  /// Footer
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account? ",
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          color: const Color(0xFFB3B5BA),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => Get.to(() => const RegistrationPage()),
+                        child: Text(
+                          'Sign Up',
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFFFF7F7F),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20),
+                ],
               ),
-              SizedBox(height: 16.h),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTab({required String label, required int index, required bool isDark}) {
-    final bool isActive = _selectedTab == index;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => setState(() => _selectedTab = index),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          margin: EdgeInsets.all(4.r),
-          decoration: BoxDecoration(
-            color: isActive ? AppColors.primaryColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(26.r),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: GoogleFonts.manrope(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-              color: isActive ? Colors.white : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
-            ),
+  Widget _buildInputField({
+    required String label,
+    required String hint,
+    required IconData prefixIcon,
+    bool isPassword = false,
+    bool obscureText = false,
+    VoidCallback? onToggleVisibility,
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFFB3B5BA),
           ),
         ),
-      ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          obscureText: isPassword && obscureText,
+          keyboardType: keyboardType,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return 'This field is required';
+            }
+            return null;
+          },
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: GoogleFonts.poppins(
+              color: Colors.grey.shade600,
+              fontSize: 14,
+            ),
+            prefixIcon: Icon(prefixIcon, color: Colors.grey.shade400, size: 20),
+            suffixIcon: isPassword
+                ? IconButton(
+                    icon: Icon(
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Colors.grey.shade400,
+                      size: 20,
+                    ),
+                    onPressed: onToggleVisibility,
+                  )
+                : null,
+            filled: true,
+            fillColor: Colors.black.withValues(alpha: 0.35),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+            ),
+            errorStyle: GoogleFonts.poppins(fontSize: 11),
+          ),
+        ),
+      ],
     );
   }
 }
