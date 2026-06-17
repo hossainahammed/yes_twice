@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,7 +93,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         Text(
                           'Calendar',
                           style: GoogleFonts.poppins(
-                            fontSize: 24,
+                            fontSize: 24.mq(context),
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -101,7 +102,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         Text(
                           'Manage your schedule',
                           style: GoogleFonts.poppins(
-                            fontSize: 12,
+                            fontSize: 12.mq(context),
                             color: const Color(0xFFB3B5BA),
                           ),
                         ),
@@ -117,7 +118,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       label: Text(
                         'Add Event',
                         style: GoogleFonts.poppins(
-                          fontSize: 12,
+                          fontSize: 12.mq(context),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -164,7 +165,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         monthStr,
                         style: GoogleFonts.poppins(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 15.mq(context),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -240,7 +241,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     color: const Color(0xFFB3B5BA),
-                                    fontSize: 11,
+                                    fontSize: 11.mq(context),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -353,7 +354,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 isSelected
                                                     ? FontWeight.bold
                                                     : FontWeight.w400,
-                                            fontSize: 13,
+                                            fontSize: 13.mq(context),
                                           ),
                                         ),
                                       ),
@@ -389,7 +390,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Text(
                   DateFormat('MMMM d, yyyy').format(_selectedDay),
                   style: GoogleFonts.poppins(
-                    fontSize: 15,
+                    fontSize: 15.mq(context),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -443,7 +444,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             'No events for this day',
                             style: GoogleFonts.poppins(
                               color: const Color(0xFFB3B5BA),
-                              fontSize: 13,
+                              fontSize: 13.mq(context),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -496,7 +497,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       event['title'],
                                       style: GoogleFonts.poppins(
                                         color: Colors.white,
-                                        fontSize: 14,
+                                        fontSize: 14.mq(context),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -505,7 +506,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       '${event['category']} • ${event['time']}',
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFFB3B5BA),
-                                        fontSize: 12,
+                                        fontSize: 12.mq(context),
                                       ),
                                     ),
                                   ],
@@ -562,7 +563,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       '${workout.type} (Workout)',
                                       style: GoogleFonts.poppins(
                                         color: Colors.white,
-                                        fontSize: 14,
+                                        fontSize: 14.mq(context),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -571,7 +572,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       'Duration: ${workout.duration} min  |  Workload: ${workout.workload}',
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFFB3B5BA),
-                                        fontSize: 12,
+                                        fontSize: 12.mq(context),
                                       ),
                                     ),
                                   ],

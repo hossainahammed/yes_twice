@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,7 +49,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     Text(
                       'Privacy & Policy',
                       style: GoogleFonts.lora(
-                        fontSize: 20,
+                        fontSize: 20.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -81,7 +82,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           Text(
                             'Information We Collect',
                             style: GoogleFonts.lora(
-                              fontSize: 15,
+                              fontSize: 15.mq(context),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -91,21 +92,25 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       _buildPolicyCard(
+                        context,
                         title: 'ACCOUNT INFO',
                         content:
                             'Email addresses are hashed immediately. We do not store real names unless explicitly provided for billing.',
                       ),
                       _buildPolicyCard(
+                        context,
                         title: 'USAGE DATA',
                         content:
                             'Anonymous telemetry to improve app performance. No individual session tracking is ever enabled.',
                       ),
                       _buildPolicyCard(
+                        context,
                         title: 'DEVICE IDENTIFIERS',
                         content:
                             'Operating system version and device model for optimization.',
                       ),
                       _buildPolicyCard(
+                        context,
                         title: 'DEVICE IDENTIFIERS',
                         content:
                             'Operating system version and device model for optimization.',
@@ -125,7 +130,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           Text(
                             'How We Process Data',
                             style: GoogleFonts.lora(
-                              fontSize: 15,
+                              fontSize: 15.mq(context),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -135,16 +140,19 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       _buildPolicyCard(
+                        context,
                         title: 'Zero-Knowledge Architecture',
                         content:
                             'We cannot access your data. All encryption keys are generated locally on your device and never transit through our servers.',
                       ),
                       _buildPolicyCard(
+                        context,
                         title: 'Optimization',
                         content:
                             'Personalize your training blocks based on your real-time recovery metrics and performance history.',
                       ),
                       _buildPolicyCard(
+                        context,
                         title: 'Analytics',
                         content:
                             'Generate deep-dive reports on your progress toward elite athletic benchmarks.',
@@ -162,7 +170,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPolicyCard({required String title, required String content}) {
+  Widget _buildPolicyCard(
+    BuildContext context, {
+    required String title,
+    required String content,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -177,7 +189,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.poppins(
-              fontSize: 11,
+              fontSize: 11.mq(context),
               fontWeight: FontWeight.bold,
               color: AppColors.whiteColor,
               letterSpacing: 0.5,
@@ -187,7 +199,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           Text(
             content,
             style: GoogleFonts.poppins(
-              fontSize: 13,
+              fontSize: 13.mq(context),
               height: 1.4,
               color: const Color(0xFFB3B5BA),
             ),

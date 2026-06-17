@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -89,7 +90,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     'Create Account',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.lora(
-                      fontSize: 28,
+                      fontSize: 28.mq(context),
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -99,7 +100,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     'Start your fitness journey today',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 13.mq(context),
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFFB3B5BA),
                     ),
@@ -209,7 +210,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               child: Text(
                                 'Or continue with',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 11,
+                                  fontSize: 11.mq(context),
                                   color: Colors.grey.shade500,
                                 ),
                               ),
@@ -250,7 +251,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 'Continue with Google',
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
-                                  fontSize: 14,
+                                  fontSize: 14.mq(context),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -270,7 +271,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Text(
                         'Already have an account? ',
                         style: GoogleFonts.poppins(
-                          fontSize: 13,
+                          fontSize: 13.mq(context),
                           color: const Color(0xFFB3B5BA),
                         ),
                       ),
@@ -279,7 +280,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         child: Text(
                           'Log in',
                           style: GoogleFonts.poppins(
-                            fontSize: 13,
+                            fontSize: 13.mq(context),
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFFFF7F7F),
                           ),
@@ -314,7 +315,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         Text(
           label,
           style: GoogleFonts.poppins(
-            fontSize: 12,
+            fontSize: 12.mq(context),
             fontWeight: FontWeight.w500,
             color: const Color(0xFFB3B5BA),
           ),
@@ -331,12 +332,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 }
                 return null;
               },
-          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14.mq(context)),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.poppins(
               color: Colors.grey.shade600,
-              fontSize: 14,
+              fontSize: 14.mq(context),
             ),
             prefixIcon: Icon(prefixIcon, color: Colors.grey.shade400, size: 20),
             suffixIcon: isPassword
@@ -367,7 +368,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: AppColors.primaryColor),
             ),
-            errorStyle: GoogleFonts.poppins(fontSize: 11),
+            errorStyle: GoogleFonts.poppins(fontSize: 11.mq(context)),
           ),
         ),
       ],

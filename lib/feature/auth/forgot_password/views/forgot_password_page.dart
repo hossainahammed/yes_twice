@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,7 +89,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     'Forgot Password?',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.lora(
-                      fontSize: 28,
+                      fontSize: 28.mq(context),
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -98,7 +99,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     "No worries, we'll send you reset instructions",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 13.mq(context),
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFFB3B5BA),
                     ),
@@ -133,7 +134,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         Text(
                           "We'll send a verification code to this email",
                           style: GoogleFonts.poppins(
-                            fontSize: 11,
+                            fontSize: 11.mq(context),
                             color: Colors.grey.shade500,
                           ),
                         ),
@@ -178,7 +179,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               'Back to Login',
               style: GoogleFonts.poppins(
                 color: Colors.white.withValues(alpha: 0.85),
-                fontSize: 13,
+                fontSize: 13.mq(context),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -201,7 +202,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         Text(
           label,
           style: GoogleFonts.poppins(
-            fontSize: 12,
+            fontSize: 12.mq(context),
             fontWeight: FontWeight.w500,
             color: const Color(0xFFB3B5BA),
           ),
@@ -216,12 +217,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             }
             return null;
           },
-          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14.mq(context)),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.poppins(
               color: Colors.grey.shade600,
-              fontSize: 14,
+              fontSize: 14.mq(context),
             ),
             prefixIcon: Icon(prefixIcon, color: Colors.grey.shade400, size: 20),
             filled: true,
@@ -240,7 +241,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: AppColors.primaryColor),
             ),
-            errorStyle: GoogleFonts.poppins(fontSize: 11),
+            errorStyle: GoogleFonts.poppins(fontSize: 11.mq(context)),
           ),
         ),
       ],

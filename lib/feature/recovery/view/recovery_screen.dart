@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,7 +57,7 @@ class RecoveryScreen extends StatelessWidget {
                         Text(
                           'Recovery',
                           style: GoogleFonts.poppins(
-                            fontSize: 24,
+                            fontSize: 24.mq(context),
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -65,7 +66,7 @@ class RecoveryScreen extends StatelessWidget {
                         Text(
                           'Track your wellness and recovery',
                           style: GoogleFonts.poppins(
-                            fontSize: 12,
+                            fontSize: 12.mq(context),
                             color: const Color(0xFFB3B5BA),
                           ),
                         ),
@@ -83,7 +84,7 @@ class RecoveryScreen extends StatelessWidget {
                       label: Text(
                         'Check-In',
                         style: GoogleFonts.poppins(
-                          fontSize: 12,
+                          fontSize: 12.mq(context),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -122,8 +123,10 @@ class RecoveryScreen extends StatelessWidget {
 
                   return Row(
                     children: [
+                      // Avg Recovery Card
                       Expanded(
                         child: _buildStatCard(
+                          context,
                           title: 'Avg Recovery',
                           value: avgStr,
                           subText: statusText,
@@ -132,8 +135,10 @@ class RecoveryScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 16),
+                      // Check-Ins Card
                       Expanded(
                         child: _buildStatCard(
+                          context,
                           title: 'Check-Ins',
                           value: '${dashboardController.checkins.length}',
                           subText: 'Total logs',
@@ -150,7 +155,7 @@ class RecoveryScreen extends StatelessWidget {
                 Text(
                   'Recent Check-Ins',
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 14.mq(context),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -184,7 +189,7 @@ class RecoveryScreen extends StatelessWidget {
                             'No check-ins logged yet',
                             style: GoogleFonts.poppins(
                               color: const Color(0xFFB3B5BA),
-                              fontSize: 13,
+                              fontSize: 13.mq(context),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -238,7 +243,7 @@ class RecoveryScreen extends StatelessWidget {
                                       Text(
                                         dateStr,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize: 13.mq(context),
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                         ),
@@ -247,7 +252,7 @@ class RecoveryScreen extends StatelessWidget {
                                       Text(
                                         timeStr,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 11,
+                                          fontSize: 11.mq(context),
                                           color: const Color(0xFFB3B5BA),
                                         ),
                                       ),
@@ -259,7 +264,7 @@ class RecoveryScreen extends StatelessWidget {
                                       Text(
                                         '$score%',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 18,
+                                          fontSize: 18.mq(context),
                                           fontWeight: FontWeight.bold,
                                           color: statusColor,
                                         ),
@@ -268,7 +273,7 @@ class RecoveryScreen extends StatelessWidget {
                                       Text(
                                         status,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 11,
+                                          fontSize: 11.mq(context),
                                           fontWeight: FontWeight.w600,
                                           color: statusColor,
                                         ),
@@ -288,12 +293,14 @@ class RecoveryScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         _buildMetricRow(
+                                          context,
                                           'Sleep',
                                           '${log['sleep']}/10',
                                           Icons.bedtime_outlined,
                                         ),
                                         const SizedBox(height: 8),
                                         _buildMetricRow(
+                                          context,
                                           'Energy',
                                           '${log['energy']}/10',
                                           Icons.flash_on_outlined,
@@ -308,12 +315,14 @@ class RecoveryScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         _buildMetricRow(
+                                          context,
                                           'Stress',
                                           '${log['stress']}/10',
                                           Icons.psychology_outlined,
                                         ),
                                         const SizedBox(height: 8),
                                         _buildMetricRow(
+                                          context,
                                           'Soreness',
                                           '${log['soreness']}/10',
                                           Icons.fitness_center_outlined,
@@ -339,7 +348,8 @@ class RecoveryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard({
+  Widget _buildStatCard(
+    BuildContext context, {
     required String title,
     required String value,
     required String subText,
@@ -362,7 +372,7 @@ class RecoveryScreen extends StatelessWidget {
               Text(
                 title,
                 style: GoogleFonts.poppins(
-                  fontSize: 11,
+                  fontSize: 11.mq(context),
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFFB3B5BA),
                 ),
@@ -374,7 +384,7 @@ class RecoveryScreen extends StatelessWidget {
           Text(
             value,
             style: GoogleFonts.poppins(
-              fontSize: 22,
+              fontSize: 22.mq(context),
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -383,7 +393,7 @@ class RecoveryScreen extends StatelessWidget {
           Text(
             subText,
             style: GoogleFonts.poppins(
-              fontSize: 11,
+              fontSize: 11.mq(context),
               fontWeight: FontWeight.w600,
               color: color,
             ),
@@ -393,7 +403,12 @@ class RecoveryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMetricRow(String label, String value, IconData icon) {
+  Widget _buildMetricRow(
+    BuildContext context,
+    String label,
+    String value,
+    IconData icon,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -402,14 +417,14 @@ class RecoveryScreen extends StatelessWidget {
         Text(
           '$label: ',
           style: GoogleFonts.poppins(
-            fontSize: 12,
+            fontSize: 12.mq(context),
             color: const Color(0xFFB3B5BA),
           ),
         ),
         Text(
           value,
           style: GoogleFonts.poppins(
-            fontSize: 12,
+            fontSize: 12.mq(context),
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),

@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                           () => Text(
                             'Welcome ${profileController.fullName.value.split(" ").first}',
                             style: GoogleFonts.poppins(
-                              fontSize: 16,
+                              fontSize: 16.mq(context),
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
@@ -93,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           dateStr,
                           style: GoogleFonts.poppins(
-                            fontSize: 12,
+                            fontSize: 12.mq(context),
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFFB3B5BA),
                           ),
@@ -140,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               'Current Streak',
                               style: GoogleFonts.poppins(
-                                fontSize: 11,
+                                fontSize: 11.mq(context),
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFFB3B5BA),
                               ),
@@ -150,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                               () => Text(
                                 '${dashboardController.streakDays.value} Days',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 20,
+                                  fontSize: 20.mq(context),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -160,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               "Keep it going! You're on fire 🔥",
                               style: GoogleFonts.poppins(
-                                fontSize: 11,
+                                fontSize: 11.mq(context),
                                 fontWeight: FontWeight.w400,
                                 color: const Color(0xFFB3B5BA),
                               ),
@@ -215,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                                   Text(
                                     'Weekly Load',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 10,
+                                      fontSize: 10.mq(context),
                                       fontWeight: FontWeight.w400,
                                       color: const Color(0xFFB3B5BA),
                                     ),
@@ -225,7 +226,7 @@ class HomeScreen extends StatelessWidget {
                                     () => Text(
                                       '${trainingController.weeklyLoad}',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 16,
+                                        fontSize: 16.mq(context),
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                       ),
@@ -278,7 +279,7 @@ class HomeScreen extends StatelessWidget {
                                   Text(
                                     'Readiness',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 10,
+                                      fontSize: 10.mq(context),
                                       fontWeight: FontWeight.w400,
                                       color: const Color(0xFFB3B5BA),
                                     ),
@@ -288,7 +289,7 @@ class HomeScreen extends StatelessWidget {
                                     () => Text(
                                       '${dashboardController.readinessScore.value}%',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 16,
+                                        fontSize: 16.mq(context),
                                         fontWeight: FontWeight.bold,
                                         color: const Color(
                                           0xFF60A5FA,
@@ -323,7 +324,7 @@ class HomeScreen extends StatelessWidget {
                           Text(
                             "Today's Readiness",
                             style: GoogleFonts.poppins(
-                              fontSize: 13,
+                              fontSize: 13.mq(context),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -363,7 +364,7 @@ class HomeScreen extends StatelessWidget {
                                 Text(
                                   '$score',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 20.mq(context),
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
@@ -393,7 +394,7 @@ class HomeScreen extends StatelessWidget {
                                   return Text(
                                     status,
                                     style: GoogleFonts.poppins(
-                                      fontSize: 14,
+                                      fontSize: 14.mq(context),
                                       fontWeight: FontWeight.bold,
                                       color: const Color(
                                         0xFF3B82F6,
@@ -405,7 +406,7 @@ class HomeScreen extends StatelessWidget {
                                 Text(
                                   'Great job logging your recovery!',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 11,
+                                    fontSize: 11.mq(context),
                                     fontWeight: FontWeight.w400,
                                     color: const Color(0xFFB3B5BA),
                                   ),
@@ -434,7 +435,7 @@ class HomeScreen extends StatelessWidget {
                       Text(
                         'Weekly Training Load & Recovery',
                         style: GoogleFonts.poppins(
-                          fontSize: 13,
+                          fontSize: 13.mq(context),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -511,7 +512,7 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 'Load',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 10,
+                                  fontSize: 10.mq(context),
                                   color: const Color(0xFFB3B5BA),
                                 ),
                               ),
@@ -532,7 +533,7 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 'Recovery %',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 10,
+                                  fontSize: 10.mq(context),
                                   color: const Color(0xFFB3B5BA),
                                 ),
                               ),
@@ -552,7 +553,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       'Recent Training',
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: 14.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -565,7 +566,7 @@ class HomeScreen extends StatelessWidget {
                       child: Text(
                         'View All',
                         style: GoogleFonts.poppins(
-                          fontSize: 12,
+                          fontSize: 12.mq(context),
                           fontWeight: FontWeight.w500,
                           color: const Color(0xFFB3B5BA),
                         ),
@@ -583,7 +584,7 @@ class HomeScreen extends StatelessWidget {
                     return Text(
                       'No workouts tracked recently.',
                       style: GoogleFonts.poppins(
-                        fontSize: 12,
+                        fontSize: 12.mq(context),
                         color: Colors.grey,
                       ),
                     );
@@ -638,7 +639,7 @@ class HomeScreen extends StatelessWidget {
                                       Text(
                                         workout.type,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize: 13.mq(context),
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                         ),
@@ -647,7 +648,7 @@ class HomeScreen extends StatelessWidget {
                                       Text(
                                         dateStr,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 11,
+                                          fontSize: 11.mq(context),
                                           color: const Color(0xFFB3B5BA),
                                         ),
                                       ),
@@ -661,7 +662,7 @@ class HomeScreen extends StatelessWidget {
                                     Text(
                                       '${workout.duration} min',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 12,
+                                        fontSize: 12.mq(context),
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                       ),
@@ -671,14 +672,14 @@ class HomeScreen extends StatelessWidget {
                                       text: TextSpan(
                                         text: 'RPE: ',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 10,
+                                          fontSize: 10.mq(context),
                                           color: const Color(0xFFB3B5BA),
                                         ),
                                         children: [
                                           TextSpan(
                                             text: '${workout.rpe}',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
+                                              fontSize: 10.mq(context),
                                               fontWeight: FontWeight.bold,
                                               color: const Color(0xFFFF7F7F),
                                             ),
@@ -700,7 +701,7 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   'Quick Actions',
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 14.mq(context),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -714,6 +715,7 @@ class HomeScreen extends StatelessWidget {
                     // Add Training
                     Expanded(
                       child: _buildQuickActionButton(
+                        context,
                         icon: Image.asset(
                           'assets/icons/training_pulse.png',
                           width: 24,
@@ -735,6 +737,7 @@ class HomeScreen extends StatelessWidget {
                     // Recovery
                     Expanded(
                       child: _buildQuickActionButton(
+                        context,
                         icon: Image.asset(
                           'assets/icons/love.png',
                           width: 24,
@@ -754,6 +757,7 @@ class HomeScreen extends StatelessWidget {
                     // Add Event
                     Expanded(
                       child: _buildQuickActionButton(
+                        context,
                         icon: Image.asset(
                           'assets/icons/calender.png',
                           width: 24,
@@ -782,7 +786,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionButton({
+  Widget _buildQuickActionButton(
+    BuildContext context, {
     required Widget icon,
     required String label,
     required Color bgColor,
@@ -812,7 +817,7 @@ class HomeScreen extends StatelessWidget {
               label,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 11,
+                fontSize: 11.mq(context),
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),

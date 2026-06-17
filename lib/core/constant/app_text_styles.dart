@@ -69,3 +69,12 @@ class AppTextStyles {
   //   fontWeight: FontWeight.w600,
   // );
 }
+
+extension ResponsiveDouble on num {
+  double mq(BuildContext context) {
+    final sw = MediaQuery.of(context).size.width;
+    final scale = sw / 375.0; // Base iPhone width
+    return this * scale.clamp(0.85, 1.25);
+  }
+}
+

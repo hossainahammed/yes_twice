@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,7 +52,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                     Text(
                       'Settings & Privacy',
                       style: GoogleFonts.lora(
-                        fontSize: 20,
+                        fontSize: 20.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -68,7 +69,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       /// Account Section
-                      _buildSectionHeader('Account'),
+                      _buildSectionHeader(context, 'Account'),
                       const SizedBox(height: 12),
                       Container(
                         decoration: BoxDecoration(
@@ -81,6 +82,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             _buildMenuItem(
+                              context,
                               title: 'Edit Profile',
                               subtitle: 'Update your personal information',
                               icon: Icons.person_outline,
@@ -89,6 +91,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                             ),
                             _buildDivider(),
                             _buildMenuItem(
+                              context,
                               title: 'Change Password',
                               icon: Icons.lock_outline,
                               iconBgColor: const Color(0xFF1B2A4A),
@@ -101,7 +104,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                       const SizedBox(height: 28),
 
                       /// Privacy Section
-                      _buildSectionHeader('Privacy'),
+                      _buildSectionHeader(context, 'Privacy'),
                       const SizedBox(height: 12),
                       Container(
                         decoration: BoxDecoration(
@@ -114,6 +117,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             _buildMenuItem(
+                              context,
                               title: 'Privacy Policy',
                               subtitle: 'How we protect your data',
                               icon: Icons.security,
@@ -122,6 +126,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                             ),
                             _buildDivider(),
                             _buildMenuItem(
+                              context,
                               title: 'Terms & Conditions',
                               subtitle: 'Legal terms of service',
                               icon: Icons.description_outlined,
@@ -143,13 +148,13 @@ class SettingsPrivacyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: Text(
         title,
         style: GoogleFonts.poppins(
-          fontSize: 13,
+          fontSize: 13.mq(context),
           fontWeight: FontWeight.w600,
           color: const Color(0xFFB3B5BA),
         ),
@@ -157,7 +162,8 @@ class SettingsPrivacyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem({
+  Widget _buildMenuItem(
+    BuildContext context, {
     required String title,
     String? subtitle,
     required IconData icon,
@@ -184,7 +190,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
         title,
         style: GoogleFonts.poppins(
           color: Colors.white,
-          fontSize: 14,
+          fontSize: 14.mq(context),
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -193,7 +199,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
               subtitle,
               style: GoogleFonts.poppins(
                 color: const Color(0xFFB3B5BA),
-                fontSize: 11,
+                fontSize: 11.mq(context),
               ),
             )
           : null,

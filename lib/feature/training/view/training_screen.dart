@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +47,7 @@ class TrainingScreen extends StatelessWidget {
                     Text(
                       'Training Log',
                       style: GoogleFonts.poppins(
-                        fontSize: 24,
+                        fontSize: 24.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -57,7 +58,7 @@ class TrainingScreen extends StatelessWidget {
                       label: Text(
                         'Add Training',
                         style: GoogleFonts.poppins(
-                          fontSize: 12,
+                          fontSize: 12.mq(context),
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),
@@ -102,7 +103,7 @@ class TrainingScreen extends StatelessWidget {
                               Text(
                                 'Avg Workload',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 11,
+                                  fontSize: 11.mq(context),
                                   fontWeight: FontWeight.w400,
                                   color: const Color(0xFFB3B5BA),
                                 ),
@@ -111,7 +112,7 @@ class TrainingScreen extends StatelessWidget {
                               Text(
                                 loadStr,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 24,
+                                  fontSize: 24.mq(context),
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xFFFF7F7F), // Pinkish-Red color
                                 ),
@@ -138,7 +139,7 @@ class TrainingScreen extends StatelessWidget {
                               Text(
                                 'Avg RPE',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 11,
+                                  fontSize: 11.mq(context),
                                   fontWeight: FontWeight.w400,
                                   color: const Color(0xFFB3B5BA),
                                 ),
@@ -147,7 +148,7 @@ class TrainingScreen extends StatelessWidget {
                               Text(
                                 rpeStr,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 24,
+                                  fontSize: 24.mq(context),
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xFFFF7F7F), // Pinkish-Red color
                                 ),
@@ -174,12 +175,12 @@ class TrainingScreen extends StatelessWidget {
                   child: TextField(
                     controller: searchController,
                     onChanged: (val) => trainingController.searchQuery.value = val,
-                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                     decoration: InputDecoration(
                       hintText: 'Search workouts...',
                       hintStyle: GoogleFonts.poppins(
                         color: Colors.grey.shade600,
-                        fontSize: 13,
+                        fontSize: 13.mq(context),
                       ),
                       prefixIcon: Icon(Icons.search, color: Colors.grey.shade500, size: 20),
                       border: InputBorder.none,
@@ -230,7 +231,7 @@ class TrainingScreen extends StatelessWidget {
                                   Text(
                                     'No workouts yet',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 16,
+                                      fontSize: 16.mq(context),
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -240,7 +241,7 @@ class TrainingScreen extends StatelessWidget {
                                     'Start tracking your training sessions',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(
-                                      fontSize: 12,
+                                      fontSize: 12.mq(context),
                                       fontWeight: FontWeight.w400,
                                       color: const Color(0xFFB3B5BA),
                                     ),
@@ -279,7 +280,7 @@ class TrainingScreen extends StatelessWidget {
                                       child: Text(
                                         'Add Your First Workout',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 13,
+                                          fontSize: 13.mq(context),
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -304,7 +305,7 @@ class TrainingScreen extends StatelessWidget {
                             Text(
                               'Training Summary',
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: 13.mq(context),
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -321,15 +322,15 @@ class TrainingScreen extends StatelessWidget {
                               itemBuilder: (context) => [
                                 PopupMenuItem(
                                   value: 'Daily',
-                                  child: Text('Daily', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
+                                  child: Text('Daily', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context))),
                                 ),
                                 PopupMenuItem(
                                   value: 'Weekly',
-                                  child: Text('Weekly', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
+                                  child: Text('Weekly', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context))),
                                 ),
                                 PopupMenuItem(
                                   value: 'Monthly',
-                                  child: Text('Monthly', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
+                                  child: Text('Monthly', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context))),
                                 ),
                               ],
                               child: Container(
@@ -347,7 +348,7 @@ class TrainingScreen extends StatelessWidget {
                                     Text(
                                       trainingController.filterOption.value,
                                       style: GoogleFonts.poppins(
-                                        fontSize: 11,
+                                        fontSize: 11.mq(context),
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -410,7 +411,7 @@ class TrainingScreen extends StatelessWidget {
                                           Text(
                                             workout.type,
                                             style: GoogleFonts.poppins(
-                                              fontSize: 13,
+                                              fontSize: 13.mq(context),
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
                                             ),
@@ -419,7 +420,7 @@ class TrainingScreen extends StatelessWidget {
                                           Text(
                                             dateStr,
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
+                                              fontSize: 10.mq(context),
                                               color: const Color(0xFFB3B5BA),
                                             ),
                                           ),
@@ -428,7 +429,7 @@ class TrainingScreen extends StatelessWidget {
                                             text: TextSpan(
                                               text: '${workout.duration} min  ',
                                               style: GoogleFonts.poppins(
-                                                fontSize: 11,
+                                                fontSize: 11.mq(context),
                                                 fontWeight: FontWeight.w600,
                                                 color: Colors.white,
                                               ),
@@ -436,7 +437,7 @@ class TrainingScreen extends StatelessWidget {
                                                 TextSpan(
                                                   text: 'RPE: ',
                                                   style: GoogleFonts.poppins(
-                                                    fontSize: 11,
+                                                    fontSize: 11.mq(context),
                                                     fontWeight: FontWeight.w400,
                                                     color: const Color(0xFFB3B5BA),
                                                   ),
@@ -444,7 +445,7 @@ class TrainingScreen extends StatelessWidget {
                                                 TextSpan(
                                                   text: '${workout.rpe}',
                                                   style: GoogleFonts.poppins(
-                                                    fontSize: 11,
+                                                    fontSize: 11.mq(context),
                                                     fontWeight: FontWeight.bold,
                                                     color: const Color(0xFFFF7F7F), // Red/pink RPE
                                                   ),
@@ -468,7 +469,7 @@ class TrainingScreen extends StatelessWidget {
                                       child: Text(
                                         'Workload: ${workout.workload}',
                                         style: GoogleFonts.poppins(
-                                          fontSize: 10,
+                                          fontSize: 10.mq(context),
                                           fontWeight: FontWeight.bold,
                                           color: const Color(0xFF60A5FA), // Light blue text
                                         ),
@@ -497,7 +498,7 @@ class TrainingScreen extends StatelessWidget {
                                               const SizedBox(width: 8),
                                               Text(
                                                 'Delete',
-                                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                                               ),
                                             ],
                                           ),
@@ -531,11 +532,11 @@ class TrainingScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           'Delete Workout?',
-          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.mq(context)),
         ),
         content: Text(
           'Are you sure you want to remove this training session from your log?',
-          style: GoogleFonts.poppins(color: const Color(0xFFB3B5BA), fontSize: 13),
+          style: GoogleFonts.poppins(color: const Color(0xFFB3B5BA), fontSize: 13.mq(context)),
         ),
         actions: [
           TextButton(

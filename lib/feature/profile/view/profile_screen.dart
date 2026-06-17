@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     Text(
                       'Profile',
                       style: GoogleFonts.lora(
-                        fontSize: 26,
+                        fontSize: 26.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -105,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           controller.fullName.value,
                           style: GoogleFonts.lora(
-                            fontSize: 22,
+                            fontSize: 22.mq(context),
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -114,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           controller.email.value,
                           style: GoogleFonts.poppins(
-                            fontSize: 13,
+                            fontSize: 13.mq(context),
                             color: const Color(0xFFB3B5BA),
                           ),
                         ),
@@ -122,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           'Football',
                           style: GoogleFonts.poppins(
-                            fontSize: 12,
+                            fontSize: 12.mq(context),
                             fontWeight: FontWeight.bold,
                             color: AppColors.whiteColor,
                           ),
@@ -137,14 +138,12 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _buildStatCard(
+                            context,
                             icon: Image.asset(
                               'assets/icons/training_pulse.png',
                               width: 24,
                               height: 24,
                             ),
-                            //  icon: Icons.bolt,
-                            //
-                            // iconColor: const Color(0xFF4CB5FF),
                             value: '${controller.trainingCount.value}',
                             label: 'Training',
                           ),
@@ -152,8 +151,7 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _buildStatCard(
-                            // icon: Icons.favorite,
-                            // iconColor: const Color(0xFFFF4C4C),
+                            context,
                             icon: Image.asset('assets/icons/check-Ins.png',
                               width: 24,
                               height: 24,
@@ -165,12 +163,11 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _buildStatCard(
+                            context,
                             icon: Image.asset('assets/icons/event_icon.png',
                             width: 24,
                             height: 24,
                             ),
-                            // icon: Icons.show_chart,
-                            // iconColor: const Color(0xFFB54CFF),
                             value: '${controller.eventsCount.value}',
                             label: 'Events',
                           ),
@@ -196,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
                       Text(
                         'Your Goals',
                         style: GoogleFonts.lora(
-                          fontSize: 15,
+                          fontSize: 15.mq(context),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -208,7 +205,7 @@ class ProfileScreen extends StatelessWidget {
                             'No goals selected. Edit them in onboarding.',
                             style: GoogleFonts.poppins(
                               color: Colors.grey,
-                              fontSize: 12,
+                              fontSize: 12.mq(context),
                             ),
                           );
                         }
@@ -239,7 +236,7 @@ class ProfileScreen extends StatelessWidget {
                                     goal,
                                     style: GoogleFonts.poppins(
                                       color: Colors.white,
-                                      fontSize: 13,
+                                      fontSize: 13.mq(context),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -271,7 +268,7 @@ class ProfileScreen extends StatelessWidget {
                       Text(
                         'Data Management',
                         style: GoogleFonts.lora(
-                          fontSize: 15,
+                          fontSize: 15.mq(context),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -282,7 +279,6 @@ class ProfileScreen extends StatelessWidget {
                         child: Container(
                           height: 50,
                           decoration: BoxDecoration(
-                           // color: Colors.black.withValues(alpha: 0.35),
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
@@ -294,7 +290,6 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               const Icon(
                                 Icons.delete_outline,
-                               // color: Color(0xFFFF4C4C),
                                 color:AppColors.whiteColor,
                                 size: 20,
                               ),
@@ -302,9 +297,8 @@ class ProfileScreen extends StatelessWidget {
                               Text(
                                 'Clear All Data',
                                 style: GoogleFonts.poppins(
-                                 // color: const Color(0xFFFF4C4C),
                                   color:AppColors.whiteColor,
-                                  fontSize: 13,
+                                  fontSize: 13.mq(context),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -337,7 +331,7 @@ class ProfileScreen extends StatelessWidget {
                         'Logout',
                         style: GoogleFonts.poppins(
                           color: const Color(0xFFFF4C4C),
-                          fontSize: 14,
+                          fontSize: 14.mq(context),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -354,9 +348,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard({
-   // required IconData icon,
-   // required Color iconColor,
+  Widget _buildStatCard(
+    BuildContext context, {
     required Widget icon,
     required String value,
     required String label,
@@ -372,13 +365,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          //Icon(icon, color: iconColor, size: 24),
           icon,
           const SizedBox(height: 8),
           Text(
             value,
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 18.mq(context),
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -387,7 +379,7 @@ class ProfileScreen extends StatelessWidget {
           Text(
             label,
             style: GoogleFonts.poppins(
-              fontSize: 11,
+              fontSize: 11.mq(context),
               color: const Color(0xFFB3B5BA),
               fontWeight: FontWeight.w400,
             ),

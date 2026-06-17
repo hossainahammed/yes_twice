@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,7 +66,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     Text(
                       'Edit Profile',
                       style: GoogleFonts.lora(
-                        fontSize: 20,
+                        fontSize: 20.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -135,7 +136,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               'Tap to change photo',
                               style: GoogleFonts.poppins(
                                 color: const Color(0xFFB3B5BA),
-                                fontSize: 12,
+                                fontSize: 12.mq(context),
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -163,7 +164,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Text(
                               'Personal information',
                               style: GoogleFonts.lora(
-                                fontSize: 16,
+                                fontSize: 16.mq(context),
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -225,7 +226,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Text(
                               'Save Change',
                               style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 14.mq(context),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -249,7 +250,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Text(
       label,
       style: GoogleFonts.poppins(
-        fontSize: 12,
+        fontSize: 12.mq(context),
         fontWeight: FontWeight.w500,
         color: const Color(0xFFB3B5BA),
       ),
@@ -279,13 +280,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: TextField(
               controller: controller,
               keyboardType: keyboardType,
-              style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+              style: GoogleFonts.poppins(color: Colors.white, fontSize: 14.mq(context)),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hint,
                 hintStyle: GoogleFonts.poppins(
                   color: Colors.grey.shade600,
-                  fontSize: 14,
+                  fontSize: 14.mq(context),
                 ),
               ),
             ),

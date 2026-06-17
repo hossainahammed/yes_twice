@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -60,7 +61,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     Text(
                       'Change Password',
                       style: GoogleFonts.lora(
-                        fontSize: 20,
+                        fontSize: 20.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -84,7 +85,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         Text(
                           'Enter your current password and choose a new one.',
                           style: GoogleFonts.poppins(
-                            fontSize: 13,
+                            fontSize: 13.mq(context),
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFFB3B5BA),
                           ),
@@ -170,7 +171,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           child: Text(
                             'Change Password',
                             style: GoogleFonts.poppins(
-                              fontSize: 14,
+                              fontSize: 14.mq(context),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -194,7 +195,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             'Cancel',
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 14.mq(context),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -217,7 +218,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Text(
       label,
       style: GoogleFonts.poppins(
-        fontSize: 12,
+        fontSize: 12.mq(context),
         fontWeight: FontWeight.w500,
         color: const Color(0xFFB3B5BA),
       ),
@@ -248,7 +249,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
-              style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+              style: GoogleFonts.poppins(color: Colors.white, fontSize: 14.mq(context)),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return 'This field is required';
@@ -260,7 +261,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: hint,
                 hintStyle: GoogleFonts.poppins(
                   color: Colors.grey.shade600,
-                  fontSize: 14,
+                  fontSize: 14.mq(context),
                 ),
                 errorStyle: const TextStyle(height: 0),
               ),

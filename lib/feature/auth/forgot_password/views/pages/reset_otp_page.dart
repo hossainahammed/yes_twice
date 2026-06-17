@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,7 +93,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
                   'OTP Verification',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lora(
-                    fontSize: 28,
+                    fontSize: 28.mq(context),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -102,7 +103,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
                   'Please type the verification code',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
-                    fontSize: 13,
+                    fontSize: 13.mq(context),
                     fontWeight: FontWeight.w400,
                     color: const Color(0xFFB3B5BA),
                   ),
@@ -178,7 +179,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
               'Back to Login',
               style: GoogleFonts.poppins(
                 color: Colors.white.withValues(alpha: 0.85),
-                fontSize: 13,
+                fontSize: 13.mq(context),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -207,7 +208,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
         maxLength: 1,
         style: GoogleFonts.poppins(
           color: Colors.white,
-          fontSize: 18,
+          fontSize: 18.mq(context),
           fontWeight: FontWeight.bold,
         ),
         decoration: const InputDecoration(

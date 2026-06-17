@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +62,7 @@ class SplashSlidesScreen extends StatelessWidget {
                   'Skip',
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFF7F7F),
-                    fontSize: 14,
+                    fontSize: 14.mq(context),
                     fontWeight: FontWeight.w500,
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -135,7 +136,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                         Text(
                           isEditing ? 'Edit Check-in' : 'Recovery Check in',
                           style: GoogleFonts.poppins(
-                            fontSize: 20,
+                            fontSize: 20.mq(context),
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -216,7 +217,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                             Text(
                               'Save',
                               style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 14.mq(context),
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -257,7 +258,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                         child: Row(
                           children: [
                             const SizedBox(width: 10),
-                            const Text('👍', style: TextStyle(fontSize: 36)),
+                            Text('👍', style: TextStyle(fontSize: 36.mq(context))),
                             const SizedBox(width: 40),
                             Expanded(
                               child: Column(
@@ -266,7 +267,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                                   Text(
                                     'Your Readiness',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 14,
+                                      fontSize: 14.mq(context),
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFFB3B5BA),
                                     ),
@@ -275,7 +276,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                                   Text(
                                     '$readiness%',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 36,
+                                      fontSize: 36.mq(context),
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFFFF7F7F),
                                     ),
@@ -284,7 +285,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                                   Text(
                                     status,
                                     style: GoogleFonts.poppins(
-                                      fontSize: 13,
+                                      fontSize: 13.mq(context),
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFFB3B5BA),
                                     ),
@@ -411,7 +412,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
               Text(
                 title,
                 style: GoogleFonts.poppins(
-                  fontSize: 14,
+                  fontSize: 14.mq(context),
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),
@@ -419,7 +420,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
               Text(
                 valueStr,
                 style: GoogleFonts.poppins(
-                  fontSize: 22,
+                  fontSize: 22.mq(context),
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFFFF7F7F),
                 ),
@@ -450,7 +451,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                 Text(
                   leftCaption,
                   style: GoogleFonts.poppins(
-                    fontSize: 11,
+                    fontSize: 11.mq(context),
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFFB3B5BA),
                   ),
@@ -458,7 +459,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                 Text(
                   rightCaption,
                   style: GoogleFonts.poppins(
-                    fontSize: 11,
+                    fontSize: 11.mq(context),
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFFB3B5BA),
                   ),

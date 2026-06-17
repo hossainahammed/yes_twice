@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -71,7 +72,7 @@ class OnboardingScreen extends StatelessWidget {
                         'Skip',
                         style: GoogleFonts.poppins(
                           color: const Color(0xFFFF7F7F),
-                          fontSize: 14,
+                          fontSize: 14.mq(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -87,10 +88,10 @@ class OnboardingScreen extends StatelessWidget {
                   onPageChanged: controller.changePage,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _buildTrackJourneySlide(width, height),
-                    _buildPersonalInfoSlide(),
-                    _buildSelectSportsSlide(),
-                    _buildChooseGoalsSlide(),
+                    _buildTrackJourneySlide(context, width, height),
+                    _buildPersonalInfoSlide(context),
+                    _buildSelectSportsSlide(context),
+                    _buildChooseGoalsSlide(context),
                   ],
                 ),
               ),
@@ -112,7 +113,7 @@ class OnboardingScreen extends StatelessWidget {
                           Text(
                             'Continue',
                             style: GoogleFonts.poppins(
-                              fontSize: 14,
+                              fontSize: 14.mq(context),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -149,7 +150,7 @@ class OnboardingScreen extends StatelessWidget {
                                   'Back',
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
-                                    fontSize: 14,
+                                    fontSize: 14.mq(context),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -167,7 +168,7 @@ class OnboardingScreen extends StatelessWidget {
                             child: Text(
                               page == 3 ? 'Get Started' : 'Next',
                               style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 14.mq(context),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -186,7 +187,7 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Slide 1: Track Your Journey
-  Widget _buildTrackJourneySlide(double width, double height) {
+  Widget _buildTrackJourneySlide(BuildContext context, double width, double height) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -215,7 +216,7 @@ class OnboardingScreen extends StatelessWidget {
             'Track Your Journey',
             textAlign: TextAlign.center,
             style: GoogleFonts.lora(
-              fontSize: 26,
+              fontSize: 26.mq(context),
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -228,7 +229,7 @@ class OnboardingScreen extends StatelessWidget {
             'Monitor training, recovery, and performance\nall in one place',
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 13,
+              fontSize: 13.mq(context),
               fontWeight: FontWeight.w400,
               color: const Color(0xFFB3B5BA),
               height: 1.5,
@@ -240,7 +241,7 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Slide 2: Personal Information
-  Widget _buildPersonalInfoSlide() {
+  Widget _buildPersonalInfoSlide(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -250,7 +251,7 @@ class OnboardingScreen extends StatelessWidget {
           Text(
             'Personal Information',
             style: GoogleFonts.lora(
-              fontSize: 22,
+              fontSize: 22.mq(context),
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -258,9 +259,10 @@ class OnboardingScreen extends StatelessWidget {
           const SizedBox(height: 24),
 
           /// Age
-          _buildFormLabel('Your Age'),
+          _buildFormLabel(context, 'Your Age'),
           const SizedBox(height: 8),
           _buildCustomInput(
+            context,
             controller: controller.ageController,
             keyboardType: TextInputType.number,
             hintText: 'Enter your age',
@@ -269,13 +271,15 @@ class OnboardingScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           /// Height
-          _buildFormLabel('Height'),
+          _buildFormLabel(context, 'Height'),
           const SizedBox(height: 8),
           Obx(() => _buildCustomInput(
+                context,
                 controller: controller.heightController,
                 keyboardType: TextInputType.number,
                 hintText: 'Enter height',
                 suffixWidget: _buildUnitSelector(
+                  context,
                   selectedLabel: 'Cm',
                   unselectedLabel: 'Inches',
                   isSelected: controller.isCm.value,
@@ -286,13 +290,15 @@ class OnboardingScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           /// Weight
-          _buildFormLabel('Weight'),
+          _buildFormLabel(context, 'Weight'),
           const SizedBox(height: 8),
           Obx(() => _buildCustomInput(
+                context,
                 controller: controller.weightController,
                 keyboardType: TextInputType.number,
                 hintText: 'Enter weight',
                 suffixWidget: _buildUnitSelector(
+                  context,
                   selectedLabel: 'Kg',
                   unselectedLabel: 'Lbs',
                   isSelected: controller.isKg.value,
@@ -305,7 +311,7 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Slide 3: Select Your Sport
-  Widget _buildSelectSportsSlide() {
+  Widget _buildSelectSportsSlide(BuildContext context) {
     final sports = [
       ['Football', 'Basketball'],
       ['Soccer', 'Tennis'],
@@ -323,7 +329,7 @@ class OnboardingScreen extends StatelessWidget {
           Text(
             'Select Your Sport',
             style: GoogleFonts.lora(
-              fontSize: 22,
+              fontSize: 22.mq(context),
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -335,12 +341,12 @@ class OnboardingScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: _buildSportButton(pair[0]),
+                    child: _buildSportButton(context, pair[0]),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: pair[1].isNotEmpty
-                        ? _buildSportButton(pair[1])
+                        ? _buildSportButton(context, pair[1])
                         : const SizedBox.shrink(),
                   ),
                 ],
@@ -353,7 +359,7 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Slide 4: Choose Your Goals
-  Widget _buildChooseGoalsSlide() {
+  Widget _buildChooseGoalsSlide(BuildContext context) {
     final goals = [
       'Improve Performance',
       'Build Endurance',
@@ -371,31 +377,32 @@ class OnboardingScreen extends StatelessWidget {
           Text(
             'Choose Your Goals (select multiple)',
             style: GoogleFonts.lora(
-              fontSize: 22,
+              fontSize: 22.mq(context),
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 24),
-          ...goals.map((goal) => _buildGoalCard(goal)),
+          ...goals.map((goal) => _buildGoalCard(context, goal)),
         ],
       ),
     );
   }
 
   /// Helper Widgets for Inputs
-  Widget _buildFormLabel(String label) {
+  Widget _buildFormLabel(BuildContext context, String label) {
     return Text(
       label,
       style: GoogleFonts.poppins(
-        fontSize: 13,
+        fontSize: 13.mq(context),
         fontWeight: FontWeight.w500,
         color: const Color(0xFFB3B5BA),
       ),
     );
   }
 
-  Widget _buildCustomInput({
+  Widget _buildCustomInput(
+    BuildContext context, {
     required TextEditingController controller,
     required TextInputType keyboardType,
     required String hintText,
@@ -419,7 +426,7 @@ class OnboardingScreen extends StatelessWidget {
               keyboardType: keyboardType,
               style: GoogleFonts.poppins(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: 14.mq(context),
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
@@ -427,7 +434,7 @@ class OnboardingScreen extends StatelessWidget {
                 hintText: hintText,
                 hintStyle: GoogleFonts.poppins(
                   color: Colors.grey.shade600,
-                  fontSize: 14,
+                  fontSize: 14.mq(context),
                 ),
               ),
             ),
@@ -439,7 +446,8 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Helper Widget for unit toggle capsule
-  Widget _buildUnitSelector({
+  Widget _buildUnitSelector(
+    BuildContext context, {
     required String selectedLabel,
     required String unselectedLabel,
     required bool isSelected,
@@ -469,7 +477,7 @@ class OnboardingScreen extends StatelessWidget {
                 selectedLabel,
                 style: GoogleFonts.poppins(
                   color: isSelected ? Colors.white : Colors.grey.shade500,
-                  fontSize: 11,
+                  fontSize: 11.mq(context),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -487,7 +495,7 @@ class OnboardingScreen extends StatelessWidget {
                 unselectedLabel,
                 style: GoogleFonts.poppins(
                   color: !isSelected ? Colors.white : Colors.grey.shade500,
-                  fontSize: 11,
+                  fontSize: 11.mq(context),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -499,7 +507,7 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Helper Sport Select Button
-  Widget _buildSportButton(String sportName) {
+  Widget _buildSportButton(BuildContext context, String sportName) {
     return Obx(() {
       final isSelected = controller.selectedSport.value == sportName;
       return GestureDetector(
@@ -522,7 +530,7 @@ class OnboardingScreen extends StatelessWidget {
             sportName,
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 13,
+              fontSize: 13.mq(context),
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
             ),
           ),
@@ -532,7 +540,7 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   /// Helper Goal Select Card
-  Widget _buildGoalCard(String goalName) {
+  Widget _buildGoalCard(BuildContext context, String goalName) {
     return Obx(() {
       final isSelected = controller.selectedGoals.contains(goalName);
       return GestureDetector(
@@ -559,7 +567,7 @@ class OnboardingScreen extends StatelessWidget {
                 goalName,
                 style: GoogleFonts.poppins(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 13.mq(context),
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 ),
               ),

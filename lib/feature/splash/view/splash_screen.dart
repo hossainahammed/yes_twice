@@ -1,4 +1,5 @@
-// import 'package:flutter/material.dart';
+// import 'package:yes_twice/core/constant/app_text_styles.dart';
+import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'dart:math' as math;
@@ -152,7 +153,7 @@
 //                           'PLTFUL',
 //                           style: GoogleFonts.manrope(
 //                             color: Colors.white,
-//                             fontSize: 48,
+//                             fontSize: 48.mq(context),
 //                             fontWeight: FontWeight.w800,
 //                             letterSpacing: -1,
 //                           ),
@@ -162,7 +163,7 @@
 //                           'Crave. Discover. Experience.',
 //                           style: GoogleFonts.manrope(
 //                             color: Colors.grey[400],
-//                             fontSize: 14,
+//                             fontSize: 14.mq(context),
 //                             fontWeight: FontWeight.w400,
 //                             letterSpacing: 0.5,
 //                           ),

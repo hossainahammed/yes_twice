@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,7 +49,7 @@ class TermsConditionScreen extends StatelessWidget {
                     Text(
                       'Terms & Condition',
                       style: GoogleFonts.lora(
-                        fontSize: 20,
+                        fontSize: 20.mq(context),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -95,7 +96,7 @@ class TermsConditionScreen extends StatelessWidget {
                             Text(
                               'Terms & Condition',
                               style: GoogleFonts.lora(
-                                fontSize: 16,
+                                fontSize: 16.mq(context),
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -108,6 +109,7 @@ class TermsConditionScreen extends StatelessWidget {
 
                       /// Introductory Summary block
                       _buildSummaryBlock(
+                        context,
                         'This Terms of Service agreement governs your access to and use of our mobile application and elite performance platform. By accessing the platform, you acknowledge you have read and agreed to these terms.',
                       ),
 
@@ -115,18 +117,21 @@ class TermsConditionScreen extends StatelessWidget {
 
                       /// Sections
                       _buildTermsSection(
+                        context,
                         title: 'ACCEPTANCE OF TERMS',
                         content:
                             'By downloading, installing, or using this application, you agree to be bound by these Terms of Service. If you do not agree to all terms, you are prohibited from using the platform and must delete all cached data immediately.',
                       ),
 
                       _buildTermsSection(
+                        context,
                         title: 'PERFORMANCE DATA',
                         content:
                             'All metrics provided by this application, including heart rate variability (HRV), readiness scores, and intensity targets, are for personal growth and educational purposes only.',
                       ),
 
                       _buildTermsSection(
+                        context,
                         title: 'AS-IS WARRANTY',
                         content:
                             'We provide the platform and data on an "as-is" and "as-available" basis. It is not a medical device and should not be used to diagnose or treat any medical condition. Always consult with a licensed professional before beginning an intensive training regimen.',
@@ -144,7 +149,7 @@ class TermsConditionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryBlock(String text) {
+  Widget _buildSummaryBlock(BuildContext context, String text) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -154,7 +159,7 @@ class TermsConditionScreen extends StatelessWidget {
       child: Text(
         text,
         style: GoogleFonts.poppins(
-          fontSize: 13,
+          fontSize: 13.mq(context),
           height: 1.4,
           color: const Color(0xFFB3B5BA),
         ),
@@ -162,7 +167,11 @@ class TermsConditionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTermsSection({required String title, required String content}) {
+  Widget _buildTermsSection(
+    BuildContext context, {
+    required String title,
+    required String content,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -177,7 +186,7 @@ class TermsConditionScreen extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.poppins(
-              fontSize: 11,
+              fontSize: 11.mq(context),
               fontWeight: FontWeight.bold,
               color: AppColors.whiteColor,
               letterSpacing: 0.5,
@@ -187,7 +196,7 @@ class TermsConditionScreen extends StatelessWidget {
           Text(
             content,
             style: GoogleFonts.poppins(
-              fontSize: 13,
+              fontSize: 13.mq(context),
               height: 1.45,
               color: const Color(0xFFB3B5BA),
             ),

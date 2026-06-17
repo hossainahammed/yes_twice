@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../profile/view/profile_screen.dart';
 
@@ -16,7 +17,7 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
   final _titleController = TextEditingController();
   String _selectedType = 'Practice';
-  DateTime _selectedDate = DateTime(2026, 1, 1);
+  DateTime _selectedDate = DateTime.now();
   int _duration = 60;
   final _notesController = TextEditingController();
 
@@ -87,7 +88,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         Text(
                           'Add Event',
                           style: GoogleFonts.poppins(
-                            fontSize: 20,
+                            fontSize: 20.mq(context),
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -148,7 +149,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             Text(
                               'Save',
                               style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: 14.mq(context),
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -180,12 +181,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           ),
                           child: TextField(
                             controller: _titleController,
-                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                             decoration: InputDecoration(
                               hintText: 'e.g., Team Practice, Championship Game',
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.grey.shade600,
-                                fontSize: 13,
+                                fontSize: 13.mq(context),
                               ),
                               border: InputBorder.none,
                             ),
@@ -232,7 +233,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 child: Text(
                                   type,
                                   style: GoogleFonts.poppins(
-                                    fontSize: 13,
+                                    fontSize: 13.mq(context),
                                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                                     color: isSelected ? Colors.white : const Color(0xFFB3B5BA),
                                   ),
@@ -285,7 +286,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               children: [
                                 Text(
                                   dateStr,
-                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                                 ),
                                 Icon(Icons.calendar_today_outlined, color: Colors.grey.shade400, size: 18),
                               ],
@@ -312,7 +313,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               children: [
                                 Text(
                                   '$_duration',
-                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                                 ),
                                 Icon(Icons.access_time_outlined, color: Colors.grey.shade400, size: 18),
                               ],
@@ -335,12 +336,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           child: TextField(
                             controller: _notesController,
                             maxLines: 4,
-                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                             decoration: InputDecoration(
                               hintText: 'How did the workout feel? Any observations?',
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.grey.shade600,
-                                fontSize: 13,
+                                fontSize: 13.mq(context),
                               ),
                               border: InputBorder.none,
                             ),
@@ -377,7 +378,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               Text(
                 title,
                 style: GoogleFonts.poppins(
-                  fontSize: 14,
+                  fontSize: 14.mq(context),
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -387,7 +388,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 Text(
                   suffixTitle,
                   style: GoogleFonts.poppins(
-                    fontSize: 12,
+                    fontSize: 12.mq(context),
                     color: const Color(0xFFB3B5BA),
                   ),
                 ),
@@ -410,7 +411,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           'Select Duration',
-          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.mq(context)),
         ),
         content: StatefulBuilder(
           builder: (context, setModalState) {
@@ -419,7 +420,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               children: [
                 Text(
                   '$localDuration minutes',
-                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 18.mq(context), fontWeight: FontWeight.bold),
                 ),
                 Slider(
                   value: localDuration.toDouble(),

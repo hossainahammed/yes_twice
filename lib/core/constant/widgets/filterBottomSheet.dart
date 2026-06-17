@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +32,7 @@ class FilterBottomSheet extends StatelessWidget {
             Text(
               'Filter',
               style: GoogleFonts.manrope(
-                fontSize: 24,
+                fontSize: 24.mq(context),
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
@@ -118,14 +119,14 @@ class FilterBottomSheet extends StatelessWidget {
                       'Open Now',
                       style: GoogleFonts.manrope(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 16.mq(context),
                         color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
                     Text(
                       'Only show currently open restaurants',
                       style: GoogleFonts.manrope(
-                        fontSize: 12,
+                        fontSize: 12.mq(context),
                         color: Colors.grey,
                       ),
                     ),
@@ -197,7 +198,7 @@ class FilterBottomSheet extends StatelessWidget {
 
   TextStyle _sectionTitleStyle(BuildContext context) {
     return GoogleFonts.manrope(
-      fontSize: 14,
+      fontSize: 14.mq(context),
       fontWeight: FontWeight.bold,
       color: Theme.of(context).brightness == Brightness.dark
           ? Colors.grey[400]
@@ -215,7 +216,7 @@ class FilterBottomSheet extends StatelessWidget {
           Text(
             label,
             style: GoogleFonts.manrope(
-              fontSize: 16,
+              fontSize: 16.mq(context),
               fontWeight: FontWeight.w600,
               color: Theme.of(context).textTheme.bodyMedium?.color,
             ),

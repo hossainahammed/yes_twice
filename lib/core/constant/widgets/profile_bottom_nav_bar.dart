@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,8 +113,7 @@ class BottomNavBar extends StatelessWidget {
                     Text(
                       item['label']!,
                       style: GoogleFonts.poppins(
-                        fontSize:
-                            9.5, // Slightly smaller text to prevent any overflow on standard screens
+                        fontSize: 9.5.mq(context), // Slightly smaller text to prevent any overflow on standard screens
                         fontWeight:
                             isActive ? FontWeight.w700 : FontWeight.w400,
                         color:
