@@ -309,31 +309,55 @@ class TrainingScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-                            // Decorative dropdown
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF101828).withOpacity(0.55),
+                            // Dropdown for filtering options
+                            Obx(() => PopupMenuButton<String>(
+                              onSelected: (value) {
+                                trainingController.filterOption.value = value;
+                              },
+                              color: const Color(0xFF111827),
+                              shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.06),
+                              ),
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 'Daily',
+                                  child: Text('Daily', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
+                                ),
+                                PopupMenuItem(
+                                  value: 'Weekly',
+                                  child: Text('Weekly', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
+                                ),
+                                PopupMenuItem(
+                                  value: 'Monthly',
+                                  child: Text('Monthly', style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
+                                ),
+                              ],
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF101828).withOpacity(0.55),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.06),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      trainingController.filterOption.value,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 11,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 14),
+                                  ],
                                 ),
                               ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Daily',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 11,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 14),
-                                ],
-                              ),
-                            ),
+                            )),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -345,18 +369,20 @@ class TrainingScreen extends StatelessWidget {
                               final workout = workoutsList[index];
                               final dateStr = DateFormat('EEEE, MMMM d, yyyy').format(workout.date);
 
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF101828).withOpacity(0.55),
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(0.06),
+                              return GestureDetector(
+                                onTap: () => Get.to(() => AddTrainingScreen(workoutToEdit: workout)),
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF101828).withOpacity(0.55),
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.06),
+                                    ),
                                   ),
-                                ),
-                                child: Row(
-                                  children: [
+                                  child: Row(
+                                    children: [
                                     // Left Pulse Icon Container
                                     Container(
                                       padding: const EdgeInsets.all(10),
@@ -480,8 +506,9 @@ class TrainingScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              );
-                            },
+                              ),
+                            );
+                          },
                           ),
                         ),
                       ],

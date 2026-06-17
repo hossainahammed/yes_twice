@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../profile/view/profile_screen.dart';
 
@@ -132,7 +133,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF162A45),
+                          color: AppColors.saveButtonBg,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(

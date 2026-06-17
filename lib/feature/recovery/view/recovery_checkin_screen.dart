@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../profile/controller/profile_controller.dart';
 import '../../profile/view/profile_screen.dart';
@@ -13,10 +14,10 @@ class RecoveryCheckinScreen extends StatefulWidget {
   State<RecoveryCheckinScreen> createState() => _RecoveryCheckinScreenState();
 }
 
-class CustomSliderThumbShape extends SliderComponentShape {
+class RecoverySliderThumbShape extends SliderComponentShape {
   final double enabledThumbRadius;
 
-  const CustomSliderThumbShape({this.enabledThumbRadius = 10.0});
+  const RecoverySliderThumbShape({this.enabledThumbRadius = 10.0});
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
@@ -200,7 +201,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF162A45),
+                          color: AppColors.saveButtonBg,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(
@@ -433,7 +434,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
               inactiveTrackColor: const Color(0xFF111721),
               thumbColor: const Color(0xFFD1D5DB),
               overlayColor: const Color(0xFFFF7F7F).withOpacity(0.15),
-              thumbShape: const CustomSliderThumbShape(
+              thumbShape: const RecoverySliderThumbShape(
                 enabledThumbRadius: 10.0,
               ),
               trackShape: const RoundedRectSliderTrackShape(),

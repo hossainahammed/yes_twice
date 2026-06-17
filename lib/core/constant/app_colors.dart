@@ -15,6 +15,7 @@ class AppColors {
 
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color buttonColor = Color(0xFF0E2A47);
+  static const Color saveButtonBg = Color(0xFF162A45);
   static const Color ratingColor = Color(0xFFFC8838);
   static const Color redColor = Color(0xFFD9070B);
   static const Color reviewBgColor = Color(0xFFFFDBD1);

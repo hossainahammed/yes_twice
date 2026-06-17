@@ -6,6 +6,7 @@ import '../../../feature/profile/controller/profile_controller.dart';
 class TrainingController extends GetxController {
   var workouts = <WorkoutModel>[].obs;
   var searchQuery = ''.obs;
+  var filterOption = 'Daily'.obs; // Daily, Weekly, Monthly
 
   @override
   void onInit() {
@@ -13,14 +14,55 @@ class TrainingController extends GetxController {
     loadWorkouts();
   }
 
-  // Filtered workouts based on search query
+  // Filtered workouts based on search query and time filter
   List<WorkoutModel> get filteredWorkouts {
-    if (searchQuery.value.trim().isEmpty) {
-      return workouts;
+    List<WorkoutModel> list = workouts;
+
+    // Apply search query
+    if (searchQuery.value.trim().isNotEmpty) {
+      list =
+          list
+              .where(
+                (w) => w.type.toLowerCase().contains(
+                  searchQuery.value.toLowerCase().trim(),
+                ),
+              )
+              .toList();
     }
-    return workouts
-        .where((w) => w.type.toLowerCase().contains(searchQuery.value.toLowerCase().trim()))
-        .toList();
+
+    // Apply time filter (Daily, Weekly, Monthly)
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    if (filterOption.value == 'Daily') {
+      list =
+          list.where((w) {
+            final wDate = DateTime(w.date.year, w.date.month, w.date.day);
+            return wDate.isAtSameMomentAs(today);
+          }).toList();
+    } else if (filterOption.value == 'Weekly') {
+      final sevenDaysAgo = today.subtract(const Duration(days: 7));
+      list =
+          list
+              .where(
+                (w) =>
+                    w.date.isAfter(sevenDaysAgo) ||
+                    w.date.isAtSameMomentAs(sevenDaysAgo),
+              )
+              .toList();
+    } else if (filterOption.value == 'Monthly') {
+      final thirtyDaysAgo = today.subtract(const Duration(days: 30));
+      list =
+          list
+              .where(
+                (w) =>
+                    w.date.isAfter(thirtyDaysAgo) ||
+                    w.date.isAtSameMomentAs(thirtyDaysAgo),
+              )
+              .toList();
+    }
+
+    return list;
   }
 
   // Averages
@@ -43,9 +85,10 @@ class TrainingController extends GetxController {
     // If we want it to match the screenshot's '280' or be dynamic, let's calculate it dynamically.
     final now = DateTime.now();
     final sevenDaysAgo = now.subtract(const Duration(days: 7));
-    
+
     // Fallback: If no workouts in last 7 days, return total workload of current list
-    final recentWorkouts = workouts.where((w) => w.date.isAfter(sevenDaysAgo)).toList();
+    final recentWorkouts =
+        workouts.where((w) => w.date.isAfter(sevenDaysAgo)).toList();
     if (recentWorkouts.isEmpty) {
       return workouts.fold(0, (sum, w) => sum + w.workload);
     }
@@ -67,7 +110,13 @@ class TrainingController extends GetxController {
   }
 
   // Edit a workout
-  void editWorkout(String id, String type, int duration, int rpe, DateTime date) {
+  void editWorkout(
+    String id,
+    String type,
+    int duration,
+    int rpe,
+    DateTime date,
+  ) {
     final index = workouts.indexWhere((w) => w.id == id);
     if (index != -1) {
       workouts[index] = WorkoutModel(
@@ -102,15 +151,42 @@ class TrainingController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       final List<String>? workoutsJson = prefs.getStringList('logged_workouts');
       if (workoutsJson != null) {
-        workouts.value = workoutsJson.map((jsonStr) => WorkoutModel.fromJson(jsonStr)).toList();
+        workouts.value =
+            workoutsJson
+                .map((jsonStr) => WorkoutModel.fromJson(jsonStr))
+                .toList();
       } else {
         // Pre-populate with default data matching the mockup screens
         final mockDate = DateTime(2026, 5, 5);
         workouts.value = [
-          WorkoutModel(id: '1', type: 'Swimming', duration: 60, rpe: 8, date: mockDate),
-          WorkoutModel(id: '2', type: 'Running', duration: 60, rpe: 8, date: mockDate),
-          WorkoutModel(id: '3', type: 'Swimming', duration: 60, rpe: 8, date: mockDate),
-          WorkoutModel(id: '4', type: 'Gym', duration: 60, rpe: 8, date: mockDate),
+          WorkoutModel(
+            id: '1',
+            type: 'Swimming',
+            duration: 60,
+            rpe: 8,
+            date: mockDate,
+          ),
+          WorkoutModel(
+            id: '2',
+            type: 'Running',
+            duration: 60,
+            rpe: 8,
+            date: mockDate,
+          ),
+          WorkoutModel(
+            id: '3',
+            type: 'Swimming',
+            duration: 60,
+            rpe: 8,
+            date: mockDate,
+          ),
+          WorkoutModel(
+            id: '4',
+            type: 'Gym',
+            duration: 60,
+            rpe: 8,
+            date: mockDate,
+          ),
         ];
         await saveWorkouts();
       }
@@ -124,7 +200,8 @@ class TrainingController extends GetxController {
   Future<void> saveWorkouts() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final List<String> workoutsJson = workouts.map((w) => w.toJson()).toList();
+      final List<String> workoutsJson =
+          workouts.map((w) => w.toJson()).toList();
       await prefs.setStringList('logged_workouts', workoutsJson);
     } catch (e) {
       print('Error saving workouts: $e');

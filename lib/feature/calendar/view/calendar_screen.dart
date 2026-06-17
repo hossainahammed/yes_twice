@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
 import '../../training/controller/training_controller.dart';
 import '../../profile/controller/profile_controller.dart';
 import '../../profile/view/profile_screen.dart';
@@ -34,7 +35,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   void _syncEventsCount() {
     if (Get.isRegistered<ProfileController>()) {
-      Get.find<ProfileController>().eventsCount.value = dashboardController.events.length;
+      Get.find<ProfileController>().eventsCount.value =
+          dashboardController.events.length;
     }
   }
 
@@ -121,7 +123,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
+                        // backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
+                        backgroundColor: const Color(
+                          0xFF1E3A8A,
+                        ).withOpacity(0.9),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 8,
@@ -275,12 +280,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     _selectedDay.day == date.day;
 
                                 // Check if this day has events
-                                final bool hasEvent = dashboardController.events.any((e) {
-                                  final ed = e['date'] as DateTime;
-                                  return ed.year == date.year &&
-                                      ed.month == date.month &&
-                                      ed.day == date.day;
-                                });
+                                final bool hasEvent = dashboardController.events
+                                    .any((e) {
+                                      final ed = e['date'] as DateTime;
+                                      return ed.year == date.year &&
+                                          ed.month == date.month &&
+                                          ed.day == date.day;
+                                    });
 
                                 // Check if this day has workouts
                                 final bool hasWorkout = trainingController
@@ -429,6 +435,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           Icon(
                             Icons.calendar_today_outlined,
                             color: Colors.white.withOpacity(0.4),
+
                             size: 36,
                           ),
                           const SizedBox(height: 12),
@@ -472,9 +479,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 ),
                                 child: Icon(
                                   Icons.calendar_today_outlined,
-                                  color: const Color(
-                                    0xFF60A5FA,
-                                  ).withOpacity(0.8),
+                                  color: AppColors.shade3,
+                                  // color: const Color(
+                                  //   0xFF60A5FA,
+                                  // ).withOpacity(0.8),
                                   size: 18,
                                 ),
                               ),
