@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import '../controller/profile_controller.dart';
 import 'settings_privacy_screen.dart';
+import '../../dashboard/controller/dashboard_controller.dart';
+import '../../dashboard/view/dashboard_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -346,7 +348,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 4),
     );
   }
 
@@ -429,18 +430,10 @@ class ProfileBottomNavBar extends StatelessWidget {
             final item = tabs[index];
             return GestureDetector(
               onTap: () {
-                if (index == 4) {
-                  if (activeIndex != 4) {
-                    Get.offAll(() => const ProfileScreen());
-                  }
-                } else {
-                  Get.snackbar(
-                    'Notice',
-                    '${item['label']} screen is mocked.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.black54,
-                    colorText: Colors.white,
-                  );
+                final dashboardController = Get.put(DashboardController());
+                dashboardController.changeTab(index);
+                if (Navigator.of(context).canPop()) {
+                  Get.offAll(() => const DashboardScreen());
                 }
               },
               child: Container(

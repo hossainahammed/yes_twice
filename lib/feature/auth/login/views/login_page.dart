@@ -6,6 +6,7 @@ import 'package:yes_twice/core/constant/image_path.dart';
 import 'package:yes_twice/feature/auth/registration/views/registration_page.dart';
 import 'package:yes_twice/feature/auth/forgot_password/views/forgot_password_page.dart';
 import 'package:yes_twice/feature/profile/view/profile_screen.dart';
+import 'package:yes_twice/feature/dashboard/view/dashboard_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -200,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Get.offAll(() => const ProfileScreen());
+                              Get.offAll(() => const DashboardScreen());
                             }
                           },
                           style: ElevatedButton.styleFrom(
