@@ -11,7 +11,7 @@ class RecoveryScreen extends StatelessWidget {
 
   Color _getStatusColor(int score) {
     if (score >= 80) return const Color(0xFF10B981); // Green - Ready
-    if (score >= 40) return const Color(0xFFF59E0B); // Amber - Moderate
+    if (score >= 40) return const Color(0xFFFF7F7F); // Amber - Moderate//FF7F7F
     return const Color(0xFFEF4444); // Red - Recovery Needed
   }
 
@@ -89,7 +89,7 @@ class RecoveryScreen extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
+                        backgroundColor: const Color(0xFF0E2A47), // Indigo blue
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 8,
@@ -109,9 +109,16 @@ class RecoveryScreen extends StatelessWidget {
                 Obx(() {
                   final avgVal = dashboardController.avgRecovery;
                   final avgRound = avgVal.round();
-                  final avgStr = avgVal % 1 == 0 ? '$avgRound%' : '${avgVal.toStringAsFixed(1)}%';
-                  final statusText = avgRound > 0 ? _getStatusText(avgRound) : 'No Data';
-                  final statusColor = avgRound > 0 ? _getStatusColor(avgRound) : const Color(0xFFB3B5BA);
+                  final avgStr =
+                      avgVal % 1 == 0
+                          ? '$avgRound%'
+                          : '${avgVal.toStringAsFixed(1)}%';
+                  final statusText =
+                      avgRound > 0 ? _getStatusText(avgRound) : 'No Data';
+                  final statusColor =
+                      avgRound > 0
+                          ? _getStatusColor(avgRound)
+                          : const Color(0xFFB3B5BA);
 
                   return Row(
                     children: [
@@ -153,11 +160,16 @@ class RecoveryScreen extends StatelessWidget {
                 Obx(() {
                   if (dashboardController.checkins.isEmpty) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 40,
+                        horizontal: 16,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF101828).withOpacity(0.55),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white.withOpacity(0.06)),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.06),
+                        ),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -189,13 +201,18 @@ class RecoveryScreen extends StatelessWidget {
                       final log = dashboardController.checkins[index];
                       final score = log['score'] as int;
                       final date = log['date'] as DateTime;
-                      final dateStr = DateFormat('EEEE, MMMM d').format(date); // Day name, Month name with date, delete the Year
+                      final dateStr = DateFormat('EEEE, MMMM d').format(
+                        date,
+                      ); // Day name, Month name with date, delete the Year
                       final timeStr = DateFormat('h:mm a').format(date);
                       final status = _getStatusText(score);
                       final statusColor = _getStatusColor(score);
 
                       return GestureDetector(
-                        onTap: () => Get.to(() => RecoveryCheckinScreen(checkinToEdit: log)),
+                        onTap:
+                            () => Get.to(
+                              () => RecoveryCheckinScreen(checkinToEdit: log),
+                            ),
                         behavior: HitTestBehavior.opaque,
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 12),
@@ -203,93 +220,114 @@ class RecoveryScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: const Color(0xFF101828).withOpacity(0.55),
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.white.withOpacity(0.06)),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.06),
+                            ),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dateStr,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      timeStr,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 11,
-                                        color: const Color(0xFFB3B5BA),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '$score%',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: statusColor,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      status,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600,
-                                        color: statusColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            const Divider(color: Colors.white10, height: 1),
-                            const SizedBox(height: 12),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      _buildMetricRow('Sleep', '${log['sleep']}/10', Icons.bedtime_outlined),
-                                      const SizedBox(height: 8),
-                                      _buildMetricRow('Energy', '${log['energy']}/10', Icons.flash_on_outlined),
+                                      Text(
+                                        dateStr,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        timeStr,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 11,
+                                          color: const Color(0xFFB3B5BA),
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      _buildMetricRow('Stress', '${log['stress']}/10', Icons.psychology_outlined),
-                                      const SizedBox(height: 8),
-                                      _buildMetricRow('Soreness', '${log['soreness']}/10', Icons.fitness_center_outlined),
+                                      Text(
+                                        '$score%',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: statusColor,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        status,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: statusColor,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              const Divider(color: Colors.white10, height: 1),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _buildMetricRow(
+                                          'Sleep',
+                                          '${log['sleep']}/10',
+                                          Icons.bedtime_outlined,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        _buildMetricRow(
+                                          'Energy',
+                                          '${log['energy']}/10',
+                                          Icons.flash_on_outlined,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _buildMetricRow(
+                                          'Stress',
+                                          '${log['stress']}/10',
+                                          Icons.psychology_outlined,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        _buildMetricRow(
+                                          'Soreness',
+                                          '${log['soreness']}/10',
+                                          Icons.fitness_center_outlined,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       );
                     },
-
                   );
                 }),
                 const SizedBox(height: 24),

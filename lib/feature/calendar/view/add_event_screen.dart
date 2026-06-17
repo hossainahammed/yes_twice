@@ -94,8 +94,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       ],
                     ),
                     // Save Button
-                    ElevatedButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         if (_titleController.text.trim().isEmpty) {
                           Get.snackbar(
                             'Title Required',
@@ -113,7 +113,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         dashboardController.events.add({
                           'id': now.millisecondsSinceEpoch.toString(),
                           'title': _titleController.text.trim(),
-                          'time': timeStr.split(" ").first, // Match screenshot style "12:46"
+                          'time': timeStr.split(" ").first, // Match style "12:46"
                           'date': _selectedDate,
                           'category': _selectedType,
                           'duration': _duration,
@@ -129,21 +129,30 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           colorText: Colors.white,
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF162A45),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      child: Text(
-                        'Save',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.bookmark_border_rounded,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Save',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -158,41 +167,34 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      /// Event Title Section
-                      _buildSectionHeader('Event Title'),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF101828).withOpacity(0.55),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white.withOpacity(0.06)),
-                        ),
-                        child: TextField(
-                          controller: _titleController,
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                          decoration: InputDecoration(
-                            hintText: 'e.g., Team Practice, Championship Game',
-                            hintStyle: GoogleFonts.poppins(
-                              color: Colors.grey.shade600,
-                              fontSize: 13,
+                      /// Event Title Card
+                      _buildCard(
+                        title: 'Event Title',
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.white.withOpacity(0.05)),
+                          ),
+                          child: TextField(
+                            controller: _titleController,
+                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                            decoration: InputDecoration(
+                              hintText: 'e.g., Team Practice, Championship Game',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.grey.shade600,
+                                fontSize: 13,
+                              ),
+                              border: InputBorder.none,
                             ),
-                            border: InputBorder.none,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 18),
 
-                      /// Event Type Section
-                      _buildSectionHeader('Event Type'),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF101828).withOpacity(0.55),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.white.withOpacity(0.06)),
-                        ),
+                      /// Event Type Card
+                      _buildCard(
+                        title: 'Event Type',
                         child: GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -216,7 +218,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? const Color(0xFF1E3A8A).withOpacity(0.25)
+                                      ? const Color(0xFF162C4E)
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
@@ -239,106 +241,108 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 18),
 
-                      /// Date Section
-                      _buildSectionHeader('Date'),
-                      const SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () async {
-                          final picked = await showDatePicker(
-                            context: context,
-                            initialDate: _selectedDate,
-                            firstDate: DateTime(2025),
-                            lastDate: DateTime.now().add(const Duration(days: 365)),
-                            builder: (context, child) {
-                              return Theme(
-                                data: Theme.of(context).copyWith(
-                                  colorScheme: const ColorScheme.dark(
-                                    primary: Color(0xFFFF7F7F),
-                                    onPrimary: Colors.white,
-                                    surface: Color(0xFF101828),
-                                    onSurface: Colors.white,
+                      /// Date Card
+                      _buildCard(
+                        title: 'Date',
+                        child: GestureDetector(
+                          onTap: () async {
+                            final picked = await showDatePicker(
+                              context: context,
+                              initialDate: _selectedDate,
+                              firstDate: DateTime(2025),
+                              lastDate: DateTime.now().add(const Duration(days: 365)),
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: const ColorScheme.dark(
+                                      primary: Color(0xFFFF7F7F),
+                                      onPrimary: Colors.white,
+                                      surface: Color(0xFF101828),
+                                      onSurface: Colors.white,
+                                    ),
                                   ),
-                                ),
-                                child: child!,
-                              );
-                            },
-                          );
-                          if (picked != null) {
-                            setState(() {
-                              _selectedDate = picked;
-                            });
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF101828).withOpacity(0.55),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white.withOpacity(0.06)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                dateStr,
-                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                              ),
-                              Icon(Icons.calendar_today_outlined, color: Colors.grey.shade400, size: 18),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-
-                      /// Duration Section
-                      _buildSectionHeader('Duration (Minutes)'),
-                      const SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () => _showDurationPicker(context),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF101828).withOpacity(0.55),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white.withOpacity(0.06)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '$_duration',
-                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                              ),
-                              Icon(Icons.access_time_outlined, color: Colors.grey.shade400, size: 18),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-
-                      /// Notes Section
-                      _buildSectionHeader('Notes (Optional)'),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF101828).withOpacity(0.55),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.white.withOpacity(0.06)),
-                        ),
-                        child: TextField(
-                          controller: _notesController,
-                          maxLines: 4,
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                          decoration: InputDecoration(
-                            hintText: 'How did the workout feel? Any observations?',
-                            hintStyle: GoogleFonts.poppins(
-                              color: Colors.grey.shade600,
-                              fontSize: 13,
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (picked != null) {
+                              setState(() {
+                                _selectedDate = picked;
+                              });
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.white.withOpacity(0.05)),
                             ),
-                            border: InputBorder.none,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  dateStr,
+                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                                ),
+                                Icon(Icons.calendar_today_outlined, color: Colors.grey.shade400, size: 18),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      /// Duration Card
+                      _buildCard(
+                        title: 'Duration',
+                        suffixTitle: '(Minutes)',
+                        child: GestureDetector(
+                          onTap: () => _showDurationPicker(context),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.white.withOpacity(0.05)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '$_duration',
+                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                                ),
+                                Icon(Icons.access_time_outlined, color: Colors.grey.shade400, size: 18),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      /// Notes Card
+                      _buildCard(
+                        title: 'Notes',
+                        suffixTitle: '(Optional)',
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.white.withOpacity(0.05)),
+                          ),
+                          child: TextField(
+                            controller: _notesController,
+                            maxLines: 4,
+                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+                            decoration: InputDecoration(
+                              hintText: 'How did the workout feel? Any observations?',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.grey.shade600,
+                                fontSize: 13,
+                              ),
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
                       ),
@@ -355,13 +359,43 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
-    return Text(
-      title,
-      style: GoogleFonts.poppins(
-        fontSize: 13,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+  Widget _buildCard({required String title, required Widget child, String? suffixTitle}) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFF111C2B),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              if (suffixTitle != null) ...[
+                const SizedBox(width: 4),
+                Text(
+                  suffixTitle,
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    color: const Color(0xFFB3B5BA),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 12),
+          child,
+        ],
       ),
     );
   }
