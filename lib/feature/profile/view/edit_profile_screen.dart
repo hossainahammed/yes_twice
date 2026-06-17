@@ -35,10 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           gradient: RadialGradient(
             center: Alignment(0.0, -0.8),
             radius: 1.5,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
+            colors: [Color(0xFF2B1416), Color(0xFF080808)],
           ),
         ),
         child: SafeArea(
@@ -47,7 +44,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               /// Top Bar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -77,7 +77,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               /// Scrollable Fields
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -95,7 +98,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Colors.white.withValues(alpha: 0.1),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.1,
+                                      ),
                                       width: 2,
                                     ),
                                   ),
@@ -144,7 +149,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF101828).withValues(alpha: 0.55),
+                          color: const Color(
+                            0xFF101828,
+                          ).withValues(alpha: 0.55),
                           borderRadius: BorderRadius.circular(24),
                           border: Border.all(
                             color: Colors.white.withValues(alpha: 0.08),
@@ -194,23 +201,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               prefixIcon: Icons.phone_outlined,
                               controller: controller.phoneInputController,
                               keyboardType: TextInputType.phone,
-                              suffixWidget: Container(
-                                width: 24,
-                                height: 24,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF9C27B0), // Purple S badge
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'S',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -279,9 +269,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.35),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Row(
         children: [

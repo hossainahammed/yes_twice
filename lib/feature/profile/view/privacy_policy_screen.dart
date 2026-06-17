@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
 import 'profile_screen.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -17,10 +18,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           gradient: RadialGradient(
             center: Alignment(0.0, -0.8),
             radius: 1.5,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
+            colors: [Color(0xFF2B1416), Color(0xFF080808)],
           ),
         ),
         child: SafeArea(
@@ -29,7 +27,10 @@ class PrivacyPolicyScreen extends StatelessWidget {
             children: [
               /// Top Bar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -59,7 +60,10 @@ class PrivacyPolicyScreen extends StatelessWidget {
               /// Scrollable Content
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -70,7 +74,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         children: [
                           const Icon(
                             Icons.article_outlined,
-                            color: Color(0xFFFF7F7F),
+                            color: AppColors.whiteColor,
                             size: 18,
                           ),
                           const SizedBox(width: 8),
@@ -165,9 +169,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF101828).withValues(alpha: 0.55),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +179,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 11,
               fontWeight: FontWeight.bold,
-              color: const Color(0xFFFF7F7F),
+              color: AppColors.whiteColor,
               letterSpacing: 0.5,
             ),
           ),

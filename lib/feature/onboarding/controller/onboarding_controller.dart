@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yes_twice/core/offline_storage/shared_pref.dart';
-import '../../../feature/auth/login/views/login_page.dart';
+import 'package:yes_twice/feature/dashboard/view/dashboard_screen.dart';
+//import '../../../feature/auth/login/views/login_page.dart';
 
 class OnboardingController extends GetxController {
   final PageController pageController = PageController();
@@ -36,7 +37,8 @@ class OnboardingController extends GetxController {
       );
     } else {
       await SharedPreferencesHelper.setOnboardingCompleted();
-      Get.offAll(() => const LoginPage());
+      //Get.offAll(() => const LoginPage());
+      Get.offAll(() => const DashboardScreen());
     }
   }
 
@@ -51,7 +53,7 @@ class OnboardingController extends GetxController {
 
   void skip() async {
     await SharedPreferencesHelper.setOnboardingCompleted();
-    Get.offAll(() => const LoginPage());
+    Get.offAll(() => const DashboardScreen());
   }
 
   void toggleHeightUnit(bool value) {

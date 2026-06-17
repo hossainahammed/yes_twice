@@ -13,6 +13,49 @@ class RecoveryCheckinScreen extends StatefulWidget {
   State<RecoveryCheckinScreen> createState() => _RecoveryCheckinScreenState();
 }
 
+class CustomSliderThumbShape extends SliderComponentShape {
+  final double enabledThumbRadius;
+
+  const CustomSliderThumbShape({this.enabledThumbRadius = 10.0});
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size.fromRadius(enabledThumbRadius);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    final Canvas canvas = context.canvas;
+
+    final fillPaint =
+        Paint()
+          ..color = const Color.fromARGB(255, 58, 94, 148)
+          ..style = PaintingStyle.fill;
+
+    final borderPaint =
+        Paint()
+          ..color = const Color(0xFFFF7F7F)
+          ..strokeWidth = 2.0
+          ..style = PaintingStyle.stroke;
+
+    canvas.drawCircle(center, enabledThumbRadius, fillPaint);
+    canvas.drawCircle(center, enabledThumbRadius, borderPaint);
+  }
+}
+
 class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
   int _sleep = 7;
   int _energy = 7;
@@ -31,9 +74,6 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
   }
 
   int _calculateReadiness() {
-    // Exact mathematical formula mapped from screenshot examples:
-    // (7, 7, 3, 3) -> 70%
-    // (9, 10, 10, 10) -> 48%
     double raw = 3.6 * (_sleep + _energy) - 2.85 * (_stress + _soreness) + 36.7;
     return raw.round().clamp(10, 100);
   }
@@ -102,12 +142,11 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                       ],
                     ),
                     // Save Button
-                    ElevatedButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         final now = DateTime.now();
 
                         if (isEditing) {
-                          // Update the existing check-in in the controller
                           final index = dashboardController.checkins.indexWhere(
                             (c) => c['id'] == widget.checkinToEdit!['id'],
                           );
@@ -124,7 +163,6 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                             dashboardController.checkins.refresh();
                           }
                         } else {
-                          // Add new check-in to global list
                           dashboardController.checkins.insert(0, {
                             'id': now.millisecondsSinceEpoch.toString(),
                             'date': now,
@@ -136,14 +174,12 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           });
                         }
 
-                        // Update global readiness score with latest check-in
                         if (dashboardController.checkins.isNotEmpty) {
                           dashboardController.updateReadiness(
                             dashboardController.checkins.first['score'] as int,
                           );
                         }
 
-                        // Sync check-ins count on Profile
                         profileController.checkinsCount.value =
                             dashboardController.checkins.length;
 
@@ -158,24 +194,33 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           colorText: Colors.white,
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A),
+                      child: Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
+                          horizontal: 16,
                           vertical: 8,
                         ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF162A45),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      child: Text(
-                        'Save',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.bookmark_border_rounded,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Save',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -195,29 +240,24 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                     children: [
                       /// Readiness Summary Card
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 24,
+                          horizontal: 20,
+                        ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF101828).withOpacity(0.55),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.06),
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF2E1517), Color(0xFF1E0F10)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: const Color(0xFF3F1F22)),
                         ),
                         child: Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Colors.orange.withOpacity(0.15),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.thumb_up_alt_rounded,
-                                color: Colors.orange,
-                                size: 28,
-                              ),
-                            ),
-                            const SizedBox(width: 20),
+                            const SizedBox(width: 10),
+                            const Text('👍', style: TextStyle(fontSize: 36)),
+                            const SizedBox(width: 40),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +265,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                                   Text(
                                     'Your Readiness',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 13,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFFB3B5BA),
                                     ),
@@ -234,7 +274,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                                   Text(
                                     '$readiness%',
                                     style: GoogleFonts.poppins(
-                                      fontSize: 32,
+                                      fontSize: 36,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFFFF7F7F),
                                     ),
@@ -243,8 +283,8 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                                   Text(
                                     status,
                                     style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color(0xFFB3B5BA),
                                     ),
                                   ),
@@ -265,18 +305,14 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           min: 1,
                           max: 10,
                           divisions: 9,
-                          activeColor: const Color(0xFFFF7F7F),
-                          inactiveColor: Colors.white.withOpacity(0.1),
                           onChanged: (val) {
                             setState(() {
                               _sleep = val.round();
                             });
                           },
                         ),
-                        leftCaption: 'Poor',
-                        rightCaption: 'Excellent',
-                        leftDotColor: Colors.orange,
-                        rightDotColor: Colors.orange,
+                        leftCaption: '😢 Poor',
+                        rightCaption: '😊 Excellent',
                       ),
                       const SizedBox(height: 14),
 
@@ -289,18 +325,14 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           min: 1,
                           max: 10,
                           divisions: 9,
-                          activeColor: const Color(0xFFFF7F7F),
-                          inactiveColor: Colors.white.withOpacity(0.1),
                           onChanged: (val) {
                             setState(() {
                               _energy = val.round();
                             });
                           },
                         ),
-                        leftCaption: 'Low',
-                        rightCaption: 'High',
-                        leftDotColor: Colors.green,
-                        rightDotColor: Colors.yellow,
+                        leftCaption: '🔋 Low',
+                        rightCaption: '⚡ High',
                       ),
                       const SizedBox(height: 14),
 
@@ -313,18 +345,14 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           min: 1,
                           max: 10,
                           divisions: 9,
-                          activeColor: const Color(0xFFFF7F7F),
-                          inactiveColor: Colors.white.withOpacity(0.1),
                           onChanged: (val) {
                             setState(() {
                               _stress = val.round();
                             });
                           },
                         ),
-                        leftCaption: 'Low',
-                        rightCaption: 'High',
-                        leftDotColor: Colors.orange,
-                        rightDotColor: Colors.blue,
+                        leftCaption: '😔 Low',
+                        rightCaption: '😰 High',
                       ),
                       const SizedBox(height: 14),
 
@@ -337,18 +365,14 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                           min: 1,
                           max: 10,
                           divisions: 9,
-                          activeColor: const Color(0xFFFF7F7F),
-                          inactiveColor: Colors.white.withOpacity(0.1),
                           onChanged: (val) {
                             setState(() {
                               _soreness = val.round();
                             });
                           },
                         ),
-                        leftCaption: 'None',
-                        rightCaption: 'Very Sore',
-                        leftDotColor: Colors.green,
-                        rightDotColor: Colors.orange,
+                        leftCaption: '💪 None',
+                        rightCaption: '🤕 Very Sore',
                       ),
                       const SizedBox(height: 24),
                     ],
@@ -369,13 +393,11 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
     required Widget slider,
     required String leftCaption,
     required String rightCaption,
-    required Color leftDotColor,
-    required Color rightDotColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
-        color: const Color(0xFF101828).withOpacity(0.55),
+        color: const Color(0xFF111C2B),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
@@ -388,68 +410,57 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
               Text(
                 title,
                 style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),
               ),
               Text(
                 valueStr,
                 style: GoogleFonts.poppins(
-                  fontSize: 15,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFFFF7F7F),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 12,
+              activeTrackColor: const Color(0xFFD1D5DB),
+              inactiveTrackColor: const Color(0xFF111721),
+              thumbColor: const Color(0xFFD1D5DB),
+              overlayColor: const Color(0xFFFF7F7F).withOpacity(0.15),
+              thumbShape: const CustomSliderThumbShape(
+                enabledThumbRadius: 10.0,
+              ),
+              trackShape: const RoundedRectSliderTrackShape(),
+            ),
+            child: slider,
+          ),
           const SizedBox(height: 8),
-          slider,
-          const SizedBox(height: 4),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 5,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: leftDotColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      leftCaption,
-                      style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        color: const Color(0xFFB3B5BA),
-                      ),
-                    ),
-                  ],
+                Text(
+                  leftCaption,
+                  style: GoogleFonts.poppins(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFFB3B5BA),
+                  ),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      width: 5,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: rightDotColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      rightCaption,
-                      style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        color: const Color(0xFFB3B5BA),
-                      ),
-                    ),
-                  ],
+                Text(
+                  rightCaption,
+                  style: GoogleFonts.poppins(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFFB3B5BA),
+                  ),
                 ),
               ],
             ),

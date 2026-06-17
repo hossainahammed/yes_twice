@@ -11,7 +11,7 @@ class ProfileController extends GetxController {
   var fullName = 'Alex Hossain'.obs;
   var email = 'alex000@gmail.com'.obs;
   var phone = '+971 50 123 4567'.obs;
-  var avatarPath = 'assets/images/profile.png'.obs;
+  var avatarPath = 'assets/icons/profile.png'.obs;
 
   // Stats
   var trainingCount = 0.obs;
@@ -49,7 +49,7 @@ class ProfileController extends GetxController {
     fullName.value = nameInputController.text;
     email.value = emailInputController.text;
     phone.value = phoneInputController.text;
-    
+
     Get.snackbar(
       'Profile Updated',
       'Your profile details have been saved successfully.',

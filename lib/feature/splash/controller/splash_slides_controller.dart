@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yes_twice/core/offline_storage/shared_pref.dart';
+import 'package:yes_twice/feature/auth/login/views/login_page.dart';
 import '../../onboarding/view/onboarding_screen.dart';
 
 class SplashSlidesController extends GetxController {
@@ -21,13 +22,15 @@ class SplashSlidesController extends GetxController {
       );
     } else {
       await SharedPreferencesHelper.setSplashSlidesCompleted();
-      Get.offAll(() => OnboardingScreen());
+      Get.offAll(() => LoginPage());
+
+      //Get.offAll(() => OnboardingScreen());
     }
   }
 
   void skip() async {
     await SharedPreferencesHelper.setSplashSlidesCompleted();
-    Get.offAll(() => OnboardingScreen());
+    Get.offAll(() => LoginPage());
   }
 
   @override

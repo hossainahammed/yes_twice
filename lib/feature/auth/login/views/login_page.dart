@@ -5,6 +5,7 @@ import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/core/constant/image_path.dart';
 import 'package:yes_twice/feature/auth/registration/views/registration_page.dart';
 import 'package:yes_twice/feature/auth/forgot_password/views/forgot_password_page.dart';
+import 'package:yes_twice/feature/onboarding/view/onboarding_screen.dart';
 import 'package:yes_twice/feature/profile/view/profile_screen.dart';
 import 'package:yes_twice/feature/dashboard/view/dashboard_screen.dart';
 
@@ -201,7 +202,8 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Get.offAll(() => const DashboardScreen());
+                            //  Get.offAll(() => const DashboardScreen());
+                              Get.offAll(() =>OnboardingScreen());
                             }
                           },
                           style: ElevatedButton.styleFrom(
