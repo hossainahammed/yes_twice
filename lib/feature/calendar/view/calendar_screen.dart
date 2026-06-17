@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import '../../training/controller/training_controller.dart';
 import '../../profile/controller/profile_controller.dart';
 import '../../profile/view/profile_screen.dart';
+import '../../dashboard/controller/dashboard_controller.dart';
+import 'add_event_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -17,17 +19,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
 
-  // Custom mock scheduled events list
-  final RxList<Map<String, dynamic>> _events =
-      <Map<String, dynamic>>[
-        {
-          'id': 'e1',
-          'title': 'Best Effort',
-          'time': '12:46',
-          'date': DateTime(2026, 5, 19),
-          'category': 'Practice',
-        },
-      ].obs;
+  late final DashboardController dashboardController;
 
   @override
   void initState() {
@@ -35,35 +27,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // Default calendar focused to May 2026 to match screenshots
     _focusedDay = DateTime(2026, 5, 1);
     _selectedDay = DateTime(2026, 5, 7); // Default selected to May 7, 2026
+    dashboardController = Get.find<DashboardController>();
     _syncEventsCount();
+    ever(dashboardController.events, (_) => _syncEventsCount());
   }
 
   void _syncEventsCount() {
     if (Get.isRegistered<ProfileController>()) {
-      Get.find<ProfileController>().eventsCount.value = _events.length;
+      Get.find<ProfileController>().eventsCount.value = dashboardController.events.length;
     }
   }
 
-  void _addEvent(String title, DateTime date, String time, String category) {
-    _events.add({
-      'id': DateTime.now().millisecondsSinceEpoch.toString(),
-      'title': title,
-      'time': time,
-      'date': date,
-      'category': category,
-    });
-    _syncEventsCount();
-    Get.snackbar(
-      'Event Added',
-      'Scheduled "$title" successfully.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
-      colorText: Colors.white,
-    );
-  }
-
   void _deleteEvent(String id) {
-    _events.removeWhere((e) => e['id'] == id);
+    dashboardController.events.removeWhere((e) => e['id'] == id);
     _syncEventsCount();
   }
 
@@ -130,7 +106,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ],
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => _showAddEventDialog(context),
+                      onPressed: () => Get.to(() => const AddEventScreen()),
                       icon: const Icon(
                         Icons.add,
                         size: 16,
@@ -299,7 +275,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     _selectedDay.day == date.day;
 
                                 // Check if this day has events
-                                final bool hasEvent = _events.any((e) {
+                                final bool hasEvent = dashboardController.events.any((e) {
                                   final ed = e['date'] as DateTime;
                                   return ed.year == date.year &&
                                       ed.month == date.month &&
@@ -429,7 +405,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                   // Filter events
                   final dayEvents =
-                      _events.where((e) {
+                      dashboardController.events.where((e) {
                         final date = e['date'] as DateTime;
                         return date.year == _selectedDay.year &&
                             date.month == _selectedDay.month &&
@@ -606,222 +582,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 2),
-    );
-  }
-
-  void _showAddEventDialog(BuildContext context) {
-    final titleController = TextEditingController();
-    String category = 'Practice';
-    String time = '12:46';
-
-    final List<String> categories = [
-      'Practice',
-      'Match',
-      'Gym',
-      'Recovery',
-      'Rest Day',
-    ];
-
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            backgroundColor: const Color(0xFF101828),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            title: Text(
-              'Schedule Event',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            content: StatefulBuilder(
-              builder: (context, setModalState) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Event Title',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFB3B5BA),
-                        fontSize: 11,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    TextField(
-                      controller: titleController,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 13,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'e.g. Best Effort',
-                        hintStyle: GoogleFonts.poppins(
-                          color: Colors.grey.shade600,
-                          fontSize: 13,
-                        ),
-                        filled: true,
-                        fillColor: Colors.black.withOpacity(0.35),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-
-                    Text(
-                      'Category',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFB3B5BA),
-                        fontSize: 11,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.35),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.08),
-                        ),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: category,
-                          dropdownColor: const Color(0xFF101828),
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Colors.white,
-                          ),
-                          isExpanded: true,
-                          style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 13,
-                          ),
-                          onChanged: (val) {
-                            if (val != null) {
-                              setModalState(() => category = val);
-                            }
-                          },
-                          items:
-                              categories.map((cat) {
-                                return DropdownMenuItem<String>(
-                                  value: cat,
-                                  child: Text(cat),
-                                );
-                              }).toList(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-
-                    Text(
-                      'Time',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFB3B5BA),
-                        fontSize: 11,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    GestureDetector(
-                      onTap: () async {
-                        final pickedTime = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                          builder: (context, child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                colorScheme: const ColorScheme.dark(
-                                  primary: Color(0xFF1E3A8A),
-                                  surface: Color(0xFF101828),
-                                ),
-                              ),
-                              child: child!,
-                            );
-                          },
-                        );
-                        if (pickedTime != null) {
-                          setModalState(() {
-                            time = pickedTime.format(context);
-                          });
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.35),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.08),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              time,
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 13,
-                              ),
-                            ),
-                            const Icon(
-                              Icons.access_time,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  'Cancel',
-                  style: GoogleFonts.poppins(color: Colors.white),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (titleController.text.trim().isEmpty) return;
-                  _addEvent(
-                    titleController.text.trim(),
-                    _selectedDay,
-                    time,
-                    category,
-                  );
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1E3A8A),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  'Save',
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
     );
   }
 }

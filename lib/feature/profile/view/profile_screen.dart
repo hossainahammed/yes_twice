@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
+import 'package:yes_twice/core/constant/widgets/profile_bottom_nav_bar.dart';
 import '../controller/profile_controller.dart';
 import 'settings_privacy_screen.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../dashboard/view/dashboard_screen.dart';
+
+export 'package:yes_twice/core/constant/widgets/profile_bottom_nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -395,93 +398,3 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-/// Reusable shared bottom navigation bar widget
-class ProfileBottomNavBar extends StatelessWidget {
-  final int activeIndex;
-  const ProfileBottomNavBar({super.key, required this.activeIndex});
-
-  @override
-  Widget build(BuildContext context) {
-    final tabs = [
-      {'label': 'Home', 'icon': 'assets/icons/home.png'},
-      {'label': 'Training', 'icon': 'assets/icons/training.png'},
-      {'label': 'Calendar', 'icon': 'assets/icons/calender.png'},
-      {'label': 'Recovery', 'icon': 'assets/icons/recovery.png'},
-      {'label': 'Profile', 'icon': 'assets/icons/profile.png'},
-    ];
-
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: const Color(0xFF080808),
-        border: Border(
-          top: BorderSide(
-            color: Colors.white.withValues(alpha: 0.08),
-            width: 1,
-          ),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(tabs.length, (index) {
-            final isActive = index == activeIndex;
-            final item = tabs[index];
-            return GestureDetector(
-              onTap: () {
-                final dashboardController = Get.put(DashboardController());
-                dashboardController.changeTab(index);
-                if (Navigator.of(context).canPop()) {
-                  Get.offAll(() => const DashboardScreen());
-                }
-              },
-              child: Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        item['icon']!,
-                        width: 20,
-                        height: 20,
-                        color: isActive ? Colors.white : Colors.grey.shade600,
-                        errorBuilder: (context, error, stackTrace) {
-                          // Safe fallback icon
-                          return Icon(
-                            index == 0
-                                ? Icons.home_outlined
-                                : index == 1
-                                    ? Icons.flash_on
-                                    : index == 2
-                                        ? Icons.calendar_today_outlined
-                                        : index == 3
-                                            ? Icons.favorite_border
-                                            : Icons.person_outline,
-                            color: isActive ? Colors.white : Colors.grey.shade600,
-                            size: 20,
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        item['label']!,
-                        style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                          color: isActive ? Colors.white : Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
-}

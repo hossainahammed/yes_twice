@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:yes_twice/core/constant/app_colors.dart';
 import '../../profile/controller/profile_controller.dart';
 import '../../training/controller/training_controller.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
-import '../../training/model/workout_model.dart';
 import '../widgets/custom_painters.dart';
 import '../../training/view/add_training_screen.dart';
+import '../../recovery/view/recovery_checkin_screen.dart';
+import '../../calendar/view/add_event_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -746,8 +746,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Recovery',
                         bgColor: const Color(0xFF991B1B).withOpacity(0.35),
                         onTap: () {
-                          // Navigate to Recovery tab
-                          dashboardController.changeTab(3);
+                          Get.to(() => const RecoveryCheckinScreen());
                         },
                       ),
                     ),
@@ -768,8 +767,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Add Event',
                         bgColor: const Color(0xFF581C87).withOpacity(0.35),
                         onTap: () {
-                          // Navigate to Calendar tab
-                          dashboardController.changeTab(2);
+                          Get.to(() => const AddEventScreen());
                         },
                       ),
                     ),

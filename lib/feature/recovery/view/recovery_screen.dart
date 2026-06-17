@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
-import '../../profile/controller/profile_controller.dart';
+import '../../profile/view/profile_screen.dart';
+import 'recovery_checkin_screen.dart';
 
-class RecoveryScreen extends StatefulWidget {
+class RecoveryScreen extends StatelessWidget {
   const RecoveryScreen({super.key});
 
-  @override
-  State<RecoveryScreen> createState() => _RecoveryScreenState();
-}
+  Color _getStatusColor(int score) {
+    if (score >= 80) return const Color(0xFF10B981); // Green - Ready
+    if (score >= 40) return const Color(0xFFF59E0B); // Amber - Moderate
+    return const Color(0xFFEF4444); // Red - Recovery Needed
+  }
 
-class _RecoveryScreenState extends State<RecoveryScreen> {
-  double _sleepHours = 8.0;
-  double _hrv = 65.0; // 20 - 120 ms
-  double _soreness = 3.0; // 1 - 10
-  double _stress = 4.0; // 1 - 10
+  String _getStatusText(int score) {
+    if (score >= 80) return 'Ready';
+    if (score >= 40) return 'Moderate';
+    return 'Recovery Needed';
+  }
 
   @override
   Widget build(BuildContext context) {
-    final dashboardController = Get.put(DashboardController());
-    final profileController = Get.put(ProfileController());
+    final dashboardController = Get.find<DashboardController>();
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -32,8 +35,8 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
             center: Alignment(0.0, -0.8),
             radius: 1.5,
             colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
+              Color(0xFF2B1416), // Premium dark burgundy glow
+              Color(0xFF080808), // Near black
             ],
           ),
         ),
@@ -43,166 +46,247 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                /// Header
+                /// Header Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Recovery',
+                          style: GoogleFonts.poppins(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Track your wellness and recovery',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: const Color(0xFFB3B5BA),
+                          ),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Get.to(() => const RecoveryCheckinScreen());
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Check-In',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                /// Statistics Row
+                Obx(() {
+                  final avgVal = dashboardController.avgRecovery;
+                  final avgRound = avgVal.round();
+                  final avgStr = avgVal % 1 == 0 ? '$avgRound%' : '${avgVal.toStringAsFixed(1)}%';
+                  final statusText = avgRound > 0 ? _getStatusText(avgRound) : 'No Data';
+                  final statusColor = avgRound > 0 ? _getStatusColor(avgRound) : const Color(0xFFB3B5BA);
+
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          title: 'Avg Recovery',
+                          value: avgStr,
+                          subText: statusText,
+                          color: statusColor,
+                          icon: Icons.analytics_outlined,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildStatCard(
+                          title: 'Check-Ins',
+                          value: '${dashboardController.checkins.length}',
+                          subText: 'Total logs',
+                          color: const Color(0xFF3B82F6),
+                          icon: Icons.check_circle_outline,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+                const SizedBox(height: 28),
+
+                /// Recent Check-Ins Section
                 Text(
-                  'Recovery Log',
+                  'Recent Check-Ins',
                   style: GoogleFonts.poppins(
-                    fontSize: 24,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Log your daily physical states to calculate your Readiness score.',
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    color: const Color(0xFFB3B5BA),
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 12),
 
-                /// Sleep Quality Card
-                _buildSliderCard(
-                  title: 'Sleep Duration',
-                  valueStr: '${_sleepHours.toStringAsFixed(1)} hrs',
-                  slider: Slider(
-                    value: _sleepHours,
-                    min: 4,
-                    max: 12,
-                    divisions: 16,
-                    activeColor: const Color(0xFFFF7F7F),
-                    inactiveColor: Colors.white.withOpacity(0.1),
-                    onChanged: (val) {
-                      setState(() {
-                        _sleepHours = val;
-                      });
-                    },
-                  ),
-                  caption: 'How long did you rest last night?',
-                ),
-                const SizedBox(height: 14),
-
-                /// HRV Card
-                _buildSliderCard(
-                  title: 'HRV (Heart Rate Variability)',
-                  valueStr: '${_hrv.round()} ms',
-                  slider: Slider(
-                    value: _hrv,
-                    min: 20,
-                    max: 120,
-                    divisions: 100,
-                    activeColor: const Color(0xFFFF7F7F),
-                    inactiveColor: Colors.white.withOpacity(0.1),
-                    onChanged: (val) {
-                      setState(() {
-                        _hrv = val;
-                      });
-                    },
-                  ),
-                  caption: 'Indicates autonomic nervous system balance.',
-                ),
-                const SizedBox(height: 14),
-
-                /// Muscle Soreness Card
-                _buildSliderCard(
-                  title: 'Muscle Soreness',
-                  valueStr: '${_soreness.round()} / 10',
-                  slider: Slider(
-                    value: _soreness,
-                    min: 1,
-                    max: 10,
-                    divisions: 9,
-                    activeColor: const Color(0xFFFF7F7F),
-                    inactiveColor: Colors.white.withOpacity(0.1),
-                    onChanged: (val) {
-                      setState(() {
-                        _soreness = val;
-                      });
-                    },
-                  ),
-                  caption: '1 = Fully recovered, 10 = Severe fatigue/soreness.',
-                ),
-                const SizedBox(height: 14),
-
-                /// Stress Level Card
-                _buildSliderCard(
-                  title: 'Stress Level',
-                  valueStr: '${_stress.round()} / 10',
-                  slider: Slider(
-                    value: _stress,
-                    min: 1,
-                    max: 10,
-                    divisions: 9,
-                    activeColor: const Color(0xFFFF7F7F),
-                    inactiveColor: Colors.white.withOpacity(0.1),
-                    onChanged: (val) {
-                      setState(() {
-                        _stress = val;
-                      });
-                    },
-                  ),
-                  caption: '1 = Fully relaxed, 10 = Under intense cognitive load.',
-                ),
-                const SizedBox(height: 28),
-
-                /// Save Action Button
-                ElevatedButton(
-                  onPressed: () {
-                    // Simple heuristic algorithm to calculate Readiness (0 - 100)
-                    // Sleep contribution: up to 35% (8 hrs is optimal)
-                    double sleepScore = (_sleepHours / 8.0) * 35.0;
-                    if (sleepScore > 35.0) sleepScore = 35.0;
-
-                    // HRV contribution: up to 30% (70 ms is optimal)
-                    double hrvScore = (_hrv / 70.0) * 30.0;
-                    if (hrvScore > 30.0) hrvScore = 30.0;
-
-                    // Soreness contribution (inverse): up to 20%
-                    double sorenessScore = ((10.0 - _soreness) / 9.0) * 20.0;
-
-                    // Stress contribution (inverse): up to 15%
-                    double stressScore = ((10.0 - _stress) / 9.0) * 15.0;
-
-                    int readinessVal = (sleepScore + hrvScore + sorenessScore + stressScore).round();
-                    if (readinessVal < 10) readinessVal = 10;
-                    if (readinessVal > 100) readinessVal = 100;
-
-                    // Update Readiness in Dashboard Controller
-                    dashboardController.updateReadiness(readinessVal);
-                    
-                    // Increment check-ins count in Profile Controller
-                    profileController.checkinsCount.value++;
-
-                    // Navigate to Home screen
-                    dashboardController.changeTab(0);
-
-                    // Show visual success notification
-                    Get.snackbar(
-                      'Recovery Tracked',
-                      'Readiness updated to $readinessVal%!',
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: const Color(0xFF10B981).withOpacity(0.9),
-                      colorText: Colors.white,
+                Obx(() {
+                  if (dashboardController.checkins.isEmpty) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF101828).withOpacity(0.55),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white.withOpacity(0.06)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.favorite_border_outlined,
+                            color: Colors.white.withOpacity(0.3),
+                            size: 44,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'No check-ins logged yet',
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFFB3B5BA),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
                     );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF7F7F),
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                  ),
-                  child: Text(
-                    'Log Recovery & Update Readiness',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                  }
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: dashboardController.checkins.length,
+                    itemBuilder: (context, index) {
+                      final log = dashboardController.checkins[index];
+                      final score = log['score'] as int;
+                      final date = log['date'] as DateTime;
+                      final dateStr = DateFormat('MMMM d, yyyy').format(date);
+                      final timeStr = DateFormat('h:mm a').format(date);
+                      final status = _getStatusText(score);
+                      final statusColor = _getStatusColor(score);
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF101828).withOpacity(0.55),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.white.withOpacity(0.06)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      dateStr,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      timeStr,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 11,
+                                        color: const Color(0xFFB3B5BA),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      '$score%',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: statusColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      status,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: statusColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            const Divider(color: Colors.white10, height: 1),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildMetricRow('Sleep', '${log['sleep']}/10', Icons.bedtime_outlined),
+                                      const SizedBox(height: 8),
+                                      _buildMetricRow('Energy', '${log['energy']}/10', Icons.flash_on_outlined),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildMetricRow('Stress', '${log['stress']}/10', Icons.psychology_outlined),
+                                      const SizedBox(height: 8),
+                                      _buildMetricRow('Soreness', '${log['soreness']}/10', Icons.fitness_center_outlined),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }),
                 const SizedBox(height: 24),
               ],
             ),
@@ -212,17 +296,18 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
     );
   }
 
-  Widget _buildSliderCard({
+  Widget _buildStatCard({
     required String title,
-    required String valueStr,
-    required Widget slider,
-    required String caption,
+    required String value,
+    required String subText,
+    required Color color,
+    required IconData icon,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF101828).withOpacity(0.55),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
       child: Column(
@@ -234,33 +319,59 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
               Text(
                 title,
                 style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFFB3B5BA),
                 ),
               ),
-              Text(
-                valueStr,
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFFFF7F7F),
-                ),
-              ),
+              Icon(icon, size: 16, color: color),
             ],
           ),
-          const SizedBox(height: 8),
-          slider,
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
           const SizedBox(height: 4),
           Text(
-            caption,
+            subText,
             style: GoogleFonts.poppins(
-              fontSize: 10,
-              color: const Color(0xFFB3B5BA),
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: color,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildMetricRow(String label, String value, IconData icon) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 14, color: const Color(0xFFB3B5BA)),
+        const SizedBox(width: 6),
+        Text(
+          '$label: ',
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            color: const Color(0xFFB3B5BA),
+          ),
+        ),
+        Text(
+          value,
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 }
