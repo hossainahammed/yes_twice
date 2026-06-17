@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../training/controller/training_controller.dart';
 import '../../profile/controller/profile_controller.dart';
+import '../../profile/view/profile_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -15,30 +16,25 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
-  
+
   // Custom mock scheduled events list
-  final RxList<Map<String, dynamic>> _events = <Map<String, dynamic>>[
-    {
-      'id': 'e1',
-      'title': 'Stretching & Mobility',
-      'time': '08:00 AM',
-      'date': DateTime.now(),
-      'category': 'Recovery'
-    },
-    {
-      'id': 'e2',
-      'title': 'League Football Match',
-      'time': '04:00 PM',
-      'date': DateTime.now().add(const Duration(days: 1)),
-      'category': 'Match'
-    },
-  ].obs;
+  final RxList<Map<String, dynamic>> _events =
+      <Map<String, dynamic>>[
+        {
+          'id': 'e1',
+          'title': 'Best Effort',
+          'time': '12:46',
+          'date': DateTime(2026, 5, 19),
+          'category': 'Practice',
+        },
+      ].obs;
 
   @override
   void initState() {
     super.initState();
-    _focusedDay = DateTime.now();
-    _selectedDay = DateTime.now();
+    // Default calendar focused to May 2026 to match screenshots
+    _focusedDay = DateTime(2026, 5, 1);
+    _selectedDay = DateTime(2026, 5, 7); // Default selected to May 7, 2026
     _syncEventsCount();
   }
 
@@ -61,7 +57,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       'Event Added',
       'Scheduled "$title" successfully.',
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: const Color(0xFF581C87).withOpacity(0.9),
+      backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
       colorText: Colors.white,
     );
   }
@@ -75,13 +71,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     final trainingController = Get.put(TrainingController());
 
-    // Generate days of the month grid
+    // Generate days of the month grid (standard Sunday-first or Monday-first layout)
+    // The screenshot has Sunday (S) as column 0, and Saturday (S) as column 6.
     final firstDayOfMonth = DateTime(_focusedDay.year, _focusedDay.month, 1);
     final lastDayOfMonth = DateTime(_focusedDay.year, _focusedDay.month + 1, 0);
-    
-    // Day of the week offset for first day (0 = Mon, 6 = Sun in our offset)
-    int offset = firstDayOfMonth.weekday - 1;
-    if (offset < 0) offset = 6;
+
+    // Weekday offset for Sunday (Sunday = 7 in Dart, we map to 0 offset, Mon = 1 map to 1 offset)
+    int offset = firstDayOfMonth.weekday;
+    if (offset == 7) offset = 0; // Sunday at start
 
     final daysCount = lastDayOfMonth.day;
     final totalCells = daysCount + offset;
@@ -98,10 +95,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           gradient: RadialGradient(
             center: Alignment(0.0, -0.8),
             radius: 1.5,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
+            colors: [Color(0xFF2B1416), Color(0xFF080808)],
           ),
         ),
         child: SafeArea(
@@ -114,28 +108,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Calendar',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Calendar',
+                          style: GoogleFonts.poppins(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Manage your schedule',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: const Color(0xFFB3B5BA),
+                          ),
+                        ),
+                      ],
                     ),
                     ElevatedButton.icon(
                       onPressed: () => _showAddEventDialog(context),
-                      icon: const Icon(Icons.add, size: 16, color: Colors.white),
+                      icon: const Icon(
+                        Icons.add,
+                        size: 16,
+                        color: Colors.white,
+                      ),
                       label: Text(
                         'Add Event',
                         style: GoogleFonts.poppins(
                           fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF581C87), // Purple color
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
+                        ),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         shape: RoundedRectangleBorder(
@@ -147,25 +161,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                /// Calendar Month Selector
+                /// Calendar Month Header & Arrows
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: const Color(0xFF101828).withOpacity(0.55),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withOpacity(0.06)),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    border: Border(
+                      top: BorderSide(color: Colors.white.withOpacity(0.06)),
+                      left: BorderSide(color: Colors.white.withOpacity(0.06)),
+                      right: BorderSide(color: Colors.white.withOpacity(0.06)),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.chevron_left, color: Colors.white),
-                        onPressed: () {
-                          setState(() {
-                            _focusedDay = DateTime(_focusedDay.year, _focusedDay.month - 1);
-                          });
-                        },
-                      ),
                       Text(
                         monthStr,
                         style: GoogleFonts.poppins(
@@ -174,118 +187,214 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.chevron_right, color: Colors.white),
-                        onPressed: () {
-                          setState(() {
-                            _focusedDay = DateTime(_focusedDay.year, _focusedDay.month + 1);
-                          });
-                        },
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _focusedDay = DateTime(
+                                  _focusedDay.year,
+                                  _focusedDay.month - 1,
+                                );
+                              });
+                            },
+                            child: const Icon(
+                              Icons.chevron_left,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _focusedDay = DateTime(
+                                  _focusedDay.year,
+                                  _focusedDay.month + 1,
+                                );
+                              });
+                            },
+                            child: const Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
 
-                /// Calendar Grid View
+                /// Calendar Day Grid
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.only(
+                    left: 12,
+                    right: 12,
+                    bottom: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF101828).withOpacity(0.55),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white.withOpacity(0.06)),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    border: Border(
+                      bottom: BorderSide(color: Colors.white.withOpacity(0.06)),
+                      left: BorderSide(color: Colors.white.withOpacity(0.06)),
+                      right: BorderSide(color: Colors.white.withOpacity(0.06)),
+                    ),
                   ),
                   child: Column(
                     children: [
-                      // Day Labels Row
+                      // Weekday Headers
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((label) {
-                          return SizedBox(
-                            width: 36,
-                            child: Text(
-                              label,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xFFB3B5BA),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                        children:
+                            ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((label) {
+                              return SizedBox(
+                                width: 36,
+                                child: Text(
+                                  label,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                    color: const Color(0xFFB3B5BA),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                       ),
                       const SizedBox(height: 12),
-                      
-                      // Grid Cells
+
+                      // Day grid
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: rowsCount,
                         itemBuilder: (context, rowIndex) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: List.generate(7, (colIndex) {
-                              final int cellIndex = rowIndex * 7 + colIndex;
-                              final int dayNumber = cellIndex - offset + 1;
-                              final bool isValidDay = dayNumber > 0 && dayNumber <= daysCount;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: List.generate(7, (colIndex) {
+                                final int cellIndex = rowIndex * 7 + colIndex;
+                                final int dayNumber = cellIndex - offset + 1;
+                                final bool isValidDay =
+                                    dayNumber > 0 && dayNumber <= daysCount;
 
-                              if (!isValidDay) {
-                                return const SizedBox(width: 36, height: 36);
-                              }
+                                if (!isValidDay) {
+                                  return const SizedBox(width: 36, height: 36);
+                                }
 
-                              final date = DateTime(_focusedDay.year, _focusedDay.month, dayNumber);
-                              final bool isSelected = _selectedDay.year == date.year &&
-                                  _selectedDay.month == date.month &&
-                                  _selectedDay.day == date.day;
-                              final bool isToday = DateTime.now().year == date.year &&
-                                  DateTime.now().month == date.month &&
-                                  DateTime.now().day == date.day;
+                                final date = DateTime(
+                                  _focusedDay.year,
+                                  _focusedDay.month,
+                                  dayNumber,
+                                );
+                                final bool isSelected =
+                                    _selectedDay.year == date.year &&
+                                    _selectedDay.month == date.month &&
+                                    _selectedDay.day == date.day;
 
-                              // Check if day has logged workouts
-                              final bool hasWorkout = trainingController.workouts.any((w) =>
-                                  w.date.year == date.year &&
-                                  w.date.month == date.month &&
-                                  w.date.day == date.day);
+                                // Check if this day has events
+                                final bool hasEvent = _events.any((e) {
+                                  final ed = e['date'] as DateTime;
+                                  return ed.year == date.year &&
+                                      ed.month == date.month &&
+                                      ed.day == date.day;
+                                });
 
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedDay = date;
-                                  });
-                                },
-                                child: Container(
-                                  width: 36,
-                                  height: 36,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? const Color(0xFFFF7F7F)
-                                        : isToday
-                                            ? Colors.white.withOpacity(0.15)
-                                            : Colors.transparent,
-                                    shape: BoxShape.circle,
-                                    border: hasWorkout
-                                        ? Border.all(color: const Color(0xFF10B981), width: 1.5)
-                                        : null,
+                                // Check if this day has workouts
+                                final bool hasWorkout = trainingController
+                                    .workouts
+                                    .any(
+                                      (w) =>
+                                          w.date.year == date.year &&
+                                          w.date.month == date.month &&
+                                          w.date.day == date.day,
+                                    );
+
+                                // Style mapping from screenshots:
+                                // Selected: If selected, and hasEvent, it is red/pink. Otherwise blue.
+                                // Day 19 has events -> Selected Day 19 has a red/pink background (#FF7F7F) and white dot underneath.
+                                // Day 7 has no event -> Selected Day 7 has a dark blue/indigo background (#1E3A8A).
+                                Color cellBg = Colors.transparent;
+                                Color textColor = Colors.white;
+                                if (isSelected) {
+                                  if (hasEvent) {
+                                    cellBg = const Color(
+                                      0xFFFF7F7F,
+                                    ); // Pink/red selection
+                                  } else {
+                                    cellBg = const Color(
+                                      0xFF1E3A8A,
+                                    ); // Blue selection
+                                  }
+                                  textColor = Colors.white;
+                                }
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedDay = date;
+                                    });
+                                  },
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 36,
+                                        height: 36,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: cellBg,
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          border:
+                                              hasWorkout && !isSelected
+                                                  ? Border.all(
+                                                    color: const Color(
+                                                      0xFF10B981,
+                                                    ),
+                                                    width: 1.0,
+                                                  )
+                                                  : null,
+                                        ),
+                                        child: Text(
+                                          dayNumber.toString(),
+                                          style: GoogleFonts.poppins(
+                                            color: textColor,
+                                            fontWeight:
+                                                isSelected
+                                                    ? FontWeight.bold
+                                                    : FontWeight.w400,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      // Dot underneath cell to match screenshots
+                                      Container(
+                                        width: 4,
+                                        height: 4,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                              hasEvent
+                                                  ? (isSelected
+                                                      ? Colors.white
+                                                      : const Color(0xFFFF7F7F))
+                                                  : Colors.transparent,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  child: Text(
-                                    dayNumber.toString(),
-                                    style: GoogleFonts.poppins(
-                                      color: isSelected
-                                          ? Colors.white
-                                          : hasWorkout
-                                              ? const Color(0xFF10B981)
-                                              : Colors.white,
-                                      fontWeight: isSelected || hasWorkout || isToday
-                                          ? FontWeight.bold
-                                          : FontWeight.w400,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                                );
+                              }),
+                            ),
                           );
                         },
                       ),
@@ -294,104 +403,107 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                /// Workouts & Events Title
+                /// Selected Day Header Title
                 Text(
-                  'Schedule & Logs: ${DateFormat('MMM d, yyyy').format(_selectedDay)}',
+                  DateFormat('MMMM d, yyyy').format(_selectedDay),
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
 
-                /// Workouts / Events list for selected day
+                /// Events/Workouts Content List
                 Obx(() {
-                  // Filter workouts for selected day
-                  final dayWorkouts = trainingController.workouts.where((w) =>
-                      w.date.year == _selectedDay.year &&
-                      w.date.month == _selectedDay.month &&
-                      w.date.day == _selectedDay.day).toList();
+                  // Filter workouts
+                  final dayWorkouts =
+                      trainingController.workouts
+                          .where(
+                            (w) =>
+                                w.date.year == _selectedDay.year &&
+                                w.date.month == _selectedDay.month &&
+                                w.date.day == _selectedDay.day,
+                          )
+                          .toList();
 
-                  // Filter events for selected day
-                  final dayEvents = _events.where((e) {
-                    final date = e['date'] as DateTime;
-                    return date.year == _selectedDay.year &&
-                        date.month == _selectedDay.month &&
-                        date.day == _selectedDay.day;
-                  }).toList();
+                  // Filter events
+                  final dayEvents =
+                      _events.where((e) {
+                        final date = e['date'] as DateTime;
+                        return date.year == _selectedDay.year &&
+                            date.month == _selectedDay.month &&
+                            date.day == _selectedDay.day;
+                      }).toList();
 
                   if (dayWorkouts.isEmpty && dayEvents.isEmpty) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Center(
-                        child: Text(
-                          'No workouts logged or events scheduled for this day.',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(color: Colors.grey, fontSize: 12),
+                    // Empty state matching the screenshot
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF101828).withOpacity(0.55),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.06),
                         ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            color: Colors.white.withOpacity(0.4),
+                            size: 36,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'No events for this day',
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFFB3B5BA),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
 
                   return Column(
                     children: [
-                      // Day Workouts (Green border)
-                      ...dayWorkouts.map((workout) {
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF101828).withOpacity(0.55),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.check_circle_outline, color: Color(0xFF10B981), size: 20),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${workout.type} (Logged)',
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      '${workout.duration} min  |  RPE: ${workout.rpe}  |  Workload: ${workout.workload}',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFFB3B5BA),
-                                        fontSize: 11,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-
-                      // Day Events (Purple border)
+                      // Render custom styled Events (like Best Effort)
                       ...dayEvents.map((event) {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: const Color(0xFF101828).withOpacity(0.55),
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFF581C87).withOpacity(0.4)),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.06),
+                            ),
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.event_note, color: Color(0xFFC084FC), size: 20),
-                              const SizedBox(width: 12),
+                              // Left Icon Container (blue themed)
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                    0xFF1E3A8A,
+                                  ).withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: const Color(
+                                    0xFF60A5FA,
+                                  ).withOpacity(0.8),
+                                  size: 18,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              // Event Info
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -400,24 +512,86 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       event['title'],
                                       style: GoogleFonts.poppins(
                                         color: Colors.white,
-                                        fontSize: 13,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      '${event['time']}  |  ${event['category']}',
+                                      '${event['category']} • ${event['time']}',
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFFB3B5BA),
-                                        fontSize: 11,
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
+                              // Delete option
                               IconButton(
-                                icon: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 18),
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.redAccent,
+                                  size: 18,
+                                ),
                                 onPressed: () => _deleteEvent(event['id']),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+
+                      // Render workouts mapped on this day
+                      ...dayWorkouts.map((workout) {
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF101828).withOpacity(0.55),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: const Color(0xFF10B981).withOpacity(0.2),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                    0xFF10B981,
+                                  ).withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Icon(
+                                  Icons.check_circle_outline,
+                                  color: Color(0xFF10B981),
+                                  size: 18,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${workout.type} (Workout)',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      'Duration: ${workout.duration} min  |  Workload: ${workout.workload}',
+                                      style: GoogleFonts.poppins(
+                                        color: const Color(0xFFB3B5BA),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -432,156 +606,222 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 2),
     );
   }
 
   void _showAddEventDialog(BuildContext context) {
     final titleController = TextEditingController();
-    String category = 'Training';
-    String time = '10:00 AM';
+    String category = 'Practice';
+    String time = '12:46';
 
-    final List<String> categories = ['Training', 'Match', 'Recovery', 'Meeting'];
+    final List<String> categories = [
+      'Practice',
+      'Match',
+      'Gym',
+      'Recovery',
+      'Rest Day',
+    ];
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF101828),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          'Schedule Event',
-          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        content: StatefulBuilder(
-          builder: (context, setModalState) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Title Input
-                  Text(
-                    'Event Title',
-                    style: GoogleFonts.poppins(color: const Color(0xFFB3B5BA), fontSize: 11),
-                  ),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: titleController,
-                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                    decoration: InputDecoration(
-                      hintText: 'e.g. Football Training',
-                      hintStyle: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 13),
-                      filled: true,
-                      fillColor: Colors.black.withOpacity(0.35),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-
-                  // Category dropdown
-                  Text(
-                    'Category',
-                    style: GoogleFonts.poppins(color: const Color(0xFFB3B5BA), fontSize: 11),
-                  ),
-                  const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.35),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white.withOpacity(0.08)),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: category,
-                        dropdownColor: const Color(0xFF101828),
-                        icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white),
-                        isExpanded: true,
-                        style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                        onChanged: (val) {
-                          if (val != null) {
-                            setModalState(() => category = val);
-                          }
-                        },
-                        items: categories.map((cat) {
-                          return DropdownMenuItem<String>(value: cat, child: Text(cat));
-                        }).toList(),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: const Color(0xFF101828),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Text(
+              'Schedule Event',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            content: StatefulBuilder(
+              builder: (context, setModalState) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Event Title',
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFFB3B5BA),
+                        fontSize: 11,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 14),
+                    const SizedBox(height: 6),
+                    TextField(
+                      controller: titleController,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'e.g. Best Effort',
+                        hintStyle: GoogleFonts.poppins(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                        ),
+                        filled: true,
+                        fillColor: Colors.black.withOpacity(0.35),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
 
-                  // Time text
-                  Text(
-                    'Time',
-                    style: GoogleFonts.poppins(color: const Color(0xFFB3B5BA), fontSize: 11),
-                  ),
-                  const SizedBox(height: 6),
-                  GestureDetector(
-                    onTap: () async {
-                      final pickedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: const ColorScheme.dark(
-                                primary: Color(0xFF581C87),
-                                surface: Color(0xFF101828),
-                              ),
-                            ),
-                            child: child!,
-                          );
-                        },
-                      );
-                      if (pickedTime != null) {
-                        setModalState(() {
-                          time = pickedTime.format(context);
-                        });
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    Text(
+                      'Category',
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFFB3B5BA),
+                        fontSize: 11,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.35),
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.white.withOpacity(0.08)),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.08),
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(time, style: GoogleFonts.poppins(color: Colors.white, fontSize: 13)),
-                          const Icon(Icons.access_time, color: Colors.white, size: 16),
-                        ],
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: category,
+                          dropdownColor: const Color(0xFF101828),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.white,
+                          ),
+                          isExpanded: true,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                          onChanged: (val) {
+                            if (val != null) {
+                              setModalState(() => category = val);
+                            }
+                          },
+                          items:
+                              categories.map((cat) {
+                                return DropdownMenuItem<String>(
+                                  value: cat,
+                                  child: Text(cat),
+                                );
+                              }).toList(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 14),
+
+                    Text(
+                      'Time',
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFFB3B5BA),
+                        fontSize: 11,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: () async {
+                        final pickedTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.dark(
+                                  primary: Color(0xFF1E3A8A),
+                                  surface: Color(0xFF101828),
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        if (pickedTime != null) {
+                          setModalState(() {
+                            time = pickedTime.format(context);
+                          });
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.35),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.08),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              time,
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.access_time,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'Cancel',
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ),
               ),
-            );
-          },
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel', style: GoogleFonts.poppins(color: Colors.white)),
+              ElevatedButton(
+                onPressed: () {
+                  if (titleController.text.trim().isEmpty) return;
+                  _addEvent(
+                    titleController.text.trim(),
+                    _selectedDay,
+                    time,
+                    category,
+                  );
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1E3A8A),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Save',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.trim().isEmpty) return;
-              _addEvent(titleController.text.trim(), _selectedDay, time, category);
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF581C87),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
-            child: Text(
-              'Save',
-              style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

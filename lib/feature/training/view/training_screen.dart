@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../training/controller/training_controller.dart';
-import '../../training/model/workout_model.dart';
+import 'add_training_screen.dart';
 
 class TrainingScreen extends StatelessWidget {
   const TrainingScreen({super.key});
@@ -52,7 +52,7 @@ class TrainingScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => _showAddWorkoutSheet(context, trainingController),
+                      onPressed: () => Get.to(() => const AddTrainingScreen()),
                       icon: const Icon(Icons.add, size: 16, color: Colors.white),
                       label: Text(
                         'Add Training',
@@ -265,7 +265,7 @@ class TrainingScreen extends StatelessWidget {
                                       ],
                                     ),
                                     child: ElevatedButton(
-                                      onPressed: () => _showAddWorkoutSheet(context, trainingController),
+                                      onPressed: () => Get.to(() => const AddTrainingScreen()),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.transparent,
                                         foregroundColor: Colors.white,
@@ -493,273 +493,6 @@ class TrainingScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showAddWorkoutSheet(BuildContext context, TrainingController controller) {
-    String selectedType = 'Swimming';
-    int duration = 60;
-    int rpe = 8;
-    DateTime selectedDate = DateTime.now();
-
-    final List<String> workoutTypes = ['Swimming', 'Running', 'Gym', 'Cycling', 'Football', 'Yoga'];
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: const Color(0xFF101828),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 24,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 32,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Log Workout',
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close, color: Colors.white),
-                        onPressed: () => Navigator.pop(context),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Workout Type dropdown
-                  Text(
-                    'Workout Type',
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: const Color(0xFFB3B5BA),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.white.withOpacity(0.08)),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedType,
-                        dropdownColor: const Color(0xFF101828),
-                        icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white),
-                        style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
-                        isExpanded: true,
-                        onChanged: (String? val) {
-                          if (val != null) {
-                            setModalState(() {
-                              selectedType = val;
-                            });
-                          }
-                        },
-                        items: workoutTypes.map<DropdownMenuItem<String>>((String type) {
-                          return DropdownMenuItem<String>(
-                            value: type,
-                            child: Text(type),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Duration Slider
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Duration',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color(0xFFB3B5BA),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        '$duration min',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Slider(
-                    value: duration.toDouble(),
-                    min: 5,
-                    max: 180,
-                    divisions: 35,
-                    activeColor: const Color(0xFFFF7F7F),
-                    inactiveColor: Colors.white.withOpacity(0.1),
-                    onChanged: (double val) {
-                      setModalState(() {
-                        duration = val.round();
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 14),
-
-                  // RPE Slider
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'RPE (Rate of Perceived Exertion)',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color(0xFFB3B5BA),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        '$rpe / 10',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: const Color(0xFFFF7F7F),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Slider(
-                    value: rpe.toDouble(),
-                    min: 1,
-                    max: 10,
-                    divisions: 9,
-                    activeColor: const Color(0xFFFF7F7F),
-                    inactiveColor: Colors.white.withOpacity(0.1),
-                    onChanged: (double val) {
-                      setModalState(() {
-                        rpe = val.round();
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 14),
-
-                  // Date Selection Row
-                  Text(
-                    'Workout Date',
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: const Color(0xFFB3B5BA),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () async {
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime(2025),
-                        lastDate: DateTime.now().add(const Duration(days: 30)),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: const ColorScheme.dark(
-                                primary: Color(0xFFFF7F7F),
-                                onPrimary: Colors.white,
-                                surface: Color(0xFF101828),
-                                onSurface: Colors.white,
-                              ),
-                            ),
-                            child: child!,
-                          );
-                        },
-                      );
-                      if (picked != null) {
-                        setModalState(() {
-                          selectedDate = picked;
-                        });
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.white.withOpacity(0.08)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            DateFormat('EEEE, MMMM d, yyyy').format(selectedDate),
-                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
-                          ),
-                          const Icon(Icons.calendar_today, color: Colors.white, size: 16),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-
-                  // Save Button
-                  ElevatedButton(
-                    onPressed: () {
-                      final newWorkout = WorkoutModel(
-                        id: DateTime.now().millisecondsSinceEpoch.toString(),
-                        type: selectedType,
-                        duration: duration,
-                        rpe: rpe,
-                        date: selectedDate,
-                      );
-                      controller.addWorkout(newWorkout);
-                      Navigator.pop(context);
-                      Get.snackbar(
-                        'Workout Logged',
-                        'Successfully tracked $selectedType session.',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
-                        colorText: Colors.white,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF7F7F),
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    child: Text(
-                      'Save Workout',
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
     );
   }
 

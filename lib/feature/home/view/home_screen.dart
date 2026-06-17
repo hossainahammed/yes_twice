@@ -8,6 +8,7 @@ import '../../training/controller/training_controller.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../training/model/workout_model.dart';
 import '../widgets/custom_painters.dart';
+import '../../training/view/add_training_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -726,8 +727,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Add\nTraining',
                         bgColor: const Color(0xFF1E3A8A).withOpacity(0.35),
                         onTap: () {
-                          // Change tab to Training
-                          dashboardController.changeTab(1);
+                          Get.to(() => const AddTrainingScreen());
                         },
                       ),
                     ),
