@@ -209,7 +209,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 4),
+      bottomNavigationBar: const BottomNavBar(activeIndex: 4),
     );
   }
 

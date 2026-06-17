@@ -6,9 +6,9 @@ import '../../../feature/dashboard/controller/dashboard_controller.dart';
 import '../../../feature/dashboard/view/dashboard_screen.dart';
 
 /// Reusable shared bottom navigation bar widget
-class ProfileBottomNavBar extends StatelessWidget {
+class BottomNavBar extends StatelessWidget {
   final int activeIndex;
-  const ProfileBottomNavBar({super.key, required this.activeIndex});
+  const BottomNavBar({super.key, required this.activeIndex});
 
   @override
   Widget build(BuildContext context) {

@@ -409,7 +409,7 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 1),
+      bottomNavigationBar: const BottomNavBar(activeIndex: 1),
     );
   }
 

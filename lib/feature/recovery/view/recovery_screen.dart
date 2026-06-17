@@ -189,21 +189,24 @@ class RecoveryScreen extends StatelessWidget {
                       final log = dashboardController.checkins[index];
                       final score = log['score'] as int;
                       final date = log['date'] as DateTime;
-                      final dateStr = DateFormat('MMMM d, yyyy').format(date);
+                      final dateStr = DateFormat('EEEE, MMMM d').format(date); // Day name, Month name with date, delete the Year
                       final timeStr = DateFormat('h:mm a').format(date);
                       final status = _getStatusText(score);
                       final statusColor = _getStatusColor(score);
 
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF101828).withOpacity(0.55),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.white.withOpacity(0.06)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      return GestureDetector(
+                        onTap: () => Get.to(() => RecoveryCheckinScreen(checkinToEdit: log)),
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF101828).withOpacity(0.55),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.white.withOpacity(0.06)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -283,8 +286,10 @@ class RecoveryScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ),
                       );
                     },
+
                   );
                 }),
                 const SizedBox(height: 24),

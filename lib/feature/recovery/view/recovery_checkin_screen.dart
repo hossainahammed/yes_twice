@@ -6,7 +6,8 @@ import '../../profile/controller/profile_controller.dart';
 import '../../profile/view/profile_screen.dart';
 
 class RecoveryCheckinScreen extends StatefulWidget {
-  const RecoveryCheckinScreen({super.key});
+  final Map<String, dynamic>? checkinToEdit;
+  const RecoveryCheckinScreen({super.key, this.checkinToEdit});
 
   @override
   State<RecoveryCheckinScreen> createState() => _RecoveryCheckinScreenState();
@@ -17,6 +18,17 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
   int _energy = 7;
   int _stress = 3;
   int _soreness = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.checkinToEdit != null) {
+      _sleep = widget.checkinToEdit!['sleep'] as int? ?? 7;
+      _energy = widget.checkinToEdit!['energy'] as int? ?? 7;
+      _stress = widget.checkinToEdit!['stress'] as int? ?? 3;
+      _soreness = widget.checkinToEdit!['soreness'] as int? ?? 3;
+    }
+  }
 
   int _calculateReadiness() {
     // Exact mathematical formula mapped from screenshot examples:
@@ -39,6 +51,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
 
     final readiness = _calculateReadiness();
     final status = _getReadinessStatus(readiness);
+    final isEditing = widget.checkinToEdit != null;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -49,10 +62,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
           gradient: RadialGradient(
             center: Alignment(0.0, -0.8),
             radius: 1.5,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
+            colors: [Color(0xFF2B1416), Color(0xFF080808)],
           ),
         ),
         child: SafeArea(
@@ -60,7 +70,10 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
             children: [
               /// Custom AppBar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -79,7 +92,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Recovery Check in',
+                          isEditing ? 'Edit Check-in' : 'Recovery Check in',
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -92,35 +105,65 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                     ElevatedButton(
                       onPressed: () {
                         final now = DateTime.now();
-                        // Add check-in to global list
-                        dashboardController.checkins.insert(0, {
-                          'id': now.millisecondsSinceEpoch.toString(),
-                          'date': now,
-                          'score': readiness,
-                          'sleep': _sleep,
-                          'energy': _energy,
-                          'stress': _stress,
-                          'soreness': _soreness,
-                        });
 
-                        // Update global readiness score
-                        dashboardController.updateReadiness(readiness);
+                        if (isEditing) {
+                          // Update the existing check-in in the controller
+                          final index = dashboardController.checkins.indexWhere(
+                            (c) => c['id'] == widget.checkinToEdit!['id'],
+                          );
+                          if (index != -1) {
+                            dashboardController.checkins[index] = {
+                              'id': widget.checkinToEdit!['id'],
+                              'date': widget.checkinToEdit!['date'],
+                              'score': readiness,
+                              'sleep': _sleep,
+                              'energy': _energy,
+                              'stress': _stress,
+                              'soreness': _soreness,
+                            };
+                            dashboardController.checkins.refresh();
+                          }
+                        } else {
+                          // Add new check-in to global list
+                          dashboardController.checkins.insert(0, {
+                            'id': now.millisecondsSinceEpoch.toString(),
+                            'date': now,
+                            'score': readiness,
+                            'sleep': _sleep,
+                            'energy': _energy,
+                            'stress': _stress,
+                            'soreness': _soreness,
+                          });
+                        }
 
-                        // Increment check-ins count on Profile
-                        profileController.checkinsCount.value = dashboardController.checkins.length;
+                        // Update global readiness score with latest check-in
+                        if (dashboardController.checkins.isNotEmpty) {
+                          dashboardController.updateReadiness(
+                            dashboardController.checkins.first['score'] as int,
+                          );
+                        }
+
+                        // Sync check-ins count on Profile
+                        profileController.checkinsCount.value =
+                            dashboardController.checkins.length;
 
                         Get.back();
                         Get.snackbar(
-                          'Check-in Logged',
+                          isEditing ? 'Check-in Updated' : 'Check-in Logged',
                           'Readiness score updated to $readiness%.',
                           snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
+                          backgroundColor: const Color(
+                            0xFF1E3A8A,
+                          ).withOpacity(0.9),
                           colorText: Colors.white,
                         );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1E3A8A),
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 8,
+                        ),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         shape: RoundedRectangleBorder(
@@ -143,7 +186,10 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
               /// Scrollable sliders
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -153,7 +199,9 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xFF101828).withOpacity(0.55),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white.withOpacity(0.06)),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.06),
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -311,7 +359,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 3),
+      bottomNavigationBar: const BottomNavBar(activeIndex: 3),
     );
   }
 
@@ -368,12 +416,18 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                     Container(
                       width: 5,
                       height: 5,
-                      decoration: BoxDecoration(color: leftDotColor, shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                        color: leftDotColor,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       leftCaption,
-                      style: GoogleFonts.poppins(fontSize: 10, color: const Color(0xFFB3B5BA)),
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        color: const Color(0xFFB3B5BA),
+                      ),
                     ),
                   ],
                 ),
@@ -382,12 +436,18 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                     Container(
                       width: 5,
                       height: 5,
-                      decoration: BoxDecoration(color: rightDotColor, shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                        color: rightDotColor,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       rightCaption,
-                      style: GoogleFonts.poppins(fontSize: 10, color: const Color(0xFFB3B5BA)),
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        color: const Color(0xFFB3B5BA),
+                      ),
                     ),
                   ],
                 ),

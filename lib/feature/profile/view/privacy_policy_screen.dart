@@ -154,7 +154,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 4),
+      bottomNavigationBar: const BottomNavBar(activeIndex: 4),
     );
   }
 

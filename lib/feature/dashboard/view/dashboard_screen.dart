@@ -28,7 +28,7 @@ class DashboardScreen extends StatelessWidget {
             index: controller.activeTab.value,
             children: screens,
           )),
-      bottomNavigationBar: Obx(() => ProfileBottomNavBar(activeIndex: controller.activeTab.value)),
+      bottomNavigationBar: Obx(() => BottomNavBar(activeIndex: controller.activeTab.value)),
     );
   }
 }

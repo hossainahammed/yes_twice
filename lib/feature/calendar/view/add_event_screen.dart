@@ -351,7 +351,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProfileBottomNavBar(activeIndex: 2),
+      bottomNavigationBar: const BottomNavBar(activeIndex: 2),
     );
   }
 
