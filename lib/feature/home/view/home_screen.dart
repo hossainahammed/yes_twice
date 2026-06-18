@@ -10,9 +10,248 @@ import '../widgets/custom_painters.dart';
 import '../../training/view/add_training_screen.dart';
 import '../../recovery/view/recovery_checkin_screen.dart';
 import '../../calendar/view/add_event_screen.dart';
+import '../../training/model/workout_model.dart';
+import 'package:yes_twice/core/constant/app_colors.dart';
+import '../../../core/widgets/app_background.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  void _showTrainingDetails(BuildContext context, WorkoutModel workout, TrainingController controller) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF101828),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
+              ),
+            ],
+            border: Border(
+              top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5)),
+                        ),
+                        child: const Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${workout.type} Workout',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.mq(context),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Training Session',
+                            style: GoogleFonts.poppins(
+                              fontSize: 13.mq(context),
+                              color: const Color(0xFF10B981),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert, color: Colors.white70),
+                    color: const Color(0xFF1E293B),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    onSelected: (value) {
+                      Navigator.pop(context);
+                      if (value == 'edit') {
+                        Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                      } else if (value == 'delete') {
+                        _confirmDeleteWorkout(context, controller, workout.id);
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.edit_outlined, color: Colors.white, size: 18),
+                            const SizedBox(width: 8),
+                            Text('Edit', style: GoogleFonts.poppins(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.delete_outline, color: Colors.redAccent, size: 18),
+                            const SizedBox(width: 8),
+                            Text('Delete', style: GoogleFonts.poppins(color: Colors.redAccent)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.timer_outlined,
+                      label: 'Duration',
+                      value: '${workout.duration} min',
+                      color: const Color(0xFFFBBF24),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.monitor_heart_outlined,
+                      label: 'RPE',
+                      value: '${workout.rpe}/10',
+                      color: const Color(0xFFF87171),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.bolt,
+                      label: 'Load',
+                      value: '${workout.workload}',
+                      color: const Color(0xFFA78BFA),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoCard(BuildContext context, {required IconData icon, required String label, required String value, Color color = const Color(0xFF60A5FA)}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.03),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.05)),
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 24),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15.mq(context),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              color: Colors.white54,
+              fontSize: 11.mq(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteWorkout(BuildContext context, TrainingController controller, String id) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF101828),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          'Delete Workout?',
+          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.mq(context)),
+        ),
+        content: Text(
+          'Are you sure you want to remove this training session from your log?',
+          style: GoogleFonts.poppins(color: const Color(0xFFB3B5BA), fontSize: 13.mq(context)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.poppins(color: Colors.white),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              controller.deleteWorkout(id);
+              Navigator.pop(context);
+              Get.snackbar(
+                'Deleted',
+                'Workout session removed.',
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.redAccent.withOpacity(0.9),
+                colorText: Colors.white,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Text(
+              'Delete',
+              style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +263,10 @@ class HomeScreen extends StatelessWidget {
     final now = DateTime.now();
     final dateStr = DateFormat('EEEE, MMMM d').format(now);
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416), // Dark burgundy glow
-              Color(0xFF080808), // Near black
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Column(
@@ -593,48 +820,46 @@ class HomeScreen extends StatelessWidget {
                   return Column(
                     children:
                         recentWorkouts.map((workout) {
-                          final dateStr = DateFormat(
-                            'MMM d, yyyy',
-                          ).format(workout.date);
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF101828).withOpacity(0.55),
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.06),
+                          final dateStr = DateFormat('EEEE, MMMM d, yyyy').format(workout.date);
+
+                          return GestureDetector(
+                            onTap: () => _showTrainingDetails(context, workout, trainingController),
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF101828).withOpacity(0.55),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.06),
+                                ),
                               ),
-                            ),
-                            child: Row(
-                              children: [
+                              child: Row(
+                                children: [
                                 // Left Pulse Icon Container
                                 Container(
                                   padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(
-                                      0xFF1E3A8A,
-                                    ).withOpacity(0.4),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryColor,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.asset(
                                     'assets/icons/training_pulse.png',
+                                    color: AppColors.shade3,
                                     width: 20,
                                     height: 20,
-                                    errorBuilder:
-                                        (c, e, s) => const Icon(
-                                          Icons.monitor_heart,
-                                          color: Color(0xFF3B82F6),
-                                          size: 20,
-                                        ),
+                                    errorBuilder: (c, e, s) => const Icon(
+                                      Icons.monitor_heart,
+                                       color: Color(0xFF3B82F6),
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 14),
-                                // Workout Type & Date
+                                // Title & Date
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         workout.type,
@@ -648,48 +873,108 @@ class HomeScreen extends StatelessWidget {
                                       Text(
                                         dateStr,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 11.mq(context),
+                                          fontSize: 10.mq(context),
                                           color: const Color(0xFFB3B5BA),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: '${workout.duration} min  ',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 11.mq(context),
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: 'RPE: ',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 11.mq(context),
+                                                fontWeight: FontWeight.w400,
+                                                color: AppColors.shade3
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '${workout.rpe}',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 11.mq(context),
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.shade3
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                // Duration & RPE
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${workout.duration} min',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12.mq(context),
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                // Right Workload Badge
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1E3A8A).withOpacity(0.15),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: const Color(0xFF3B82F6).withOpacity(0.2),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Workload: ${workout.workload}',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 10.mq(context),
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF60A5FA), // Light blue text
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                // Delete menu dots
+                                PopupMenuButton<String>(
+                                  icon: const Icon(Icons.more_vert, color: Colors.grey, size: 20),
+                                  padding: EdgeInsets.zero,
+                                  color: const Color(0xFF111827),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  onSelected: (value) {
+                                    if (value == 'edit') {
+                                      Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                                    } else if (value == 'delete') {
+                                      _confirmDeleteWorkout(context, trainingController, workout.id);
+                                    }
+                                  },
+                                  itemBuilder: (BuildContext context) => [
+                                    PopupMenuItem<String>(
+                                      value: 'edit',
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.edit_outlined, color: Colors.white, size: 18),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'Edit',
+                                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'RPE: ',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 10.mq(context),
-                                          color: const Color(0xFFB3B5BA),
-                                        ),
+                                    PopupMenuItem<String>(
+                                      value: 'delete',
+                                      child: Row(
                                         children: [
-                                          TextSpan(
-                                            text: '${workout.rpe}',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 10.mq(context),
-                                              fontWeight: FontWeight.bold,
-                                              color: const Color(0xFFFF7F7F),
-                                            ),
+                                          const Icon(Icons.delete_outline, color: Colors.redAccent, size: 18),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'Delete',
+                                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         }).toList(),
@@ -786,7 +1071,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildQuickActionButton(
     BuildContext context, {
     required Widget icon,

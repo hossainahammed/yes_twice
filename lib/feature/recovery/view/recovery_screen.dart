@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../profile/view/profile_screen.dart';
 import 'recovery_checkin_screen.dart';
+import '../../../core/widgets/app_background.dart';
 
 class RecoveryScreen extends StatelessWidget {
   const RecoveryScreen({super.key});
@@ -27,22 +28,10 @@ class RecoveryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dashboardController = Get.find<DashboardController>();
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416), // Premium dark burgundy glow
-              Color(0xFF080808), // Near black
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Column(

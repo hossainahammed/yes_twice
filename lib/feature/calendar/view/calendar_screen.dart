@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../../../core/widgets/app_background.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import '../../training/controller/training_controller.dart';
 import '../../profile/controller/profile_controller.dart';
@@ -435,19 +436,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     final monthStr = DateFormat('MMMM yyyy').format(_focusedDay);
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [Color(0xFF2B1416), Color(0xFF080808)],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Column(

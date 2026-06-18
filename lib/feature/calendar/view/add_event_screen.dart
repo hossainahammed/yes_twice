@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/core/constant/app_text_styles.dart';
+import 'package:yes_twice/core/constant/widgets/profile_bottom_nav_bar.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
-import '../../profile/view/profile_screen.dart';
+import '../../../core/widgets/app_background.dart';
 
 class AddEventScreen extends StatefulWidget {
   final DateTime? initialDate;
@@ -63,27 +64,18 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
     final dateStr = DateFormat('dd/MM/yyyy').format(_selectedDate);
 
-    return Scaffold(
-      backgroundColor: AppColors.shade4,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416), // Burgundy glow
-              Color(0xFF080808), // Near black
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: Column(
             children: [
               /// Custom AppBar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -102,7 +94,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          widget.eventToEdit != null ? 'Edit Event' : 'Add Event',
+                          widget.eventToEdit != null
+                              ? 'Edit Event'
+                              : 'Add Event',
                           style: GoogleFonts.poppins(
                             fontSize: 20.mq(context),
                             fontWeight: FontWeight.bold,
@@ -124,12 +118,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           );
                           return;
                         }
-                        
+
                         final now = DateTime.now();
-                        final timeStr = DateFormat('jm').format(now); // e.g. "12:46 PM"
+                        final timeStr = DateFormat(
+                          'jm',
+                        ).format(now); // e.g. "12:46 PM"
 
                         if (widget.eventToEdit != null) {
-                          final eventIndex = dashboardController.events.indexWhere((e) => e['id'] == widget.eventToEdit!['id']);
+                          final eventIndex = dashboardController.events
+                              .indexWhere(
+                                (e) => e['id'] == widget.eventToEdit!['id'],
+                              );
                           if (eventIndex != -1) {
                             dashboardController.events[eventIndex] = {
                               'id': widget.eventToEdit!['id'],
@@ -146,26 +145,34 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           dashboardController.events.add({
                             'id': now.millisecondsSinceEpoch.toString(),
                             'title': _titleController.text.trim(),
-                            'time': timeStr.split(" ").first, // Match style "12:46"
+                            'time':
+                                timeStr.split(" ").first, // Match style "12:46"
                             'date': _selectedDate,
                             'category': _selectedType,
                             'duration': _duration,
                             'notes': _notesController.text.trim(),
                           });
                         }
-                        
+
                         Get.back();
                         Get.snackbar(
-                          widget.eventToEdit != null ? 'Event Updated' : 'Event Scheduled',
-                          widget.eventToEdit != null ? 'Successfully updated "$_selectedType" event.' : 'Successfully scheduled "$_selectedType" event.',
+                          widget.eventToEdit != null
+                              ? 'Event Updated'
+                              : 'Event Scheduled',
+                          widget.eventToEdit != null
+                              ? 'Successfully updated "$_selectedType" event.'
+                              : 'Successfully scheduled "$_selectedType" event.',
                           snackPosition: SnackPosition.BOTTOM,
                           //backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
-                          backgroundColor:AppColors.shade1,
+                          backgroundColor: AppColors.shade1,
                           colorText: Colors.white,
                         );
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.saveButtonBg,
                           borderRadius: BorderRadius.circular(10),
@@ -198,7 +205,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
               /// Scrollable content
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -206,18 +216,29 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       _buildCard(
                         title: 'Event Title',
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             //color: Colors.black,
-                            color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
+                            color: const Color(
+                              0xFF0C0C0C,
+                            ).withValues(alpha: 0.55),
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.white.withOpacity(0.05)),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.05),
+                            ),
                           ),
                           child: TextField(
                             controller: _titleController,
-                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 13.mq(context),
+                            ),
                             decoration: InputDecoration(
-                              hintText: 'e.g., Team Practice, Championship Game',
+                              hintText:
+                                  'e.g., Team Practice, Championship Game',
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.grey.shade600,
                                 fontSize: 13.mq(context),
@@ -235,12 +256,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: _eventTypes.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 2.8,
-                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 2.8,
+                              ),
                           itemBuilder: (context, index) {
                             final type = _eventTypes[index];
                             final isSelected = type == _selectedType;
@@ -253,14 +275,16 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               child: Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? const Color(0xFF162C4E)
-                                      : Colors.transparent,
+                                  color:
+                                      isSelected
+                                          ? const Color(0xFF162C4E)
+                                          : Colors.transparent,
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
-                                    color: isSelected
-                                        ? const Color(0xFF3B82F6)
-                                        : Colors.white.withOpacity(0.08),
+                                    color:
+                                        isSelected
+                                            ? const Color(0xFF3B82F6)
+                                            : Colors.white.withOpacity(0.08),
                                     width: isSelected ? 1.5 : 1.0,
                                   ),
                                 ),
@@ -268,8 +292,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   type,
                                   style: GoogleFonts.poppins(
                                     fontSize: 13.mq(context),
-                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                    color: isSelected ? Colors.white : const Color(0xFFB3B5BA),
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.w500,
+                                    color:
+                                        isSelected
+                                            ? Colors.white
+                                            : const Color(0xFFB3B5BA),
                                   ),
                                 ),
                               ),
@@ -287,7 +317,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               context: context,
                               initialDate: _selectedDate,
                               firstDate: DateTime(2025),
-                              lastDate: DateTime.now().add(const Duration(days: 365)),
+                              lastDate: DateTime.now().add(
+                                const Duration(days: 365),
+                              ),
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
@@ -309,21 +341,35 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             }
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 14,
+                            ),
                             decoration: BoxDecoration(
                               //color: Colors.black,
-                              color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
+                              color: const Color(
+                                0xFF0C0C0C,
+                              ).withValues(alpha: 0.55),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.white.withOpacity(0.05)),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.05),
+                              ),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   dateStr,
-                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 13.mq(context),
+                                  ),
                                 ),
-                                Icon(Icons.calendar_today_outlined, color: Colors.grey.shade400, size: 18),
+                                Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: Colors.grey.shade400,
+                                  size: 18,
+                                ),
                               ],
                             ),
                           ),
@@ -337,21 +383,35 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         child: GestureDetector(
                           onTap: () => _showDurationPicker(context),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 14,
+                            ),
                             decoration: BoxDecoration(
-                             // color: Colors.black,
-                              color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
+                              // color: Colors.black,
+                              color: const Color(
+                                0xFF0C0C0C,
+                              ).withValues(alpha: 0.55),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.white.withOpacity(0.05)),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.05),
+                              ),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   '$_duration',
-                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 13.mq(context),
+                                  ),
                                 ),
-                                Icon(Icons.access_time_outlined, color: Colors.grey.shade400, size: 18),
+                                Icon(
+                                  Icons.access_time_outlined,
+                                  color: Colors.grey.shade400,
+                                  size: 18,
+                                ),
                               ],
                             ),
                           ),
@@ -363,19 +423,30 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         title: 'Notes',
                         suffixTitle: '(Optional)',
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                           // color: Colors.black,
-                            color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
+                            // color: Colors.black,
+                            color: const Color(
+                              0xFF0C0C0C,
+                            ).withValues(alpha: 0.55),
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.white.withOpacity(0.05)),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.05),
+                            ),
                           ),
                           child: TextField(
                             controller: _notesController,
                             maxLines: 4,
-                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13.mq(context)),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 13.mq(context),
+                            ),
                             decoration: InputDecoration(
-                              hintText: 'How did the workout feel? Any observations?',
+                              hintText:
+                                  'How did the workout feel? Any observations?',
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.grey.shade600,
                                 fontSize: 13.mq(context),
@@ -393,17 +464,22 @@ class _AddEventScreenState extends State<AddEventScreen> {
             ],
           ),
         ),
+
+        bottomNavigationBar: const BottomNavBar(activeIndex: 2),
       ),
-      bottomNavigationBar: const BottomNavBar(activeIndex: 2),
     );
   }
 
-  Widget _buildCard({required String title, required Widget child, String? suffixTitle}) {
+  Widget _buildCard({
+    required String title,
+    required Widget child,
+    String? suffixTitle,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
-        color:AppColors.shade1,
+        color: AppColors.shade1,
         //color: const Color(0xFF111C2B),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
@@ -444,55 +520,77 @@ class _AddEventScreenState extends State<AddEventScreen> {
     int localDuration = _duration;
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF101828),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          'Select Duration',
-          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.mq(context)),
-        ),
-        content: StatefulBuilder(
-          builder: (context, setModalState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '$localDuration minutes',
-                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 18.mq(context), fontWeight: FontWeight.bold),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: const Color(0xFF101828),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Text(
+              'Select Duration',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.mq(context),
+              ),
+            ),
+            content: StatefulBuilder(
+              builder: (context, setModalState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '$localDuration minutes',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18.mq(context),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Slider(
+                      value: localDuration.toDouble(),
+                      min: 5,
+                      max: 180,
+                      divisions: 35,
+                      activeColor: const Color(0xFFFF7F7F),
+                      onChanged: (val) {
+                        setModalState(() {
+                          localDuration = val.round();
+                        });
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'Cancel',
+                  style: GoogleFonts.poppins(color: Colors.white),
                 ),
-                Slider(
-                  value: localDuration.toDouble(),
-                  min: 5,
-                  max: 180,
-                  divisions: 35,
-                  activeColor: const Color(0xFFFF7F7F),
-                  onChanged: (val) {
-                    setModalState(() {
-                      localDuration = val.round();
-                    });
-                  },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _duration = localDuration;
+                  });
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF7F7F),
                 ),
-              ],
-            );
-          },
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel', style: GoogleFonts.poppins(color: Colors.white)),
+                child: Text(
+                  'Select',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _duration = localDuration;
-              });
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFFF7F7F)),
-            child: Text('Select', style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
     );
   }
 }

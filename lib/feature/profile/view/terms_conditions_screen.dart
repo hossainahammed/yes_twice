@@ -4,25 +4,17 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'profile_screen.dart';
+import '../../../core/widgets/app_background.dart';
 
 class TermsConditionScreen extends StatelessWidget {
   const TermsConditionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [Color(0xFF2B1416), Color(0xFF080808)],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -144,8 +136,10 @@ class TermsConditionScreen extends StatelessWidget {
             ],
           ),
         ),
+
+        bottomNavigationBar: const BottomNavBar(activeIndex: 4),
+
       ),
-      bottomNavigationBar: const BottomNavBar(activeIndex: 4),
     );
   }
 

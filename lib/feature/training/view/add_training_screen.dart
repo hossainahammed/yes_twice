@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import '../../../core/widgets/app_background.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/core/constant/app_text_styles.dart';
 import '../../training/controller/training_controller.dart';
@@ -100,22 +101,10 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
     final calculatedWorkload = _duration * _rpe;
     final isEditing = widget.workoutToEdit != null;
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416), // Dark burgundy glow
-              Color(0xFF080808), // Near black
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: Column(
             children: [
               /// Custom AppBar
@@ -470,8 +459,10 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
             ],
           ),
         ),
+
+        bottomNavigationBar: const BottomNavBar(activeIndex: 1),
+
       ),
-      bottomNavigationBar: const BottomNavBar(activeIndex: 1),
     );
   }
 

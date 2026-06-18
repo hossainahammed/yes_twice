@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../training/controller/training_controller.dart';
 import '../model/workout_model.dart';
 import 'add_training_screen.dart';
+import '../../../core/widgets/app_background.dart';
 
 class TrainingScreen extends StatelessWidget {
   const TrainingScreen({super.key});
@@ -211,22 +212,10 @@ class TrainingScreen extends StatelessWidget {
       trainingController.searchQuery.value = '';
     });
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416), // Burgundy glow
-              Color(0xFF080808), // Near black
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Column(

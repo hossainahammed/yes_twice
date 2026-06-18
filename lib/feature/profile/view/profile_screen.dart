@@ -8,6 +8,7 @@ import '../controller/profile_controller.dart';
 import 'settings_privacy_screen.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../dashboard/view/dashboard_screen.dart';
+import '../../../core/widgets/app_background.dart';
 
 export 'package:yes_twice/core/constant/widgets/profile_bottom_nav_bar.dart';
 
@@ -18,22 +19,10 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ProfileController());
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(

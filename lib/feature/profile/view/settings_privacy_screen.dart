@@ -7,28 +7,17 @@ import 'edit_profile_screen.dart';
 import 'change_password_screen.dart';
 import 'privacy_policy_screen.dart';
 import 'terms_conditions_screen.dart';
+import '../../../core/widgets/app_background.dart';
 
 class SettingsPrivacyScreen extends StatelessWidget {
   const SettingsPrivacyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.8),
-            radius: 1.5,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
-          ),
-        ),
-        child: SafeArea(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -143,8 +132,10 @@ class SettingsPrivacyScreen extends StatelessWidget {
             ],
           ),
         ),
+
+        bottomNavigationBar: const BottomNavBar(activeIndex: 4),
+
       ),
-      bottomNavigationBar: const BottomNavBar(activeIndex: 4),
     );
   }
 
