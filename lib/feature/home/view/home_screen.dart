@@ -994,10 +994,12 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 12),
 
                 /// Quick Actions Buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Add Training
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Add Training
                     Expanded(
                       child: _buildQuickActionButton(
                         context,
@@ -1011,7 +1013,7 @@ class HomeScreen extends StatelessWidget {
                                 color: Colors.blue,
                               ),
                         ),
-                        label: 'Add\nTraining',
+                        label: 'Add Training',
                         bgColor: const Color(0xFF2B7FFF).withOpacity(0.35),
                         onTap: () {
                           Get.to(() => const AddTrainingScreen());
@@ -1063,7 +1065,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+              ),
+              const SizedBox(height: 24),
               ],
             ),
           ),
@@ -1088,6 +1091,7 @@ class HomeScreen extends StatelessWidget {
           border: Border.all(color: Colors.white.withOpacity(0.06)),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               padding: const EdgeInsets.all(12),
