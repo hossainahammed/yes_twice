@@ -8,6 +8,8 @@ import '../../training/controller/training_controller.dart';
 import '../../profile/controller/profile_controller.dart';
 import '../../profile/view/profile_screen.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
+import '../../training/model/workout_model.dart';
+import '../../training/view/add_training_screen.dart';
 import 'add_event_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -44,6 +46,374 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void _deleteEvent(String id) {
     dashboardController.events.removeWhere((e) => e['id'] == id);
     _syncEventsCount();
+  }
+
+  void _showEventDetails(BuildContext context, Map<String, dynamic> event) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF101828),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
+              ),
+            ],
+            border: Border(
+              top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1E3A8A).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFF1E3A8A).withOpacity(0.5)),
+                        ),
+                        child: const Icon(Icons.event_note, color: Color(0xFF60A5FA), size: 24),
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            event['title'],
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.mq(context),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            event['category'],
+                            style: GoogleFonts.poppins(
+                              fontSize: 13.mq(context),
+                              color: const Color(0xFF60A5FA),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert, color: Colors.white70),
+                    color: const Color(0xFF1E293B),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    onSelected: (value) {
+                      Navigator.pop(context);
+                      if (value == 'edit') {
+                        Get.to(() => AddEventScreen(eventToEdit: event));
+                      } else if (value == 'delete') {
+                        _deleteEvent(event['id']);
+                        Get.snackbar('Event Deleted', 'The event has been removed.',
+                            backgroundColor: Colors.redAccent.withOpacity(0.9), colorText: Colors.white);
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.edit_outlined, color: Colors.white, size: 18),
+                            const SizedBox(width: 8),
+                            Text('Edit', style: GoogleFonts.poppins(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.delete_outline, color: Colors.redAccent, size: 18),
+                            const SizedBox(width: 8),
+                            Text('Delete', style: GoogleFonts.poppins(color: Colors.redAccent)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              // Time and Duration row
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.access_time,
+                      label: 'Time',
+                      value: event['time'],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.hourglass_bottom,
+                      label: 'Duration',
+                      value: '${event['duration']} min',
+                    ),
+                  ),
+                ],
+              ),
+              if (event['notes'] != null && event['notes'].toString().isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.03),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withOpacity(0.05)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.notes, color: Colors.white54, size: 18),
+                          const SizedBox(width: 8),
+                          Text('Notes', style: GoogleFonts.poppins(color: Colors.white54, fontSize: 13.mq(context), fontWeight: FontWeight.w500)),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        event['notes'],
+                        style: GoogleFonts.poppins(color: Colors.white, fontSize: 14.mq(context)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 32),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTrainingDetails(BuildContext context, WorkoutModel workout, TrainingController controller) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF101828),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
+              ),
+            ],
+            border: Border(
+              top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5)),
+                        ),
+                        child: const Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${workout.type} Workout',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.mq(context),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Training Session',
+                            style: GoogleFonts.poppins(
+                              fontSize: 13.mq(context),
+                              color: const Color(0xFF10B981),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert, color: Colors.white70),
+                    color: const Color(0xFF1E293B),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    onSelected: (value) {
+                      Navigator.pop(context);
+                      if (value == 'edit') {
+                        Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                      } else if (value == 'delete') {
+                        controller.deleteWorkout(workout.id);
+                        Get.snackbar('Training Deleted', 'The training session has been removed.',
+                            backgroundColor: Colors.redAccent.withOpacity(0.9), colorText: Colors.white);
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.edit_outlined, color: Colors.white, size: 18),
+                            const SizedBox(width: 8),
+                            Text('Edit', style: GoogleFonts.poppins(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.delete_outline, color: Colors.redAccent, size: 18),
+                            const SizedBox(width: 8),
+                            Text('Delete', style: GoogleFonts.poppins(color: Colors.redAccent)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              // Info grid
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.timer_outlined,
+                      label: 'Duration',
+                      value: '${workout.duration} min',
+                      color: const Color(0xFFFBBF24),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.monitor_heart_outlined,
+                      label: 'RPE',
+                      value: '${workout.rpe}/10',
+                      color: const Color(0xFFF87171),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildInfoCard(
+                      context,
+                      icon: Icons.bolt,
+                      label: 'Load',
+                      value: '${workout.workload}',
+                      color: const Color(0xFFA78BFA),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoCard(BuildContext context, {required IconData icon, required String label, required String value, Color color = const Color(0xFF60A5FA)}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.03),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.05)),
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 24),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15.mq(context),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              color: Colors.white54,
+              fontSize: 11.mq(context),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -109,7 +479,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ],
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => Get.to(() => const AddEventScreen()),
+                      onPressed: () => Get.to(() => AddEventScreen(initialDate: _selectedDay)),
                       icon: const Icon(
                         Icons.add,
                         size: 16,
@@ -456,128 +826,134 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     children: [
                       // Render custom styled Events (like Best Effort)
                       ...dayEvents.map((event) {
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF101828).withOpacity(0.55),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.06),
+                        return GestureDetector(
+                          onTap: () => _showEventDetails(context, event),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF101828).withOpacity(0.55),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.06),
+                              ),
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              // Left Icon Container (blue themed)
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                    0xFF1E3A8A,
-                                  ).withOpacity(0.4),
-                                  borderRadius: BorderRadius.circular(10),
+                            child: Row(
+                              children: [
+                                // Left Icon Container (blue themed)
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                      0xFF1E3A8A,
+                                    ).withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    Icons.calendar_today_outlined,
+                                    color: AppColors.shade3,
+                                    // color: const Color(
+                                    //   0xFF60A5FA,
+                                    // ).withOpacity(0.8),
+                                    size: 18,
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: AppColors.shade3,
-                                  // color: const Color(
-                                  //   0xFF60A5FA,
-                                  // ).withOpacity(0.8),
-                                  size: 18,
-                                ),
-                              ),
-                              const SizedBox(width: 14),
-                              // Event Info
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      event['title'],
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 14.mq(context),
-                                        fontWeight: FontWeight.bold,
+                                const SizedBox(width: 14),
+                                // Event Info
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        event['title'],
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 14.mq(context),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      '${event['category']} • ${event['time']}',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFFB3B5BA),
-                                        fontSize: 12.mq(context),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        '${event['category']} • ${event['time']}',
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFFB3B5BA),
+                                          fontSize: 12.mq(context),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              // Delete option
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.redAccent,
-                                  size: 18,
+                                // Delete option
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.redAccent,
+                                    size: 18,
+                                  ),
+                                  onPressed: () => _deleteEvent(event['id']),
                                 ),
-                                onPressed: () => _deleteEvent(event['id']),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       }),
 
                       // Render workouts mapped on this day
                       ...dayWorkouts.map((workout) {
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF101828).withOpacity(0.55),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: const Color(0xFF10B981).withOpacity(0.2),
+                        return GestureDetector(
+                          onTap: () => _showTrainingDetails(context, workout, trainingController),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF101828).withOpacity(0.55),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: const Color(0xFF10B981).withOpacity(0.2),
+                              ),
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                    0xFF10B981,
-                                  ).withOpacity(0.15),
-                                  borderRadius: BorderRadius.circular(10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                      0xFF10B981,
+                                    ).withOpacity(0.15),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Icon(
+                                    Icons.check_circle_outline,
+                                    color: Color(0xFF10B981),
+                                    size: 18,
+                                  ),
                                 ),
-                                child: const Icon(
-                                  Icons.check_circle_outline,
-                                  color: Color(0xFF10B981),
-                                  size: 18,
-                                ),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${workout.type} (Workout)',
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 14.mq(context),
-                                        fontWeight: FontWeight.bold,
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${workout.type} (Workout)',
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 14.mq(context),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      'Duration: ${workout.duration} min  |  Workload: ${workout.workload}',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFFB3B5BA),
-                                        fontSize: 12.mq(context),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Duration: ${workout.duration} min  |  Workload: ${workout.workload}',
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFFB3B5BA),
+                                          fontSize: 12.mq(context),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       }),

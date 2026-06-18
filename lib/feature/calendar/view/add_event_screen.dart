@@ -8,7 +8,9 @@ import '../../dashboard/controller/dashboard_controller.dart';
 import '../../profile/view/profile_screen.dart';
 
 class AddEventScreen extends StatefulWidget {
-  const AddEventScreen({super.key});
+  final DateTime? initialDate;
+  final Map<String, dynamic>? eventToEdit;
+  const AddEventScreen({super.key, this.initialDate, this.eventToEdit});
 
   @override
   State<AddEventScreen> createState() => _AddEventScreenState();
@@ -17,9 +19,23 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
   final _titleController = TextEditingController();
   String _selectedType = 'Practice';
-  DateTime _selectedDate = DateTime.now();
+  late DateTime _selectedDate;
   int _duration = 60;
   final _notesController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.eventToEdit != null) {
+      _titleController.text = widget.eventToEdit!['title'] ?? '';
+      _selectedType = widget.eventToEdit!['category'] ?? 'Practice';
+      _selectedDate = widget.eventToEdit!['date'] ?? DateTime.now();
+      _duration = widget.eventToEdit!['duration'] ?? 60;
+      _notesController.text = widget.eventToEdit!['notes'] ?? '';
+    } else {
+      _selectedDate = widget.initialDate ?? DateTime.now();
+    }
+  }
 
   final List<String> _eventTypes = [
     'Practice',
@@ -86,7 +102,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Add Event',
+                          widget.eventToEdit != null ? 'Edit Event' : 'Add Event',
                           style: GoogleFonts.poppins(
                             fontSize: 20.mq(context),
                             fontWeight: FontWeight.bold,
@@ -112,20 +128,36 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         final now = DateTime.now();
                         final timeStr = DateFormat('jm').format(now); // e.g. "12:46 PM"
 
-                        dashboardController.events.add({
-                          'id': now.millisecondsSinceEpoch.toString(),
-                          'title': _titleController.text.trim(),
-                          'time': timeStr.split(" ").first, // Match style "12:46"
-                          'date': _selectedDate,
-                          'category': _selectedType,
-                          'duration': _duration,
-                          'notes': _notesController.text.trim(),
-                        });
+                        if (widget.eventToEdit != null) {
+                          final eventIndex = dashboardController.events.indexWhere((e) => e['id'] == widget.eventToEdit!['id']);
+                          if (eventIndex != -1) {
+                            dashboardController.events[eventIndex] = {
+                              'id': widget.eventToEdit!['id'],
+                              'title': _titleController.text.trim(),
+                              'time': widget.eventToEdit!['time'],
+                              'date': _selectedDate,
+                              'category': _selectedType,
+                              'duration': _duration,
+                              'notes': _notesController.text.trim(),
+                            };
+                            dashboardController.events.refresh();
+                          }
+                        } else {
+                          dashboardController.events.add({
+                            'id': now.millisecondsSinceEpoch.toString(),
+                            'title': _titleController.text.trim(),
+                            'time': timeStr.split(" ").first, // Match style "12:46"
+                            'date': _selectedDate,
+                            'category': _selectedType,
+                            'duration': _duration,
+                            'notes': _notesController.text.trim(),
+                          });
+                        }
                         
                         Get.back();
                         Get.snackbar(
-                          'Event Scheduled',
-                          'Successfully scheduled "$_selectedType" event.',
+                          widget.eventToEdit != null ? 'Event Updated' : 'Event Scheduled',
+                          widget.eventToEdit != null ? 'Successfully updated "$_selectedType" event.' : 'Successfully scheduled "$_selectedType" event.',
                           snackPosition: SnackPosition.BOTTOM,
                           //backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
                           backgroundColor:AppColors.shade1,
