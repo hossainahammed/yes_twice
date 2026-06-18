@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -223,7 +224,8 @@ class RecoveryScreen extends StatelessWidget {
                           margin: const EdgeInsets.only(bottom: 12),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF101828).withOpacity(0.55),
+                           // color: const Color(0xFF101828).withOpacity(0.55),
+                            color:AppColors.shade1,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color: Colors.white.withOpacity(0.06),

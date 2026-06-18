@@ -27,6 +27,7 @@ class AppColors {
   static const Color stroke = Color(0xFFFFFFFF);
   static const Color shade2 = Color(0xFF080808);
   static const Color shade3 = Color(0xFFFF7F7F);
+  static const Color shade4 = Color(0xFF000000);
   static const Color shadow = Color(0xFFE3AAAA);
 
 }

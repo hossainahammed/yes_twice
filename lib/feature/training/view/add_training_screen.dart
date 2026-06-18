@@ -299,7 +299,8 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              //color: Colors.black,
+                              color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Colors.white.withOpacity(0.05)),
                             ),
@@ -326,7 +327,8 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              // color: Colors.black,
+                              color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Colors.white.withOpacity(0.05)),
                             ),
@@ -440,7 +442,8 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            // color: Colors.black,
+                            color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: Colors.white.withOpacity(0.05)),
                           ),

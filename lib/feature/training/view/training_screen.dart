@@ -1,3 +1,4 @@
+import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,12 +65,12 @@ class TrainingScreen extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
+                       backgroundColor:AppColors.shade1,
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),
@@ -103,7 +104,7 @@ class TrainingScreen extends StatelessWidget {
                               Text(
                                 'Avg Workload',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 11.mq(context),
+                                  fontSize: 13.mq(context),
                                   fontWeight: FontWeight.w400,
                                   color: const Color(0xFFB3B5BA),
                                 ),
@@ -114,7 +115,8 @@ class TrainingScreen extends StatelessWidget {
                                 style: GoogleFonts.poppins(
                                   fontSize: 24.mq(context),
                                   fontWeight: FontWeight.bold,
-                                  color: const Color(0xFFFF7F7F), // Pinkish-Red color
+                                //  color: const Color(0xFFFF7F7F), // Pinkish-Red color
+                                  color:AppColors.shade3
                                 ),
                               ),
                             ],
@@ -139,7 +141,7 @@ class TrainingScreen extends StatelessWidget {
                               Text(
                                 'Avg RPE',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 11.mq(context),
+                                  fontSize: 13.mq(context),
                                   fontWeight: FontWeight.w400,
                                   color: const Color(0xFFB3B5BA),
                                 ),
@@ -150,7 +152,7 @@ class TrainingScreen extends StatelessWidget {
                                 style: GoogleFonts.poppins(
                                   fontSize: 24.mq(context),
                                   fontWeight: FontWeight.bold,
-                                  color: const Color(0xFFFF7F7F), // Pinkish-Red color
+                                  color: AppColors.shade3, // Pinkish-Red color
                                 ),
                               ),
                             ],
@@ -388,16 +390,19 @@ class TrainingScreen extends StatelessWidget {
                                     Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFF1E3A8A).withOpacity(0.4),
+                                       // color: const Color(0xFF1E3A8A).withOpacity(0.4),
+                                        color: AppColors.primaryColor,
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.asset(
                                         'assets/icons/training_pulse.png',
+                                        color: AppColors.shade3,
                                         width: 20,
                                         height: 20,
                                         errorBuilder: (c, e, s) => const Icon(
                                           Icons.monitor_heart,
-                                          color: Color(0xFF3B82F6),
+                                           color: Color(0xFF3B82F6),
+                                           // color: AppColors.shade3,
                                           size: 20,
                                         ),
                                       ),
@@ -439,7 +444,8 @@ class TrainingScreen extends StatelessWidget {
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 11.mq(context),
                                                     fontWeight: FontWeight.w400,
-                                                    color: const Color(0xFFB3B5BA),
+                                                    // color: const Color(0xFFB3B5BA),
+                                                      color: AppColors.shade3
                                                   ),
                                                 ),
                                                 TextSpan(
@@ -447,7 +453,8 @@ class TrainingScreen extends StatelessWidget {
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 11.mq(context),
                                                     fontWeight: FontWeight.bold,
-                                                    color: const Color(0xFFFF7F7F), // Red/pink RPE
+                                                  //  color: const Color(0xFFFF7F7F), // Red/pink RPE
+                                                    color: AppColors.shade3
                                                   ),
                                                 ),
                                               ],

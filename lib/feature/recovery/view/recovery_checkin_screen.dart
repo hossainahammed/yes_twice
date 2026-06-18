@@ -399,7 +399,8 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
-        color: const Color(0xFF111C2B),
+       // color: const Color(0xFF111C2B),
+        color:AppColors.shade1,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),

@@ -727,7 +727,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                         ),
                         label: 'Add\nTraining',
-                        bgColor: const Color(0xFF1E3A8A).withOpacity(0.35),
+                        bgColor: const Color(0xFF2B7FFF).withOpacity(0.35),
                         onTap: () {
                           Get.to(() => const AddTrainingScreen());
                         },
@@ -740,6 +740,7 @@ class HomeScreen extends StatelessWidget {
                         context,
                         icon: Image.asset(
                           'assets/icons/love.png',
+                          color: Colors.white,
                           width: 24,
                           height: 24,
                           errorBuilder:
@@ -747,7 +748,7 @@ class HomeScreen extends StatelessWidget {
                                   const Icon(Icons.favorite, color: Colors.red),
                         ),
                         label: 'Recovery',
-                        bgColor: const Color(0xFF991B1B).withOpacity(0.35),
+                        bgColor: const Color(0xFFFB2C36).withOpacity(0.35),
                         onTap: () {
                           Get.to(() => const RecoveryCheckinScreen());
                         },
@@ -769,7 +770,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                         ),
                         label: 'Add Event',
-                        bgColor: const Color(0xFF581C87).withOpacity(0.35),
+                        bgColor: const Color(0xFFAD46FF).withOpacity(0.35),
                         onTap: () {
                           Get.to(() => const AddEventScreen());
                         },

@@ -125,9 +125,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ),
                       style: ElevatedButton.styleFrom(
                         // backgroundColor: const Color(0xFF1E3A8A), // Indigo blue
-                        backgroundColor: const Color(
-                          0xFF1E3A8A,
-                        ).withOpacity(0.9),
+                        backgroundColor:AppColors.shade1,
+                        // backgroundColor: const Color(0xFF1E3A8A,).withOpacity(0.9),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 8,
@@ -135,7 +134,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),

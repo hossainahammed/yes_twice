@@ -48,7 +48,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     final dateStr = DateFormat('dd/MM/yyyy').format(_selectedDate);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.shade4,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -127,7 +127,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           'Event Scheduled',
                           'Successfully scheduled "$_selectedType" event.',
                           snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
+                          //backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
+                          backgroundColor:AppColors.shade1,
                           colorText: Colors.white,
                         );
                       },
@@ -175,7 +176,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            //color: Colors.black,
+                            color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: Colors.white.withOpacity(0.05)),
                           ),
@@ -277,7 +279,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              //color: Colors.black,
+                              color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Colors.white.withOpacity(0.05)),
                             ),
@@ -304,7 +307,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                             // color: Colors.black,
+                              color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Colors.white.withOpacity(0.05)),
                             ),
@@ -329,7 +333,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                           // color: Colors.black,
+                            color: const Color(0xFF0C0C0C).withValues(alpha: 0.55),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: Colors.white.withOpacity(0.05)),
                           ),
@@ -366,7 +371,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF111C2B),
+        color:AppColors.shade1,
+        //color: const Color(0xFF111C2B),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
