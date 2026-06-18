@@ -42,10 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           gradient: RadialGradient(
             center: Alignment(0.7, -0.7),
             radius: 1.2,
-            colors: [
-              Color(0xFF2B1416),
-              Color(0xFF080808),
-            ],
+            colors: [Color(0xFF2B1416), Color(0xFF080808)],
           ),
         ),
         child: SafeArea(
@@ -64,17 +61,16 @@ class _LoginPageState extends State<LoginPage> {
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                       // color: const Color(0xFF1E1012),
+                        // color: const Color(0xFF1E1012),
                         //color: const Color(0xFF101828).withValues(alpha: 0.55),
                         color: AppColors.shade1,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                         // color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
+                          // color: const Color(0xFFFF7F7F).withValues(alpha: 0.15),
                           color: Colors.white.withValues(alpha: 0.08),
                         ),
                       ),
-                      child: 
-                        Image.asset('assets/icons/login_heart.png')
+                      child: Image.asset('assets/icons/login_heart.png'),
                       // const Icon(
                       //  // Icons.monitor_heart,
                       //   color: Color(0xFFFF7F7F),
@@ -161,7 +157,9 @@ class _LoginPageState extends State<LoginPage> {
                                     activeColor: AppColors.primaryColor,
                                     checkColor: Colors.white,
                                     side: BorderSide(
-                                      color: Colors.white.withValues(alpha: 0.4),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.4,
+                                      ),
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(4),
@@ -184,7 +182,9 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => Get.to(() => const ForgotPasswordPage()),
+                              onTap:
+                                  () =>
+                                      Get.to(() => const ForgotPasswordPage()),
                               child: Text(
                                 'Forgot Password?',
                                 style: GoogleFonts.poppins(
@@ -203,8 +203,8 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                            //  Get.offAll(() => const DashboardScreen());
-                              Get.offAll(() =>OnboardingScreen());
+                              //  Get.offAll(() => const DashboardScreen());
+                              Get.offAll(() => OnboardingScreen());
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -224,7 +224,9 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
                               child: Text(
                                 'Or continue with',
                                 style: GoogleFonts.poppins(
@@ -247,7 +249,9 @@ class _LoginPageState extends State<LoginPage> {
                         OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.black.withValues(alpha: 0.3),
+                            backgroundColor: Colors.black.withValues(
+                              alpha: 0.3,
+                            ),
                             side: BorderSide(
                               color: Colors.white.withValues(alpha: 0.08),
                             ),
@@ -349,7 +353,10 @@ class _LoginPageState extends State<LoginPage> {
             }
             return null;
           },
-          style: GoogleFonts.poppins(color: Colors.white, fontSize: 14.mq(context)),
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 14.mq(context),
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.poppins(
@@ -357,29 +364,36 @@ class _LoginPageState extends State<LoginPage> {
               fontSize: 14.mq(context),
             ),
             prefixIcon: Icon(prefixIcon, color: Colors.grey.shade400, size: 20),
-            suffixIcon: isPassword
-                ? IconButton(
-                    icon: Icon(
-                      obscureText
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: Colors.grey.shade400,
-                      size: 20,
-                    ),
-                    onPressed: onToggleVisibility,
-                  )
-                : null,
+            suffixIcon:
+                isPassword
+                    ? IconButton(
+                      icon: Icon(
+                        obscureText
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: Colors.grey.shade400,
+                        size: 20,
+                      ),
+                      onPressed: onToggleVisibility,
+                    )
+                    : null,
             filled: true,
             fillColor: Colors.black.withValues(alpha: 0.35),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 16,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+              borderSide: BorderSide(
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+              borderSide: BorderSide(
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),

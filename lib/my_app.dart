@@ -17,23 +17,22 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 867),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        builder: (context, child) {
-
-          child = EasyLoading.init()(context, child);
-
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
-            child: child,
-          );
-        },
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
-        //home: const SplashScreen(), //OnboardingScreen
-        home:SplashSlidesScreen(),
-      ),
+      builder: (context, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          builder: (context, child) {
+            child = EasyLoading.init()(context, child);
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: child,
+            );
+          },
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.system,
+          home: SplashSlidesScreen(),
+        );
+      },
     );
   }
 }
