@@ -13,21 +13,19 @@ class AppBackground extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Stack(
         children: [
-          // 1. TOP LEFT GLOW
-          Positioned(
-            top: -74.h,
-            left: -150.w,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
-              child: Container(
-                width: 290.w,
-                height: 202.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF7F7F).withOpacity(0.7),
-                  borderRadius: BorderRadius.all(
-                    Radius.elliptical(290.w, 202.h),
-                  ),
-                ),
+          // Deep muted maroon glow from top-left exactly matching the attached image
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment.topLeft,
+                radius: 1.6, // Large soft spread
+                colors: [
+                  Color(0xFF321517), // Deep muted maroon
+                  Colors.black, // Fades into pure black
+                ],
+                stops: [0.0, 1.0],
               ),
             ),
           ),
