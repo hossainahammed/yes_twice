@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             );
           },
           theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+         // darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.system,
           home: SplashSlidesScreen(),
         );

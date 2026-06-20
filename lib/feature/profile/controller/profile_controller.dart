@@ -53,7 +53,7 @@ class ProfileController extends GetxController {
     Get.snackbar(
       'Profile Updated',
       'Your profile details have been saved successfully.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.green.withValues(alpha: 0.8),
       colorText: Colors.white,
     );
@@ -64,7 +64,7 @@ class ProfileController extends GetxController {
       Get.snackbar(
         'Error',
         'New passwords do not match.',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red.withValues(alpha: 0.8),
         colorText: Colors.white,
       );
@@ -74,7 +74,7 @@ class ProfileController extends GetxController {
       Get.snackbar(
         'Error',
         'Password must be at least 8 characters.',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red.withValues(alpha: 0.8),
         colorText: Colors.white,
       );
@@ -88,7 +88,7 @@ class ProfileController extends GetxController {
     Get.snackbar(
       'Password Changed',
       'Your password has been successfully updated.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.green.withValues(alpha: 0.8),
       colorText: Colors.white,
     );
@@ -107,7 +107,7 @@ class ProfileController extends GetxController {
     Get.snackbar(
       'Data Cleared',
       'All user cache and training metrics have been reset.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.orange.withValues(alpha: 0.8),
       colorText: Colors.white,
     );

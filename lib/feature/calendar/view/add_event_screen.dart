@@ -112,7 +112,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           Get.snackbar(
                             'Title Required',
                             'Please enter an event title before saving.',
-                            snackPosition: SnackPosition.BOTTOM,
+                            snackPosition: SnackPosition.TOP,
                             backgroundColor: Colors.redAccent.withOpacity(0.9),
                             colorText: Colors.white,
                           );
@@ -162,7 +162,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           widget.eventToEdit != null
                               ? 'Successfully updated "$_selectedType" event.'
                               : 'Successfully scheduled "$_selectedType" event.',
-                          snackPosition: SnackPosition.BOTTOM,
+                          snackPosition: SnackPosition.TOP,
                           //backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
                           backgroundColor: AppColors.shade1,
                           colorText: Colors.white,

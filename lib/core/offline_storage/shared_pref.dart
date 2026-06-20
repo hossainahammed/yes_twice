@@ -5,7 +5,7 @@ class SharedPreferencesHelper {
 
   static const String _tokenKey = 'accessToken';
   static const String _onboardingKey = 'onboardingCompleted';
-  static const String _roleKey = 'user_role';
+  // static const String _roleKey = 'user_role';
   static const String _splashSlidesKey = 'splashSlidesCompleted';
 
   static const _rememberMeKey = 'remember_me';
@@ -55,15 +55,15 @@ class SharedPreferencesHelper {
   }
 
   /// Saved Role and Get Role
-  static Future<void> saveRole(String role) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_roleKey, role);
-  }
-
-  static Future<String?> getRole() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_roleKey);
-  }
+  // static Future<void> saveRole(String role) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString(_roleKey, role);
+  // }
+  //
+  // static Future<String?> getRole() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString(_roleKey);
+  // }
 
   /// Remember me button
   static Future<void> saveRememberMe(bool value) async {

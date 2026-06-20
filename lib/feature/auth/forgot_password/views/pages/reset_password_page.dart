@@ -173,7 +173,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               Get.snackbar(
                                 'Success',
                                 'Password updated successfully!',
-                                snackPosition: SnackPosition.BOTTOM,
+                                snackPosition: SnackPosition.TOP,
                                 backgroundColor: Colors.green.withValues(alpha: 0.8),
                                 colorText: Colors.white,
                               );

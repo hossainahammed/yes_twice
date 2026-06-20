@@ -181,7 +181,7 @@ class _RecoveryCheckinScreenState extends State<RecoveryCheckinScreen> {
                         Get.snackbar(
                           isEditing ? 'Check-in Updated' : 'Check-in Logged',
                           'Readiness score updated to $readiness%.',
-                          snackPosition: SnackPosition.BOTTOM,
+                          snackPosition: SnackPosition.TOP,
                           backgroundColor: const Color(
                             0xFF1E3A8A,
                           ).withOpacity(0.9),

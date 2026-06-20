@@ -76,7 +76,7 @@ class OnboardingController extends GetxController {
         Get.snackbar(
           'Notice',
           'Please select at least one goal',
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.black54,
           colorText: Colors.white,
         );

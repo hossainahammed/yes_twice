@@ -234,7 +234,7 @@ class HomeScreen extends StatelessWidget {
               Get.snackbar(
                 'Deleted',
                 'Workout session removed.',
-                snackPosition: SnackPosition.BOTTOM,
+                snackPosition: SnackPosition.TOP,
                 backgroundColor: Colors.redAccent.withOpacity(0.9),
                 colorText: Colors.white,
               );

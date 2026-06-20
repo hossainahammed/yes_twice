@@ -143,7 +143,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
                             Get.snackbar(
                               'Invalid OTP',
                               'Please enter the 5-digit code',
-                              snackPosition: SnackPosition.BOTTOM,
+                              snackPosition: SnackPosition.TOP,
                               backgroundColor: Colors.red.withValues(alpha: 0.8),
                               colorText: Colors.white,
                             );

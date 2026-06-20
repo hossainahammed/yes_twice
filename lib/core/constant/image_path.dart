@@ -18,28 +18,5 @@ class ImagePath {
 
   static const String logoutIcon = "assets/icons/logout.png";
 
-  //Dashboard
-  static const String dashboardProfile = "assets/images/dashboardProfile.png";
-  static const String event = "assets/images/Event.png";
-  static const String gallery1 = "assets/images/Gallery1.png";
-  static const String gallery2 = "assets/images/Gallery2.png";
 
-  static const String popularDishes1 = "assets/images/popularDishes1.png";
-  static const String popularDishes2 = "assets/images/popularDishes2.png";
-  static const String popularDishes3 = "assets/images/popularDishes3.png";
-
-  static const String addEvent = "assets/icons/addEvent.png";
-  static const String uploadGallery = "assets/icons/uploadGallery.png";
-
-  static const String reviewAvatar = "assets/icons/reviewAvater.png";
-  static const String map = "assets/images/map.png";
-
-  // SVG Icons
-  static const String emptyResturantList =
-      "assets/icons/emptyResturantList.svg";
-  static const String emptyeventList = "assets/icons/emptyeventList.svg";
-  static const String accountCreatedSuccess =
-      "assets/icons/accountCreatedSuccess.svg";
-  static const String reviewSubmit = "assets/icons/reviewSubmit.svg";
-  static const String resturantAdd = "assets/icons/resturantAdd.svg";
 }

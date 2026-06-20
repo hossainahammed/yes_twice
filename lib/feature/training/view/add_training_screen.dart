@@ -162,7 +162,7 @@ class _AddTrainingScreenState extends State<AddTrainingScreen> {
                         Get.snackbar(
                           isEditing ? 'Workout Updated' : 'Workout Logged',
                           'Successfully ${isEditing ? 'updated' : 'logged'} $_selectedType session.',
-                          snackPosition: SnackPosition.BOTTOM,
+                          snackPosition: SnackPosition.TOP,
                           backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.9),
                           colorText: Colors.white,
                         );
