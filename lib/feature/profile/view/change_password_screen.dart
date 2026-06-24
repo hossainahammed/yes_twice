@@ -19,6 +19,26 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool _obscureNew = true;
   bool _obscureConfirm = true;
 
+  late TextEditingController _currentPasswordController;
+  late TextEditingController _newPasswordController;
+  late TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPasswordController = TextEditingController();
+    _newPasswordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _currentPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = ProfileController.to;
@@ -100,7 +120,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               const SizedBox(height: 8),
                               _buildInputField(
                                 hint: 'Enter Current password',
-                                controller: controller.currentPasswordController,
+                                controller: _currentPasswordController,
                                 obscureText: _obscureCurrent,
                                 onToggle: () {
                                   setState(() {
@@ -116,7 +136,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               const SizedBox(height: 8),
                               _buildInputField(
                                 hint: 'At least 8 characters',
-                                controller: controller.newPasswordController,
+                                controller: _newPasswordController,
                                 obscureText: _obscureNew,
                                 onToggle: () {
                                   setState(() {
@@ -132,7 +152,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               const SizedBox(height: 8),
                               _buildInputField(
                                 hint: 'At least 8 characters',
-                                controller: controller.confirmPasswordController,
+                                controller: _confirmPasswordController,
                                 obscureText: _obscureConfirm,
                                 onToggle: () {
                                   setState(() {
@@ -150,7 +170,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              controller.changePassword();
+                              controller.changePassword(
+                                currentPassword: _currentPasswordController.text,
+                                newPassword: _newPasswordController.text,
+                                confirmPassword: _confirmPasswordController.text,
+                              );
                               Get.back();
                             }
                           },

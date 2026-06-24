@@ -15,13 +15,25 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  late TextEditingController _nameController;
+  late TextEditingController _emailController;
+  late TextEditingController _phoneController;
+
   @override
   void initState() {
     super.initState();
-    // Load current profile state into text controllers
-    if (Get.isRegistered<ProfileController>()) {
-      ProfileController.to.refreshInputControllers();
-    }
+    final profileController = ProfileController.to;
+    _nameController = TextEditingController(text: profileController.fullName.value);
+    _emailController = TextEditingController(text: profileController.email.value);
+    _phoneController = TextEditingController(text: profileController.phone.value);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
   }
 
   @override
@@ -169,7 +181,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             _buildInputField(
                               hint: 'John Doe',
                               prefixIcon: Icons.person_outline,
-                              controller: controller.nameInputController,
+                              controller: _nameController,
                             ),
 
                             const SizedBox(height: 18),
@@ -180,7 +192,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             _buildInputField(
                               hint: 'you@example.com',
                               prefixIcon: Icons.email_outlined,
-                              controller: controller.emailInputController,
+                              controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                             ),
 
@@ -192,7 +204,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             _buildInputField(
                               hint: '+971 50 123 4567',
                               prefixIcon: Icons.phone_outlined,
-                              controller: controller.phoneInputController,
+                              controller: _phoneController,
                               keyboardType: TextInputType.phone,
                             ),
                           ],
@@ -204,7 +216,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       /// Save Change Button
                       ElevatedButton(
                         onPressed: () {
-                          controller.saveChanges();
+                          controller.saveChanges(
+                            name: _nameController.text,
+                            email: _emailController.text,
+                            phone: _phoneController.text,
+                          );
                           Get.back();
                         },
                         style: ElevatedButton.styleFrom(

@@ -182,9 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                             GestureDetector(
-                              onTap:
-                                  () =>
-                                      Get.to(() => const ForgotPasswordPage()),
+                              onTap: () => Get.to(() => const ForgotPasswordPage()),
                               child: Text(
                                 'Forgot Password?',
                                 style: GoogleFonts.poppins(
@@ -249,9 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                         OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.black.withValues(
-                              alpha: 0.3,
-                            ),
+                            backgroundColor: Colors.black.withValues(alpha: 0.3,),
                             side: BorderSide(
                               color: Colors.white.withValues(alpha: 0.08),
                             ),

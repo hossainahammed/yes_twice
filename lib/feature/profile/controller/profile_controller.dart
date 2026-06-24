@@ -21,34 +21,19 @@ class ProfileController extends GetxController {
   // Goals
   var goals = <String>['Improve Performance', 'Build Endurance'].obs;
 
-  // Edit Profile controllers
-  late TextEditingController nameInputController;
-  late TextEditingController emailInputController;
-  late TextEditingController phoneInputController;
-
-  // Change Password controllers
-  final currentPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
   @override
   void onInit() {
     super.onInit();
-    nameInputController = TextEditingController(text: fullName.value);
-    emailInputController = TextEditingController(text: email.value);
-    phoneInputController = TextEditingController(text: phone.value);
   }
 
-  void refreshInputControllers() {
-    nameInputController.text = fullName.value;
-    emailInputController.text = email.value;
-    phoneInputController.text = phone.value;
-  }
-
-  void saveChanges() {
-    fullName.value = nameInputController.text;
-    email.value = emailInputController.text;
-    phone.value = phoneInputController.text;
+  void saveChanges({
+    required String name,
+    required String email,
+    required String phone,
+  }) {
+    fullName.value = name;
+    this.email.value = email;
+    this.phone.value = phone;
 
     Get.snackbar(
       'Profile Updated',
@@ -59,8 +44,12 @@ class ProfileController extends GetxController {
     );
   }
 
-  void changePassword() {
-    if (newPasswordController.text != confirmPasswordController.text) {
+  void changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) {
+    if (newPassword != confirmPassword) {
       Get.snackbar(
         'Error',
         'New passwords do not match.',
@@ -70,7 +59,7 @@ class ProfileController extends GetxController {
       );
       return;
     }
-    if (newPasswordController.text.length < 8) {
+    if (newPassword.length < 8) {
       Get.snackbar(
         'Error',
         'Password must be at least 8 characters.',
@@ -80,10 +69,6 @@ class ProfileController extends GetxController {
       );
       return;
     }
-
-    currentPasswordController.clear();
-    newPasswordController.clear();
-    confirmPasswordController.clear();
 
     Get.snackbar(
       'Password Changed',
@@ -116,16 +101,5 @@ class ProfileController extends GetxController {
   void logout() async {
     await SharedPreferencesHelper.clearToken();
     Get.offAll(() => const LoginPage());
-  }
-
-  @override
-  void onClose() {
-    nameInputController.dispose();
-    emailInputController.dispose();
-    phoneInputController.dispose();
-    currentPasswordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-    super.onClose();
   }
 }

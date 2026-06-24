@@ -80,7 +80,8 @@ class RecoveryScreen extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0E2A47), // Indigo blue
+                        backgroundColor:AppColors.shade1,
+                       // backgroundColor: const Color(0xFF0E2A47), // Indigo blue
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 8,
