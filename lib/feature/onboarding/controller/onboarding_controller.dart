@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yes_twice/core/offline_storage/shared_pref.dart';
 import 'package:yes_twice/feature/dashboard/view/dashboard_screen.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 //import '../../../feature/auth/login/views/login_page.dart';
 
 class OnboardingController extends GetxController {
@@ -37,8 +39,8 @@ class OnboardingController extends GetxController {
       );
     } else {
       await SharedPreferencesHelper.setOnboardingCompleted();
-      //Get.offAll(() => const LoginPage());
-      Get.offAll(() => const DashboardScreen());
+      //Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
+      Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: DashboardScreen())));
     }
   }
 
@@ -53,7 +55,7 @@ class OnboardingController extends GetxController {
 
   void skip() async {
     await SharedPreferencesHelper.setOnboardingCompleted();
-    Get.offAll(() => const DashboardScreen());
+    Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: DashboardScreen())));
   }
 
   void toggleHeightUnit(bool value) {

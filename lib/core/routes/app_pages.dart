@@ -34,7 +34,10 @@ class AppPages {
     GetPage(name: Routes.onboarding, page: () => OnboardingScreen()),
     GetPage(name: Routes.login, page: () => const LoginPage()),
     GetPage(name: Routes.registration, page: () => const RegistrationPage()),
-    GetPage(name: Routes.forgotPassword, page: () => const ForgotPasswordPage()),
+    GetPage(
+      name: Routes.forgotPassword,
+      page: () => const ForgotPasswordPage(),
+    ),
     GetPage(name: Routes.resetPassword, page: () => const ResetPasswordPage()),
     GetPage(name: Routes.resetOtp, page: () => const ResetOtpPage()),
     GetPage(name: Routes.dashboard, page: () => const DashboardScreen()),
@@ -42,14 +45,29 @@ class AppPages {
     GetPage(name: Routes.calendar, page: () => const CalendarScreen()),
     GetPage(name: Routes.addEvent, page: () => const AddEventScreen()),
     GetPage(name: Routes.recovery, page: () => const RecoveryScreen()),
-    GetPage(name: Routes.recoveryCheckin, page: () => const RecoveryCheckinScreen()),
+    GetPage(
+      name: Routes.recoveryCheckin,
+      page: () => const RecoveryCheckinScreen(),
+    ),
     GetPage(name: Routes.training, page: () => const TrainingScreen()),
     GetPage(name: Routes.addTraining, page: () => const AddTrainingScreen()),
     GetPage(name: Routes.profile, page: () => const ProfileScreen()),
     GetPage(name: Routes.editProfile, page: () => const EditProfileScreen()),
-    GetPage(name: Routes.changePassword, page: () => const ChangePasswordScreen()),
-    GetPage(name: Routes.privacyPolicy, page: () => const PrivacyPolicyScreen()),
-    GetPage(name: Routes.termsConditions, page: () => const TermsConditionScreen()),
-    GetPage(name: Routes.settingsPrivacy, page: () => const SettingsPrivacyScreen()),
+    GetPage(
+      name: Routes.changePassword,
+      page: () => const ChangePasswordScreen(),
+    ),
+    GetPage(
+      name: Routes.privacyPolicy,
+      page: () => const PrivacyPolicyScreen(),
+    ),
+    GetPage(
+      name: Routes.termsConditions,
+      page: () => const TermsConditionScreen(),
+    ),
+    GetPage(
+      name: Routes.settingsPrivacy,
+      page: () => const SettingsPrivacyScreen(),
+    ),
   ];
 }

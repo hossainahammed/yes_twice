@@ -13,6 +13,8 @@ import '../../calendar/view/add_event_screen.dart';
 import '../../training/model/workout_model.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import '../../../core/widgets/app_background.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -66,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5)),
                         ),
-                        child: const Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
+                        child: Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
                       ),
                       const SizedBox(width: 16),
                       Column(
@@ -100,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
                       } else if (value == 'delete') {
                         _confirmDeleteWorkout(context, controller, workout.id);
                       }
@@ -939,7 +941,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   onSelected: (value) {
                                     if (value == 'edit') {
-                                      Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                                      Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
                                     } else if (value == 'delete') {
                                       _confirmDeleteWorkout(context, trainingController, workout.id);
                                     }
@@ -1016,7 +1018,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Add Training',
                         bgColor: const Color(0xFF2B7FFF).withOpacity(0.35),
                         onTap: () {
-                          Get.to(() => const AddTrainingScreen());
+                          Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddTrainingScreen())));
                         },
                       ),
                     ),
@@ -1037,7 +1039,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Recovery',
                         bgColor: const Color(0xFFFB2C36).withOpacity(0.35),
                         onTap: () {
-                          Get.to(() => const RecoveryCheckinScreen());
+                          Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: RecoveryCheckinScreen())));
                         },
                       ),
                     ),
@@ -1059,7 +1061,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Add Event',
                         bgColor: const Color(0xFFAD46FF).withOpacity(0.35),
                         onTap: () {
-                          Get.to(() => const AddEventScreen());
+                          Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddEventScreen())));
                         },
                       ),
                     ),

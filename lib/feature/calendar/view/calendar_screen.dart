@@ -12,6 +12,8 @@ import '../../dashboard/controller/dashboard_controller.dart';
 import '../../training/model/workout_model.dart';
 import '../../training/view/add_training_screen.dart';
 import 'add_event_screen.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -99,7 +101,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: const Color(0xFF1E3A8A).withOpacity(0.5)),
                         ),
-                        child: const Icon(Icons.event_note, color: Color(0xFF60A5FA), size: 24),
+                        child: Icon(Icons.event_note, color: Color(0xFF60A5FA), size: 24),
                       ),
                       const SizedBox(width: 16),
                       Column(
@@ -133,7 +135,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => AddEventScreen(eventToEdit: event));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen(eventToEdit: event)));
                       } else if (value == 'delete') {
                         _deleteEvent(event['id']);
                         Get.snackbar('Event Deleted', 'The event has been removed.',
@@ -275,7 +277,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5)),
                         ),
-                        child: const Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
+                        child: Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
                       ),
                       const SizedBox(width: 16),
                       Column(
@@ -309,7 +311,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
                       } else if (value == 'delete') {
                         controller.deleteWorkout(workout.id);
                         Get.snackbar('Training Deleted', 'The training session has been removed.',
@@ -471,7 +473,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ],
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => Get.to(() => AddEventScreen(initialDate: _selectedDay)),
+                      onPressed: () => Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen(initialDate: _selectedDay))),
                       icon: const Icon(
                         Icons.add,
                         size: 16,
@@ -541,7 +543,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 );
                               });
                             },
-                            child: const Icon(
+                            child: Icon(
                               Icons.chevron_left,
                               color: Colors.white,
                               size: 20,
@@ -557,7 +559,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 );
                               });
                             },
-                            child: const Icon(
+                            child: Icon(
                               Icons.chevron_right,
                               color: Colors.white,
                               size: 20,
@@ -914,7 +916,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     ).withOpacity(0.15),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.check_circle_outline,
                                     color: Color(0xFF10B981),
                                     size: 18,

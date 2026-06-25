@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/core/constant/image_path.dart';
 import 'package:yes_twice/feature/auth/login/views/login_page.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -186,13 +188,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Get.offAll(() => const LoginPage());
+                              Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 48),
                           ),
-                          child: const Text('Create Account'),
+                          child: Text('Create Account'),
                         ),
 
                         const SizedBox(height: 20),
@@ -276,7 +278,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => Get.offAll(() => const LoginPage()),
+                        onTap: () => Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage()))),
                         child: Text(
                           'Log in',
                           style: GoogleFonts.poppins(

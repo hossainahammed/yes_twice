@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:yes_twice/core/offline_storage/shared_pref.dart';
 import '../../../feature/auth/login/views/login_page.dart';
 import '../../training/controller/training_controller.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class ProfileController extends GetxController {
   static ProfileController get to => Get.find();
@@ -101,6 +103,6 @@ class ProfileController extends GetxController {
 
   void logout() async {
     await SharedPreferencesHelper.clearToken();
-    Get.offAll(() => const LoginPage());
+    Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
   }
 }

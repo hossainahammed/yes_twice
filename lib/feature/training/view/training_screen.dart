@@ -8,6 +8,8 @@ import '../../training/controller/training_controller.dart';
 import '../model/workout_model.dart';
 import 'add_training_screen.dart';
 import '../../../core/widgets/app_background.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class TrainingScreen extends StatelessWidget {
   const TrainingScreen({super.key});
@@ -62,7 +64,7 @@ class TrainingScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5)),
                         ),
-                        child: const Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
+                        child: Icon(Icons.fitness_center, color: Color(0xFF10B981), size: 24),
                       ),
                       const SizedBox(width: 16),
                       Column(
@@ -96,7 +98,7 @@ class TrainingScreen extends StatelessWidget {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
                       } else if (value == 'delete') {
                         _confirmDeleteWorkout(context, controller, workout.id);
                       }
@@ -234,7 +236,7 @@ class TrainingScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => Get.to(() => const AddTrainingScreen()),
+                      onPressed: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddTrainingScreen()))),
                       icon: const Icon(Icons.add, size: 16, color: Colors.white),
                       label: Text(
                         'Add Training',
@@ -448,7 +450,7 @@ class TrainingScreen extends StatelessWidget {
                                       ],
                                     ),
                                     child: ElevatedButton(
-                                      onPressed: () => Get.to(() => const AddTrainingScreen()),
+                                      onPressed: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddTrainingScreen()))),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.transparent,
                                         foregroundColor: Colors.white,
@@ -673,7 +675,7 @@ class TrainingScreen extends StatelessWidget {
                                       ),
                                       onSelected: (value) {
                                         if (value == 'edit') {
-                                          Get.to(() => AddTrainingScreen(workoutToEdit: workout));
+                                          Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
                                         } else if (value == 'delete') {
                                           _confirmDeleteWorkout(context, trainingController, workout.id);
                                         }

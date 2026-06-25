@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/feature/auth/login/views/login_page.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -177,13 +179,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 backgroundColor: Colors.green.withValues(alpha: 0.8),
                                 colorText: Colors.white,
                               );
-                              Get.offAll(() => const LoginPage());
+                              Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 48),
                           ),
-                          child: const Text('Update Password'),
+                          child: Text('Update Password'),
                         ),
                       ],
                     ),

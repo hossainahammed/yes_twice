@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/feature/auth/forgot_password/views/pages/reset_password_page.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class ResetOtpPage extends StatefulWidget {
   const ResetOtpPage({super.key});
@@ -138,7 +140,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
                           // Join fields and check validation
                           final otp = _controllers.map((c) => c.text).join();
                           if (otp.length == 5) {
-                            Get.to(() => const ResetPasswordPage());
+                            Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ResetPasswordPage())));
                           } else {
                             Get.snackbar(
                               'Invalid OTP',
@@ -152,7 +154,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 48),
                         ),
-                        child: const Text('Verify'),
+                        child: Text('Verify'),
                       ),
                     ],
                   ),

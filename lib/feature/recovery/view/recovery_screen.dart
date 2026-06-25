@@ -8,6 +8,8 @@ import '../../dashboard/controller/dashboard_controller.dart';
 import '../../profile/view/profile_screen.dart';
 import 'recovery_checkin_screen.dart';
 import '../../../core/widgets/app_background.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class RecoveryScreen extends StatelessWidget {
   const RecoveryScreen({super.key});
@@ -64,7 +66,7 @@ class RecoveryScreen extends StatelessWidget {
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
-                        Get.to(() => const RecoveryCheckinScreen());
+                        Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: RecoveryCheckinScreen())));
                       },
                       icon: const Icon(
                         Icons.add,

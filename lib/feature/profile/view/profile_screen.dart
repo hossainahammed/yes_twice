@@ -9,6 +9,8 @@ import 'settings_privacy_screen.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../../dashboard/view/dashboard_screen.dart';
 import '../../../core/widgets/app_background.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 export 'package:yes_twice/core/constant/widgets/profile_bottom_nav_bar.dart';
 
@@ -41,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => Get.to(() => const SettingsPrivacyScreen()),
+                      onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: SettingsPrivacyScreen()))),
                       child: Container(
                         width: 40,
                         height: 40,
@@ -52,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
                             color: Colors.white.withValues(alpha: 0.08),
                           ),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.settings_outlined,
                           color: Colors.white,
                           size: 20,

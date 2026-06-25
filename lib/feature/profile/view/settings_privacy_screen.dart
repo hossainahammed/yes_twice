@@ -8,6 +8,8 @@ import 'change_password_screen.dart';
 import 'privacy_policy_screen.dart';
 import 'terms_conditions_screen.dart';
 import '../../../core/widgets/app_background.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class SettingsPrivacyScreen extends StatelessWidget {
   const SettingsPrivacyScreen({super.key});
@@ -30,7 +32,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                       onTap: () => Get.back(),
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        child: const Icon(
+                        child: Icon(
                           Icons.arrow_back,
                           color: Colors.white,
                           size: 20,
@@ -76,7 +78,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                               subtitle: 'Update your personal information',
                               icon: Icons.person_outline,
                               iconBgColor: const Color(0xFF6B4CFF),
-                              onTap: () => Get.to(() => const EditProfileScreen()),
+                              onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: EditProfileScreen()))),
                             ),
                             _buildDivider(),
                             _buildMenuItem(
@@ -84,7 +86,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                               title: 'Change Password',
                               icon: Icons.lock_outline,
                               iconBgColor: const Color(0xFF1B2A4A),
-                              onTap: () => Get.to(() => const ChangePasswordScreen()),
+                              onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ChangePasswordScreen()))),
                             ),
                           ],
                         ),
@@ -111,7 +113,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                               subtitle: 'How we protect your data',
                               icon: Icons.security,
                               iconBgColor: const Color(0xFF2E7D32),
-                              onTap: () => Get.to(() => const PrivacyPolicyScreen()),
+                              onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: PrivacyPolicyScreen()))),
                             ),
                             _buildDivider(),
                             _buildMenuItem(
@@ -120,7 +122,7 @@ class SettingsPrivacyScreen extends StatelessWidget {
                               subtitle: 'Legal terms of service',
                               icon: Icons.description_outlined,
                               iconBgColor: const Color(0xFF00796B),
-                              onTap: () => Get.to(() => const TermsConditionScreen()),
+                              onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: TermsConditionScreen()))),
                             ),
                           ],
                         ),

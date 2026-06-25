@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:yes_twice/core/offline_storage/shared_pref.dart';
 import 'package:yes_twice/feature/auth/login/views/login_page.dart';
 import '../../onboarding/view/onboarding_screen.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class SplashSlidesController extends GetxController {
   final PageController pageController = PageController();
@@ -22,15 +24,15 @@ class SplashSlidesController extends GetxController {
       );
     } else {
       await SharedPreferencesHelper.setSplashSlidesCompleted();
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => ResponsiveCenteredWrapper(child: const LoginPage()));
 
-      //Get.offAll(() => OnboardingScreen());
+      //Get.offAll(() => ResponsiveCenteredWrapper(child: OnboardingScreen()));
     }
   }
 
   void skip() async {
     await SharedPreferencesHelper.setSplashSlidesCompleted();
-    Get.offAll(() => LoginPage());
+    Get.offAll(() => ResponsiveCenteredWrapper(child: const LoginPage()));
   }
 
   @override

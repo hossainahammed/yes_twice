@@ -9,6 +9,8 @@ import 'package:yes_twice/feature/auth/forgot_password/views/forgot_password_pag
 import 'package:yes_twice/feature/onboarding/view/onboarding_screen.dart';
 import 'package:yes_twice/feature/profile/view/profile_screen.dart';
 import 'package:yes_twice/feature/dashboard/view/dashboard_screen.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -182,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => Get.to(() => const ForgotPasswordPage()),
+                              onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ForgotPasswordPage()))),
                               child: Text(
                                 'Forgot Password?',
                                 style: GoogleFonts.poppins(
@@ -201,14 +203,14 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              //  Get.offAll(() => const DashboardScreen());
-                              Get.offAll(() => OnboardingScreen());
+                              //  Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: DashboardScreen())));
+                              Get.offAll(() => ResponsiveCenteredWrapper(child: OnboardingScreen()));
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 48),
                           ),
-                          child: const Text('Log in'),
+                          child: Text('Log in'),
                         ),
 
                         const SizedBox(height: 20),
@@ -295,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => Get.to(() => const RegistrationPage()),
+                        onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: RegistrationPage()))),
                         child: Text(
                           'Sign Up',
                           style: GoogleFonts.poppins(

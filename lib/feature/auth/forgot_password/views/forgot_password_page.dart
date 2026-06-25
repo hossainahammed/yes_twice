@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
 import 'package:yes_twice/feature/auth/forgot_password/views/pages/reset_otp_page.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -145,13 +147,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Get.to(() => const ResetOtpPage());
+                              Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ResetOtpPage())));
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 48),
                           ),
-                          child: const Text('Send Reset Code'),
+                          child: Text('Send Reset Code'),
                         ),
                       ],
                     ),

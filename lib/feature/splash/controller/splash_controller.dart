@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import '../../onboarding/view/onboarding_screen.dart';
 import '../../../feature/auth/login/views/login_page.dart';
 import '../view/splash_slides_screen.dart';
+import 'package:yes_twice/core/responsive/responsive_builder.dart';
+
 
 class SplashController extends GetxController {
   static SplashController get instance => Get.find();
@@ -29,19 +31,19 @@ class SplashController extends GetxController {
       debugPrint('Token: $token');
 
       if (!splashSlidesDone) {
-        Get.offAll(() => SplashSlidesScreen());
+        Get.offAll(() => ResponsiveCenteredWrapper(child: SplashSlidesScreen()));
       } else if (!onboardingDone) {
-        Get.offAll(() => OnboardingScreen());
+        Get.offAll(() => ResponsiveCenteredWrapper(child: OnboardingScreen()));
       } else if (token == null || token.isEmpty) {
         // No token — user is a guest
-        Get.offAll(() => const LoginPage());
+        Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
       } else {
         // Token present — user is logged in
-        Get.offAll(() => const LoginPage());
+        Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
       }
     } catch (e) {
       debugPrint('Error in splash logic: $e');
-      Get.offAll(() => const LoginPage());
+      Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
     }
   }
 }
