@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:yes_twice/core/constant/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yes_twice/core/constant/app_colors.dart';
+import 'package:image_picker/image_picker.dart';
 import '../controller/profile_controller.dart';
 import 'profile_screen.dart';
 import '../../../core/widgets/app_background.dart';
@@ -18,6 +21,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
+
+  final ImagePicker _picker = ImagePicker();
+  File? _selectedImage;
 
   @override
   void initState() {
@@ -110,7 +116,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     ),
                                   ),
                                   child: ClipOval(
-                                    child: Image.asset(
+                                    child: _selectedImage != null
+                                        ? Image.file(
+                                      _selectedImage!,
+                                      fit: BoxFit.cover,
+                                    )
+                                        : Image.asset(
                                       controller.avatarPath.value,
                                       fit: BoxFit.cover,
                                     ),
@@ -119,17 +130,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 Positioned(
                                   bottom: 0,
                                   right: 0,
-                                  child: Container(
-                                    width: 28,
-                                    height: 28,
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.primaryColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Icon(
-                                      Icons.camera_alt_outlined,
-                                      color: Colors.white,
-                                      size: 14,
+                                  child: GestureDetector(
+                                    onTap: _showImageSourceBottomSheet,
+                                    child: Container(
+                                      width: 28,
+                                      height: 28,
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.primaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.camera_alt_outlined,
+                                        color: Colors.white,
+                                        size: 14,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -220,6 +234,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             name: _nameController.text,
                             email: _emailController.text,
                             phone: _phoneController.text,
+                            imagePath: _selectedImage?.path,
                           );
                           Get.back();
                         },
@@ -255,7 +270,73 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
+  Future<void> _pickImage(ImageSource source) async {
+    final XFile? pickedFile = await _picker.pickImage(
+      source: source,
+      imageQuality: 80,
+    );
 
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  void _showImageSourceBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF101828),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Choose Profile Photo',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                ListTile(
+                  leading: const Icon(Icons.camera_alt, color: Colors.white),
+                  title: const Text(
+                    'Take Photo',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _pickImage(ImageSource.camera);
+                  },
+                ),
+
+                ListTile(
+                  leading: const Icon(Icons.photo_library, color: Colors.white),
+                  title: const Text(
+                    'Choose from Gallery',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _pickImage(ImageSource.gallery);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
   Widget _buildFormLabel(String label) {
     return Text(
       label,

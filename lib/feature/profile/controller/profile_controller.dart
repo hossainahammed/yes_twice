@@ -30,6 +30,7 @@ class ProfileController extends GetxController {
     required String name,
     required String email,
     required String phone,
+    String? imagePath,
   }) {
     fullName.value = name;
     this.email.value = email;
