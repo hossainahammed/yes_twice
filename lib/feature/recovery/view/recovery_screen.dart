@@ -66,7 +66,7 @@ class RecoveryScreen extends StatelessWidget {
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
-                        Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: RecoveryCheckinScreen())));
+                        Get.to(() => ResponsiveCenteredWrapper(child: RecoveryCheckinScreen()), preventDuplicates: false);
                       },
                       icon: const Icon(
                         Icons.add,

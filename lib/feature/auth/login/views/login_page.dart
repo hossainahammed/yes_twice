@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ForgotPasswordPage()))),
+                              onTap: () => Get.to(() => ResponsiveCenteredWrapper(child: ForgotPasswordPage()), preventDuplicates: false),
                               child: Text(
                                 'Forgot Password?',
                                 style: GoogleFonts.poppins(
@@ -203,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              //  Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: DashboardScreen())));
+                              //  Get.offAll(() => ResponsiveCenteredWrapper(child: DashboardScreen()));
                               Get.offAll(() => ResponsiveCenteredWrapper(child: OnboardingScreen()));
                             }
                           },
@@ -297,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: RegistrationPage()))),
+                        onTap: () => Get.to(() => ResponsiveCenteredWrapper(child: RegistrationPage()), preventDuplicates: false),
                         child: Text(
                           'Sign Up',
                           style: GoogleFonts.poppins(

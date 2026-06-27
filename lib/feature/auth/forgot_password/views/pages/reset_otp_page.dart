@@ -140,7 +140,7 @@ class _ResetOtpPageState extends State<ResetOtpPage> {
                           // Join fields and check validation
                           final otp = _controllers.map((c) => c.text).join();
                           if (otp.length == 5) {
-                            Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ResetPasswordPage())));
+                            Get.to(() => ResponsiveCenteredWrapper(child: ResetPasswordPage()), preventDuplicates: false);
                           } else {
                             Get.snackbar(
                               'Invalid OTP',

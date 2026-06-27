@@ -39,8 +39,8 @@ class OnboardingController extends GetxController {
       );
     } else {
       await SharedPreferencesHelper.setOnboardingCompleted();
-      //Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
-      Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: DashboardScreen())));
+      //Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage()));
+      Get.offAll(() => ResponsiveCenteredWrapper(child: DashboardScreen()));
     }
   }
 
@@ -55,7 +55,7 @@ class OnboardingController extends GetxController {
 
   void skip() async {
     await SharedPreferencesHelper.setOnboardingCompleted();
-    Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: DashboardScreen())));
+    Get.offAll(() => ResponsiveCenteredWrapper(child: DashboardScreen()));
   }
 
   void toggleHeightUnit(bool value) {

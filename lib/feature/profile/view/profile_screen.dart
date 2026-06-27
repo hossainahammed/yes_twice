@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: SettingsPrivacyScreen()))),
+                      onTap: () => Get.to(() => ResponsiveCenteredWrapper(child: SettingsPrivacyScreen()), preventDuplicates: false),
                       child: Container(
                         width: 40,
                         height: 40,

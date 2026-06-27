@@ -188,7 +188,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
+                              Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage()));
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -278,7 +278,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage()))),
+                        onTap: () => Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage())),
                         child: Text(
                           'Log in',
                           style: GoogleFonts.poppins(

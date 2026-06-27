@@ -147,7 +147,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: ResetOtpPage())));
+                              Get.to(() => ResponsiveCenteredWrapper(child: ResetOtpPage()), preventDuplicates: false);
                             }
                           },
                           style: ElevatedButton.styleFrom(

@@ -98,7 +98,7 @@ class TrainingScreen extends StatelessWidget {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)), preventDuplicates: false);
                       } else if (value == 'delete') {
                         _confirmDeleteWorkout(context, controller, workout.id);
                       }
@@ -236,7 +236,7 @@ class TrainingScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddTrainingScreen()))),
+                      onPressed: () => Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen()), preventDuplicates: false),
                       icon: const Icon(Icons.add, size: 16, color: Colors.white),
                       label: Text(
                         'Add Training',
@@ -450,7 +450,7 @@ class TrainingScreen extends StatelessWidget {
                                       ],
                                     ),
                                     child: ElevatedButton(
-                                      onPressed: () => Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddTrainingScreen()))),
+                                      onPressed: () => Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen()), preventDuplicates: false),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.transparent,
                                         foregroundColor: Colors.white,
@@ -675,7 +675,7 @@ class TrainingScreen extends StatelessWidget {
                                       ),
                                       onSelected: (value) {
                                         if (value == 'edit') {
-                                          Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
+                                          Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)), preventDuplicates: false);
                                         } else if (value == 'delete') {
                                           _confirmDeleteWorkout(context, trainingController, workout.id);
                                         }

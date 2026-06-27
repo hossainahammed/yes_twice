@@ -135,7 +135,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen(eventToEdit: event)));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen(eventToEdit: event)), preventDuplicates: false);
                       } else if (value == 'delete') {
                         _deleteEvent(event['id']);
                         Get.snackbar('Event Deleted', 'The event has been removed.',
@@ -311,7 +311,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)), preventDuplicates: false);
                       } else if (value == 'delete') {
                         controller.deleteWorkout(workout.id);
                         Get.snackbar('Training Deleted', 'The training session has been removed.',
@@ -473,7 +473,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ],
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen(initialDate: _selectedDay))),
+                      onPressed: () => Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen(initialDate: _selectedDay)), preventDuplicates: false),
                       icon: const Icon(
                         Icons.add,
                         size: 16,

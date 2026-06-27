@@ -36,14 +36,14 @@ class SplashController extends GetxController {
         Get.offAll(() => ResponsiveCenteredWrapper(child: OnboardingScreen()));
       } else if (token == null || token.isEmpty) {
         // No token — user is a guest
-        Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
+        Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage()));
       } else {
         // Token present — user is logged in
-        Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
+        Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage()));
       }
     } catch (e) {
       debugPrint('Error in splash logic: $e');
-      Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
+      Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage()));
     }
   }
 }

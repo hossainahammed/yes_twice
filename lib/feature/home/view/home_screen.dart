@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                     onSelected: (value) {
                       Navigator.pop(context);
                       if (value == 'edit') {
-                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
+                        Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)), preventDuplicates: false);
                       } else if (value == 'delete') {
                         _confirmDeleteWorkout(context, controller, workout.id);
                       }
@@ -941,7 +941,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   onSelected: (value) {
                                     if (value == 'edit') {
-                                      Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)));
+                                      Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen(workoutToEdit: workout)), preventDuplicates: false);
                                     } else if (value == 'delete') {
                                       _confirmDeleteWorkout(context, trainingController, workout.id);
                                     }
@@ -1018,7 +1018,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Add Training',
                         bgColor: const Color(0xFF2B7FFF).withOpacity(0.35),
                         onTap: () {
-                          Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddTrainingScreen())));
+                          Get.to(() => ResponsiveCenteredWrapper(child: AddTrainingScreen()), preventDuplicates: false);
                         },
                       ),
                     ),
@@ -1039,7 +1039,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Recovery',
                         bgColor: const Color(0xFFFB2C36).withOpacity(0.35),
                         onTap: () {
-                          Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: RecoveryCheckinScreen())));
+                          Get.to(() => ResponsiveCenteredWrapper(child: RecoveryCheckinScreen()), preventDuplicates: false);
                         },
                       ),
                     ),
@@ -1061,7 +1061,7 @@ class HomeScreen extends StatelessWidget {
                         label: 'Add Event',
                         bgColor: const Color(0xFFAD46FF).withOpacity(0.35),
                         onTap: () {
-                          Get.to(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: AddEventScreen())));
+                          Get.to(() => ResponsiveCenteredWrapper(child: AddEventScreen()), preventDuplicates: false);
                         },
                       ),
                     ),

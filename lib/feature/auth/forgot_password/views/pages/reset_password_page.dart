@@ -179,7 +179,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 backgroundColor: Colors.green.withValues(alpha: 0.8),
                                 colorText: Colors.white,
                               );
-                              Get.offAll(() => const ResponsiveCenteredWrapper(child: ResponsiveCenteredWrapper(child: LoginPage())));
+                              Get.offAll(() => ResponsiveCenteredWrapper(child: LoginPage()));
                             }
                           },
                           style: ElevatedButton.styleFrom(
